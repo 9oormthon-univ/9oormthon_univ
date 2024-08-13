@@ -1,7 +1,9 @@
-import React, { useRef, useState, useLayoutEffect, useCallback, useEffect } from 'react';
-import ResizeObserver from 'resize-observer-polyfill';
-import { motion, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { useScrollPercentage } from 'react-scroll-percentage';
+//NOTE: about 페이지 전면 수정 예정
+
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+// import { useScrollPercentage } from 'react-scroll-percentage';
+// import ResizeObserver from 'resize-observer-polyfill';
 import { BENEFIT_ITEM_DATA } from '../../../../utilities/AboutData';
 import BenefitItem from './BenefitItem';
 
@@ -34,27 +36,25 @@ export default function HorizontalScroll() {
     resizeObserver.observe(ghostRef.current);
     return () => resizeObserver.disconnect();
   }, [onResize]);
-  const [containerRef, percentage] = useScrollPercentage({
-    /* Optional options */
-    threshold: 0.9,
-  });
-
-  useEffect(() => {
-    scrollPerc.set(percentage);
-  }, [percentage]);
+  // const [containerRef, percentage] = useScrollPercentage({});
+  /* Optional options */
+  // threshold: 0.9,
+  //   useEffect(() => {
+  //     scrollPerc.set(percentage);
+  //   }, [percentage]);
 
   const transform = useTransform(scrollPerc, [0, 1], [0, -scrollRange + viewportW]);
   const physics = { damping: 15, mass: 0.27, stiffness: 55 };
   const spring = useSpring(transform, physics);
 
   return (
-    <div className={cx('horizontalScroll')} ref={containerRef}>
+    // <div className={cx('horizontalScroll')} ref={containerRef}>
+    <>
       <div className={cx('scroll', 'position-sticky')}>
         <motion.section
           className={cx('motionContainer', 'position-relative w-100 d-flex flex-column justify-content-center')}
           ref={scrollRef}
-          style={{ x: spring }}
-        >
+          style={{ x: spring }}>
           <div className={cx('itemList', 'position-relative d-flex')}>
             {BENEFIT_ITEM_DATA.map((item) => (
               <BenefitItem
@@ -71,6 +71,7 @@ export default function HorizontalScroll() {
         </motion.section>
       </div>
       <div ref={ghostRef} />
-    </div>
+    </>
+    // </div>
   );
 }
