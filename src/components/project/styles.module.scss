@@ -1,0 +1,110 @@
+.cardContainer {
+  overflow: hidden;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+  cursor: pointer;
+}
+
+.cardImg {
+  position: relative;
+  width: 22.25rem;
+  height: 12.5rem;
+  object-fit: cover;
+  background-color: var(--gray-200);
+  border-radius: var(--space-200);
+  margin-bottom: var(--space-100);
+}
+
+.imageWrapper {
+  position: relative;
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 22.25rem;
+}
+
+.mainText {
+  margin-bottom: var(--space-050);
+}
+
+.subText {
+  font-size: 0.75rem;
+  color: var(--color-grey-500);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: var(--space-250);
+}
+
+.badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 0.5rem;
+  color: var(--color-white);
+
+  > .badge-secondary {
+    color: #fff;
+    background-color: #2b2d36;
+  }
+}
+
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  grid-column: span 3;
+
+  margin: 2rem 0 8rem 0;
+}
+
+// modalProjects
+
+.modalChips {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modalContainer {
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.textEllipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.subText {
+  height: 2rem;
+}
+
+.tempCarousel {
+  display: flex;
+  width: 28.25rem;
+  height: 15.8125rem;
+  flex-direction: column;
+  align-items: flex-start;
+
+  border-radius: 0.5rem;
+  background: var(--gray-050);
+}
+
+// modalMembers
+
+.memberPart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
