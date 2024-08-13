@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import RecruitModal from '../recruitModal/RecruitModal';
@@ -86,7 +86,7 @@ function RecuritHeader() {
   const RecruitmentClosedContent = () => (
     <>
       <S.HeaderTitleText>
-        <h1>3기 모집 완료!</h1>
+        <h2>3기 모집 완료!</h2>
         <h6>4기 모집은 2025년 1월 예정입니다!</h6>
       </S.HeaderTitleText>
       <S.GoormBtn color="primary" size="xl" tag="button" onClick={handleButtonClick}>

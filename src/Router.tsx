@@ -1,15 +1,15 @@
 // Router.tsx
 import { GoormLoader, GoormLoaderProps } from '@goorm-dev/gds-components';
-import React, { lazy, Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Layout from './@components/layout/Layout';
+import { Suspense, lazy } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './components/layout/Layout';
 
 // 레이지 로딩 적용
-const About = lazy(() => import('./@pages/about/About'));
-const Project = lazy(() => import('./@pages/project/Project'));
-const Recruit = lazy(() => import('./@pages/recruit/Recruit'));
-const Apply = lazy(() => import('./@pages/apply/Apply'));
-const NotFound = lazy(() => import('./@pages/errors/NotFound'));
+const About = lazy(() => import('./pages/about/About'));
+const Project = lazy(() => import('./pages/project/Project'));
+const Recruit = lazy(() => import('./pages/recruit/Recruit'));
+const Apply = lazy(() => import('./pages/apply/Apply'));
+const NotFound = lazy(() => import('./pages/errors/NotFound'));
 
 // GoormLoader 컴포넌트에 전달할 props 설정
 const loaderProps: GoormLoaderProps = {

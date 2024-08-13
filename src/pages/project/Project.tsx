@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import ProjectCard from '../../@components/project/ProjectCard';
+import { useState } from 'react';
+import ProjectCard from '../../components/project/ProjectCard';
 import BeotkkotProject2024Data from '../../constants/BeotkkotProject2024Data';
 import DanpoongProject2023Data from '../../utilities/ProjectData';
 import * as S from './style';
@@ -126,11 +126,10 @@ export default function Project() {
             initial="hidden"
             animate="visible"
             transition={{ duration: 1 }}
-            variants={fadeInVariants}
-          >
+            variants={fadeInVariants}>
             <S.EmptyContainer>
-				<S.BoldText>3번째 주인공 모집 완료!</S.BoldText>
-				<S.Text>새롭게 완성될 멋진 프로젝트들을 기대해주세요!</S.Text>
+              <S.BoldText>3번째 주인공 모집 완료!</S.BoldText>
+              <S.Text>새롭게 완성될 멋진 프로젝트들을 기대해주세요!</S.Text>
             </S.EmptyContainer>
           </S.SecondTabContainer>
         )}

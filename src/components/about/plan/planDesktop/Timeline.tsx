@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import useScrollValue from '../../../../hooks/useScrollValue.ts';
 
 import { TIMELINE_DATA } from '../../../../utilities/AboutData.ts';
-import CardListUpper from './CardListUpper';
-import CardListLower from './CardListLower';
+import CardListLower from './CardListLower.tsx';
+import CardListUpper from './CardListUpper.tsx';
 
 import classNames from 'classnames/bind';
 
