@@ -1,0 +1,18 @@
+.badge {
+  display: flex;
+  height: var(--dimension-300);
+  padding: 0rem var(--space-100);
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0.75rem;
+  background: var(--gray-900);
+
+  //styleName: KOR/subtitle2ㅣ0.75rem;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  text-align: center;
+  color: var(--white);
+}
