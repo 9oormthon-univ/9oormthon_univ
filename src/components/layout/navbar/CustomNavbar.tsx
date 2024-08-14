@@ -36,7 +36,11 @@ function CustomNavbar() {
         <Nav pills>
           {NAV_ITEMS.map((_) => (
             <NavItem>
-              <NavLink className={styles.navLink} href={_.to} onClick={() => isOpened && setIsOpened((prev) => !prev)}>
+              <NavLink
+                style={{ color: 'white' }}
+                className={styles.nav_link}
+                href={_.to}
+                onClick={() => isOpened && setIsOpened((prev) => !prev)}>
                 {_.title}
               </NavLink>
             </NavItem>
