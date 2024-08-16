@@ -2,7 +2,7 @@ import Router from './Router';
 
 function App() {
   return (
-    <div style={{ background: 'white' }}>
+    <div>
       <Router />
     </div>
   );

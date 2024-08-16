@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   overflow-x: hidden;
+  background-color: #fff;
 `;
 
 const Layout = () => {
