@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
+import { THIS_SEASON } from '../../../constants/common';
 import RecruitModal from '../recruitModal/RecruitModal';
 import RecruitUnivScrolling from '../recruitUnivScrolling/RecruitUnivScrolling';
 import * as S from './style';
@@ -100,20 +101,12 @@ function RecuritHeader() {
       <S.HeaderTitleWrapper className="d-flex justify-content-center align-items-center flex-column">
         <RecruitmentClosedContent />
       </S.HeaderTitleWrapper>
-      {/* <S.HEaderOpenDayWrapper className="clo-4 d-flex">
-        <S.DatesmallText>미르미 신청 OPEN</S.DatesmallText>
-        <S.DateBigText>1/22</S.DateBigText>
-      </S.HEaderOpenDayWrapper> */}
       <S.HeaderUnivContainer>
-        <S.HeaderUnivTitleText>3기와 함께하는 48개의 유니브</S.HeaderUnivTitleText>
+        <S.HeaderUnivTitleText>3기와 함께하는 {THIS_SEASON.AMOUNT_OF_UNIV}개의 유니브</S.HeaderUnivTitleText>
         <S.HeaderUnivListContainer>
           <RecruitUnivScrolling searchable={true} />
         </S.HeaderUnivListContainer>
       </S.HeaderUnivContainer>
-      {/* <TextButton color="dark" ref={cardRef} onClick={() => setModalOpen(true)}>
-        유니브 전체 보기
-        <ChevronRightIcon />
-      </TextButton> */}
       {isModalOpen && <RecruitModal isModalOpen={isModalOpen} toggleModal={toggleModal} />}
     </S.HeaderContainer>
   );
