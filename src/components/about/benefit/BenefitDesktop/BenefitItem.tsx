@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
@@ -6,7 +5,16 @@ import styles from './BenefitDesktop.module.scss';
 
 const cx = classNames.bind(styles);
 
-export default function BenefitItem({ imgSrc, iconSrc, bgColor, title, description, url }) {
+interface BenefitItemProps {
+  imgSrc: string;
+  iconSrc: string;
+  bgColor: string;
+  title: string;
+  description: string;
+  url: string;
+}
+
+export default function BenefitItem({ imgSrc, iconSrc, bgColor, title, description, url }: BenefitItemProps) {
   return (
     <Link className={cx('benefitLink')} to={url} target="\_blank">
       <div className="d-flex flex-column">

@@ -1,4 +1,4 @@
-import { GroupIcon, SchoolIcon, LightningIcon, CakeIcon } from '@goorm-dev/gds-icons';
+import { CakeIcon, GroupIcon, LightningIcon, SchoolIcon } from '@goorm-dev/gds-icons';
 import BeotkkotSmall from '../assets/svgs/BeotkkotSmall';
 import Lightbulb from '../assets/svgs/Lightbulb';
 
@@ -10,15 +10,13 @@ import Img5 from '../assets/images/about/activity5.png';
 
 import EduIcon from '../assets/svgs/favicon_edu.svg';
 import ExpIcon from '../assets/svgs/favicon_exp.svg';
-import InflearnIcon from '../assets/svgs/favicon_inflearn.svg';
 import IdeIcon from '../assets/svgs/favicon_ide.svg';
-import KakaoIcon from '../assets/svgs/favicon_kakao.svg';
+import InflearnIcon from '../assets/svgs/favicon_inflearn.svg';
 
 import EduImg from '../assets/svgs/benefit-goormedu.svg';
 import ExpImg from '../assets/svgs/benefit-goormexp.svg';
 import IdeImg from '../assets/svgs/benefit-goormide.svg';
 import InflearnImg from '../assets/svgs/benefit-inflearn.svg';
-import KakaoImg from '../assets/svgs/benefit-kakao.svg';
 
 export const TIMELINE_DATA = {
   1: {
@@ -124,12 +122,4 @@ export const BENEFIT_ITEM_DATA = [
     description: '인프런과 구름의 만남!\n더욱 다양한 강의를 만나요',
     url: 'https://www.inflearn.com/',
   },
-  // {
-  //   imgSrc: KakaoImg,
-  //   iconSrc: KakaoIcon,
-  //   bgColor: 'yellow300',
-  //   title: '카카오 클라우드',
-  //   description: '유연하고 확장성 높은\n클라우드 인프라를 누려요',
-  //   url: 'https://www.kakaocorp.com/page/service/service/KakaoCloud',
-  // },
 ];

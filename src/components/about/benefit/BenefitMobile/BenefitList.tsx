@@ -1,7 +1,5 @@
-import React from 'react';
-
-import BenefitItem from './BenefitItem';
 import { BENEFIT_ITEM_DATA } from '../../../../utilities/AboutData';
+import BenefitItem from './BenefitItem';
 
 import classNames from 'classnames/bind';
 import styles from './BenefitMobile.module.scss';
