@@ -6,14 +6,12 @@ import CustomNavbar from './navbar/CustomNavbar';
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  padding-top: 4rem;
-  padding-bottom: 12.5rem;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-x: hidden;
-  background-color: #fff;
+  background-color: white;
 `;
 
 const Layout = () => {

@@ -1,6 +1,6 @@
+import { GoormNavbar } from '@goorm-dev/gds-components';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { GoormNavbar } from '@goorm-dev/gds-components';
 
 export const NavLogoIcon = styled.img`
   height: 1.7rem;
