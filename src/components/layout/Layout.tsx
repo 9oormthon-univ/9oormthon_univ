@@ -1,14 +1,14 @@
-import React from 'react';
+import { Footer } from '@goorm-dev/gds-components';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import CustomFooter from './footer/CustomFooter';
-import { Footer } from '@goorm-dev/gds-components';
 import CustomNavbar from './navbar/CustomNavbar';
 
 const Wrapper = styled.div`
   margin: 0 auto;
+  padding-top: 4rem;
+  padding-bottom: 12.5rem;
   width: 100%;
-  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
