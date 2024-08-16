@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import * as S from './style';
-import UniversityItem from '../../recruit/UniversityItem/UniversityItem';
+import { useEffect, useState } from 'react';
 import Universities from '../../../utilities/UnivData';
+import UniversityItem from '../../recruit/UniversityItem/UniversityItem';
+import * as S from './style';
 
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
+import { THIS_SEASON } from '../../../constants/common';
 import RecruitUnivScrolling from '../../recruit/recruitUnivScrolling/RecruitUnivScrolling';
 
 const Container = styled.div`
@@ -80,8 +81,8 @@ function FindingUniv() {
           </S.GoormBtn>
         </S.HeaderTitleWrapper>
         <S.HeaderUnivContainer>
-          <S.HeaderUnivTitleText>현재 함께하는 유니브 18개</S.HeaderUnivTitleText>
-          <S.HeaderUnivTitleTextSmall>현재 함께하는 유니브 18개</S.HeaderUnivTitleTextSmall>
+          <S.HeaderUnivTitleText>현재 함께하는 유니브 {THIS_SEASON.AMOUNT_OF_UNIV}개</S.HeaderUnivTitleText>
+          <S.HeaderUnivTitleTextSmall>현재 함께하는 유니브 {THIS_SEASON.AMOUNT_OF_UNIV}개</S.HeaderUnivTitleTextSmall>
           <RecruitUnivScrolling searchable={false} />
           {/* <S.HeaderUnivListContainer>
             <AutoScrollingImages />
