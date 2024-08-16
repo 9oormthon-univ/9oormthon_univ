@@ -1,14 +1,13 @@
+import { Button, Text } from '@goorm-dev/vapor-components';
+import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { THIS_SEASON } from '../../../constants/common';
 import RecruitModal from '../recruitModal/RecruitModal';
 import RecruitUnivScrolling from '../recruitUnivScrolling/RecruitUnivScrolling';
-import * as S from './style';
 import styles from './RecruitHeader.module.scss';
-import classNames from 'classnames/bind';
-import { Button, Text } from '@goorm-dev/vapor-components';
-import { TYPOGRAPHY } from '@goorm-dev/vapor-components/dist/types/src/components/Text/Text.constants';
+import * as S from './style';
 
 const cx = classNames.bind(styles);
 
@@ -116,13 +115,18 @@ function RecuritHeader() {
   );
 
   return (
-    <>
-      {/* <S.HeaderContainer className="container"> */}
-      {/* <S.HeaderTitleWrapper className="d-flex justify-content-center align-items-center flex-column"> */}
-      <RecruitmentClosedContent />
-      {/* </S.HeaderTitleWrapper> */}
-      {isModalOpen && <RecruitModal isModalOpen={isModalOpen} toggleModal={toggleModal} />} {/* </S.HeaderContainer> */}
-    </>
+    <S.HeaderContainer className="container">
+      <S.HeaderTitleWrapper className="d-flex justify-content-center align-items-center flex-column">
+        <RecruitmentClosedContent />
+      </S.HeaderTitleWrapper>
+      <S.HeaderUnivContainer>
+        <S.HeaderUnivTitleText>3기와 함께하는 {THIS_SEASON.AMOUNT_OF_UNIV}개의 유니브</S.HeaderUnivTitleText>
+        <S.HeaderUnivListContainer>
+          <RecruitUnivScrolling searchable={true} />
+        </S.HeaderUnivListContainer>
+      </S.HeaderUnivContainer>
+      {isModalOpen && <RecruitModal isModalOpen={isModalOpen} toggleModal={toggleModal} />}
+    </S.HeaderContainer>
   );
 }
 
