@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { SearchInput } from '@goorm-dev/gds-components';
+import { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import Universities from '../../../utilities/UnivData';
 import UniversityItem from '../UniversityItem/UniversityItem';
-import styled, { keyframes } from 'styled-components';
-import { SearchInput } from '@goorm-dev/gds-components';
 
 const slideLeft = keyframes`
   0% {
@@ -24,7 +24,7 @@ const slideRight = keyframes`
 
 const ImageSlider = styled.div`
   display: flex;
-  animation: ${slideLeft} 50s linear infinite;
+  animation: ${slideLeft} 150s linear infinite;
   overflow: hidden;
 
   &:hover {
@@ -35,7 +35,7 @@ const ImageSlider = styled.div`
 
 const ImageSlider2 = styled.div`
   display: flex;
-  animation: ${slideRight} 50s linear infinite;
+  animation: ${slideRight} 150s linear infinite;
   overflow: hidden;
 
   &:hover {
@@ -80,8 +80,7 @@ function RecruitUnivScrolling({ searchable }) {
 
   return (
     <ShadowBgContainer className="d-flex flex-column">
-      <div className="d-flex justify-content-center align-items-center">
-      </div>
+      <div className="d-flex justify-content-center align-items-center"></div>
       {searchQuery ? (
         <SearchContainer>
           {filteredUniversities.map((univ, index) => (
