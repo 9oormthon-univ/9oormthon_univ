@@ -1,52 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import * as S from './style';
-import { motion } from 'framer-motion';
-import DefaultImg from '../../../assets/images/calendar.jpeg';
+import classNames from 'classnames/bind';
+import styles from './RecruitCalendar.module.scss';
+import newCalendar from '../../../assets/images/newCalendar.png';
+
+const cx = classNames.bind(styles);
 
 function RecuritCalendar() {
-  const [visibleBoxes, setVisibleBoxes] = useState({
-    calendarTitle: false,
-    calendarImg: false,
-  });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      // 스크롤 위치에 따라 isVisible 상태를 설정
-      setVisibleBoxes({
-        calendarTitle: scrollY >= 500,
-        calendarImg: scrollY >= 600,
-      });
-    };
-
-    // 스크롤 이벤트 리스너 등록
-    window.addEventListener('scroll', handleScroll);
-
-    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
   return (
-    <>
-      <S.RecuritCalendarWrapper className="w-100 d-flex flex-column justify-content-center align-items-start ">
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={visibleBoxes.calendarTitle ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
-          transition={{ duration: 0.85 }}
-        >
-          <S.BodyTitle>모집일정</S.BodyTitle>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={visibleBoxes.calendarImg ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
-          transition={{ duration: 0.85 }}
-        >
-          <S.RecuritCalendarImg src={DefaultImg} />
-        </motion.div>
-      </S.RecuritCalendarWrapper>
-    </>
+    <div className={cx('container')}>
+      <div className={cx('leftSection')}>
+        <div>
+          <h2 className={cx('titleText')}>3기 모집 일정</h2>
+          <p className={cx('subTitleText')}>
+            유니브 별로 모집일정이 상이하니
+            <br /> 자세한 일정은 각 유니브 인스타를 참고하세요
+          </p>
+        </div>
+        <div>
+          <div className={cx('scheduleDiv')}>
+            <h5 className={cx('bigText')}>대표 모집 : </h5>
+            <h6 className={cx('smallText')}>1월 21일</h6>
+          </div>
+          <div className={cx('scheduleDiv')}>
+            <h5 className={cx('bigText')}>대표 OT : </h5>
+            <h6 className={cx('smallText')}>2월 17일</h6>
+          </div>
+          <div className={cx('scheduleDiv')}>
+            <h5 className={cx('bigText')}>미르미 모집 : </h5>
+            <h6 className={cx('smallText')}>1월 21일 - 2월 11일</h6>
+          </div>
+          <div className={cx('scheduleDiv')}>
+            <h5 className={cx('bigText')}>전체 OT : </h5>
+            <h6 className={cx('smallText')}>2월 17일</h6>
+          </div>
+        </div>
+      </div>
+      <div className={cx('rightSection')}>
+        <img className={cx('calendarImg')} src={newCalendar} alt="4기 달력" />
+      </div>
+    </div>
   );
 }
 
