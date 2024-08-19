@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { GoormNavbar, Nav, NavItem } from '@goorm-dev/gds-components';
-import LogoDark from '../../../assets/images/goormthon_univ_BI-Bk.png';
-import LogoLight from '../../../assets/images/goormthon_univ_BI-W.png';
-import * as S from './style';
+import { GoormNavbar, Nav, NavItem, NavLink } from '@goorm-dev/gds-components';
+import { SchoolIcon } from '@goorm-dev/gds-icons';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
+import styles from './CustomNavbar.module.scss';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
@@ -11,49 +11,55 @@ function CustomNavbar() {
   const location = useLocation();
   const isAbout = location.pathname === '/';
 
+  const NAV_ITEMS = [
+    {
+      title: 'About',
+      to: '/',
+    },
+    {
+      title: 'Project',
+      to: '/project',
+    },
+    {
+      title: 'Recruit',
+      to: '/recruit',
+    },
+  ];
+
   return (
     <GoormNavbar isOpened={isOpened} setIsOpened={setIsOpened}>
-      <GoormNavbar.Brand href="/">
-        <S.NavLogoIcon src={isAbout && !isOpened ? LogoLight : LogoDark} alt="9oormthon Univ" />
+      <GoormNavbar.Brand href="/" className="navbar-brand">
+        {isAbout ? <GoormWhiteBI /> : <GoormBlackBI />}
       </GoormNavbar.Brand>
-      <GoormNavbar.Collapse isOpened={isOpened} className="justify-content-end">
-        <Nav navbar>
-          <NavItem>
-            <S.NavLink
-              $isAbout={isAbout}
-              $isOpened={isOpened}
-              className="nav-link"
-              to="/"
-              onClick={() => isOpened && setIsOpened((prev) => !prev)}
-            >
-              About
-            </S.NavLink>
-          </NavItem>
-          <NavItem>
-            <S.NavLink
-              $isAbout={isAbout}
-              $isOpened={isOpened}
-              className="nav-link"
-              to="/project"
-              onClick={() => isOpened && setIsOpened((prev) => !prev)}
-            >
-              Project
-            </S.NavLink>
-          </NavItem>
-          <NavItem>
-            <S.NavLink
-              $isAbout={isAbout}
-              $isOpened={isOpened}
-              className="nav-link"
-              to="/recruit"
-              onClick={() => isOpened && setIsOpened((prev) => !prev)}
-            >
-              Recruit
-            </S.NavLink>
-          </NavItem>
+      <GoormNavbar.Collapse isOpened={isOpened} className="justify-content-start">
+        <Nav pills>
+          {NAV_ITEMS.map((_) => (
+            <NavItem>
+              <NavLink
+                className={isAbout ? styles.whiteFont : ''}
+                href={_.to}
+                onClick={() => isOpened && setIsOpened((prev) => !prev)}>
+                {_.title}
+              </NavLink>
+            </NavItem>
+          ))}
         </Nav>
       </GoormNavbar.Collapse>
-      <S.Toggler
+      <GoormNavbar.Collapse isOpened={isOpened} className="justify-content-end">
+        <Nav className="gap-0">
+          <NavLink
+            className={isAbout ? styles.whiteFont : ''}
+            href="/"
+            onClick={() => isOpened && setIsOpened((prev) => !prev)}>
+            <SchoolIcon className="mx-1" />
+            나의 유니브 찾기
+          </NavLink>
+          <div className={styles.grayCircle} />
+          {/* <AddAvatar className={styles.grayBackground} onClick={() => alert('Click the Avatar')} /> */}
+        </Nav>
+      </GoormNavbar.Collapse>
+      <GoormNavbar.Toggler
+        className="navbar-toggler"
         toggle={setIsOpened}
         isOpened={isOpened}
         $isAbout={isAbout}
