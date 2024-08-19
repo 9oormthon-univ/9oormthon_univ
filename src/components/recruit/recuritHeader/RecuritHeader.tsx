@@ -6,6 +6,7 @@ import RecruitUnivScrolling from '../recruitUnivScrolling/RecruitUnivScrolling';
 import * as S from './style';
 import styles from './RecruitHeader.module.scss';
 import classNames from 'classnames/bind';
+import { Button } from '@goorm-dev/vapor-components';
 const cx = classNames.bind(styles);
 
 function RecuritHeader() {
@@ -66,7 +67,7 @@ function RecuritHeader() {
   const RecruitmentContent = () => (
     <>
       <S.HeaderTitleText>
-        구름톤 유니브 2기 모집 중!
+        구름톤 유니브 4기 모집 중!
         <h4>
           {isInit ? (
             <>
@@ -79,28 +80,26 @@ function RecuritHeader() {
           )}
         </h4>
       </S.HeaderTitleText>
-      <S.GoormBtn color="primary" size="xl" tag="button" onClick={handleButtonClick}>
-        유니브 대표 신청
-      </S.GoormBtn>
+      <Button className={styles.goormBtn} color="primary" size="xl" onClick={handleButtonClick}>
+        우리 학교 찾아보기
+      </Button>
     </>
   );
 
   // 마감 후 콘텐츠
   const RecruitmentClosedContent = () => (
-    <div className="container">
-      <div className="leftSection">
-        <h2 className={cx('titleText', 'd-none d-xl-block w-100')}>
-          3기 모집이 완료되었어요!
-        </h2>
-        <h6 className={cx('titleTextSmall', 'd-none d-xl-block w-100')}>
-          4기 모집은 2025년 1월 예정입니다!
+    <div className={cx('container')}>
+      <div className={cx('leftSection')}>
+        <h2 className={cx('titleText')}>3기 모집이 완료되었어요!</h2>
+        <h6 className={cx('titleTextSmall')}>
+          구름톤 유니브 4기로 활동하고 싶으신가요?
         </h6>
-        <S.GoormBtn color="primary" size="xl" tag="button" onClick={handleButtonClick}>
-          4기 사전 신청 알림받기
-        </S.GoormBtn>
+        <Button className={cx('goormBtn')}>4기 사전 알림 받기</Button>
       </div>
-      <div className="rightSection">
-      <h1 className="titleText">25년 1월</h1>
+      <div className={cx('rightSection')}>
+        <h6 className={cx('dDayTitleText')}>4기 모집 시작</h6>
+        <h1 className={cx('dDayText')}>25년 1월</h1>
+        <p>Coming soon!</p>
       </div>
     </div>
   );

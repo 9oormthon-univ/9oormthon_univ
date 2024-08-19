@@ -2,7 +2,7 @@
 
 .titleText {
     text-align: left;
-    margin-top: var(--space-800);
+    
 }
 
 .titleTextSmall {
@@ -12,24 +12,46 @@ margin-top: var(--space-100);
 
 .container {
     display: flex;
-    padding: var(--Spacing-space-800, 32px);
     justify-content: space-between;
-    align-items: center;
-    gap: var(--Spacing-space-050, 4px);
-    border-radius: var(--Spacing-space-700, 24px);
-background: var(--semantic-color-background-background-alternative-01, #F7F7FA);
-}
-
+    align-items: flex-end;
+    // padding: var(--Spacing-space-800, 32px);
+    // border-radius: var(--Spacing-space-700, 24px);
+    // background: var(--semantic-color-background-background-alternative-01, #F7F7FA);
+    margin-top: var(--space-800);
+    margin-bottom: var(--space-800);
+    
 .leftSection {
-display: flex;
-flex-direction: column;
-align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
 }
-
 .rightSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: var(--background-alternative-01);
+    border-radius: var(--space-700);
     padding: var(--space-800);
     
-    .titleText {
-        margin: 0
+    .dDayTitleText {
+        font-size: 20px;
     }
+    .dDayText {
+    margin: 0;
+    font-size: var(--size-size-600, 48px);
+    font-weight: bold;
+    }
+}
+} 
+
+.goormBtn {
+    padding: 0.875rem 1.5rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    height: 3rem;
+    margin-top: var(--space-900);
 }
