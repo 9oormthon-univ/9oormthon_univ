@@ -4,6 +4,9 @@ import { Spinner } from 'reactstrap';
 import RecruitModal from '../recruitModal/RecruitModal';
 import RecruitUnivScrolling from '../recruitUnivScrolling/RecruitUnivScrolling';
 import * as S from './style';
+import styles from './RecruitHeader.module.scss';
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
 
 function RecuritHeader() {
   const [isRecruitmentOver, setIsRecruitmentOver] = useState(false);
@@ -84,15 +87,22 @@ function RecuritHeader() {
 
   // 마감 후 콘텐츠
   const RecruitmentClosedContent = () => (
-    <>
-      <S.HeaderTitleText>
-        <h2>3기 모집 완료!</h2>
-        <h6>4기 모집은 2025년 1월 예정입니다!</h6>
-      </S.HeaderTitleText>
-      <S.GoormBtn color="primary" size="xl" tag="button" onClick={handleButtonClick}>
-        4기 사전 신청 알림받기
-      </S.GoormBtn>
-    </>
+    <div className="container">
+      <div className="leftSection">
+        <h2 className={cx('titleText', 'd-none d-xl-block w-100')}>
+          3기 모집이 완료되었어요!
+        </h2>
+        <h6 className={cx('titleTextSmall', 'd-none d-xl-block w-100')}>
+          4기 모집은 2025년 1월 예정입니다!
+        </h6>
+        <S.GoormBtn color="primary" size="xl" tag="button" onClick={handleButtonClick}>
+          4기 사전 신청 알림받기
+        </S.GoormBtn>
+      </div>
+      <div className="rightSection">
+      <h1 className="titleText">25년 1월</h1>
+      </div>
+    </div>
   );
 
   return (
