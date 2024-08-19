@@ -1,5 +1,8 @@
 .whiteFont {
   color: white;
+  &:hover {
+    color: white;
+  }
 }
 .grayCircle {
   width: 2rem;
