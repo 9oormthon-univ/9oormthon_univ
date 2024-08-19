@@ -8,6 +8,7 @@ import * as S from './style';
 import styles from './RecruitHeader.module.scss';
 import classNames from 'classnames/bind';
 import { Button } from '@goorm-dev/vapor-components';
+
 const cx = classNames.bind(styles);
 
 function RecuritHeader() {
@@ -92,32 +93,25 @@ function RecuritHeader() {
     <div className={cx('container')}>
       <div className={cx('leftSection')}>
         <h2 className={cx('titleText')}>3기 모집이 완료되었어요!</h2>
-        <h6 className={cx('titleTextSmall')}>
-          구름톤 유니브 4기로 활동하고 싶으신가요?
-        </h6>
+        <h6 className={cx('titleTextSmall')}>구름톤 유니브 4기로 활동하고 싶으신가요?</h6>
         <Button className={cx('goormBtn')}>4기 사전 알림 받기</Button>
       </div>
       <div className={cx('rightSection')}>
         <h6 className={cx('dDayTitleText')}>4기 모집 시작</h6>
         <h1 className={cx('dDayText')}>25년 1월</h1>
-        <p>Coming soon!</p>
+        <div className={cx('dDayDetailText')}>Coming soon!</div>
       </div>
     </div>
   );
 
   return (
-    <S.HeaderContainer className="container">
-      <S.HeaderTitleWrapper className="d-flex justify-content-center align-items-center flex-column">
-        <RecruitmentClosedContent />
-      </S.HeaderTitleWrapper>
-      <S.HeaderUnivContainer>
-        <S.HeaderUnivTitleText>3기와 함께하는 {THIS_SEASON.AMOUNT_OF_UNIV}개의 유니브</S.HeaderUnivTitleText>
-        <S.HeaderUnivListContainer>
-          <RecruitUnivScrolling searchable={true} />
-        </S.HeaderUnivListContainer>
-      </S.HeaderUnivContainer>
-      {isModalOpen && <RecruitModal isModalOpen={isModalOpen} toggleModal={toggleModal} />}
-    </S.HeaderContainer>
+    <>
+      {/* <S.HeaderContainer className="container"> */}
+      {/* <S.HeaderTitleWrapper className="d-flex justify-content-center align-items-center flex-column"> */}
+      <RecruitmentClosedContent />
+      {/* </S.HeaderTitleWrapper> */}
+      {isModalOpen && <RecruitModal isModalOpen={isModalOpen} toggleModal={toggleModal} />} {/* </S.HeaderContainer> */}
+    </>
   );
 }
 

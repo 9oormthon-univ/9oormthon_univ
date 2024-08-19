@@ -1,32 +1,38 @@
 @import '../../../style/mixin.scss';
 
 .titleText {
-    text-align: left;
-    
+  text-align: left;
+  font-weight: 700;
+  line-height: 57px;
+  font-size: 38px;
+  color: var(--text-normal);
 }
 
 .titleTextSmall {
-text-align: left;
-margin-top: var(--space-100);
+  text-align: left;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: var(--space-100);
+  color: var(--text-hint);
 }
 
 .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    // padding: var(--Spacing-space-800, 32px);
-    // border-radius: var(--Spacing-space-700, 24px);
-    // background: var(--semantic-color-background-background-alternative-01, #F7F7FA);
-    margin-top: var(--space-800);
-    margin-bottom: var(--space-800);
-    
-.leftSection {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  margin-bottom: var(--space-800);
+  margin-top: var(--space-800);
+
+  width: 100%;
+
+  .leftSection {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    
-}
-.rightSection {
+    justify-content: center;
+    height: 100%;
+  }
+  .rightSection {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,24 +40,37 @@ margin-top: var(--space-100);
     background-color: var(--background-alternative-01);
     border-radius: var(--space-700);
     padding: var(--space-800);
-    
+
     .dDayTitleText {
-        font-size: 20px;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 30px;
+      color: var(--text-alternative);
     }
     .dDayText {
-    margin: 0;
-    font-size: var(--size-size-600, 48px);
-    font-weight: bold;
+      font-size: var(--size-size-600, 48px);
+      font-weight: bold;
+      margin-top: var(--space-50);
+      margin-bottom: var(--space-50);
+      line-height: var(--line-height-700);
+      color: var(--text-alternative);
     }
+
+    .dDayDetailText {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      color: var(--text-hint);
+    }
+  }
 }
-} 
 
 .goormBtn {
-    padding: 0.875rem 1.5rem;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 0.625rem;
-    height: 3rem;
-    margin-top: var(--space-900);
+  padding: 0.875rem 1.5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-900);
+  height: 3rem;
+  margin-top: var(--space-900);
 }
