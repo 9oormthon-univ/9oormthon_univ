@@ -1,0 +1,47 @@
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 5rem;
+  background-color: var(--gray-050);
+  border-radius: 1.25rem;
+  margin-top: 4.3rem;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 28rem;
+}
+
+.titleGap {
+  margin-bottom: var(--space-300);
+}
+
+.longButton {
+  display: flex;
+  width: 28.75rem;
+  padding: 0.875rem 1.5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 0.5rem;
+  background: var(--blue-500-primary);
+}
+
+.dropDownItem {
+  position: relative;
+}
+
+.dropDownItemIcon {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.visible {
+  display: none;
+}

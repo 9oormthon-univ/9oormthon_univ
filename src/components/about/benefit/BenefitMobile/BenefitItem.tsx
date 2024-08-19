@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
@@ -6,13 +5,21 @@ import styles from './BenefitMobile.module.scss';
 
 const cx = classNames.bind(styles);
 
-export default function BenefitItem({ imgSrc, iconSrc, bgColor, title, description, url }) {
+interface BenefitItemProps {
+  imgSrc: string;
+  iconSrc: string;
+  bgColor: string;
+  title: string;
+  description: string;
+  url: string;
+}
+
+export default function BenefitItem({ imgSrc, iconSrc, bgColor, title, description, url }: BenefitItemProps) {
   return (
     <div className="d-flex flex-column w-100">
       <Link to={url} target="\_blank">
         <div
-          className={cx('benefitImgContainer', 'w-100 d-flex justify-content-center align-items-center', `${bgColor}`)}
-        >
+          className={cx('benefitImgContainer', 'w-100 d-flex justify-content-center align-items-center', `${bgColor}`)}>
           <img className={cx('benefitImg')} src={imgSrc} alt={title} />
         </div>
         <div className={cx('benefitContents', 'w-100 d-flex justify-content-between align-items-end')}>

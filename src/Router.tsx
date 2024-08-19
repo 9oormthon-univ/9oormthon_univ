@@ -10,6 +10,7 @@ const Project = lazy(() => import('./pages/project/Project'));
 const Recruit = lazy(() => import('./pages/recruit/Recruit'));
 const Apply = lazy(() => import('./pages/apply/Apply'));
 const NotFound = lazy(() => import('./pages/errors/NotFound'));
+const SearchUniv = lazy(() => import('./pages/searchUniv/SearchUniv'));
 
 // GoormLoader 컴포넌트에 전달할 props 설정
 const loaderProps: GoormLoaderProps = {
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <About />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'search-univ',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <SearchUniv />
           </Suspense>
         ),
       },

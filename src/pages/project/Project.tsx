@@ -29,7 +29,6 @@ export default function Project() {
 
   return (
     <>
-      {/* <ModalProject /> */}
       <Text className={styles.titleText} color="gray-900" isInheritColor={false} typography="heading1">
         프로젝트 둘러보기
       </Text>
