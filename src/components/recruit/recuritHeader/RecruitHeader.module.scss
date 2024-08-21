@@ -2,18 +2,11 @@
 
 .titleText {
   text-align: left;
-  font-weight: 700;
-  line-height: 57px;
-  font-size: 38px;
-  color: var(--text-normal);
 }
 
 .titleTextSmall {
   text-align: left;
-  font-size: 16px;
-  font-weight: 500;
   margin-top: var(--space-100);
-  color: var(--text-hint);
 }
 
 .container {
@@ -22,7 +15,6 @@
   align-items: flex-end;
   margin-bottom: var(--space-800);
   margin-top: var(--space-800);
-
   width: 100%;
 
   .leftSection {
@@ -41,26 +33,11 @@
     border-radius: var(--space-700);
     padding: var(--space-800);
 
-    .dDayTitleText {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 30px;
-      color: var(--text-alternative);
-    }
     .dDayText {
       font-size: var(--size-size-600, 48px);
       font-weight: bold;
       margin-top: var(--space-50);
       margin-bottom: var(--space-50);
-      line-height: var(--line-height-700);
-      color: var(--text-alternative);
-    }
-
-    .dDayDetailText {
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
-      color: var(--text-hint);
     }
   }
 }
