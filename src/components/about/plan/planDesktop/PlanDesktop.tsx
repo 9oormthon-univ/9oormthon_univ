@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import Timeline from './Timeline';
-import styles from './PlanDesktop.module.scss';
 import classNames from 'classnames/bind';
+import styles from './PlanDesktop.module.scss';
+import Timeline from './Timeline';
 
 const cx = classNames.bind(styles);
 
@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 export default function PlanDesktop() {
   const [month, setMonth] = useState(1);
 
-  const handleMonthClick = (month) => {
+  const handleMonthClick = (month: number) => {
     setMonth(month);
   };
 
@@ -20,8 +20,7 @@ export default function PlanDesktop() {
       className={cx(
         'planDesktop',
         'd-none d-xl-flex flex-column position-relative w-100 align-items-center justify-content-center',
-      )}
-    >
+      )}>
       <h2 className={cx('title')}>앞으로의 계획은요,</h2>
       <Timeline month={month} handleMonthClick={handleMonthClick} />
     </div>

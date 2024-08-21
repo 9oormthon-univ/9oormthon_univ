@@ -12,7 +12,7 @@ import styles from './PlanDesktop.module.scss';
 
 const cx = classNames.bind(styles);
 
-export const getMonthText = (key) => {
+export const getMonthText = (key: number) => {
   switch (key) {
     case 1:
       return '6월';
@@ -31,24 +31,31 @@ export const getMonthText = (key) => {
   }
 };
 
-export default function Timeline({ month, handleMonthClick }) {
-  const value = useScrollValue();
+interface TimelineProps {
+  month: number;
+  handleMonthClick: (idx: number) => void;
+}
+
+export default function Timeline({ month, handleMonthClick }: TimelineProps) {
+  const { scrollValue, totalHeight } = useScrollValue();
 
   useEffect(() => {
-    if (value < 1234) {
+    const percentage = (scrollValue.y / totalHeight) * 100;
+
+    if (percentage < 31) {
       handleMonthClick(1);
-    } else if (value > 1233 && value < 1534) {
+    } else if (percentage < 33) {
       handleMonthClick(2);
-    } else if (value > 1533 && value < 1834) {
+    } else if (percentage < 35) {
       handleMonthClick(3);
-    } else if (value > 1833 && value < 2134) {
+    } else if (percentage < 37) {
       handleMonthClick(4);
-    } else if (value > 2133 && value < 2434) {
+    } else if (percentage < 39) {
       handleMonthClick(5);
-    } else if (value > 2433 && value < 2734) {
+    } else {
       handleMonthClick(6);
     }
-  }, [value]);
+  }, [scrollValue]);
 
   return (
     <div className={cx('timeline', 'd-flex flex-column')}>
