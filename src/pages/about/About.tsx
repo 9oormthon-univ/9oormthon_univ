@@ -19,13 +19,13 @@ export default function About() {
     <S.AboutWrapper>
       <MainBanner scrollTrigger={onMoveToElement} />
       <Intro scrollTarget={element} />
+      <FindingUniv />
       <Goal />
       <PlanDesktop />
       <PlanMobile />
       <BenefitDesktop />
       <BenefitMobile />
       <Activity />
-      <FindingUniv />
     </S.AboutWrapper>
   );
 }
