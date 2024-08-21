@@ -1,15 +1,13 @@
 import { GoormNavbar, Nav, NavItem, NavLink } from '@goorm-dev/gds-components';
 import { SchoolIcon } from '@goorm-dev/gds-icons';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
+import { useIsAbout } from '../../../hooks/useIsAbout';
 import styles from './CustomNavbar.module.scss';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
-
-  const location = useLocation();
-  const isAbout = location.pathname === '/';
+  const isAbout = useIsAbout();
 
   const NAV_ITEMS = [
     {
