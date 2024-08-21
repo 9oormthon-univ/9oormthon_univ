@@ -5,6 +5,12 @@ import { THIS_SEASON } from '../../../constants/common';
 import RecruitModal from '../recruitModal/RecruitModal';
 import RecruitUnivScrolling from '../recruitUnivScrolling/RecruitUnivScrolling';
 import * as S from './style';
+import styles from './RecruitHeader.module.scss';
+import classNames from 'classnames/bind';
+import { Button, Text } from '@goorm-dev/vapor-components';
+import { TYPOGRAPHY } from '@goorm-dev/vapor-components/dist/types/src/components/Text/Text.constants';
+
+const cx = classNames.bind(styles);
 
 function RecuritHeader() {
   const [isRecruitmentOver, setIsRecruitmentOver] = useState(false);
@@ -64,7 +70,7 @@ function RecuritHeader() {
   const RecruitmentContent = () => (
     <>
       <S.HeaderTitleText>
-        구름톤 유니브 2기 모집 중!
+        구름톤 유니브 4기 모집 중!
         <h4>
           {isInit ? (
             <>
@@ -77,38 +83,46 @@ function RecuritHeader() {
           )}
         </h4>
       </S.HeaderTitleText>
-      <S.GoormBtn color="primary" size="xl" tag="button" onClick={handleButtonClick}>
-        유니브 대표 신청
-      </S.GoormBtn>
+      <Button className={styles.goormBtn} color="primary" size="xl" onClick={handleButtonClick}>
+        우리 학교 찾아보기
+      </Button>
     </>
   );
 
   // 마감 후 콘텐츠
   const RecruitmentClosedContent = () => (
-    <>
-      <S.HeaderTitleText>
-        <h2>3기 모집 완료!</h2>
-        <h6>4기 모집은 2025년 1월 예정입니다!</h6>
-      </S.HeaderTitleText>
-      <S.GoormBtn color="primary" size="xl" tag="button" onClick={handleButtonClick}>
-        4기 사전 신청 알림받기
-      </S.GoormBtn>
-    </>
+    <div className={cx('container')}>
+      <div className={cx('leftSection')}>
+        <Text className={cx('titleText')} typography="heading1" color="text-normal">
+          3기 모집이 완료되었어요!
+        </Text>
+        <Text className={cx('titleTextSmall')} typography="heading6" color="text-hint">
+          구름톤 유니브 4기로 활동하고 싶으신가요?
+        </Text>
+        <Button className={cx('goormBtn')}>4기 사전 알림 받기</Button>
+      </div>
+      <div className={cx('rightSection')}>
+        <Text typography="heading4" color="text-alternative">
+          4기 모집 시작
+        </Text>
+        <Text className={cx('dDayText')} color="text-alternative">
+          25년 1월
+        </Text>
+        <Text typography="heading6" color="text-hint">
+          Coming soon!
+        </Text>
+      </div>
+    </div>
   );
 
   return (
-    <S.HeaderContainer className="container">
-      <S.HeaderTitleWrapper className="d-flex justify-content-center align-items-center flex-column">
-        <RecruitmentClosedContent />
-      </S.HeaderTitleWrapper>
-      <S.HeaderUnivContainer>
-        <S.HeaderUnivTitleText>3기와 함께하는 {THIS_SEASON.AMOUNT_OF_UNIV}개의 유니브</S.HeaderUnivTitleText>
-        <S.HeaderUnivListContainer>
-          <RecruitUnivScrolling searchable={true} />
-        </S.HeaderUnivListContainer>
-      </S.HeaderUnivContainer>
-      {isModalOpen && <RecruitModal isModalOpen={isModalOpen} toggleModal={toggleModal} />}
-    </S.HeaderContainer>
+    <>
+      {/* <S.HeaderContainer className="container"> */}
+      {/* <S.HeaderTitleWrapper className="d-flex justify-content-center align-items-center flex-column"> */}
+      <RecruitmentClosedContent />
+      {/* </S.HeaderTitleWrapper> */}
+      {isModalOpen && <RecruitModal isModalOpen={isModalOpen} toggleModal={toggleModal} />} {/* </S.HeaderContainer> */}
+    </>
   );
 }
 

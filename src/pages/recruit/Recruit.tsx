@@ -3,28 +3,28 @@ import RecruitCaution from '../../components/recruit/recruitCaution/RecruitCauti
 import RecuritFAQ from '../../components/recruit/recruitFAQ/RecruitFAQ';
 import RecuritHeader from '../../components/recruit/recuritHeader/RecuritHeader';
 import RecuritTarget from '../../components/recruit/recuritTarget/RecuritTarget';
-import * as S from './style';
+import styles from './styles.module.scss';
 
 export default function Recruit() {
   return (
-    <S.RecruitContainer>
+    <div className={styles.RecruitContainer}>
       <RecuritHeader />
-      <div className="contianer d-flex flex-column justify-content-center align-items-center ">
-        <S.RecuritBody className="col-10 d-flex flex-column justify-content-start align-items-center">
+      <div className="container d-flex flex-column justify-content-center align-items-center ">
+        <div className={styles.RecuritBody}>
           {/* ---------------- 지원 대상 ---------------- */}
           <RecuritTarget />
           {/* ---------------- 모집일정 ---------------- */}
           <RecuritCalendar />
           {/* ---------------- 유의 사항 ---------------- */}
-          <S.RecuritCautionWrapper className="w-100 d-flex flex-column justify-content-center align-items-start">
+          <div className={styles.RecuritCautionWrapper}>
             <RecruitCaution />
-          </S.RecuritCautionWrapper>
+          </div>
           {/* ---------------- 자주 묻는 질문 ---------------- */}
-          <S.RecuritFAQContainer className="w-100 d-flex flex-column justify-content-center align-items-start">
+          <div className={styles.RecuritFAQContainer}>
             <RecuritFAQ />
-          </S.RecuritFAQContainer>
-        </S.RecuritBody>
+          </div>
+        </div>
       </div>
-    </S.RecruitContainer>
+    </div>
   );
 }
