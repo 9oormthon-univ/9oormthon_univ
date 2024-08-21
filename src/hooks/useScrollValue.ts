@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 
 export default function useScrollValue() {
-  const [scrollValue, setScrollValue] = useState({
+  const totalHeight = document.body.scrollHeight;
+
+  const [scrollValue, setScrollValue] = useState<{
+    x: number;
+    y: number;
+  }>({
     x: 0,
     y: 0,
   });
@@ -15,5 +20,5 @@ export default function useScrollValue() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  return scrollValue;
+  return { scrollValue, totalHeight };
 }
