@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Button } from '@goorm-dev/gds-components';
+import styled from 'styled-components';
 
 export const FindingUnivWrapper = styled.div`
   height: 100vh;
@@ -70,8 +70,10 @@ export const HeaderUnivContainer = styled.div`
 `;
 
 export const HeaderUnivTitleText = styled.h3`
+  text-align: center;
   margin-bottom: 1.5rem;
   display: none;
+  white-space: pre-line;
 
   @media screen and (min-width: 1200px) {
     display: block;
@@ -79,7 +81,9 @@ export const HeaderUnivTitleText = styled.h3`
 `;
 
 export const HeaderUnivTitleTextSmall = styled.h4`
+  text-align: center;
   margin-bottom: 1.5rem;
+  white-space: pre-line;
 
   @media screen and (min-width: 1200px) {
     display: none;

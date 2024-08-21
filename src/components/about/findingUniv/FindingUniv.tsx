@@ -32,6 +32,8 @@ const ImageSlider = styled.div`
   }
 `;
 
+const TEXT = `전국 ${THIS_SEASON.AMOUNT_OF_UNIV}개 대학이 \n 구름톤 유니브와 함께하고 있어요`;
+
 function FindingUniv() {
   const [daysRemaining, setDaysRemaining] = useState(0);
   const navigate = useNavigate();
@@ -71,24 +73,11 @@ function FindingUniv() {
 
   return (
     <S.FindingUnivWrapper>
-      <S.HeaderContainer>
-        <S.HeaderTitleWrapper>
-          <S.HeaderTitleText>새로운 유니브를 찾고 있어요!</S.HeaderTitleText>
-          <S.HeaderTitleTextSmall>새로운 유니브를 찾고 있어요!</S.HeaderTitleTextSmall>
-
-          <S.GoormBtn color="primary" size="xl" tag="button" onClick={() => navigateToRecruit()}>
-            자세히 보기
-          </S.GoormBtn>
-        </S.HeaderTitleWrapper>
-        <S.HeaderUnivContainer>
-          <S.HeaderUnivTitleText>현재 함께하는 유니브 {THIS_SEASON.AMOUNT_OF_UNIV}개</S.HeaderUnivTitleText>
-          <S.HeaderUnivTitleTextSmall>현재 함께하는 유니브 {THIS_SEASON.AMOUNT_OF_UNIV}개</S.HeaderUnivTitleTextSmall>
-          <RecruitUnivScrolling searchable={false} />
-          {/* <S.HeaderUnivListContainer>
-            <AutoScrollingImages />
-          </S.HeaderUnivListContainer> */}
-        </S.HeaderUnivContainer>
-      </S.HeaderContainer>
+      <S.HeaderUnivContainer>
+        <S.HeaderUnivTitleText>{TEXT}</S.HeaderUnivTitleText>
+        <S.HeaderUnivTitleTextSmall>{TEXT}</S.HeaderUnivTitleTextSmall>
+        <RecruitUnivScrolling />
+      </S.HeaderUnivContainer>
     </S.FindingUnivWrapper>
   );
 }
