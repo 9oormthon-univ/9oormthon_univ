@@ -11,7 +11,7 @@ import { TYPOGRAPHY } from '@goorm-dev/vapor-components/dist/types/src/component
 const cx = classNames.bind(styles);
 
 const REP_START_DATE = new Date('2024-08-10T10:00:00');
-const REP_END_DATE = new Date('2024-08-25T10:00:00');
+const REP_END_DATE = new Date('2024-08-22T19:00:00');
 const TEAM_START_DATE = new Date('2024-08-01T10:00:00');
 const TEAM_END_DATE = new Date('2024-08-15T10:00:00');
 const REP_START_ONE_WEEK_BEFORE = new Date(REP_START_DATE.getTime() - 7 * 24 * 60 * 60 * 1000); // 대표 모집 시작 일주일 전
@@ -35,9 +35,9 @@ function RecuritHeader() {
 
     return date
       .toLocaleDateString('ko-KR', options)
-      .replace(/(\d{4})\s(\d{2})\s(\d{2})/, '$1.$2.$3') // Add periods between year, month, and day
-      .replace(/\s/g, '') // Remove spaces
-      .replace(/(\(\S+\))/, '$1 '); // Add space before and after the weekday
+      .replace(/(\d{4})\s(\d{2})\s(\d{2})/, '$1.$2.$3')
+      .replace(/\s/g, '') // 공백 제거
+      .replace(/(\(\S+\))/, '$1 ');
   };
 
   const updateRemainingTime = (targetDate: Date) => {
@@ -100,7 +100,7 @@ function RecuritHeader() {
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
         button: '우리 학교 찾아보기',
         rightTitle: '유니브 대표 모집 시작',
-        dDayText: `D-${timeRemaining.days}`,
+        dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: formatDate(REP_START_DATE),
       },
 
@@ -110,7 +110,7 @@ function RecuritHeader() {
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
         button: '우리 학교 찾아보기',
         rightTitle: '유니브 대표 모집 마감',
-        dDayText: `D-${timeRemaining.days}`,
+        dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: formatDate(REP_END_DATE),
       },
 
@@ -120,7 +120,7 @@ function RecuritHeader() {
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
         button: '우리 학교 찾아보기',
         rightTitle: '유니브 팀원 모집 시작',
-        dDayText: `D-${timeRemaining.days}`,
+        dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: '유니브 별로 일정 상이',
       },
 
@@ -130,7 +130,7 @@ function RecuritHeader() {
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
         button: '우리 학교 찾아보기',
         rightTitle: '유니브 팀원 모집 마감',
-        dDayText: `D-${timeRemaining.days}`,
+        dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: '유니브 별로 일정 상이',
       },
 
