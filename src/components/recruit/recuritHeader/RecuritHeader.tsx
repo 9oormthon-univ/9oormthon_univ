@@ -7,7 +7,8 @@ import RecruitUnivScrolling from '../recruitUnivScrolling/RecruitUnivScrolling';
 import * as S from './style';
 import styles from './RecruitHeader.module.scss';
 import classNames from 'classnames/bind';
-import { Button } from '@goorm-dev/vapor-components';
+import { Button, Text } from '@goorm-dev/vapor-components';
+import { TYPOGRAPHY } from '@goorm-dev/vapor-components/dist/types/src/components/Text/Text.constants';
 
 const cx = classNames.bind(styles);
 
@@ -92,14 +93,24 @@ function RecuritHeader() {
   const RecruitmentClosedContent = () => (
     <div className={cx('container')}>
       <div className={cx('leftSection')}>
-        <h2 className={cx('titleText')}>3기 모집이 완료되었어요!</h2>
-        <h6 className={cx('titleTextSmall')}>구름톤 유니브 4기로 활동하고 싶으신가요?</h6>
+        <Text className={cx('titleText')} typography="heading1" color="text-normal">
+          3기 모집이 완료되었어요!
+        </Text>
+        <Text className={cx('titleTextSmall')} typography="heading6" color="text-hint">
+          구름톤 유니브 4기로 활동하고 싶으신가요?
+        </Text>
         <Button className={cx('goormBtn')}>4기 사전 알림 받기</Button>
       </div>
       <div className={cx('rightSection')}>
-        <h6 className={cx('dDayTitleText')}>4기 모집 시작</h6>
-        <h1 className={cx('dDayText')}>25년 1월</h1>
-        <div className={cx('dDayDetailText')}>Coming soon!</div>
+        <Text typography="heading4" color="text-alternative">
+          4기 모집 시작
+        </Text>
+        <Text className={cx('dDayText')} color="text-alternative">
+          25년 1월
+        </Text>
+        <Text typography="heading6" color="text-hint">
+          Coming soon!
+        </Text>
       </div>
     </div>
   );
