@@ -9,21 +9,10 @@
   margin: var(--space-800) auto;
 }
 
-.titleText {
-  /* KOR/H2ㅣ2rem */
-  font-family: Pretendard;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 48px; /* 150% */
-  letter-spacing: -0.4px;
-}
-
 .bottomSection {
   display: flex;
   align-items: center;
   gap: var(--space-250);
-  align-self: stretch;
 }
 
 .targetBox {
@@ -38,16 +27,8 @@
 }
 
 .contentsText {
-  color: var(--gray-700);
+  width: 13.9375rem;
   text-align: center;
-  font-feature-settings: 'liga' off, 'clig' off;
-
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 30px; /* 150% */
-  letter-spacing: -0.2px;
-
-  width: 223px;
+  line-height: 1.875rem; /* 150% */
+  letter-spacing: -0.0125rem;
 }
