@@ -54,10 +54,16 @@ function CustomNavbar() {
             <SchoolIcon className="mx-1" />
             나의 유니브 찾기
           </NavLink>
-          <div className={styles.grayCircle} />
+          {/* <div className={styles.grayCircle} /> */}
           {/* <AddAvatar className={styles.grayBackground} onClick={() => alert('Click the Avatar')} /> */}
+
+          <NavLink
+            className={styles.grayCircle}
+            href="/signUp"
+            onClick={() => isOpened && setIsOpened((prev) => !prev)}></NavLink>
         </Nav>
       </GoormNavbar.Collapse>
+
       <GoormNavbar.Toggler
         className="navbar-toggler"
         toggle={setIsOpened}
