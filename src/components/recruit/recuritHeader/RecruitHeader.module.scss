@@ -11,11 +11,11 @@
 
 .container {
   display: flex;
-  justify-content: space-evenly;
-  align-items: flex-end;
-  margin-bottom: var(--space-800);
-  margin-top: var(--space-800);
-  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-800);
+  width: 56.4375rem;
+  margin: 0 auto;
 
   .leftSection {
     display: flex;
