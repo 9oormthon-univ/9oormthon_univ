@@ -1,7 +1,7 @@
 @import '../../../style/mixin.scss';
 
 .container {
-  width: 903px; // 고정된 컴포넌트 크기
+  width: 903px;
   display: flex;
   margin: var(--space-800) auto;
   padding: var(--space-400);
@@ -13,58 +13,20 @@
 
 .leftSection {
   display: flex;
-  width: 245px;
   flex-direction: column;
-  align-items: flex-start;
   gap: var(--size-600);
 }
 
-.titleText {
-  color: var(--gray-900);
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: Pretendard;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 48px; /* 150% */
-  letter-spacing: -0.4px;
+.leftTopSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-100);
 }
 
-.subTitleText {
-  color: var(--text-hint-alternative);
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 22px; /* 157.143% */
-  letter-spacing: -0.1px;
-}
-
-.bigText {
-  color: var(--gray-700);
-  font-feature-settings: 'liga' off, 'clig' off;
-
-  /* KOR/heading5ㅣ1.125rem */
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 26px; /* 144.444% */
-  letter-spacing: -0.1px;
-}
-
-.smallText {
-  color: var(--gray-600);
-  font-feature-settings: 'liga' off, 'clig' off;
-
-  /* KOR/heading6ㅣ1rem */
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px; /* 150% */
-  letter-spacing: -0.1px;
+.leftBottomSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
 }
 
 .scheduleDiv {
@@ -74,6 +36,6 @@
 }
 
 .calendarImg {
-  width: 483px;
-  height: 302px;
+  width: 30.1875rem;
+  height: 18.875rem;
 }
