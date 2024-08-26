@@ -66,15 +66,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: '*',
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <NotFound />
-          </Suspense>
-        ),
-      },
     ],
+  },
+  {
+    path: '*',
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <NotFound />
+      </Suspense>
+    ),
   },
 ]);
 

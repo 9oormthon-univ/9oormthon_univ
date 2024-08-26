@@ -1,24 +1,17 @@
-import React from 'react';
-import { useRouteError } from 'react-router-dom';
-import NotFoundImg from '../../assets/images/notfound.png';
+import NotFoundImg from '../../assets/images/img-404-danpung.png';
 import * as S from './style';
 
 export default function NotFound() {
-  const error = useRouteError();
-
-  // 디폴트 메세지
-  let errorDetail = '이런, 잘못된 페이지로 들어왔네요! 상단 왼쪽 로고를 통해 메인으로 이동해보아요 :)';
-
-  // 에러 있을시
-  if (error) {
-    errorDetail = error.message || '';
-  }
-
   return (
-    <S.MainWrapper>
-      <S.NotFoundImg src={NotFoundImg} />
-      <S.MainTitle>잘못된 페이지예요!</S.MainTitle>
-      <S.MainSubDescription>{errorDetail}</S.MainSubDescription>
-    </S.MainWrapper>
+    <S.MainContainer>
+      <S.MainWrapper>
+        <S.NotFoundImg src={NotFoundImg} />
+        <S.MainTitle>페이지를 찾을 수 없습니다.</S.MainTitle>
+        <S.MainSubDescription>
+          페이지의 주소가 잘못되었거나 변경되어 요청한 페이지를 찾을 수 없습니다. <br />
+          다음의 내용을 확인하시고, 해결되지 않을 시 고객센터로 연락해 주시기 바랍니다.
+        </S.MainSubDescription>
+      </S.MainWrapper>
+    </S.MainContainer>
   );
 }
