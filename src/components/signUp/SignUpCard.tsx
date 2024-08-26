@@ -1,4 +1,5 @@
 import styles from './signUpCard.module.scss';
+import { WarningIcon } from '@goorm-dev/gds-icons';
 import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
 import { ChangeEvent, useState } from 'react';
 import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
@@ -39,7 +40,7 @@ export default function SignUpCard() {
     setErrorMessage(null);
 
     // 나중에 로그인 로직 추가
-    console.log('로그인 시도:', { email, password });
+    console.log('로그인!', { email, password });
   };
 
   return (
@@ -51,7 +52,11 @@ export default function SignUpCard() {
         <Button size="xl" onClick={handleLogin}>
           로그인
         </Button>
-        {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
+        {errorMessage && (
+          <Alert color="danger" leftIcon={WarningIcon}>
+            {errorMessage}
+          </Alert>
+        )}
         <hr className="w-100 border-bottom var(--gray-300)" />
         <Text typography="subtitle2" color="gray-600" fontWeight="regular">
           로그인 시 구름톤 유니브의 서비스 약관 및<br></br> 개인정보 처리방침을 확인하였으며, 동의합니다.
