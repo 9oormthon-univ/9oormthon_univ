@@ -1,0 +1,22 @@
+.signUpCardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-700) var(--space-900) var(--space-600) var(--space-900);
+  background-color: var(--background-alternative-01);
+  border-radius: var(--space-250);
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-250);
+  text-align: center;
+  width: 19.3rem;
+}
+
+.logo {
+  width: 16rem;
+  margin-bottom: var(--space-600);
+}
