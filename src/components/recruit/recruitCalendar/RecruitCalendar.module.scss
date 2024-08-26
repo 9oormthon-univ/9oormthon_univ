@@ -9,12 +9,27 @@
   align-items: center;
   border-radius: var(--space-250);
   border: 1px solid var(--gray-300);
+
+  @include container-xl {
+    width: 46.875rem;
+  }
+
+  @include container-md {
+    width: 43rem;
+    flex-direction: column;
+    padding: var(--space-400) 6.375rem;
+    gap: var(--space-300);
+  }
 }
 
 .leftSection {
   display: flex;
   flex-direction: column;
   gap: var(--size-600);
+  @include container-md {
+    flex-direction: row;
+    gap: var(--size-200);
+  }
 }
 
 .leftTopSection {
@@ -38,4 +53,13 @@
 .calendarImg {
   width: 30.1875rem;
   height: 18.875rem;
+
+  @include container-xl {
+    width: 24.625rem;
+    height: 15.375rem;
+  }
+
+  @include container-md {
+    height: 18.875rem;
+  }
 }

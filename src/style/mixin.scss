@@ -12,6 +12,12 @@
   }
 }
 
+@mixin container-lg {
+  @media (min-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
 @mixin container-xl {
   @media (min-width: #{$breakpoint-xl}) {
     @content;

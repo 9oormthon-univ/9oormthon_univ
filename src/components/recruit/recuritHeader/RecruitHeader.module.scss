@@ -17,6 +17,10 @@
   width: 56.4375rem;
   margin: 0 auto;
 
+  @include container-xl {
+    width: 47rem;
+  }
+
   .leftSection {
     display: flex;
     flex-direction: column;
