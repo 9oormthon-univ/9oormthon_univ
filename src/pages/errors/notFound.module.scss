@@ -1,7 +1,7 @@
 .mainContainer {
   display: flex;
   width: 100%;
-  padding: 40px;
+  padding: 2.5rem 22.625rem 0 22.625rem;
   justify-content: center;
   align-items: center;
   background: var(--background-alternative-01);
@@ -9,13 +9,13 @@
 
 .mainWrapper {
   display: flex;
-  width: 680px;
+  width: 42.5rem;
   padding: var(--space-300) var(--space-300) var(--space-800) var(--space-300);
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: var(--space-300);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   border: 1px solid var(--gray-100);
   background: var(--gray-000);
 }
