@@ -65,6 +65,7 @@ export default function information() {
 
   const handleUnivSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+    setUniv(e.target.value);
   };
 
   const handleUnivSelect = (name: string) => {
@@ -77,10 +78,11 @@ export default function information() {
       setAlertMessage('이름을 입력해주세요');
       return false;
     }
-    if (!univ) {
-      setAlertMessage('소속 유니브를 입력해주세요');
+    if (!univ || !UnivArray.some((univItem) => univItem.name === univ)) {
+      setAlertMessage('소속 유니브가 올바른지 확인해주세요.');
       return false;
     }
+
     if (selections[0].selectedSeason === '선택') {
       setAlertMessage('기수를 선택해주세요');
       return false;
