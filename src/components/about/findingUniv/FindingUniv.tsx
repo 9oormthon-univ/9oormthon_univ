@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
-import Universities from '../../../utilities/UnivData';
-import UniversityItem from '../../recruit/UniversityItem/UniversityItem';
-import * as S from './style';
-
-import { useNavigate } from 'react-router-dom';
-
+import classNames from 'classnames';
 import styled from 'styled-components';
 import { THIS_SEASON } from '../../../constants/common';
 import RecruitUnivScrolling from '../../recruit/recruitUnivScrolling/RecruitUnivScrolling';
+
+import { Text } from '@goorm-dev/vapor-components';
+import styles from './FindingUniv.module.scss';
+
+const cx = classNames.bind(styles);
 
 const Container = styled.div`
   display: flex;
@@ -32,64 +31,21 @@ const ImageSlider = styled.div`
   }
 `;
 
+const TEXT = `전국 ${THIS_SEASON.AMOUNT_OF_UNIV}개 대학이 \n 구름톤 유니브와 함께하고 있어요`;
+
 function FindingUniv() {
-  const [daysRemaining, setDaysRemaining] = useState(0);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // 목표 날짜 설정 (24년 1월 12일)
-    const targetDate = new Date('2024-01-12');
-
-    // 현재 날짜 가져오기
-    const currentDate = new Date();
-
-    // 남은 날짜 계산
-    const timeRemaining = targetDate - currentDate;
-    const daysRemaining = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-
-    setDaysRemaining(daysRemaining);
-  }, []);
-
-  const navigateToRecruit = () => {
-    navigate('/recruit');
-    window.scrollTo(0, 0);
-  };
-
-  const AutoScrollingImages = () => {
-    const doubledUniversities = [...Universities, ...Universities, ...Universities];
-
-    return (
-      <Container>
-        <ImageSlider>
-          {doubledUniversities.map((univ, index) => (
-            <UniversityItem key={index} image={univ.image} name={univ.name} link={univ.link} />
-          ))}
-        </ImageSlider>
-      </Container>
-    );
-  };
-
   return (
-    <S.FindingUnivWrapper>
-      <S.HeaderContainer>
-        <S.HeaderTitleWrapper>
-          <S.HeaderTitleText>새로운 유니브를 찾고 있어요!</S.HeaderTitleText>
-          <S.HeaderTitleTextSmall>새로운 유니브를 찾고 있어요!</S.HeaderTitleTextSmall>
-
-          <S.GoormBtn color="primary" size="xl" tag="button" onClick={() => navigateToRecruit()}>
-            자세히 보기
-          </S.GoormBtn>
-        </S.HeaderTitleWrapper>
-        <S.HeaderUnivContainer>
-          <S.HeaderUnivTitleText>현재 함께하는 유니브 {THIS_SEASON.AMOUNT_OF_UNIV}개</S.HeaderUnivTitleText>
-          <S.HeaderUnivTitleTextSmall>현재 함께하는 유니브 {THIS_SEASON.AMOUNT_OF_UNIV}개</S.HeaderUnivTitleTextSmall>
-          <RecruitUnivScrolling searchable={false} />
-          {/* <S.HeaderUnivListContainer>
-            <AutoScrollingImages />
-          </S.HeaderUnivListContainer> */}
-        </S.HeaderUnivContainer>
-      </S.HeaderContainer>
-    </S.FindingUnivWrapper>
+    <div className={styles.intro}>
+      <div className={styles.textContainer}>
+        <Text typography="heading2" className={styles.titleText}>
+          {TEXT}
+        </Text>
+        <Text typography="heading2" className={styles.titleSmallText}>
+          {TEXT}
+        </Text>
+      </div>
+      <RecruitUnivScrolling />
+    </div>
   );
 }
 

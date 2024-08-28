@@ -1,12 +1,11 @@
 @import '../../../style/mixin.scss';
 
 .mainBanner {
-  height: 100vh;
-  @supports (height: 100dvh) {
-    height: 100dvh;
-  }
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--gray-950);
+  height: 100vh;
 }
 
 .headerText {

@@ -1,0 +1,48 @@
+.backgroundWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-white);
+}
+
+.carouselWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-300);
+  animation: slide_left 30s linear infinite alternate;
+}
+
+.carouselWrapperRight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-300);
+}
+
+.autoCarouselBoxRight {
+  animation: slide_right 30s linear infinite alternate;
+}
+.autoCarouselBoxLeft {
+  animation: slide_left 30s linear infinite alternate;
+}
+
+@keyframes slide_left {
+  0% {
+    transform: translate(0);
+  }
+
+  100% {
+    transform: translate(-976px);
+  }
+}
+
+@keyframes slide_right {
+  0% {
+    transform: translate(-1460px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}

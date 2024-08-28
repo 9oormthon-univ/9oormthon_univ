@@ -10,6 +10,6 @@ export const LINKS = {
   PRE_REGISTRATION_LINK_4TH: 'https://forms.gle/Pt1xfeHbKgbYFZhj8',
 };
 
-const allProjects = [...DanpoongProject2023Data, ...BeotkkotProject2024Data].sort(() => Math.random() - 0.5);
+export const allProjects = [...DanpoongProject2023Data, ...BeotkkotProject2024Data].sort(() => Math.random() - 0.5);
 
 export const PROJECTS = [allProjects, DanpoongProject2023Data, BeotkkotProject2024Data];

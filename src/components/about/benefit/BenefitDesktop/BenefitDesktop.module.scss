@@ -1,19 +1,54 @@
 @import '../../../../style/mixin.scss';
 
 .benefitDesktop {
-  height: 100vh;
-  @supports (height: 100dvh) {
-    height: 100dvh;
-  }
-
   z-index: 1;
 
   background-color: #fff;
+  display: flex;
+  justify-content: center;
+  margin: 15rem;
 }
 
-.headerTitle {
-  width: 71.25rem;
+.benefitLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--gray-050);
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+}
 
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.iconWrapper {
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--gray-400-transparent-24);
+  transform: scaleX(-1);
+  margin-left: 1rem;
+}
+
+.motionContainer {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  gap: 1.5rem;
+
+  > * {
+    flex-grow: 1;
+  }
+}
+// ------
+
+.headerTitle {
   text-align: start;
   top: 18%;
 }
@@ -23,13 +58,6 @@
 
   text-align: start;
   top: 18%;
-}
-
-.horizontalScroll {
-  height: 100vh;
-  @supports (height: 100dvh) {
-    height: 100dvh;
-  }
 }
 
 .scroll {
@@ -44,13 +72,6 @@
   margin-top: 3.69rem;
 }
 
-.motionContainer {
-  height: 100vh;
-  @supports (height: 100dvh) {
-    height: 100dvh;
-  }
-}
-
 .itemList {
   margin-top: 3.69rem;
   & > *:not(:last-child) {
@@ -60,12 +81,6 @@
 
 .ghost {
   width: 100vw;
-}
-
-.benefitLink {
-  &:hover {
-    text-decoration: none;
-  }
 }
 
 .benefitImgContainer {

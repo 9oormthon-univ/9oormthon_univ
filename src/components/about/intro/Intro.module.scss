@@ -1,14 +1,47 @@
 @import '../../../style/mixin.scss';
 
 .intro {
-  margin-top: 100vh;
-  @supports (margin-top: 100dvh) {
-    margin-top: 100dvh;
-  }
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: var(--gray-000);
   border-top: 1px solid var(--gray-000);
   border-bottom: 1px solid var(--gray-000);
+  margin-bottom: 16rem;
+  margin-top: 9.8rem;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3.5rem 0;
+}
+
+.mockTopBox {
+  width: 29.5rem;
+  height: 17rem;
+  margin-right: 1rem;
+}
+
+.bbeotkkotImg {
+  object-fit: contain;
+  width: 59rem;
+  height: 15rem;
+  margin-top: 1.2rem;
 }
 
 .cloudUp {
@@ -23,13 +56,13 @@
 .title {
   color: var(--gray-600);
   margin-top: 2rem;
-  margin-bottom: 1.5rem;
 }
 
 .description {
   text-align: center;
   color: var(--gray-800);
-  padding: 0 4.37rem;
+  white-space: pre-line;
+  margin-bottom: 3.4rem;
 }
 
 .imgs {

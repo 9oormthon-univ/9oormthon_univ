@@ -94,6 +94,14 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '*',
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <NotFound />
+      </Suspense>
+    ),
+  },
 ]);
 
 export default function Router() {
