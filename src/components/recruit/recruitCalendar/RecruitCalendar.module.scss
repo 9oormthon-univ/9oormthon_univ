@@ -2,40 +2,27 @@
 
 .container {
   display: flex;
-  margin: var(--space-800) auto;
+  width: 56.5rem;
+  padding: 7.5rem 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-200);
+}
 
+.wrapper {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: var(--space-250);
-  border: 1px solid var(--gray-300);
-
-  @include container-md {
-    width: 43rem;
-    flex-direction: column;
-    padding: var(--space-400) 6.375rem;
-    gap: var(--space-300);
-  }
-
-  @include container-xl {
-    width: 46.875rem;
-    flex-direction: row;
-    padding: var(--space-400);
-  }
-
-  @include container-xxl {
-    width: 56.4375rem;
-  }
+  align-self: stretch;
 }
 
 .leftSection {
+  height: 15.5rem;
   display: flex;
-  flex-direction: row;
-  gap: var(--size-200);
-
-  @include container-xl {
-    flex-direction: column;
-    gap: var(--size-600);
-  }
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-300) 0 var(--space-200) var(--space-250);
+  border-left: 0.0625rem solid var(--border-color);
 }
 
 .leftTopSection {
@@ -57,18 +44,6 @@
 }
 
 .calendarImg {
-  @include container-md {
-    padding: var(--space-400);
-    width: 30.25rem;
-    height: 18.875rem;
-  }
-
-  @include container-lg {
-    width: 24.625rem;
-  }
-
-  @include container-xxl {
-    width: 30.1875rem;
-    height: 18.875rem;
-  }
+  width: 32.5rem;
+  height: 20rem;
 }

@@ -12,7 +12,7 @@
 .container {
   display: flex;
   align-items: center;
-  padding: var(--space-900) 0;
+  padding: calc(var(--space-900) + 64px) 0 var(--space-900) 0; // header부분을 제외한 순수 padding값이 들어가기 위한 calc
   margin: 0 auto;
 
   @include container-xs {
