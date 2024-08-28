@@ -1,3 +1,4 @@
+import { Text } from '@goorm-dev/vapor-components';
 import classNames from 'classnames/bind';
 import styles from './BenefitDesktop.module.scss';
 import HorizontalScroll from './HorizontalScroll';
@@ -11,10 +12,10 @@ export default function BenefitDesktop() {
         'benefitDesktop',
         'd-none d-md-flex position-relative flex-column justify-content-center align-items-center',
       )}>
-      <h2 className={cx('headerTitle', 'd-none d-xl-block position-absolute')}>구름톤 유니브에서 마음껏 누려요!</h2>
-      <h3 className={cx('headerTitleSmall', 'd-block d-xl-none position-absolute')}>
-        구름톤 유니브에서 마음껏 누려요!
-      </h3>
+      <Text typography="heading2">혜택 둘러보기</Text>
+      <Text typography="heading6" color="gray-600">
+        구름톤 유니브에서 맘껏 누려요
+      </Text>
       <HorizontalScroll />
     </div>
   );
