@@ -10,7 +10,7 @@ interface CardProjectProps {
   project: Project;
   key: number;
   activeIndex: number;
-  currentPage: number;
+  currentPage?: number;
 }
 
 interface Project {

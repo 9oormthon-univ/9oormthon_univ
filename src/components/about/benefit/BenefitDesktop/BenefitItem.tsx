@@ -1,33 +1,27 @@
 import { Link } from 'react-router-dom';
 
+import { BackPageIcon } from '@goorm-dev/gds-icons';
+import { Text } from '@goorm-dev/vapor-components';
 import classNames from 'classnames/bind';
 import styles from './BenefitDesktop.module.scss';
 
 const cx = classNames.bind(styles);
 
 interface BenefitItemProps {
-  imgSrc: string;
-  iconSrc: string;
-  bgColor: string;
   title: string;
   description: string;
   url: string;
 }
 
-export default function BenefitItem({ imgSrc, iconSrc, bgColor, title, description, url }: BenefitItemProps) {
+export default function BenefitItem({ title, description, url }: BenefitItemProps) {
   return (
     <Link className={cx('benefitLink')} to={url} target="\_blank">
-      <div className="d-flex flex-column">
-        <div className={cx('benefitImgContainer', 'd-flex justify-content-center align-items-center', `${bgColor}`)}>
-          <img className={cx('benefitImg')} src={imgSrc} alt={title} />
-        </div>
-        <div className={cx('benefitContents', 'd-flex justify-content-between align-items-end')}>
-          <div className={cx('benefitText', 'd-flex flex-column')}>
-            <h3 className={cx('benefitTitle', 'w-100')}>{title}</h3>
-            <p className={cx('benefitDescription', 'paragraph-lg w-100')}>{description}</p>
-          </div>
-          <img className={cx('icon')} src={iconSrc} alt={title} />
-        </div>
+      <div className={cx('textWrapper')}>
+        <Text typography="body2">{description}</Text>
+        <Text typography="heading5">{title}</Text>
+      </div>
+      <div className={cx('iconWrapper')}>
+        <BackPageIcon width="32" height="32" fill="#858899" />
       </div>
     </Link>
   );

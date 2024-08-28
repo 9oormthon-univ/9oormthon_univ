@@ -17,7 +17,7 @@
 .activityList {
   width: 20.5rem;
   margin-top: 3.94rem;
-  margin-bottom: 14.81rem;
+  // margin-bottom: 14.81rem;
   gap: 2rem;
   display: flex;
   flex-direction: column;
@@ -55,7 +55,7 @@
     justify-content: center;
 
     grid-template-columns: 34.5625rem 34.5625rem;
-    grid-template-rows: 28.25rem 26.75rem 28.25rem;
+    grid-template-rows: 24rem 24rem 28rem;
   }
 }
 
@@ -74,12 +74,12 @@
 }
 
 .contentBox {
-  height: 8.75rem;
-  min-width: 21rem;
+  // height: 8.75rem;
+  // min-width: 21rem;
 }
 
 .contentTitle {
-  gap: 1.06rem;
+  gap: 1rem;
 }
 
 .titleTextEn {

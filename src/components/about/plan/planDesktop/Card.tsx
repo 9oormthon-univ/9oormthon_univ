@@ -6,16 +6,24 @@ import styles from './PlanDesktop.module.scss';
 
 const cx = classNames.bind(styles);
 
-export default function Card({ Icon, title, description, month, idx, handleMonthClick }) {
+interface CardProps {
+  Icon: React.FC | string;
+  title: string;
+  description: string;
+  month: number;
+  idx: number;
+  handleMonthClick: (month: number) => void;
+}
+
+export default function Card({ Icon, title, description, month, idx, handleMonthClick }: CardProps) {
   return (
-    <div className={cx('card', 'd-flex flex-column w-100')} onClick={() => handleMonthClick(Number(idx))}>
+    <div className={cx('card', 'd-flex flex-column')} onClick={() => handleMonthClick(Number(idx))}>
       <div
         className={cx(
           'cardContent',
           'd-flex flex-column justify-content-center',
           `${month === Number(idx) && 'selected'}`,
-        )}
-      >
+        )}>
         <div className={cx('icon')}>
           <Icon />
         </div>

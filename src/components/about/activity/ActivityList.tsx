@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Activity.module.scss';
 
-import ActivityItem from './ActivityItem';
 import { ACTIVITY_DATA } from '../../../utilities/AboutData';
+import ActivityItem from './ActivityItem';
 
 const cx = classNames.bind(styles);
 
@@ -71,15 +71,8 @@ export default function ActivityList() {
             animate={visibleItems[idx] ? 'visible' : 'hidden'}
             transition={{ duration: 0.85 }}
             variants={itemAnimation}
-            style={customStyle}
-          >
-            <ActivityItem
-              idx={idx}
-              imgSrc={item.imgSrc}
-              title={item.title}
-              title_en={item.title_en}
-              description={item.description}
-            />
+            style={customStyle}>
+            <ActivityItem idx={idx} imgSrc={item.imgSrc} title={item.title} title_en={item.title_en} />
           </motion.div>
         );
       })}
