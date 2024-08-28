@@ -1,7 +1,7 @@
 @import '../../../src/style/breakpoints';
 
 .informationContainer {
-  width: 100%; /* 기본값 설정 */
+  width: 100%;
 
   @media (min-width: $breakpoint-sm) {
     width: 30rem;
@@ -48,14 +48,55 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-100);
-  width: 33rem;
+
+  width: 100%;
+
+  @media (min-width: $breakpoint-sm) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    width: 33rem;
+  }
+
+  @media (min-width: $breakpoint-xxl) {
+    width: 33rem;
+  }
 }
 
 .inputRow {
   display: flex;
   flex-direction: row;
   gap: var(--space-100);
-  width: 33rem;
+  width: 100%;
+
+  @media (min-width: $breakpoint-sm) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    width: 33rem;
+  }
+
+  @media (min-width: $breakpoint-xxl) {
+    width: 33rem;
+  }
 }
 
 .errorCircle {
