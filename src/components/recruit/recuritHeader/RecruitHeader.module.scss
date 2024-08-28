@@ -11,37 +11,89 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding-top: var(--space-800);
-  width: 56.4375rem;
+  padding: var(--space-900) 0;
   margin: 0 auto;
 
-  @include container-xl {
-    width: 47rem;
+  @include container-xs {
+    justify-content: center;
+  }
+
+  @include container-md {
+    width: 42.5rem;
+    justify-content: space-between;
+  }
+
+  @include container-lg {
+    width: 56.5rem;
   }
 
   .leftSection {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     justify-content: center;
     height: 100%;
+
+    @include container-xs {
+      align-items: center;
+      padding: var(--space-900) 0rem;
+    }
+
+    @include container-md {
+      align-items: flex-start;
+      padding: 0;
+    }
   }
+
   .rightSection {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     background-color: var(--background-alternative-01);
-    border-radius: var(--space-700);
-    padding: var(--space-800);
+    border-radius: 1.5rem; // GDS와 다름
+    padding: 2rem; // GDS와 다름
+    gap: var(--space-050);
+
+    @include container-xs {
+      display: none;
+    }
+
+    @include container-md {
+      display: flex;
+    }
 
     .dDayText {
       font-size: var(--size-size-600, 48px);
       font-weight: bold;
-      margin-top: var(--space-50);
-      margin-bottom: var(--space-50);
+    }
+  }
+
+  .rightSection_OnlySm {
+    flex-direction: column;
+    align-items: center;
+    margin: var(--space-250) 0rem;
+    padding: var(--space-400);
+    gap: var(--space-050);
+    border-radius: 1.5rem;
+    background: var(--background-alternative-01);
+
+    .dDayText {
+      font-size: var(--size-size-600, 3rem);
+      font-weight: 800;
+    }
+
+    @include container-xs {
+      display: flex;
+      width: 20.9375rem;
+    }
+
+    @include container-sm {
+      width: 31.25rem;
+    }
+
+    @include container-md {
+      display: none;
     }
   }
 }
@@ -54,4 +106,48 @@
   gap: var(--space-900);
   height: 3rem;
   margin-top: var(--space-900);
+
+  @include container-xs {
+    margin-top: var(--space-250);
+    width: 100%;
+  }
+
+  @include container-md {
+    margin-top: 2.5rem;
+    width: auto;
+  }
+}
+
+.show-on-md {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-md {
+    display: block;
+  }
+}
+
+.show-on-sm {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-sm {
+    display: block;
+  }
+
+  @include container-md {
+    display: none;
+  }
+}
+
+.show-on-xs {
+  @include container-xs {
+    display: block;
+  }
+
+  @include container-sm {
+    display: none;
+  }
 }

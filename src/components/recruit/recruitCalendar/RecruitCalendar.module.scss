@@ -1,18 +1,13 @@
 @import '../../../style/mixin.scss';
 
 .container {
-  width: 903px;
   display: flex;
   margin: var(--space-800) auto;
-  padding: var(--space-400);
+
   justify-content: space-between;
   align-items: center;
   border-radius: var(--space-250);
   border: 1px solid var(--gray-300);
-
-  @include container-xl {
-    width: 46.875rem;
-  }
 
   @include container-md {
     width: 43rem;
@@ -20,15 +15,26 @@
     padding: var(--space-400) 6.375rem;
     gap: var(--space-300);
   }
+
+  @include container-xl {
+    width: 46.875rem;
+    flex-direction: row;
+    padding: var(--space-400);
+  }
+
+  @include container-xxl {
+    width: 56.4375rem;
+  }
 }
 
 .leftSection {
   display: flex;
-  flex-direction: column;
-  gap: var(--size-600);
-  @include container-md {
-    flex-direction: row;
-    gap: var(--size-200);
+  flex-direction: row;
+  gap: var(--size-200);
+
+  @include container-xl {
+    flex-direction: column;
+    gap: var(--size-600);
   }
 }
 
@@ -51,15 +57,18 @@
 }
 
 .calendarImg {
-  width: 30.1875rem;
-  height: 18.875rem;
-
-  @include container-xl {
-    width: 24.625rem;
-    height: 15.375rem;
+  @include container-md {
+    padding: var(--space-400);
+    width: 30.25rem;
+    height: 18.875rem;
   }
 
-  @include container-md {
+  @include container-lg {
+    width: 24.625rem;
+  }
+
+  @include container-xxl {
+    width: 30.1875rem;
     height: 18.875rem;
   }
 }
