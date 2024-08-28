@@ -33,6 +33,9 @@ export default function information() {
   const [searchValue, setSearchValue] = useState('');
   const UnivArray = Universities.map((item) => ({ name: item.name, link: item.link }));
 
+  const seasonOptions = ['선택 안함', '3기', '2기', '1기'];
+  const partOptions = ['선택 안함', '기획', '디자인', '프론트엔드', '백엔드', 'AI'];
+
   const toggleSeason = (index: number) => {
     setOpenSeasonIndex(openSeasonIndex === index ? null : index);
   };
@@ -43,14 +46,14 @@ export default function information() {
 
   const handleSeasonSelect = (index: number, season: string) => {
     const updatedSelections = [...selections];
-    updatedSelections[index].selectedSeason = season;
+    updatedSelections[index].selectedSeason = season === '선택 안함' ? '선택' : season;
     updatedSelections[index].selectedPart = '선택'; // 기수 변경 시 파트 초기화
     setSelections(updatedSelections);
   };
 
   const handlePartSelect = (index: number, part: string) => {
     const updatedSelections = [...selections];
-    updatedSelections[index].selectedPart = part;
+    updatedSelections[index].selectedPart = part === '선택 안함' ? '선택' : part;
     setSelections(updatedSelections);
   };
 
@@ -155,10 +158,11 @@ export default function information() {
                       {selection.selectedSeason}
                     </DropdownToggle>
                     <DropdownMenu>
-                      <DropdownItem onClick={() => handleSeasonSelect(index, '선택')}>선택 안함</DropdownItem>
-                      <DropdownItem onClick={() => handleSeasonSelect(index, '3기')}>3기</DropdownItem>
-                      <DropdownItem onClick={() => handleSeasonSelect(index, '2기')}>2기</DropdownItem>
-                      <DropdownItem onClick={() => handleSeasonSelect(index, '1기')}>1기</DropdownItem>
+                      {seasonOptions.map((season) => (
+                        <DropdownItem key={season} onClick={() => handleSeasonSelect(index, season)}>
+                          {season}
+                        </DropdownItem>
+                      ))}
                     </DropdownMenu>
                   </Dropdown>
                 </div>
@@ -179,12 +183,11 @@ export default function information() {
                       {selection.selectedPart}
                     </DropdownToggle>
                     <DropdownMenu>
-                      <DropdownItem onClick={() => handlePartSelect(index, '선택')}>선택 안함</DropdownItem>
-                      <DropdownItem onClick={() => handlePartSelect(index, '기획')}>기획</DropdownItem>
-                      <DropdownItem onClick={() => handlePartSelect(index, '디자인')}>디자인</DropdownItem>
-                      <DropdownItem onClick={() => handlePartSelect(index, '프론트엔드')}>프론트엔드</DropdownItem>
-                      <DropdownItem onClick={() => handlePartSelect(index, '백엔드')}>백엔드</DropdownItem>
-                      <DropdownItem onClick={() => handlePartSelect(index, 'AI')}>AI</DropdownItem>
+                      {partOptions.map((part) => (
+                        <DropdownItem key={part} onClick={() => handlePartSelect(index, part)}>
+                          {part}
+                        </DropdownItem>
+                      ))}
                     </DropdownMenu>
                   </Dropdown>
                 </div>
