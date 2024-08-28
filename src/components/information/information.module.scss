@@ -1,5 +1,27 @@
+@import '../../../src/style/breakpoints';
+
 .informationContainer {
-  width: 35rem;
+  width: 100%; /* 기본값 설정 */
+
+  @media (min-width: $breakpoint-sm) {
+    width: 30rem;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    width: 30rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    width: 30rem;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    width: 35rem;
+  }
+
+  @media (min-width: $breakpoint-xxl) {
+    width: 35rem;
+  }
 }
 
 .informationHeader {
@@ -26,10 +48,28 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-100);
-  width: 100%;
+  width: 33rem;
 }
 
 .inputRow {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-100);
+  width: 33rem;
+}
+
+.errorCircle {
+  background-color: transparent;
+  color: var(--gray-500);
+  margin-left: var(--space-050);
+
+  &:hover {
+    background-color: transparent;
+    color: var(--gray-700);
+  }
+}
+
+.errorCircleContainer {
   display: flex;
   flex-direction: row;
   gap: var(--space-100);
@@ -54,6 +94,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-150);
+  width: 33rem;
 }
 
 .checkBoxStyle {

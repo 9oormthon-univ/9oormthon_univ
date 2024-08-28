@@ -1,5 +1,5 @@
 import styles from './information.module.scss';
-import { BackPageIcon, PlusIcon } from '@goorm-dev/gds-icons';
+import { BackPageIcon, PlusIcon, WarningIcon, ErrorCircleIcon } from '@goorm-dev/gds-icons';
 import {
   Text,
   Input,
@@ -9,14 +9,98 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  Alert,
+  ListGroupItem,
+  ListGroup,
 } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
+import Universities from '../../utilities/UnivData';
+
+interface SeasonPartSelection {
+  selectedSeason: string;
+  selectedPart: string;
+}
 
 export default function information() {
-  const [openSeason, setOpenSeason] = useState(false);
-  const [openPart, setOpenPart] = useState(false);
-  const toggleSeason = () => setOpenSeason((prev) => !prev);
-  const togglePart = () => setOpenPart((prev) => !prev);
+  const [openSeasonIndex, setOpenSeasonIndex] = useState<number | null>(null);
+  const [openPartIndex, setOpenPartIndex] = useState<number | null>(null);
+  const [selections, setSelections] = useState<SeasonPartSelection[]>([
+    { selectedSeason: '선택', selectedPart: '선택' },
+  ]);
+  const [name, setName] = useState('');
+  const [univ, setUniv] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState('');
+  const UnivArray = Universities.map((item) => ({ name: item.name, link: item.link }));
+
+  const toggleSeason = (index: number) => {
+    setOpenSeasonIndex(openSeasonIndex === index ? null : index);
+  };
+
+  const togglePart = (index: number) => {
+    setOpenPartIndex(openPartIndex === index ? null : index);
+  };
+
+  const handleSeasonSelect = (index: number, season: string) => {
+    const updatedSelections = [...selections];
+    updatedSelections[index].selectedSeason = season;
+    updatedSelections[index].selectedPart = '선택'; // 기수 변경 시 파트 초기화
+    setSelections(updatedSelections);
+  };
+
+  const handlePartSelect = (index: number, part: string) => {
+    const updatedSelections = [...selections];
+    updatedSelections[index].selectedPart = part;
+    setSelections(updatedSelections);
+  };
+
+  const addSeasonPartSelection = () => {
+    setSelections([...selections, { selectedSeason: '선택', selectedPart: '선택' }]);
+  };
+
+  const removeSeasonPartSelection = (index: number) => {
+    const updatedSelections = selections.filter((_, i) => i !== index);
+    setSelections(updatedSelections);
+  };
+
+  const handleUnivSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleUnivSelect = (name: string) => {
+    setUniv(name);
+    setSearchValue('');
+  };
+
+  const validateForm = () => {
+    if (!name) {
+      setAlertMessage('이름을 입력해주세요');
+      return false;
+    }
+    if (!univ) {
+      setAlertMessage('소속 유니브를 입력해주세요');
+      return false;
+    }
+    if (selections[0].selectedSeason === '선택') {
+      setAlertMessage('기수를 선택해주세요');
+      return false;
+    }
+    if (selections[0].selectedPart === '선택') {
+      setAlertMessage('파트를 선택해주세요');
+      return false;
+    }
+
+    // 모든 필드 채워짐
+    setAlertMessage(null);
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (validateForm()) {
+      console.log('Form submitted');
+      // API 호출
+    }
+  };
 
   return (
     <div className={styles.informationContainer}>
@@ -33,53 +117,86 @@ export default function information() {
             <Text color="text-alternative">이름</Text>
             <Text color="red-500">*</Text>
           </div>
-          <Input size="lg"></Input>
+          <Input value={name} onChange={(e) => setName(e.target.value)} size="lg" />
         </div>
         <div className={styles.inputContent}>
           <div className={styles.inputTitle}>
             <Text color="text-alternative">소속 유니브</Text>
             <Text color="red-500">*</Text>
           </div>
-          <Input size="lg"></Input>
+          <Input onChange={handleUnivSearch} value={searchValue || univ} size="lg" placeholder="대학교 명" />
+          {searchValue !== '' && (
+            <div style={{ marginTop: '0.3rem' }}>
+              <ListGroup>
+                {UnivArray.filter((item) => item.name.includes(searchValue)).map((item) => (
+                  <ListGroupItem key={item.name} action onClick={() => handleUnivSelect(item.name)}>
+                    {item.name}
+                  </ListGroupItem>
+                ))}
+              </ListGroup>
+            </div>
+          )}
         </div>
         <div className={styles.seasonPartContainer}>
-          <div className={styles.inputRow}>
-            <div className={styles.inputContent}>
-              <div className={styles.inputTitle}>
-                <Text color="text-alternative">기수</Text>
-                <Text color="red-500">*</Text>
+          {selections.map((selection, index) => (
+            <div className={styles.errorCircleContainer} key={index}>
+              <div className={styles.inputRow}>
+                <div className={styles.inputContent}>
+                  {index === 0 && (
+                    <div className={styles.inputTitle}>
+                      <Text color="text-alternative">기수</Text>
+                      <Text color="red-500">*</Text>
+                    </div>
+                  )}
+                  <Dropdown isOpen={openSeasonIndex === index} toggle={() => toggleSeason(index)} direction="down">
+                    <DropdownToggle className={styles.toggleStyle} caret size="lg" color="hint">
+                      {selection.selectedSeason}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem onClick={() => handleSeasonSelect(index, '선택')}>선택 안함</DropdownItem>
+                      <DropdownItem onClick={() => handleSeasonSelect(index, '3기')}>3기</DropdownItem>
+                      <DropdownItem onClick={() => handleSeasonSelect(index, '2기')}>2기</DropdownItem>
+                      <DropdownItem onClick={() => handleSeasonSelect(index, '1기')}>1기</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+                <div className={styles.inputContent}>
+                  {index === 0 && (
+                    <div className={styles.inputTitle}>
+                      <Text color="text-alternative">파트</Text>
+                      <Text color="red-500">*</Text>
+                    </div>
+                  )}
+                  <Dropdown isOpen={openPartIndex === index} toggle={() => togglePart(index)} direction="down">
+                    <DropdownToggle
+                      className={styles.toggleStyle}
+                      caret
+                      size="lg"
+                      color="hint"
+                      disabled={selection.selectedSeason === '선택'}>
+                      {selection.selectedPart}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem onClick={() => handlePartSelect(index, '선택')}>선택 안함</DropdownItem>
+                      <DropdownItem onClick={() => handlePartSelect(index, '기획')}>기획</DropdownItem>
+                      <DropdownItem onClick={() => handlePartSelect(index, '디자인')}>디자인</DropdownItem>
+                      <DropdownItem onClick={() => handlePartSelect(index, '프론트엔드')}>프론트엔드</DropdownItem>
+                      <DropdownItem onClick={() => handlePartSelect(index, '백엔드')}>백엔드</DropdownItem>
+                      <DropdownItem onClick={() => handlePartSelect(index, 'AI')}>AI</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
               </div>
-              <Dropdown isOpen={openSeason} toggle={toggleSeason} direction="down">
-                <DropdownToggle className={styles.toggleStyle} caret size="lg" color="hint">
-                  선택
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem>3기</DropdownItem>
-                  <DropdownItem>2기</DropdownItem>
-                  <DropdownItem>1기</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+              {index != 0 && (
+                <Button
+                  className={styles.errorCircle}
+                  icon={ErrorCircleIcon}
+                  onClick={() => removeSeasonPartSelection(index)}
+                  color="hint"></Button>
+              )}
             </div>
-            <div className={styles.inputContent}>
-              <div className={styles.inputTitle}>
-                <Text color="text-alternative">파트</Text>
-                <Text color="red-500">*</Text>
-              </div>
-              <Dropdown isOpen={openPart} toggle={togglePart} direction="down">
-                <DropdownToggle className={styles.toggleStyle} caret size="lg" color="hint">
-                  선택
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem>기획</DropdownItem>
-                  <DropdownItem>디자인</DropdownItem>
-                  <DropdownItem>프론트엔드</DropdownItem>
-                  <DropdownItem>백엔드</DropdownItem>
-                  <DropdownItem>AI</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          </div>
-          <Button icon={PlusIcon} block color="link" size="lg" disabled={false}>
+          ))}
+          <Button icon={PlusIcon} block color="link" size="lg" disabled={false} onClick={addSeasonPartSelection}>
             기수/파트 추가
           </Button>
         </div>
@@ -99,7 +216,12 @@ export default function information() {
             상관없이 안내될 수 있습니다.
           </Text>
         </div>
-        <Button className={styles.confirmBtn} size="xl" disabled>
+        {alertMessage && (
+          <Alert size="xl" color="danger" leftIcon={WarningIcon}>
+            {alertMessage}
+          </Alert>
+        )}
+        <Button className={styles.confirmBtn} size="xl" onClick={handleSubmit}>
           회원 가입
         </Button>
       </div>
