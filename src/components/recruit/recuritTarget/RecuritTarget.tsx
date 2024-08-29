@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 function RecuritTarget() {
   return (
     <div className={cx('container')}>
-      <Text as="h2" color="text-normal" typography="heading2" fontWeight="bold">
+      <Text as="h3" color="text-normal" typography="heading3" fontWeight="bold">
         3기 지원 대상
       </Text>
       <div className={cx('bottomSection')}>

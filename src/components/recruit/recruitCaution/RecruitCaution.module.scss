@@ -24,12 +24,12 @@
 
 .cardLayout {
   display: flex;
-  width: 444px;
+  width: 27.25rem;
   padding: var(--space-300);
   justify-content: space-between;
   align-items: flex-start;
   border-radius: var(--space-200);
-  background: var(--gray-050);
+  background: var(--background-alternative-01);
 
   &.widthFull {
     width: 100%;
