@@ -14,6 +14,14 @@
   align-items: center;
   gap: var(--space-200);
   align-self: stretch;
+
+  @include container-xs {
+    flex-direction: column;
+  }
+
+  @include container-lg {
+    flex-direction: row;
+  }
 }
 
 .textLayout {
@@ -24,22 +32,43 @@
 
 .cardLayout {
   display: flex;
-  width: 27.25rem;
   padding: var(--space-300);
   justify-content: space-between;
   align-items: flex-start;
   border-radius: var(--space-200);
   background: var(--background-alternative-01);
 
+  @include container-xs {
+    width: 21.5rem;
+  }
+
+  @include container-sm {
+    width: 27.75rem;
+  }
+
   &.widthFull {
-    width: 100%;
     margin-top: var(--space-200);
+
+    @include container-md {
+      width: 27.75rem;
+    }
+
+    @include container-lg {
+      width: 100%;
+    }
   }
 }
 
 .img {
-  width: 10.625rem;
-  height: 7.75rem;
+  @include container-xs {
+    width: 8.5rem;
+    height: 6.25rem;
+  }
+
+  @include container-sm {
+    width: 10.625rem;
+    height: 7.75rem;
+  }
 }
 
 .cardTitleText {
@@ -60,8 +89,35 @@
 
 .button {
   height: 2.5rem;
-
   padding: 0.5625rem 1rem;
-
   gap: 0.625rem;
+}
+
+.show-on-lg {
+  @include container-xs {
+    display: none;
+  }
+  @include container-lg {
+    display: block;
+  }
+}
+
+.show-on-xs {
+  @include container-xs {
+    display: block;
+  }
+
+  @include container-sm {
+    display: none;
+  }
+}
+
+.show-on-sm {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-sm {
+    display: block;
+  }
 }
