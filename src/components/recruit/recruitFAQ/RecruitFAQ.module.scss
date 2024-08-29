@@ -1,0 +1,46 @@
+@import '../../../style/mixin.scss';
+
+.container {
+  display: flex;
+  width: 100vw;
+  padding: 7.5rem 0rem;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--background-alternative-01);
+}
+
+.titleText {
+  width: 56.4375rem;
+  text-align: left;
+}
+
+.FAQWrapper {
+  width: 56.4375rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.questionWrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-150);
+}
+
+.listWrapper {
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--space-300) 0;
+}
+
+.icon-right {
+  margin-left: auto;
+}
+
+.answerText {
+  padding-top: var(--space-200);
+  padding-left: var(--space-400);
+}

@@ -1,4 +1,10 @@
-const FAQData = [
+export interface FAQItem {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+const FAQData: FAQItem[] = [
   {
     id: 2,
     question: '유니브 대표는 중앙 활동(해커톤) 참여가 불가능한가요?',
