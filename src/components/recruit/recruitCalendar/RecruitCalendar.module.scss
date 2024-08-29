@@ -2,12 +2,28 @@
 
 .container {
   display: flex;
-  width: 56.5rem;
   padding: 7.5rem 0;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-200);
+
   margin: 0 auto;
+
+  @include container-xs {
+    width: 23.4375rem;
+    align-items: center;
+    gap: var(--space-250);
+  }
+
+  @include container-sm {
+    width: 24.625rem;
+    align-items: center;
+    gap: var(--space-300);
+  }
+
+  @include container-lg {
+    width: 56.5rem;
+    align-items: flex-start;
+    gap: var(--space-200);
+  }
 }
 
 .wrapper {
@@ -15,15 +31,43 @@
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+
+  @include container-xs {
+    flex-direction: column;
+    gap: var(--space-250);
+  }
+
+  @include container-lg {
+    flex-direction: row;
+    gap: 0;
+  }
 }
 
 .leftSection {
-  height: 15.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: var(--space-300) 0 var(--space-200) var(--space-250);
-  border-left: 0.0625rem solid var(--border-color);
+
+  @include container-xs {
+    width: 20.9375rem;
+    border-top: 0.0625rem solid var(--border-color);
+    padding: var(--space-300) 0;
+  }
+
+  @include container-sm {
+    width: 100%;
+    height: auto;
+    border-left: 0;
+    padding: var(--space-250) 0;
+  }
+
+  @include container-lg {
+    width: auto;
+    height: 15.5rem;
+    border-left: 0.0625rem solid var(--border-color);
+    border-top: 0;
+    padding: var(--space-300) 0 var(--space-200) var(--space-250);
+  }
 }
 
 .leftTopSection {
@@ -34,8 +78,20 @@
 
 .leftBottomSection {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-200);
+
+  @include container-xs {
+    flex-direction: column;
+  }
+
+  @include container-sm {
+    flex-direction: row;
+    gap: 0.4375rem;
+  }
+
+  @include container-lg {
+    flex-direction: column;
+    gap: var(--space-200);
+  }
 }
 
 .scheduleDiv {
@@ -45,6 +101,62 @@
 }
 
 .calendarImg {
-  width: 32.5rem;
-  height: 20rem;
+  @include container-xs {
+    width: 20.9375rem;
+    height: 13.125rem;
+  }
+
+  @include container-sm {
+    width: 24.625rem;
+    height: 15.375rem;
+  }
+
+  @include container-lg {
+    width: 32.5rem;
+    height: 20rem;
+  }
+}
+
+.sm-Schedule {
+  display: flex;
+  flex-direction: column;
+
+  @include container-sm {
+    gap: 0.3125rem;
+  }
+}
+
+.show-on-lg {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-lg {
+    display: block;
+  }
+}
+
+.show-on-md {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-sm {
+    display: block;
+    margin-top: var(--space-250);
+    text-align: center;
+  }
+  @include container-lg {
+    display: none;
+  }
+}
+
+.show-on-xs {
+  @include container-xs {
+    display: block;
+    margin-top: var(--space-300);
+  }
+  @include container-sm {
+    display: none;
+  }
 }
