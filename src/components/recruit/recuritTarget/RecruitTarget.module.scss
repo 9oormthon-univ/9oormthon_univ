@@ -1,36 +1,85 @@
 @import '../../../style/mixin.scss';
 
 .container {
-  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-300);
   padding: 6.25rem 0rem;
   background: var(--gray-050);
+
+  @include container-xs {
+    width: auto;
+  }
+
+  @include container-lg {
+    width: 100vw;
+  }
 }
 
 .bottomSection {
   display: flex;
   align-items: center;
   gap: var(--space-250);
+
+  @include container-xs {
+    flex-direction: column;
+  }
+
+  @include container-lg {
+    flex-direction: row;
+  }
 }
 
 .targetBox {
   display: flex;
   padding: var(--space-400);
-  flex-direction: column;
+
   justify-content: center;
   align-items: center;
-  gap: var(--space-150);
+
   border-radius: var(--space-200);
   border: 1px solid var(--gray-300);
   background: var(--background-normal);
+
+  @include container-xs {
+    flex-direction: row;
+    gap: var(--space-250);
+    border-radius: var(--space-250);
+  }
+
+  @include container-lg {
+    flex-direction: column;
+    gap: var(--space-150);
+  }
 }
 
-.contentsText {
+.show-on-lg {
   width: 13.9375rem;
   text-align: center;
   line-height: 1.875rem; /* 150% */
   letter-spacing: -0.0125rem;
+
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-lg {
+    display: block;
+  }
+}
+
+.show-on-md {
+  width: 13.9375rem;
+  text-align: left;
+  line-height: 1.875rem; /* 150% */
+  letter-spacing: -0.0125rem;
+
+  @include container-xs {
+    display: block;
+  }
+
+  @include container-lg {
+    display: none;
+  }
 }
