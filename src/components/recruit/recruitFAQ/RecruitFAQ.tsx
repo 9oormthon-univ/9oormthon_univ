@@ -36,7 +36,20 @@ const RecuritFAQ: React.FC = () => {
               <Text as="h5" color="text-alternative" typography="heading5" fontWeight="bold">
                 Q.
               </Text>
-              <Text as="h5" color="text-alternative" typography="heading5" fontWeight="bold">
+              <Text
+                className={cx('show-in-sm')}
+                as="h5"
+                color="text-alternative"
+                typography="heading5"
+                fontWeight="bold">
+                {question}
+              </Text>
+              <Text
+                className={cx('show-in-xs')}
+                as="h6"
+                color="text-alternative"
+                typography="heading6"
+                fontWeight="medium">
                 {question}
               </Text>
 

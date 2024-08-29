@@ -10,18 +10,57 @@
   align-items: center;
   gap: 1.5rem;
   background: var(--background-alternative-01);
+
+  @include container-xs {
+    width: auto;
+  }
+
+  @include container-lg {
+    width: 100vw;
+  }
 }
 
 .titleText {
-  width: 56.4375rem;
-  text-align: left;
+  @include container-xs {
+    width: 20.9375rem;
+    text-align: left;
+  }
+
+  @include container-sm {
+    width: 31.25rem;
+    text-align: center;
+  }
+
+  @include container-md {
+    width: 42.5rem;
+    text-align: left;
+  }
+
+  @include container-lg {
+    width: 56.4375rem;
+  }
 }
 
 .FAQWrapper {
-  width: 56.4375rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  @include container-xs {
+    width: 20.9375rem;
+  }
+
+  @include container-sm {
+    width: 31.25rem;
+  }
+
+  @include container-md {
+    width: 42.5rem;
+  }
+
+  @include container-lg {
+    width: 56.4375rem;
+  }
 }
 
 .questionWrapper {
@@ -43,4 +82,24 @@
 .answerText {
   padding-top: var(--space-200);
   padding-left: var(--space-400);
+}
+
+.show-in-sm {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-sm {
+    display: block;
+  }
+}
+
+.show-in-xs {
+  @include container-xs {
+    display: block;
+  }
+
+  @include container-sm {
+    display: none;
+  }
 }
