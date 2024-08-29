@@ -1,0 +1,41 @@
+.projectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-250);
+}
+
+.divider {
+  width: 100%;
+  border-bottom: 1px solid var(--gray-300);
+  margin-top: var(--space-400);
+  margin-top: var(--space-400);
+}
+
+.projectRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-175);
+}
+
+.projcetColumn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-150);
+}
+
+.projectContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+}
+
+.cardImg {
+  position: relative;
+  width: 17rem;
+  height: 9.5rem;
+  object-fit: cover;
+  background-color: var(--gray-200);
+  border-radius: 0.6rem;
+}
