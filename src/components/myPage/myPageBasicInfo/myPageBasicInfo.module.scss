@@ -1,0 +1,43 @@
+.basicInfoContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: var(--space-300);
+  margin-bottom: var(--space-400);
+  gap: var(--space-500);
+  align-items: center;
+}
+
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-300);
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+  width: 100%;
+}
+
+.infoContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+
+.infoTitle {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-050);
+}
+
+.infoTitleText {
+  font-size: 0.75rem;
+}
+
+.buttonStyle {
+  margin-top: var(--space-100);
+  width: 30%;
+}
