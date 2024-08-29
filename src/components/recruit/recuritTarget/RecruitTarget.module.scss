@@ -1,12 +1,13 @@
 @import '../../../style/mixin.scss';
 
 .container {
-  width: 903px;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-300);
-  margin: var(--space-800) auto;
+  padding: 6.25rem 0rem;
+  background: var(--gray-050);
 }
 
 .bottomSection {
@@ -22,8 +23,9 @@
   justify-content: center;
   align-items: center;
   gap: var(--space-150);
-  border-radius: var(--space-300);
+  border-radius: var(--space-200);
   border: 1px solid var(--gray-300);
+  background: var(--background-normal);
 }
 
 .contentsText {
