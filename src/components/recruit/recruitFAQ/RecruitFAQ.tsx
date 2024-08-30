@@ -1,45 +1,21 @@
-import { Collapse } from '@goorm-dev/gds-components';
 import { ChevronDownIcon, ChevronUpIcon } from '@goorm-dev/gds-icons';
-import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import { Collapse } from '@goorm-dev/gds-components';
+import classNames from 'classnames/bind';
+import styles from './RecruitFAQ.module.scss';
+import { Text } from '@goorm-dev/vapor-components';
 import FAQData from '../../../utilities/FAQData';
-import * as S from './style';
+import React, { useState } from 'react';
 
-function RecuritFAQ() {
-  const [isOpen, setIsOpen] = useState(null);
-  const [visibleBoxes, setVisibleBoxes] = useState({
-    box0: false,
-    box1: false,
-  });
+const cx = classNames.bind(styles);
 
-  const toggle = (id) => {
-    if (isOpen === id) {
-      setIsOpen(null);
-    } else {
-      setIsOpen(id);
-    }
+const RecuritFAQ: React.FC = () => {
+  const [isOpen, setIsOpen] = useState<number | null>(null);
+
+  const toggle = (id: number) => {
+    setIsOpen(isOpen === id ? null : id);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      // 스크롤 위치에 따라 isVisible 상태를 설정
-      setVisibleBoxes({
-        box0: scrollY >= 1450,
-        box1: scrollY >= 1550,
-      });
-    };
-
-    // 스크롤 이벤트 리스너 등록
-    window.addEventListener('scroll', handleScroll);
-
-    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const renderAnswer = (answer) => {
+  const renderAnswer = (answer: string) => {
     return answer.split('\n').map((line, index) => (
       <span key={index}>
         {line}
@@ -49,45 +25,59 @@ function RecuritFAQ() {
   };
 
   return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={visibleBoxes.box0 ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
-        transition={{ duration: 0.85 }}
-      >
-        <S.BodyTitle>자주 묻는 질문</S.BodyTitle>
-      </motion.div>
-
-      <S.RecuritFAQWrapper
-        initial={{ opacity: 0, y: 100 }}
-        animate={visibleBoxes.box1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
-        transition={{ duration: 0.85 }}
-      >
+    <div className={cx('container')}>
+      <Text className={cx('titleText')} as="h3" color="text-normal" typography="heading3" fontWeight="bold">
+        자주 묻는 질문
+      </Text>
+      <div className={cx('FAQWrapper')}>
         {FAQData.map(({ id, question, answer }) => (
-          <S.FAQBox key={id}>
-            <S.QuestionWrapper
-              onClick={() => toggle(id)}
-              className="w-100 d-flex flex-direction-row justify-content-between align-items-center"
-            >
-              <div className="d-flex flex-direction-row" style={{ gap: '0.75rem' }}>
-                <S.QuestionText>Q.</S.QuestionText>
-                <S.QuestionText>{question}</S.QuestionText>
-              </div>
+          <div className={cx('listWrapper')} key={id} onClick={() => toggle(id)}>
+            <div className={cx('questionWrapper')}>
+              <Text as="h5" color="text-alternative" typography="heading5" fontWeight="bold">
+                Q.
+              </Text>
+              <Text
+                className={cx('show-in-sm')}
+                as="h5"
+                color="text-alternative"
+                typography="heading5"
+                fontWeight="bold">
+                {question}
+              </Text>
+              <Text
+                className={cx('show-in-xs')}
+                as="h6"
+                color="text-alternative"
+                typography="heading6"
+                fontWeight="medium">
+                {question}
+              </Text>
 
               {isOpen === id ? (
-                <ChevronUpIcon className="ChevronUpIcon__icon" color="#525463" width="1.5rem" height="1.5rem" />
+                <div className={cx('icon-right')}>
+                  <ChevronUpIcon className="ChevronUpIcon__icon" color="#525463" width="1.5rem" height="1.5rem" />
+                </div>
               ) : (
-                <ChevronDownIcon className="ChevronDownIcon__icon" color="#525463" width="1.5rem" height="1.5rem" />
+                <div className={cx('icon-right')}>
+                  <ChevronDownIcon className="ChevronDownIcon__icon" color="#525463" width="1.5rem" height="1.5rem" />
+                </div>
               )}
-            </S.QuestionWrapper>
+            </div>
             <Collapse isOpen={isOpen === id}>
-              <S.AnswerText>{renderAnswer(answer)}</S.AnswerText>
+              <Text
+                className={cx('answerText')}
+                as="p"
+                color="text-alternative"
+                typography="body1"
+                fontWeight="regular">
+                {renderAnswer(answer)}
+              </Text>
             </Collapse>
-          </S.FAQBox>
+          </div>
         ))}
-      </S.RecuritFAQWrapper>
-    </>
+      </div>
+    </div>
   );
-}
+};
 
 export default RecuritFAQ;

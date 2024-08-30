@@ -150,16 +150,44 @@ function RecuritHeader() {
     return (
       <div className={cx('container')}>
         <div className={cx('leftSection')}>
-          <Text className={cx('titleText')} typography="heading1" color="text-normal">
+          <Text className={cx('titleText', 'show-on-md')} as="h1" typography="heading1" color="text-normal">
+            {title}
+          </Text>
+          <Text
+            className={cx('titleText', 'show-on-sm')}
+            as="h2"
+            color="text-normal"
+            typography="heading2"
+            fontWeight="bold">
+            {title}
+          </Text>
+          <Text
+            className={cx('titleText', 'show-on-xs')}
+            as="h3"
+            color="text-normal"
+            typography="heading3"
+            fontWeight="bold">
             {title}
           </Text>
           <Text className={cx('titleTextSmall')} typography="heading6" color="text-hint">
             {subTitle}
           </Text>
+          <div className={cx('rightSection_OnlySm')}>
+            <Text typography="heading4" color="text-alternative">
+              {rightTitle}
+            </Text>
+            <Text className={cx('dDayText')} color="text-alternative">
+              {dDayText}
+            </Text>
+            <Text typography="heading6" color="text-hint">
+              {rightSubtitle}
+            </Text>
+          </div>
           <Button className={cx('goormBtn')} onClick={handleButtonClick}>
             {button}
           </Button>
         </div>
+
         <div className={cx('rightSection')}>
           <Text typography="heading4" color="text-alternative">
             {rightTitle}

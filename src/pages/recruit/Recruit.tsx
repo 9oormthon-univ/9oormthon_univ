@@ -11,10 +11,11 @@ export default function Recruit() {
       <RecuritHeader />
       <div className="container d-flex flex-column justify-content-center align-items-center ">
         <div className={styles.RecuritBody}>
-          {/* ---------------- 지원 대상 ---------------- */}
-          <RecuritTarget />
           {/* ---------------- 모집일정 ---------------- */}
           <RecuritCalendar />
+          {/* ---------------- 지원 대상 ---------------- */}
+          <RecuritTarget />
+
           {/* ---------------- 유의 사항 ---------------- */}
           <div className={styles.RecuritCautionWrapper}>
             <RecruitCaution />

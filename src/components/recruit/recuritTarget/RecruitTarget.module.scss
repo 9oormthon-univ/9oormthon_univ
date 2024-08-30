@@ -1,53 +1,85 @@
 @import '../../../style/mixin.scss';
 
 .container {
-  width: 903px; // 고정된 컴포넌트 크기
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-300);
-  margin: var(--space-800) auto;
-}
+  padding: 6.25rem 0rem;
+  background: var(--gray-050);
 
-.titleText {
-  /* KOR/H2ㅣ2rem */
-  font-family: Pretendard;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 48px; /* 150% */
-  letter-spacing: -0.4px;
+  @include container-xs {
+    width: auto;
+  }
+
+  @include container-lg {
+    width: 100vw;
+  }
 }
 
 .bottomSection {
   display: flex;
   align-items: center;
   gap: var(--space-250);
-  align-self: stretch;
+
+  @include container-xs {
+    flex-direction: column;
+  }
+
+  @include container-lg {
+    flex-direction: row;
+  }
 }
 
 .targetBox {
   display: flex;
   padding: var(--space-400);
-  flex-direction: column;
+
   justify-content: center;
   align-items: center;
-  gap: var(--space-150);
-  border-radius: var(--space-300);
+
+  border-radius: var(--space-200);
   border: 1px solid var(--gray-300);
+  background: var(--background-normal);
+
+  @include container-xs {
+    flex-direction: row;
+    gap: var(--space-250);
+    border-radius: var(--space-250);
+  }
+
+  @include container-lg {
+    flex-direction: column;
+    gap: var(--space-150);
+  }
 }
 
-.contentsText {
-  color: var(--gray-700);
+.show-on-lg {
+  width: 13.9375rem;
   text-align: center;
-  font-feature-settings: 'liga' off, 'clig' off;
+  line-height: 1.875rem; /* 150% */
+  letter-spacing: -0.0125rem;
 
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 30px; /* 150% */
-  letter-spacing: -0.2px;
+  @include container-xs {
+    display: none;
+  }
 
-  width: 223px;
+  @include container-lg {
+    display: block;
+  }
+}
+
+.show-on-md {
+  width: 13.9375rem;
+  text-align: left;
+  line-height: 1.875rem; /* 150% */
+  letter-spacing: -0.0125rem;
+
+  @include container-xs {
+    display: block;
+  }
+
+  @include container-lg {
+    display: none;
+  }
 }
