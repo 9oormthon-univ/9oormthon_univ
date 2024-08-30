@@ -14,6 +14,8 @@ import {
   ListGroup,
 } from '@goorm-dev/vapor-components';
 import { BackPageIcon, PlusIcon, WarningIcon, ErrorCircleIcon } from '@goorm-dev/gds-icons';
+import errorCircleIcon from '../../../assets/svgs/ErrorCircleIcon.svg';
+
 interface SeasonPartSelection {
   selectedSeason: string;
   selectedPart: string;
@@ -106,6 +108,7 @@ export default function MyPageDetailedInfo() {
               </DropdownMenu>
             </Dropdown>
           </div>
+          <img src={errorCircleIcon} alt="Error Circle Icon" />
         </div>
         <Button icon={PlusIcon} size="lg" color="hint" onClick={addSeasonPartSelection}>
           기수/파트 추가

@@ -33,7 +33,7 @@ export default function SignUp() {
       <MyPageBasicInfo />
       <MyPageDetailedInfo />
       <MyPageProject />
-      <Button className={styles.confirmBtn} size="lg">
+      <Button className={styles.confirmBtn} size="lg" disabled>
         변경사항 저장
       </Button>
     </div>
