@@ -40,8 +40,5 @@
   display: flex;
   flex-direction: row;
   gap: var(--space-100);
-}
-
-.dropDownToggle {
-  width: 100%;
+  align-items: center;
 }
