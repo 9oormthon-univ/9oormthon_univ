@@ -15,6 +15,7 @@ import {
 } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import Universities from '../../utilities/UnivData';
+import errorCircleIcon from '../../assets/svgs/ErrorCircleIcon.svg';
 
 interface SeasonPartSelection {
   selectedSeason: string;
@@ -193,11 +194,12 @@ export default function information() {
                 </div>
               </div>
               {index != 0 && (
-                <Button
-                  className={styles.errorCircle}
-                  icon={ErrorCircleIcon}
+                <img
+                  src={errorCircleIcon}
+                  alt="Error Circle Icon"
+                  className={styles.errorCircleIcon}
                   onClick={() => removeSeasonPartSelection(index)}
-                  color="hint"></Button>
+                />
               )}
             </div>
           ))}
