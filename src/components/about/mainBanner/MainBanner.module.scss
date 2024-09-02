@@ -4,12 +4,62 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--gray-950);
+  // NOTE: GDS값 정의 되면 수정 필요
+  background-color: rgba(0, 0, 0, 0.32);
+  position: absolute;
+  width: 100%;
+  height: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.playerUpper {
+  position: relative;
+  width: 100%;
   height: 100vh;
 }
 
+.playerFitter {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.playerWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.thumbnailWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: var(--space-100);
+  position: absolute;
+  right: 60px;
+  bottom: 60px;
+  z-index: 100;
+}
+
 .headerText {
-  margin-top: 8.5rem;
+  position: absolute;
+  top: 7rem;
   gap: 2rem;
 
   & > h3,

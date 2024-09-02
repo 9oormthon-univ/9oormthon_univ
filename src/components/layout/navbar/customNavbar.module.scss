@@ -1,7 +1,7 @@
 .whiteFont {
-  color: white;
+  color: var(--gray-000);
   &:hover {
-    color: white;
+    color: var(--gray-000);
   }
 }
 .grayCircle {
