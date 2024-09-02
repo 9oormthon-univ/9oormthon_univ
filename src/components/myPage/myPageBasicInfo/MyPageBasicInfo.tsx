@@ -12,6 +12,7 @@ interface MyPageBasicInfoProps {
 
 export default function MyPageBasicInfo({ onInfoChange, initialName, initialEmail }: MyPageBasicInfoProps) {
   const [profileImage, setProfileImage] = useState<string>(defaultProfileImage);
+  const [showResetButton, setShowResetButton] = useState<boolean>(false);
   const [name, setName] = useState<string>(initialName);
   const [email, setEmail] = useState<string>(initialEmail);
 
@@ -27,13 +28,54 @@ export default function MyPageBasicInfo({ onInfoChange, initialName, initialEmai
     onInfoChange(name !== initialName || newEmail !== initialEmail);
   };
 
+  const handleProfileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const newProfileImage = reader.result as string;
+        setProfileImage(newProfileImage);
+        setShowResetButton(true);
+        onInfoChange(name !== initialName || email !== initialEmail || newProfileImage !== defaultProfileImage);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const resetProfileImage = () => {
+    setProfileImage(defaultProfileImage);
+    setShowResetButton(false); // 초기화 버튼을 숨깁니다.
+    onInfoChange(name !== initialName || email !== initialEmail || false);
+  };
+
   return (
     <div className={styles.basicInfoContainer}>
       <div className={styles.profileContainer}>
         <img src={profileImage} alt="Profile" />
-        <Button icon={ImageIcon} size="md" color="link">
-          프로필 수정
-        </Button>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleProfileChange}
+          style={{ display: 'none' }}
+          id="profile-upload"
+        />
+        <div className={styles.buttonContainer}>
+          <label htmlFor="profile-upload" className={styles.labelStyle}>
+            <Button
+              className={styles.buttonContainer}
+              icon={ImageIcon}
+              size="md"
+              color="hint"
+              onClick={() => document.getElementById('profile-upload')?.click()}
+              outline>
+              이미지 수정
+            </Button>
+          </label>
+          {showResetButton && (
+            <Button className={styles.buttonContainer} color="link" size="md" outline onClick={resetProfileImage}>
+              이미지 초기화
+            </Button>
+          )}
+        </div>
       </div>
       <div className={styles.infoContainer}>
         <Text typography="heading6">기본 정보</Text>
