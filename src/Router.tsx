@@ -71,7 +71,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'signUp',
+        path: 'login',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <SignUp />
