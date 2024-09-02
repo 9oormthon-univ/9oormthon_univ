@@ -19,53 +19,30 @@ interface Project {
   title: string;
   season: string;
   hackathon: string;
-  image: any;
+  image: string;
 }
 
-export default function MyPageProject({ title, image, season, hackathon }: Project) {
+interface MyPageProjectProps {
+  projects: Project[];
+}
+
+export default function MyPageProject({ projects }: MyPageProjectProps) {
   return (
     <div className={styles.projectContainer}>
       <hr className={styles.divider} />
       <Text typography="heading6">나의 프로젝트</Text>
       <div className={styles.projectRow}>
-        <div className={styles.projcetColumn}>
-          <img className={styles.cardImg} src={image} />
-          <div className={styles.projectContent}>
-            <Text typography="heading5">제목</Text>
-            <Text typography="subtitle2" color="text-hint">
-              2기 / 단풍톤
-            </Text>
+        {projects.map((project, index) => (
+          <div className={styles.projcetColumn} key={index}>
+            <img className={styles.cardImg} src={project.image} alt={project.title} />
+            <div className={styles.projectContent}>
+              <Text typography="heading5">{project.title}</Text>
+              <Text typography="subtitle2" color="text-hint">
+                {project.season} / {project.hackathon}
+              </Text>
+            </div>
           </div>
-        </div>
-        <div className={styles.projcetColumn}>
-          <img className={styles.cardImg} src={image} />
-          <div className={styles.projectContent}>
-            <Text typography="heading5">제목</Text>
-            <Text typography="subtitle2" color="text-hint">
-              2기 / 단풍톤
-            </Text>
-          </div>
-        </div>
-      </div>
-      <div className={styles.projectRow}>
-        <div className={styles.projcetColumn}>
-          <img className={styles.cardImg} src={image} />
-          <div className={styles.projectContent}>
-            <Text typography="heading5">제목</Text>
-            <Text typography="subtitle2" color="text-hint">
-              2기 / 단풍톤
-            </Text>
-          </div>
-        </div>
-        <div className={styles.projcetColumn}>
-          <img className={styles.cardImg} src={image} />
-          <div className={styles.projectContent}>
-            <Text typography="heading5">제목</Text>
-            <Text typography="subtitle2" color="text-hint">
-              2기 / 단풍톤
-            </Text>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
