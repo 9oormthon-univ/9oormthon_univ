@@ -1,5 +1,5 @@
-import { GoormNavbar, Nav, NavItem, NavLink } from '@goorm-dev/gds-components';
-import { SchoolIcon } from '@goorm-dev/gds-icons';
+import { GoormNavbar, Nav, NavItem, NavLink, Button } from '@goorm-dev/gds-components';
+import { SearchIcon, OutIcon } from '@goorm-dev/gds-icons';
 import { useState } from 'react';
 import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';
@@ -8,12 +8,9 @@ import styles from './CustomNavbar.module.scss';
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
   const isAbout = useIsAbout();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
 
   const NAV_ITEMS = [
-    {
-      title: 'About',
-      to: '/',
-    },
     {
       title: 'Project',
       to: '/project',
@@ -21,6 +18,14 @@ function CustomNavbar() {
     {
       title: 'Recruit',
       to: '/recruit',
+    },
+    {
+      title: (
+        <>
+          univ-log <OutIcon className="mx-1" />
+        </>
+      ),
+      to: 'https://9oormthonuniv.tistory.com/',
     },
   ];
 
@@ -36,6 +41,8 @@ function CustomNavbar() {
               <NavLink
                 className={isAbout ? styles.whiteFont : ''}
                 href={_.to}
+                target={_.to.startsWith('http') ? '_blank' : '_self'} // 외부 링크는 새 탭에서 열림
+                rel={_.to.startsWith('http') ? 'noopener noreferrer' : undefined}
                 onClick={() => isOpened && setIsOpened((prev) => !prev)}>
                 {_.title}
               </NavLink>
@@ -49,11 +56,18 @@ function CustomNavbar() {
             className={isAbout ? styles.whiteFont : ''}
             href="/"
             onClick={() => isOpened && setIsOpened((prev) => !prev)}>
-            <SchoolIcon className="mx-1" />
+            <SearchIcon className="mx-1" />
             나의 유니브 찾기
           </NavLink>
 
-          <NavLink className={styles.grayCircle} href="/login"></NavLink>
+          {isLoggedIn ? (
+            <NavLink className={styles.grayCircle} href="/my-page"></NavLink>
+          ) : (
+            <Button className={styles.loginButton} size="lg" href="/login">
+              {' '}
+              로그인
+            </Button>
+          )}
         </Nav>
       </GoormNavbar.Collapse>
 

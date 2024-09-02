@@ -51,12 +51,20 @@ export default function information() {
     updatedSelections[index].selectedSeason = season === '선택 안함' ? '선택' : season;
     updatedSelections[index].selectedPart = '선택'; // 기수 변경 시 파트 초기화
     setSelections(updatedSelections);
+
+    if (season !== '선택' && updatedSelections[index].selectedPart !== '선택') {
+      setFormAlertMessage(null);
+    }
   };
 
   const handlePartSelect = (index: number, part: string) => {
     const updatedSelections = [...selections];
     updatedSelections[index].selectedPart = part === '선택 안함' ? '선택' : part;
     setSelections(updatedSelections);
+
+    if (part !== '선택' && updatedSelections[index].selectedSeason !== '선택') {
+      setFormAlertMessage(null);
+    }
   };
 
   const addSeasonPartSelection = () => {
