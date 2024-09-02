@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './myPageBasicInfo.module.scss';
 import { Text, Input, Button } from '@goorm-dev/vapor-components';
 import { ImageIcon } from '@goorm-dev/gds-icons';
@@ -15,6 +16,7 @@ export default function MyPageBasicInfo({ onInfoChange, initialName, initialEmai
   const [showResetButton, setShowResetButton] = useState<boolean>(false);
   const [name, setName] = useState<string>(initialName);
   const [email, setEmail] = useState<string>(initialEmail);
+  const navigate = useNavigate();
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
@@ -45,6 +47,10 @@ export default function MyPageBasicInfo({ onInfoChange, initialName, initialEmai
     setProfileImage(defaultProfileImage);
     setShowResetButton(false); // 초기화 버튼을 숨깁니다.
     onInfoChange(name !== initialName || email !== initialEmail || false);
+  };
+
+  const handlePasswordChange = () => {
+    navigate('/update-password');
   };
 
   return (
@@ -97,7 +103,7 @@ export default function MyPageBasicInfo({ onInfoChange, initialName, initialEmai
           </div>
           <Input bsSize="lg" value={email} onChange={handleEmailChange}></Input>
         </div>
-        <Button className={styles.buttonStyle} size="md" color="hint">
+        <Button className={styles.buttonStyle} size="md" color="hint" onClick={handlePasswordChange}>
           비밀번호 변경
         </Button>
       </div>
