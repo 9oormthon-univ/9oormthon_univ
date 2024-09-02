@@ -87,7 +87,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'myPage',
+        path: 'my-page',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <MyPage />
@@ -95,7 +95,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'updatePW',
+        path: 'update-password',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <UpdatePW />
