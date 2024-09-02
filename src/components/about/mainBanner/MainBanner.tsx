@@ -8,7 +8,7 @@ import styles from './MainBanner.module.scss';
 
 const cx = classNames.bind(styles);
 
-export default function containerMainBanner() {
+export default function MainBanner() {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -40,7 +40,6 @@ export default function containerMainBanner() {
             muted={muted}
             loop={true}
             controls={false}
-            poster="/src/assets/images/playerThumbnail.png"
             config={{
               attributes: {
                 style: {
@@ -58,7 +57,6 @@ export default function containerMainBanner() {
             </div>
           )}
         </div>
-
         <div className={styles.buttonWrapper}>
           <Button onClick={handleClickPlay} size="lg" color="light">
             {playing ? <PauseIcon /> : <PlayIcon />}
