@@ -13,6 +13,8 @@ const NotFound = lazy(() => import('./pages/errors/NotFound'));
 const SearchUniv = lazy(() => import('./pages/searchUniv/SearchUniv'));
 const SignUp = lazy(() => import('./pages/signUp/SignUp'));
 const Information = lazy(() => import('./pages/information/Information'));
+const MyPage = lazy(() => import('./pages/myPage/MyPage'));
+const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 
 // GoormLoader 컴포넌트에 전달할 props 설정
 const loaderProps: GoormLoaderProps = {
@@ -69,7 +71,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'signUp',
+        path: 'login',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <SignUp />
@@ -81,6 +83,22 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <Information />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'my-page',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <MyPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'update-password',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <UpdatePW />
           </Suspense>
         ),
       },

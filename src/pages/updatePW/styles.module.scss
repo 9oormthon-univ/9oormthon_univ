@@ -1,0 +1,68 @@
+@import '../../../src/style/breakpoints';
+.updatePWContainer {
+  display: flex;
+  flex-direction: column;
+  //   width: 35rem;
+  margin-top: 5rem;
+  margin-bottom: 20rem;
+  gap: var(--space-300);
+  width: 80%;
+
+  @media (min-width: $breakpoint-sm) {
+    width: 30rem;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    width: 30rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    width: 30rem;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    width: 35rem;
+  }
+
+  @media (min-width: $breakpoint-xxl) {
+    width: 35rem;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-100);
+  align-items: center;
+}
+
+.divider {
+  width: 100%;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-300);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+.title {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-050);
+}
+
+.titleText {
+  font-size: 0.75rem;
+}
+
+.confirmBtn {
+  margin-top: var(--space-200);
+  align-self: flex-end;
+}

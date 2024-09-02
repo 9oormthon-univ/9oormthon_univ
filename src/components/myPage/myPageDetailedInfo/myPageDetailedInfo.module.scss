@@ -1,50 +1,19 @@
-@import '../../../src/style/breakpoints';
+@import '../../../../src/style/breakpoints';
 
-.informationContainer {
-  width: 100%;
-
-  @media (min-width: $breakpoint-sm) {
-    width: 30rem;
-  }
-
-  @media (min-width: $breakpoint-md) {
-    width: 30rem;
-  }
-
-  @media (min-width: $breakpoint-lg) {
-    width: 30rem;
-  }
-
-  @media (min-width: $breakpoint-xl) {
-    width: 35rem;
-  }
-
-  @media (min-width: $breakpoint-xxl) {
-    width: 35rem;
-  }
-}
-
-.informationHeader {
+.detailedInfoContainer {
   display: flex;
-  flex-direction: row;
-  gap: var(--space-100);
-  align-items: center;
+  flex-direction: column;
+  gap: var(--space-200);
 }
 
 .divider {
   width: 100%;
   border-bottom: 1px solid var(--gray-300);
-  margin-top: var(--space-300);
-  margin-bottom: var(--space-300);
+  margin-top: var(--space-400);
+  margin-top: var(--space-200);
 }
 
-.inputContainer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-300);
-}
-
-.inputContent {
+.infoContentContainer {
   display: flex;
   flex-direction: column;
   gap: var(--space-100);
@@ -70,6 +39,16 @@
   @media (min-width: $breakpoint-xxl) {
     width: 33rem;
   }
+}
+
+.infoTitle {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-050);
+}
+
+.infoTitleText {
+  font-size: 0.75rem;
 }
 
 .inputRow {
@@ -99,28 +78,11 @@
   }
 }
 
-.errorCircle {
-  background-color: transparent;
-  color: var(--gray-500);
-  margin-left: var(--space-050);
-
-  &:hover {
-    background-color: transparent;
-    color: var(--gray-700);
-  }
-}
-
-.errorCircleContainer {
+.dropDownRow {
+  width: 100%;
   display: flex;
   flex-direction: row;
   gap: var(--space-100);
-}
-
-.inputTitle {
-  display: flex;
-  flex-direction: row;
-  gap: var(--space-050);
-  font-size: 0.75rem;
 }
 
 .toggleStyle {
@@ -131,6 +93,12 @@
   font-weight: 400;
 }
 
+.errorCircleContainer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-100);
+}
+
 .seasonPartContainer {
   display: flex;
   flex-direction: column;
@@ -138,23 +106,38 @@
   width: 33rem;
 }
 
-.checkBoxStyle {
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+}
+
+.inputContent {
   display: flex;
   flex-direction: column;
   gap: var(--space-100);
-  //   width: 100%;
-}
 
-.checkBoxTitle {
-  display: flex;
-  flex-direction: row;
-  gap: var(--space-050);
-  align-items: center;
-}
+  width: 100%;
 
-.confirmBtn {
-  margin-top: var(--space-400);
-  align-self: flex-end;
+  @media (min-width: $breakpoint-sm) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    width: 28rem;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    width: 33rem;
+  }
+
+  @media (min-width: $breakpoint-xxl) {
+    width: 33rem;
+  }
 }
 
 .errorCircleIcon {
