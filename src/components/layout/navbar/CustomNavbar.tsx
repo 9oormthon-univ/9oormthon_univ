@@ -53,7 +53,7 @@ function CustomNavbar() {
             나의 유니브 찾기
           </NavLink>
 
-          <NavLink className={styles.grayCircle} href="/signUp"></NavLink>
+          <NavLink className={styles.grayCircle} href="/login"></NavLink>
         </Nav>
       </GoormNavbar.Collapse>
 
