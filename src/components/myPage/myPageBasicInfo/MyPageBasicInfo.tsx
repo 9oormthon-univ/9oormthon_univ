@@ -1,23 +1,31 @@
 import { ChangeEvent, useState } from 'react';
 import styles from './myPageBasicInfo.module.scss';
-import {
-  Text,
-  Input,
-  Button,
-  Checkbox,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Alert,
-  ListGroupItem,
-  ListGroup,
-} from '@goorm-dev/vapor-components';
+import { Text, Input, Button } from '@goorm-dev/vapor-components';
 import { ImageIcon } from '@goorm-dev/gds-icons';
 import defaultProfileImage from '../../../assets/svgs/defaultProfile.svg';
 
-export default function MyPageBasicInfo() {
+interface MyPageBasicInfoProps {
+  onInfoChange: (changed: boolean) => void;
+  initialName: string;
+  initialEmail: string;
+}
+
+export default function MyPageBasicInfo({ onInfoChange, initialName, initialEmail }: MyPageBasicInfoProps) {
   const [profileImage, setProfileImage] = useState<string>(defaultProfileImage);
+  const [name, setName] = useState<string>(initialName);
+  const [email, setEmail] = useState<string>(initialEmail);
+
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    setName(newName);
+    onInfoChange(newName !== initialName || email !== initialEmail);
+  };
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    onInfoChange(name !== initialName || newEmail !== initialEmail);
+  };
 
   return (
     <div className={styles.basicInfoContainer}>
@@ -36,7 +44,7 @@ export default function MyPageBasicInfo() {
               *
             </Text>
           </div>
-          <Input bsSize="lg"></Input>
+          <Input bsSize="lg" value={name} onChange={handleNameChange}></Input>
         </div>
         <div className={styles.infoContentContainer}>
           <div className={styles.infoTitle}>
@@ -45,7 +53,7 @@ export default function MyPageBasicInfo() {
               *
             </Text>
           </div>
-          <Input bsSize="lg"></Input>
+          <Input bsSize="lg" value={email} onChange={handleEmailChange}></Input>
         </div>
         <Button className={styles.buttonStyle} size="md" color="hint">
           비밀번호 변경
