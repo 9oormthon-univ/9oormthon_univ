@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, ChangeEvent } from 'react';
 import styles from './myPageDetailedInfo.module.scss';
 import {
   Text,
@@ -10,8 +10,9 @@ import {
   DropdownItem,
   ListGroupItem,
   ListGroup,
+  Alert,
 } from '@goorm-dev/vapor-components';
-import { PlusIcon } from '@goorm-dev/gds-icons';
+import { PlusIcon, WarningIcon } from '@goorm-dev/gds-icons';
 import errorCircleIcon from '../../../assets/svgs/ErrorCircleIcon.svg';
 import Universities from '../../../utilities/UnivData';
 
@@ -31,12 +32,22 @@ export default function MyPageDetailedInfo({ onInfoChange, initialUniv, initialS
   const [selections, setSelections] = useState<SeasonPartSelection[]>(initialSelections);
   const [univ, setUniv] = useState<string>(initialUniv);
   const [searchValue, setSearchValue] = useState('');
-  console.log(Universities);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const UnivArray = Universities?.map((item) => ({ name: item.name, link: item.link })) || [];
 
+  const checkForChanges = useCallback(
+    (updatedSelections: SeasonPartSelection[], updatedUniv: string) => {
+      const hasChanges =
+        updatedUniv !== initialUniv || JSON.stringify(updatedSelections) !== JSON.stringify(initialSelections);
+      onInfoChange(hasChanges);
+    },
+    [initialUniv, initialSelections, onInfoChange],
+  );
+
   useEffect(() => {
-    onInfoChange(false);
-  }, [initialUniv, initialSelections]);
+    checkForChanges(selections, univ);
+  }, [selections, univ]);
 
   const seasonOptions = ['선택 안함', '3기', '2기', '1기'];
   const partOptions = ['선택 안함', '기획', '디자인', '프론트엔드', '백엔드', 'AI'];
@@ -65,9 +76,14 @@ export default function MyPageDetailedInfo({ onInfoChange, initialUniv, initialS
   };
 
   const addSeasonPartSelection = () => {
+    const lastSelection = selections[selections.length - 1];
+    if (lastSelection.selectedSeason === '선택' || lastSelection.selectedPart === '선택') {
+      setErrorMessage('기수와 파트를 모두 선택해야 합니다.');
+      setTimeout(() => setErrorMessage(null), 1500);
+      return;
+    }
     const updatedSelections = [...selections, { selectedSeason: '선택', selectedPart: '선택' }];
     setSelections(updatedSelections);
-    checkForChanges(updatedSelections, univ);
   };
 
   const removeSeasonPartSelection = (index: number) => {
@@ -89,11 +105,11 @@ export default function MyPageDetailedInfo({ onInfoChange, initialUniv, initialS
     checkForChanges(selections, name);
   };
 
-  const checkForChanges = (updatedSelections: SeasonPartSelection[], updatedUniv: string) => {
-    const hasChanges =
-      updatedUniv !== initialUniv || JSON.stringify(updatedSelections) !== JSON.stringify(initialSelections);
-    onInfoChange(hasChanges);
-  };
+  // const checkForChanges = (updatedSelections: SeasonPartSelection[], updatedUniv: string) => {
+  //   const hasChanges =
+  //     updatedUniv !== initialUniv || JSON.stringify(updatedSelections) !== JSON.stringify(initialSelections);
+  //   onInfoChange(hasChanges);
+  // };
 
   return (
     <div className={styles.detailedInfoContainer}>
@@ -187,6 +203,11 @@ export default function MyPageDetailedInfo({ onInfoChange, initialUniv, initialS
           <Button icon={PlusIcon} block color="link" size="lg" disabled={false} onClick={addSeasonPartSelection}>
             기수/파트 추가
           </Button>
+          {errorMessage && (
+            <Alert color="danger" leftIcon={WarningIcon}>
+              {errorMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>

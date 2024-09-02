@@ -2,9 +2,9 @@ import MyPageBasicInfo from '../../components/myPage/myPageBasicInfo/MyPageBasic
 import MyPageDetailedInfo from '../../components/myPage/myPageDetailedInfo/MyPageDetailedInfo';
 import MyPageProject from '../../components/myPage/myPageProject/MyPageProject';
 import styles from './styles.module.scss';
-import { BackPageIcon, PlusIcon, WarningIcon, ErrorCircleIcon } from '@goorm-dev/gds-icons';
 import { Text, Button } from '@goorm-dev/vapor-components';
 import { useState, useEffect } from 'react';
+import exampleImg from '../../assets/images/activity_9oorm.png';
 
 interface Project {
   title: string;
@@ -49,30 +49,31 @@ export default function MyPage() {
       title: '프로젝트 A',
       season: '3기',
       hackathon: '단풍톤',
-      image: '/images/projectA.png',
+      image: exampleImg,
     },
     {
       title: '프로젝트 B',
       season: '2기',
       hackathon: '벚꽃톤',
-      image: '/images/projectB.png',
+      image: exampleImg,
     },
     {
       title: '프로젝트 C',
       season: '1기',
       hackathon: '단풍톤',
-      image: '/images/projectC.png',
+      image: exampleImg,
     },
   ];
 
   useEffect(() => {
     setUserData(dummyUserData);
     setProjects(dummyProjects);
+    // fetchProjects();
   }, []);
 
   const handleSave = () => {
-    // 변경사항 저장 로직
-    console.log('변경사항이 저장');
+    // 변경사항 저장
+    console.log('변경사항 저장');
   };
   const isSaveEnabled = isBasicInfoChanged || isDetailedInfoChanged;
   return (
