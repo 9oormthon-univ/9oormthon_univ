@@ -1,70 +1,97 @@
 @import '../../../style/mixin.scss';
 
 .container {
-  width: 903px; // 고정된 컴포넌트 크기
   display: flex;
-  margin: var(--space-800) auto;
-  padding: var(--space-400);
+  padding: 7.5rem 0;
+  flex-direction: column;
+
+  margin: 0 auto;
+
+  @include container-xs {
+    width: 23.4375rem;
+    align-items: center;
+    gap: var(--space-250);
+  }
+
+  @include container-sm {
+    width: 24.625rem;
+    align-items: center;
+    gap: var(--space-300);
+  }
+
+  @include container-lg {
+    width: 56.5rem;
+    align-items: flex-start;
+    gap: var(--space-200);
+  }
+}
+
+.wrapper {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: var(--space-250);
-  border: 1px solid var(--gray-300);
+  align-self: stretch;
+
+  @include container-xs {
+    flex-direction: column;
+    gap: var(--space-250);
+  }
+
+  @include container-lg {
+    flex-direction: row;
+    gap: 0;
+  }
 }
 
 .leftSection {
   display: flex;
-  width: 245px;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--size-600);
+  justify-content: space-between;
+
+  @include container-xs {
+    width: 20.9375rem;
+    border-top: 0.0625rem solid var(--border-color);
+    padding: var(--space-300) 0;
+  }
+
+  @include container-sm {
+    width: 100%;
+    height: auto;
+    border-left: 0;
+    padding: var(--space-250) 0;
+  }
+
+  @include container-lg {
+    width: auto;
+    height: 15.5rem;
+    border-left: 0.0625rem solid var(--border-color);
+    border-top: 0;
+    padding: var(--space-300) 0 var(--space-200) var(--space-250);
+  }
 }
 
-.titleText {
-  color: var(--gray-900);
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: Pretendard;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 48px; /* 150% */
-  letter-spacing: -0.4px;
+.leftTopSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-100);
 }
 
-.subTitleText {
-  color: var(--text-hint-alternative);
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 22px; /* 157.143% */
-  letter-spacing: -0.1px;
-}
+.leftBottomSection {
+  display: flex;
 
-.bigText {
-  color: var(--gray-700);
-  font-feature-settings: 'liga' off, 'clig' off;
+  @include container-xs {
+    flex-direction: column;
+  }
 
-  /* KOR/heading5ㅣ1.125rem */
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 26px; /* 144.444% */
-  letter-spacing: -0.1px;
-}
+  @include container-sm {
+    flex-direction: row;
+    gap: 0.4375rem;
+  }
 
-.smallText {
-  color: var(--gray-600);
-  font-feature-settings: 'liga' off, 'clig' off;
-
-  /* KOR/heading6ㅣ1rem */
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px; /* 150% */
-  letter-spacing: -0.1px;
+  @include container-lg {
+    flex-direction: column;
+    gap: var(--space-200);
+  }
 }
 
 .scheduleDiv {
@@ -74,6 +101,62 @@
 }
 
 .calendarImg {
-  width: 483px;
-  height: 302px;
+  @include container-xs {
+    width: 20.9375rem;
+    height: 13.125rem;
+  }
+
+  @include container-sm {
+    width: 24.625rem;
+    height: 15.375rem;
+  }
+
+  @include container-lg {
+    width: 32.5rem;
+    height: 20rem;
+  }
+}
+
+.sm-Schedule {
+  display: flex;
+  flex-direction: column;
+
+  @include container-sm {
+    gap: 0.3125rem;
+  }
+}
+
+.show-on-lg {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-lg {
+    display: block;
+  }
+}
+
+.show-on-md {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-sm {
+    display: block;
+    margin-top: var(--space-250);
+    text-align: center;
+  }
+  @include container-lg {
+    display: none;
+  }
+}
+
+.show-on-xs {
+  @include container-xs {
+    display: block;
+    margin-top: var(--space-300);
+  }
+  @include container-sm {
+    display: none;
+  }
 }
