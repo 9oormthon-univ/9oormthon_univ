@@ -1,12 +1,11 @@
 @import '../../../../style/mixin.scss';
 
 .benefitDesktop {
-  z-index: 1;
-
-  background-color: #fff;
+  background-color: var(--gray-000);
   display: flex;
   justify-content: center;
-  margin: 15rem;
+  padding: 15rem;
+  position: relative;
 }
 
 .benefitLink {
@@ -33,7 +32,7 @@
   border-radius: 50%;
   background-color: var(--gray-400-transparent-24);
   transform: scaleX(-1);
-  margin-left: 1rem;
+  padding-left: 1rem;
 }
 
 .motionContainer {

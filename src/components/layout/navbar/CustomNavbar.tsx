@@ -31,8 +31,8 @@ function CustomNavbar() {
       </GoormNavbar.Brand>
       <GoormNavbar.Collapse isOpened={isOpened} className="justify-content-start">
         <Nav pills>
-          {NAV_ITEMS.map((_) => (
-            <NavItem>
+          {NAV_ITEMS.map((_, index) => (
+            <NavItem key={index}>
               <NavLink
                 className={isAbout ? styles.whiteFont : ''}
                 href={_.to}
