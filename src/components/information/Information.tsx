@@ -30,7 +30,8 @@ export default function information() {
   ]);
   const [name, setName] = useState('');
   const [univ, setUniv] = useState('');
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [formAlertMessage, setFormAlertMessage] = useState<string | null>(null);
+  const [addSelectionAlertMessage, setAddSelectionAlertMessage] = useState<string | null>(null);
   const [searchValue, setSearchValue] = useState('');
   const UnivArray = Universities.map((item) => ({ name: item.name, link: item.link }));
 
@@ -59,45 +60,66 @@ export default function information() {
   };
 
   const addSeasonPartSelection = () => {
+    const lastSelection = selections[selections.length - 1];
+    if (lastSelection.selectedSeason === '선택' || lastSelection.selectedPart === '선택') {
+      showAddSelectionAlert('기수와 파트를 모두 선택해야 합니다.');
+      return;
+    }
     setSelections([...selections, { selectedSeason: '선택', selectedPart: '선택' }]);
+    setAddSelectionAlertMessage(null); // 기수/파트 추가 시 관련 alert 초기화
+  };
+
+  const showAddSelectionAlert = (message: string) => {
+    setAddSelectionAlertMessage(message);
+    setTimeout(() => setAddSelectionAlertMessage(null), 1500);
   };
 
   const removeSeasonPartSelection = (index: number) => {
     const updatedSelections = selections.filter((_, i) => i !== index);
     setSelections(updatedSelections);
   };
-
   const handleUnivSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
     setUniv(e.target.value);
+    if (e.target.value && UnivArray.some((univItem) => univItem.name === e.target.value)) {
+      setFormAlertMessage(null);
+    }
   };
 
   const handleUnivSelect = (name: string) => {
     setUniv(name);
     setSearchValue('');
+    setFormAlertMessage(null);
+  };
+
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    if (e.target.value) {
+      setFormAlertMessage(null);
+    }
   };
 
   const validateForm = () => {
     if (!name) {
-      setAlertMessage('이름을 입력해주세요');
+      setFormAlertMessage('이름을 입력해주세요');
       return false;
     }
     if (!univ || !UnivArray.some((univItem) => univItem.name === univ)) {
-      setAlertMessage('소속 유니브가 올바른지 확인해주세요.');
+      setFormAlertMessage('소속 유니브가 올바른지 확인해주세요.');
       return false;
     }
 
     if (selections[0].selectedSeason === '선택') {
-      setAlertMessage('기수를 선택해주세요');
+      setFormAlertMessage('기수를 선택해주세요');
       return false;
     }
     if (selections[0].selectedPart === '선택') {
-      setAlertMessage('파트를 선택해주세요');
+      setFormAlertMessage('파트를 선택해주세요');
       return false;
     }
 
     // 모든 필드 채워짐
-    setAlertMessage(null);
+    setFormAlertMessage(null);
     return true;
   };
 
@@ -123,7 +145,7 @@ export default function information() {
             <Text color="text-alternative">이름</Text>
             <Text color="red-500">*</Text>
           </div>
-          <Input value={name} onChange={(e) => setName(e.target.value)} size="lg" />
+          <Input value={name} onChange={handleNameChange} size="lg" />
         </div>
         <div className={styles.inputContent}>
           <div className={styles.inputTitle}>
@@ -206,6 +228,11 @@ export default function information() {
           <Button icon={PlusIcon} block color="link" size="lg" disabled={false} onClick={addSeasonPartSelection}>
             기수/파트 추가
           </Button>
+          {addSelectionAlertMessage && (
+            <Alert size="lg" color="danger" leftIcon={WarningIcon}>
+              {addSelectionAlertMessage}
+            </Alert>
+          )}
         </div>
         <div className={styles.checkBoxStyle}>
           <div className={styles.checkBoxTitle}>
@@ -223,9 +250,9 @@ export default function information() {
             상관없이 안내될 수 있습니다.
           </Text>
         </div>
-        {alertMessage && (
+        {formAlertMessage && (
           <Alert size="xl" color="danger" leftIcon={WarningIcon}>
-            {alertMessage}
+            {formAlertMessage}
           </Alert>
         )}
         <Button className={styles.confirmBtn} size="xl" onClick={handleSubmit}>
