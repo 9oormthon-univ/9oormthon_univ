@@ -1,3 +1,5 @@
+@import '../../style/mixin.scss';
+
 .signUpCardContainer {
   display: flex;
   flex-direction: column;
@@ -6,6 +8,21 @@
   padding: var(--space-700) var(--space-900) var(--space-600) var(--space-900);
   background-color: var(--background-alternative-01);
   border-radius: var(--space-250);
+
+  @include container-xs {
+    background-color: white;
+  }
+
+  @include container-sm {
+    background-color: white;
+  }
+  @include container-md {
+    background-color: var(--background-alternative-01);
+  }
+
+  @include container-lg {
+    background-color: var(--background-alternative-01);
+  }
 }
 
 .loginContainer {
