@@ -1,9 +1,26 @@
+@import '../../style/mixin.scss';
+
 .MyPageContainer {
   display: flex;
   flex-direction: column;
   width: 35rem;
   margin-top: 5rem;
   margin-bottom: 20rem;
+
+  @include container-xs {
+    width: 21rem;
+  }
+
+  @include container-sm {
+    width: 31rem;
+  }
+  @include container-md {
+    width: 35rem;
+  }
+
+  @include container-lg {
+    width: 35rem;
+  }
 }
 
 .myPageHeader {

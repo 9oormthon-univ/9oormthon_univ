@@ -1,11 +1,53 @@
+@import '../../../style/mixin.scss';
+
 .basicInfoContainer {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin-top: var(--space-300);
-  margin-bottom: var(--space-400);
-  gap: var(--space-500);
-  align-items: center;
+  //   display: flex;
+  //   flex-direction: row;
+  //   width: 100%;
+  //   margin-top: var(--space-300);
+  //   margin-bottom: var(--space-400);
+  //   gap: var(--space-500);
+  //   align-items: center;
+
+  @include container-xs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: var(--space-300);
+    margin-bottom: var(--space-400);
+    gap: var(--space-500);
+    align-items: center;
+  }
+
+  @include container-sm {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: var(--space-300);
+    margin-bottom: var(--space-400);
+    gap: var(--space-500);
+    align-items: center;
+  }
+
+  @include container-md {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: var(--space-300);
+    margin-bottom: var(--space-400);
+    gap: var(--space-500);
+    align-items: center;
+  }
+
+  @include container-lg {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: var(--space-300);
+    margin-bottom: var(--space-400);
+    gap: var(--space-500);
+    align-items: center;
+  }
 }
 
 .profileContainer {
