@@ -93,7 +93,7 @@
   gap: 0.625rem;
 }
 
-.show-on-lg {
+.showOnLg {
   @include container-xs {
     display: none;
   }
@@ -102,7 +102,7 @@
   }
 }
 
-.show-on-xs {
+.showOnXs {
   @include container-xs {
     display: block;
   }
@@ -112,7 +112,7 @@
   }
 }
 
-.show-on-sm {
+.showOnSm {
   @include container-xs {
     display: none;
   }

@@ -1,20 +1,18 @@
 import NotFoundImg from '../../assets/images/img-404-danpung.png';
 import { Text } from '@goorm-dev/vapor-components';
-import classNames from 'classnames/bind';
 import styles from './notFound.module.scss';
 
 export default function NotFound() {
-  const cx = classNames.bind(styles);
   return (
-    <div className={cx('mainContainer')}>
-      <div className={cx('mainWrapper')}>
-        <img className={cx('img')} src={NotFoundImg} alt="단풍 이미지" />
+    <div className={styles.mainContainer}>
+      <div className={styles.mainWrapper}>
+        <img className={styles.img} src={NotFoundImg} alt="단풍 이미지" />
         <Text as="h3" color="text-alternative" isInheritColor={false} typography="heading3" fontWeight="bold">
           페이지를 찾을 수 없습니다.
         </Text>
         <Text
           as="p"
-          className={cx('textAlign')}
+          className={styles.textAlign}
           color="text-normal"
           isInheritColor={false}
           typography="body1"

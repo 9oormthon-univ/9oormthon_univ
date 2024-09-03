@@ -1,12 +1,9 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@goorm-dev/gds-icons';
 import { Collapse } from '@goorm-dev/gds-components';
-import classNames from 'classnames/bind';
 import styles from './RecruitFAQ.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
 import FAQData from '../../../utilities/FAQData';
 import React, { useState } from 'react';
-
-const cx = classNames.bind(styles);
 
 const RecuritFAQ: React.FC = () => {
   const [isOpen, setIsOpen] = useState<number | null>(null);
@@ -25,19 +22,19 @@ const RecuritFAQ: React.FC = () => {
   };
 
   return (
-    <div className={cx('container')}>
-      <Text className={cx('titleText')} as="h3" color="text-normal" typography="heading3" fontWeight="bold">
+    <div className={styles.container}>
+      <Text className={styles.titleText} as="h3" color="text-normal" typography="heading3" fontWeight="bold">
         자주 묻는 질문
       </Text>
-      <div className={cx('FAQWrapper')}>
+      <div className={styles.FAQWrapper}>
         {FAQData.map(({ id, question, answer }) => (
-          <div className={cx('listWrapper')} key={id} onClick={() => toggle(id)}>
-            <div className={cx('questionWrapper')}>
+          <div className={styles.listWrapper} key={id} onClick={() => toggle(id)}>
+            <div className={styles.questionWrapper}>
               <Text as="h5" color="text-alternative" typography="heading5" fontWeight="bold">
                 Q.
               </Text>
               <Text
-                className={cx('show-in-sm')}
+                className={styles.showInSm}
                 as="h5"
                 color="text-alternative"
                 typography="heading5"
@@ -45,7 +42,7 @@ const RecuritFAQ: React.FC = () => {
                 {question}
               </Text>
               <Text
-                className={cx('show-in-xs')}
+                className={styles.showInXs}
                 as="h6"
                 color="text-alternative"
                 typography="heading6"
@@ -54,18 +51,18 @@ const RecuritFAQ: React.FC = () => {
               </Text>
 
               {isOpen === id ? (
-                <div className={cx('icon-right')}>
+                <div className={styles.iconRight}>
                   <ChevronUpIcon className="ChevronUpIcon__icon" color="#525463" width="1.5rem" height="1.5rem" />
                 </div>
               ) : (
-                <div className={cx('icon-right')}>
+                <div className={styles.iconRight}>
                   <ChevronDownIcon className="ChevronDownIcon__icon" color="#525463" width="1.5rem" height="1.5rem" />
                 </div>
               )}
             </div>
             <Collapse isOpen={isOpen === id}>
               <Text
-                className={cx('answerText')}
+                className={styles.answerText}
                 as="p"
                 color="text-alternative"
                 typography="body1"
