@@ -13,7 +13,7 @@ interface CardListUProps {
 
 export default function CardList({ month, handleMonthClick }: CardListUProps) {
   return (
-    <div className={cx('cardList', 'd-flex')}>
+    <div className={cx('cardList')}>
       {TIMELINE_DATA.map((item, index) => (
         <Card
           handleMonthClick={handleMonthClick}
