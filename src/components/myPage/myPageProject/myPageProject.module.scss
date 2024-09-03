@@ -1,3 +1,4 @@
+@import '../../../style/mixin.scss';
 .projectContainer {
   display: flex;
   flex-direction: column;
@@ -11,9 +12,29 @@
 }
 
 .projectRow {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-175);
+  @include container-xs {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--space-400);
+  }
+
+  @include container-sm {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--space-400);
+  }
+
+  @include container-md {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-175);
+  }
+
+  @include container-lg {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-175);
+  }
 }
 
 .projcetColumn {
@@ -29,7 +50,7 @@
 }
 
 .cardImg {
-  width: 100%;
+  width: 17rem;
   height: 9.5rem;
   object-fit: cover;
   background-color: var(--gray-200);
