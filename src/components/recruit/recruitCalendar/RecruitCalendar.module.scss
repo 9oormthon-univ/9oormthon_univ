@@ -117,7 +117,7 @@
   }
 }
 
-.sm-Schedule {
+.smSchedule {
   display: flex;
   flex-direction: column;
 
@@ -126,7 +126,7 @@
   }
 }
 
-.show-on-lg {
+.showOnLg {
   @include container-xs {
     display: none;
   }
@@ -136,7 +136,7 @@
   }
 }
 
-.show-on-md {
+.showOnMd {
   @include container-xs {
     display: none;
   }
@@ -151,7 +151,7 @@
   }
 }
 
-.show-on-xs {
+.showOnXs {
   @include container-xs {
     display: block;
     margin-top: var(--space-300);
