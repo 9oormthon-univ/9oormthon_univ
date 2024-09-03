@@ -3,11 +3,7 @@ import { useRef, useState } from 'react';
 import { BENEFIT_ITEM_DATA } from '../../../../utilities/AboutData';
 import BenefitItem from './BenefitItem';
 
-import classNames from 'classnames/bind';
-
 import styles from './BenefitDesktop.module.scss';
-
-const cx = classNames.bind(styles);
 
 export default function HorizontalScroll() {
   const scrollRef = useRef(null);
@@ -22,14 +18,12 @@ export default function HorizontalScroll() {
   const spring = useSpring(transform, physics);
 
   return (
-    <div className={cx('horizontalScroll')}>
-      <div className={cx('scroll', 'position-sticky')}>
-        <motion.section className={cx('motionContainer')} ref={scrollRef} style={{ x: spring }}>
-          {BENEFIT_ITEM_DATA.map((item) => (
-            <BenefitItem key={item.title} title={item.title} description={item.description} url={item.url} />
-          ))}
-        </motion.section>
-      </div>
+    <div>
+      <motion.section className={styles.motionContainer} ref={scrollRef} style={{ x: spring }}>
+        {BENEFIT_ITEM_DATA.map((item) => (
+          <BenefitItem key={item.title} title={item.title} description={item.description} url={item.url} />
+        ))}
+      </motion.section>
       <div ref={ghostRef} />
     </div>
   );

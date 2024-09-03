@@ -3,18 +3,21 @@ import { useState } from 'react';
 import { CarouselButtonLeft } from '../../../assets/svgs/carouselButtonLeft';
 import { CarouselButtonRight } from '../../../assets/svgs/carouselButtonRight';
 import { allProjects } from '../../../constants/common';
+import useIsMobile from '../../../hooks/useIsMobile';
 import CardProject from '../../project/CardProject';
-import styles from './ProjectCarousel.module.scss';
+import styles from './projectPreview.module.scss';
 
 export default function ProjectCarousel() {
   const [activeIndex, setActiveIndex] = useState(1);
   const [animating, setAnimating] = useState(false);
-  const [currentCarousel, setCurrentCarousel] = useState(1);
+
+  const { isMobile } = useIsMobile();
+  const CardNumber = isMobile ? 1 : 3;
 
   function splitProjects() {
     const result = [];
-    for (let i = 0; i < allProjects.length; i += 3) {
-      result.push(allProjects.slice(i, i + 3));
+    for (let i = 0; i < allProjects.length; i += CardNumber) {
+      result.push(allProjects.slice(i, i + CardNumber));
     }
     return result;
   }
@@ -38,7 +41,7 @@ export default function ProjectCarousel() {
 
   return (
     <div className={styles.container}>
-      <CarouselNew activeIndex={activeIndex} next={next} previous={prev} items={splitProjects()}>
+      <CarouselNew ride activeIndex={activeIndex} next={next} previous={prev} items={splitProjects()}>
         <CarouselNew.Indicator
           outerClassName={styles.hidden}
           itemsLength={splitProjects().length}
@@ -55,8 +58,12 @@ export default function ProjectCarousel() {
           </CarouselItem>
         ))}
         <CarouselNew.Controller prevHandler={next} nextHandler={prev}>
-          <CarouselButtonLeft />
-          <CarouselButtonRight />
+          {!isMobile && (
+            <>
+              <CarouselButtonLeft />
+              <CarouselButtonRight />
+            </>
+          )}
         </CarouselNew.Controller>
       </CarouselNew>
       <Button size="xl">더 많은 프로젝트 보기</Button>

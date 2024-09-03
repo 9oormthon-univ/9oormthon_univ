@@ -1,4 +1,4 @@
-import { GroupIcon, SchoolIcon, LightningIcon, CakeIcon } from '@goorm-dev/gds-icons';
+import { CakeIcon, GroupIcon, LightningIcon, SchoolIcon } from '@goorm-dev/gds-icons';
 import BeotkkotSmall from '../assets/svgs/BeotkkotSmall';
 import Lightbulb from '../assets/svgs/Lightbulb';
 
@@ -10,8 +10,8 @@ import Img5 from '../assets/images/about/activity5.png';
 
 import EduIcon from '../assets/svgs/favicon_edu.svg';
 import ExpIcon from '../assets/svgs/favicon_exp.svg';
-import InflearnIcon from '../assets/svgs/favicon_inflearn.svg';
 import IdeIcon from '../assets/svgs/favicon_ide.svg';
+import InflearnIcon from '../assets/svgs/favicon_inflearn.svg';
 import KakaoIcon from '../assets/svgs/favicon_kakao.svg';
 
 import EduImg from '../assets/svgs/benefit-goormedu.svg';
@@ -48,7 +48,7 @@ export const TIMELINE_DATA = {
   },
   6: {
     Icon: CakeIcon,
-    title: '구름톤 유니브 에프터 파티, 9UAP',
+    title: '구름톤 유니브 애프터 파티, 9UAP',
     description: '해커톤의 여운을 이어갈 수 있도록 현직자와 수상자의 세미나,\n그리고 마무리 회고를 진행해요.',
   },
 };
@@ -84,7 +84,7 @@ export const ACTIVITY_DATA = [
   },
   {
     imgSrc: Img5,
-    title: '에프터파티',
+    title: '애프터파티',
     title_en: '9UAP',
     description:
       '9UAP는 Goormthon Univ After Party의 약자로, 해커톤의 대상 및 최우수 수상자들과 현직 전문가들이 세미나를 진행합니다. 또한 지금까지의 과정을 회고하는 시간을 갖습니다.',

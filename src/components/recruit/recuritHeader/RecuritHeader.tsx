@@ -1,6 +1,6 @@
+import { Button, Text } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Text } from '@goorm-dev/vapor-components';
 import styles from './RecruitHeader.module.scss';
 
 const REP_START_DATE = new Date('2024-08-10T10:00:00');

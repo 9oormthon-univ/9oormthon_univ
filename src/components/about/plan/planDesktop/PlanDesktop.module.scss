@@ -4,9 +4,8 @@
   background-color: var(--gray-000);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   position: relative;
-  padding-right: 17rem;
-  padding-left: 17rem;
 }
 
 .title {
@@ -20,29 +19,35 @@
 }
 
 .timeline {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 3.5rem;
+  width: 100%;
 }
 
 .timelineBar {
   display: flex;
   padding: 0.25rem;
+  border-radius: 0.625rem;
   color: var(--gray-300);
   background: var(--gray-100);
-  margin: 0;
   width: fit-content;
-  border-radius: 0.625rem;
+  margin: 0 auto;
+  margin-bottom: var(--space-300);
 }
 
 .monthTextClickable {
   margin: 0;
   cursor: pointer;
-  padding: 0.875rem 1.5rem;
   border-radius: 0.625rem;
   // 슬라이드 효과 넣기
   // transition: transform 0.3s ease;
+
+  @include container-xs {
+    padding: 0.3rem 0.75rem;
+  }
+
+  @include container-sm {
+    padding: 0.875rem 1.5rem;
+  }
 
   &.active {
     color: var(--gray-800);
@@ -62,23 +67,42 @@
 // card
 
 .cardList {
-  gap: 2.19rem;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  @include container-xs {
+    margin: 0 auto;
+    width: 20.25rem;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @include container-sm {
+    margin: 0 auto;
+    width: 41.25rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include container-lg {
+    grid-template-columns: repeat(3, 1fr);
+    width: 62.325rem;
+  }
+
+  display: grid;
+  gap: var(--space-200);
+  margin: 0 auto;
 }
 
 .card {
-  // flex-grow: 1;
   cursor: pointer;
 }
 
+.cardTitle {
+  margin-bottom: var(--space-200);
+}
+
 .cardContent {
-  width: 20rem;
-  height: 10.375rem;
+  width: 20.125rem;
+  height: 9.75rem;
   background-color: var(--gray-200);
   border-radius: 1rem;
-  padding: 1.25rem 1.25rem 1.5rem 1.25rem;
+  padding: var(--space-250);
 
   & > h4,
   & > p {
@@ -90,22 +114,20 @@
   }
 
   &.selected {
-    background-color: var(--gray-000);
-    border: 2px solid var(--blue-500);
-    & > p,
-    & > h4 {
-      color: var(--gray-900);
+    background-color: var(--blue-050);
+    & > div > span {
+      color: var(--blue-700);
     }
-    & svg > path {
-      fill: var(--gray-900);
+    & svg path:first-child {
+      fill: var(--blue-700);
     }
   }
 }
 
 .icon {
-  color: var(--black);
   margin-bottom: 0.44rem;
   & > svg {
+    color: var(--gray-700);
     width: 1.5rem;
     height: 1.5rem;
   }
@@ -113,9 +135,4 @@
 
 .cardTitle {
   margin-bottom: 1.25rem;
-}
-
-.cardDescription {
-  color: var(--black);
-  white-space: pre-wrap;
 }

@@ -34,12 +34,12 @@ interface TimelineProps {
 
 export default function Timeline({ month, handleMonthClick }: TimelineProps) {
   return (
-    <div className={cx('timeline')}>
-      <figure className={cx('timelineBar')}>
-        {TIMELINE_DATA.map((data, index) => (
-          <div className={cx(`monthTextClickable`, `${Number(index) === month && 'active'}`)}>
-            <Text typography="heading6" key={index} onClick={() => handleMonthClick(Number(index))}>
-              {getMonthText(Number(index))}
+    <div className={styles.timeline}>
+      <figure className={styles.timelineBar}>
+        {TIMELINE_DATA.map((_, index) => (
+          <div className={cx(`monthTextClickable`, `${index === month && 'active'}`)}>
+            <Text typography="heading6" key={index} onClick={() => handleMonthClick(index)}>
+              {getMonthText(index)}
             </Text>
           </div>
         ))}
