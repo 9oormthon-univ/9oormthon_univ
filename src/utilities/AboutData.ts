@@ -1,14 +1,11 @@
 import { CakeIcon, GroupIcon, LightbulbIcon, LightningIcon, SchoolIcon } from '@goorm-dev/gds-icons';
 
+import { DanpoongSmall } from '../assets';
 import Img1 from '../assets/images/about/activity1.png';
 import Img2 from '../assets/images/about/activity2.png';
 import Img4 from '../assets/images/about/activity4.png';
 import UnivInJeju from '../assets/images/activity_9oorm.png';
 import Hackerthon from '../assets/images/activity_hackathon.png';
-
-// import DanpoongIcon from '../assets/svgs/danpoongSmall.svg';
-
-import { DanpoongSmall } from '../assets';
 
 interface timelineDataType {
   Icon: string | React.FC;
@@ -44,7 +41,7 @@ export const TIMELINE_DATA: timelineDataType[] = [
   },
   {
     Icon: CakeIcon,
-    title: '구름톤 유니브 에프터 파티',
+    title: '구름톤 유니브 애프터 파티',
     description: '해커톤의 여운을 이어갈 수 있도록 현직자와 수상자의 세미나,\n그리고 마무리 회고를 진행해요.',
   },
 ];

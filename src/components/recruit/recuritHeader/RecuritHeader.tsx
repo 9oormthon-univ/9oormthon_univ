@@ -1,12 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Spinner } from 'reactstrap';
-import { THIS_SEASON } from '../../../constants/common';
-import RecruitModal from '../recruitModal/RecruitModal';
-import styles from './RecruitHeader.module.scss';
-import classNames from 'classnames/bind';
 import { Button, Text } from '@goorm-dev/vapor-components';
-import { TYPOGRAPHY } from '@goorm-dev/vapor-components/dist/types/src/components/Text/Text.constants';
+import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
+import styles from './RecruitHeader.module.scss';
 
 const cx = classNames.bind(styles);
 
