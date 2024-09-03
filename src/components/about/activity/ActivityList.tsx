@@ -17,7 +17,7 @@ export default function ActivityList() {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
       const isMobile = window.innerWidth <= 768; // 768px 미만을 모바일로 간주
       // 모바일 및 데스크탑 환경에 따른 스크롤 위치 조정
-      const mobileBreakpoints = [5600, 6500, 6700]; // 모바일용 브레이크포인트
+      const mobileBreakpoints = [3400, 3800, 4200]; // 모바일용 브레이크포인트
       const desktopBreakpoints = [3500, 3900, 4200]; // 데스크탑용 브레이크포인트
 
       const newVisibleItems = visibleItems.map((_, idx) => {

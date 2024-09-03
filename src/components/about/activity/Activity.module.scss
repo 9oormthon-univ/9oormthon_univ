@@ -1,37 +1,49 @@
 @import '../../../style/mixin.scss';
 
 .activity {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   background-color: var(--gray-000);
 }
 
 .titleText {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 10.19rem;
-}
-
-.titleTextSmall {
-  text-align: center;
-  margin-top: 10.19rem;
+  gap: var(--space-050);
 }
 
 .activityList {
-  width: 20.5rem;
-  margin-top: 3.94rem;
-  // margin-bottom: 14.81rem;
+  margin-top: var(--space-500);
+  margin-bottom: 15rem;
   gap: 2rem;
   display: flex;
   flex-direction: column;
 
-  @include container-md {
-    width: 43rem;
+  @include container-xs {
+    width: 34.5rem;
+
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @include container-lg {
+    background-color: white;
+    width: 71.125rem;
+    justify-content: center;
+
+    grid-template-columns: 34.5625rem 34.5625rem;
+    grid-template-rows: 24rem 24rem 28rem;
     display: grid;
     grid-template-areas:
       'activity1 activity2'
       'activity3 activity3'
       'activity4 activity5';
-
-    grid-template-columns: 20.5rem 20.5rem;
-    grid-template-rows: 20.25rem 18.625rem 20.25rem;
 
     &::nth-child(1) {
       grid-area: activity1;
@@ -49,33 +61,21 @@
       grid-area: activity5;
     }
   }
-
-  @include container-xl {
-    width: 71.125rem;
-    justify-content: center;
-
-    grid-template-columns: 34.5625rem 34.5625rem;
-    grid-template-rows: 24rem 24rem 28rem;
-  }
 }
 
 .activityItem {
   gap: 1rem;
 
-  &.hackathonItem img {
-    height: 12.125rem;
-  }
-
-  @include container-xl {
+  @include container-xs {
     &.hackathonItem img {
       height: 20rem;
+      object-fit: fill;
     }
   }
 }
 
 .contentBox {
-  // height: 8.75rem;
-  // min-width: 21rem;
+  min-width: 21rem;
 }
 
 .contentTitle {
