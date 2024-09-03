@@ -1,11 +1,34 @@
 @import '../../../../style/mixin.scss';
 
+// BenefitDesktop
+
 .benefitDesktop {
-  background-color: var(--gray-000);
-  display: flex;
-  justify-content: center;
-  padding: 15rem;
   position: relative;
+  background-color: var(--gray-000);
+  padding-top: 15rem;
+}
+
+.benefitTitleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.motionContainer {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 3.69rem;
+
+  @include container-xs {
+    // width: 34.5rem;
+    flex-direction: column;
+    padding: var(--space-500);
+  }
+
+  @include container-lg {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 .benefitLink {
@@ -15,9 +38,17 @@
   background-color: var(--gray-050);
   padding: 1.5rem;
   border-radius: 1.25rem;
+
+  @include container-xs {
+    width: 100%;
+  }
+
+  @include container-lg {
+    width: 20rem;
+  }
 }
 
-.textWrapper {
+.itemTextWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,113 +63,11 @@
   border-radius: 50%;
   background-color: var(--gray-400-transparent-24);
   transform: scaleX(-1);
-  padding-left: 1rem;
-}
 
-.motionContainer {
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
-  gap: 1.5rem;
-
-  > * {
-    flex-grow: 1;
-  }
-}
-// ------
-
-.headerTitle {
-  text-align: start;
-  top: 18%;
-}
-
-.headerTitleSmall {
-  width: 43rem;
-
-  text-align: start;
-  top: 18%;
-}
-
-.scroll {
-  @include container-md {
-    width: 43rem;
-  }
-
-  @include container-xl {
-    width: 71.25rem;
-  }
-
-  margin-top: 3.69rem;
-}
-
-.itemList {
-  margin-top: 3.69rem;
-  & > *:not(:last-child) {
-    margin-right: 2rem;
-  }
-}
-
-.ghost {
-  width: 100vw;
-}
-
-.benefitImgContainer {
-  &.gray800 {
-    background-color: var(--gray-800);
-  }
-  &.gray300 {
-    background-color: var(--gray-300);
-  }
-  &.blue400 {
-    background-color: var(--blue-400);
-  }
-  &.inflearnGreen {
-    background-color: #00cd72;
-  }
-  &.yellow300 {
-    background-color: var(--yellow-300);
-  }
-
-  width: 19rem;
-  height: 13.6rem;
-  border-radius: 1rem 1rem 0rem 0rem;
-}
-
-.benefitImg {
-  width: max-content;
-  height: max-content;
-  transition: transform 0.5s ease-in-out;
   &:hover {
-    transform: scale(1.05);
+    background-color: var(--blue-500);
+    & path {
+      fill: var(--gray-000);
+    }
   }
-}
-
-.benefitContents {
-  background-color: var(--light);
-  border-radius: 0rem 0rem var(--space-500) var(--space-500);
-  border: 1px solid var(--gray-300);
-  width: 19rem;
-
-  padding: 1.25rem;
-}
-
-.benefitText {
-  gap: 0.5rem;
-}
-
-.benefitTitle {
-  text-align: left;
-}
-
-.benefitDescription {
-  color: var(--gray-900);
-
-  text-align: left;
-  white-space: pre-wrap;
-  margin: 0;
-}
-
-.icon {
-  width: var(--size-500);
-  height: var(--size-500);
 }
