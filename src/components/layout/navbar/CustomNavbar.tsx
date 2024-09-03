@@ -64,7 +64,6 @@ function CustomNavbar() {
             <NavLink className={styles.grayCircle} href="/my-page"></NavLink>
           ) : (
             <Button className={styles.loginButton} size="lg" href="/login">
-              {' '}
               로그인
             </Button>
           )}
