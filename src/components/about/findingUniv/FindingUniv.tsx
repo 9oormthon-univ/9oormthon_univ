@@ -6,8 +6,6 @@ import RecruitUnivScrolling from '../../recruit/recruitUnivScrolling/RecruitUniv
 import { Text } from '@goorm-dev/vapor-components';
 import styles from './FindingUniv.module.scss';
 
-const cx = classNames.bind(styles);
-
 const Container = styled.div`
   display: flex;
   overflow-x: hidden;

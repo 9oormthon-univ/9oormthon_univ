@@ -1,26 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Spinner } from 'reactstrap';
-import { THIS_SEASON } from '../../../constants/common';
-import RecruitModal from '../recruitModal/RecruitModal';
-import styles from './RecruitHeader.module.scss';
-import classNames from 'classnames/bind';
 import { Button, Text } from '@goorm-dev/vapor-components';
-import { TYPOGRAPHY } from '@goorm-dev/vapor-components/dist/types/src/components/Text/Text.constants';
-
-const cx = classNames.bind(styles);
+import styles from './RecruitHeader.module.scss';
 
 const REP_START_DATE = new Date('2024-08-10T10:00:00');
 const REP_END_DATE = new Date('2024-08-22T19:00:00');
 const TEAM_START_DATE = new Date('2024-08-01T10:00:00');
 const TEAM_END_DATE = new Date('2024-08-15T10:00:00');
-const REP_START_ONE_WEEK_BEFORE = new Date(REP_START_DATE.getTime() - 7 * 24 * 60 * 60 * 1000); // 대표 모집 시작 일주일 전
-
-const TODAY = new Date();
+const REP_START_ONE_WEEK_BEFORE = new Date(REP_START_DATE.getTime() - 7 * 24 * 60 * 60 * 1000);
 
 function RecuritHeader() {
   const [currentStatus, setCurrentStatus] = useState('');
   const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const navigate = useNavigate();
 
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -74,12 +66,11 @@ function RecuritHeader() {
     }
   }, []);
 
-  // 버튼 클릭시
   const handleButtonClick = () => {
     if (currentStatus === 'afterTeamRecruiting') {
-      window.open('https://forms.gle/8qTowhqD5JptwGUx6', '_blank'); // 사전 알림 구글 폼 링크
+      window.open('https://forms.gle/8qTowhqD5JptwGUx6', '_blank');
     } else {
-      navigate('/about'); // 모집 페이지로 이동
+      navigate('/about');
     }
   };
 
@@ -94,7 +85,6 @@ function RecuritHeader() {
         rightSubtitle: string;
       };
     } = {
-      // 대표 모집 일주일 전
       oneWeekBeforeRepStart: {
         title: '곧 유니브 대표 모집 기간이예요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
@@ -103,8 +93,6 @@ function RecuritHeader() {
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: formatDate(REP_START_DATE),
       },
-
-      // 대표 모집 기간
       repRecruiting: {
         title: '유니브 대표 모집 기간이예요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
@@ -113,8 +101,6 @@ function RecuritHeader() {
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: formatDate(REP_END_DATE),
       },
-
-      // 대표 모집 마감 후, 미르미 모집 시작 전
       afterRepBeforeTeam: {
         title: '곧 미르미 모집 기간이에요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
@@ -123,8 +109,6 @@ function RecuritHeader() {
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: '유니브 별로 일정 상이',
       },
-
-      // 미르미 모집 중
       teamRecruiting: {
         title: '미르미 모집 기간이예요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
@@ -133,8 +117,6 @@ function RecuritHeader() {
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: '유니브 별로 일정 상이',
       },
-
-      // 대표 모집 마감 이후
       afterTeamRecruiting: {
         title: '3기 모집이 완료되었어요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
@@ -148,13 +130,17 @@ function RecuritHeader() {
     const { title, subTitle, button, rightTitle, dDayText, rightSubtitle } = textMapping[currentStatus] || {};
 
     return (
-      <div className={cx('container')}>
-        <div className={cx('leftSection')}>
-          <Text className={cx('titleText', 'show-on-md')} as="h1" typography="heading1" color="text-normal">
+      <div className={styles.container}>
+        <div className={styles.leftSection}>
+          <Text
+            className={`${styles.titleText} ${styles['show-on-md']}`}
+            as="h1"
+            typography="heading1"
+            color="text-normal">
             {title}
           </Text>
           <Text
-            className={cx('titleText', 'show-on-sm')}
+            className={`${styles.titleText} ${styles['show-on-sm']}`}
             as="h2"
             color="text-normal"
             typography="heading2"
@@ -162,37 +148,37 @@ function RecuritHeader() {
             {title}
           </Text>
           <Text
-            className={cx('titleText', 'show-on-xs')}
+            className={`${styles.titleText} ${styles['show-on-xs']}`}
             as="h3"
             color="text-normal"
             typography="heading3"
             fontWeight="bold">
             {title}
           </Text>
-          <Text className={cx('titleTextSmall')} typography="heading6" color="text-hint">
+          <Text className={styles.titleTextSmall} typography="heading6" color="text-hint">
             {subTitle}
           </Text>
-          <div className={cx('rightSection_OnlySm')}>
+          <div className={styles.rightSection_OnlySm}>
             <Text typography="heading4" color="text-alternative">
               {rightTitle}
             </Text>
-            <Text className={cx('dDayText')} color="text-alternative">
+            <Text className={styles.dDayText} color="text-alternative">
               {dDayText}
             </Text>
             <Text typography="heading6" color="text-hint">
               {rightSubtitle}
             </Text>
           </div>
-          <Button className={cx('goormBtn')} onClick={handleButtonClick}>
+          <Button className={styles.goormBtn} onClick={handleButtonClick}>
             {button}
           </Button>
         </div>
 
-        <div className={cx('rightSection')}>
+        <div className={styles.rightSection}>
           <Text typography="heading4" color="text-alternative">
             {rightTitle}
           </Text>
-          <Text className={cx('dDayText')} color="text-alternative">
+          <Text className={styles.dDayText} color="text-alternative">
             {dDayText}
           </Text>
           <Text typography="heading6" color="text-hint">
