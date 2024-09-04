@@ -1,0 +1,27 @@
+name: BUILD CHECK
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.20.4'
+
+      - name: install yarn
+        run: npm install -g yarn
+
+      - name: yarn install
+        run: yarn install
+
+      - name: build
+        run: yarn build

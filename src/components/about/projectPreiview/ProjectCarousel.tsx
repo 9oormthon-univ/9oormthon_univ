@@ -9,7 +9,6 @@ import styles from './projectPreview.module.scss';
 
 export default function ProjectCarousel() {
   const [activeIndex, setActiveIndex] = useState(1);
-  const [animating, setAnimating] = useState(false);
 
   const { isMobile } = useIsMobile();
   const CardNumber = isMobile ? 1 : 3;
@@ -23,19 +22,16 @@ export default function ProjectCarousel() {
   }
 
   const next = () => {
-    if (animating) return;
     const nextIndex = activeIndex === splitProjects().length - 1 ? 0 : activeIndex + 1;
     setActiveIndex(nextIndex);
   };
 
   const prev = () => {
-    if (animating) return;
     const prevIndex = activeIndex === 0 ? splitProjects().length - 1 : activeIndex - 1;
     setActiveIndex(prevIndex);
   };
 
   const goToIndex = (newIndex: number) => {
-    if (animating) return;
     setActiveIndex(newIndex);
   };
 

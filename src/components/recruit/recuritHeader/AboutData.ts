@@ -1,6 +1,4 @@
-import { CakeIcon, GroupIcon, LightningIcon, SchoolIcon } from '@goorm-dev/gds-icons';
-import BeotkkotSmall from '../assets/svgs/BeotkkotSmall';
-import Lightbulb from '../assets/svgs/Lightbulb';
+import { CakeIcon, GroupIcon, LightbulbIcon, LightningIcon, SchoolIcon } from '@goorm-dev/gds-icons';
 
 import Img1 from '../assets/images/about/activity1.png';
 import Img2 from '../assets/images/about/activity2.png';
@@ -14,6 +12,7 @@ import IdeIcon from '../assets/svgs/favicon_ide.svg';
 import InflearnIcon from '../assets/svgs/favicon_inflearn.svg';
 import KakaoIcon from '../assets/svgs/favicon_kakao.svg';
 
+import BeotkkotSmall from '../../../assets/svgs/BeotkkotSmall';
 import EduImg from '../assets/svgs/benefit-goormedu.svg';
 import ExpImg from '../assets/svgs/benefit-goormexp.svg';
 import IdeImg from '../assets/svgs/benefit-goormide.svg';
@@ -32,7 +31,7 @@ export const TIMELINE_DATA = {
     description: '구름톤 유니브 3기는 어떻게 진행될까요?\n이 시간에 알아보아요!!',
   },
   3: {
-    Icon: Lightbulb,
+    Icon: LightbulbIcon,
     title: 'ONBOARDING',
     description: '해커톤을 시작하기 이전, 해커톤에 대해 알아봐요!\n다양한 연사자분께서 협업에 대해 알려주실거에요!',
   },

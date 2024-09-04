@@ -109,21 +109,27 @@
 .mainImg {
   cursor: pointer;
 
-  stroke-dashoffset: -65;
-
-  &:hover {
-    stroke-dashoffset: 0;
-  }
-
   bottom: 6.75rem;
   left: 50%;
   transform: translate(-50%);
 
   stroke-dasharray: 500;
   transition: stroke-dashoffset 0.5s ease-in-out;
+
+  stroke-dashoffset: -65;
+
+  &:hover {
+    stroke-dashoffset: 0;
+  }
 }
 
 .mainImgSmall {
+  bottom: 6.5rem;
+  left: 50%;
+  transform: translate(-50%);
+
+  stroke-dasharray: 500;
+  transition: stroke-dashoffset 0.5s ease-in-out;
   cursor: pointer;
 
   stroke-dashoffset: -65;
@@ -131,11 +137,4 @@
   &:hover {
     stroke-dashoffset: 0;
   }
-
-  bottom: 6.5rem;
-  left: 50%;
-  transform: translate(-50%);
-
-  stroke-dasharray: 500;
-  transition: stroke-dashoffset 0.5s ease-in-out;
 }

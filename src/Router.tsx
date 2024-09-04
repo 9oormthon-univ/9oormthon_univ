@@ -1,5 +1,5 @@
 // Router.tsx
-import { GoormLoader, GoormLoaderProps } from '@goorm-dev/gds-components';
+import { GoormLoader } from '@goorm-dev/gds-components';
 import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
@@ -16,7 +16,7 @@ const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 
 // GoormLoader 컴포넌트에 전달할 props 설정
-const loaderProps: GoormLoaderProps = {
+const loaderProps = {
   color: 'black', // 예시 색상
   lottieProps: {
     loop: true,

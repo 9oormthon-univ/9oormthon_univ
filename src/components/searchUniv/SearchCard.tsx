@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from '@goorm-dev/gds-icons';
 import { Button, ListGroup, ListGroupItem, SearchInput, Text } from '@goorm-dev/vapor-components';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { LINKS } from '../../constants/common';
 import Universities from '../../utilities/UnivData';
 
@@ -9,7 +9,7 @@ import styles from './SearchCard.module.scss';
 export default function SearchCard() {
   const [value, setValue] = useState('');
 
-  const handleUnivSearch = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUnivSearch = (e: any) => {
     setValue(e.target.value);
   };
 
@@ -20,7 +20,7 @@ export default function SearchCard() {
         나의 유니브 찾아보기
       </Text>
       <div className={styles.inputWrapper}>
-        <SearchInput onChange={(e) => handleUnivSearch(e)} value={value} size="lg" placeholder="우리 학교명으로 검색" />
+        <SearchInput onChange={handleUnivSearch} value={value} size="lg" placeholder="우리 학교명으로 검색" />
         {value !== '' && (
           <div style={{ marginTop: '0.3rem' }}>
             <ListGroup>

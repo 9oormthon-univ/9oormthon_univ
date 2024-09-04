@@ -8,7 +8,9 @@ import styles from './CustomNavbar.module.scss';
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
   const isAbout = useIsAbout();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
+
+  // TODO: 로그인 여부 확인 로직 추가
+  const isLoggedIn = false;
 
   const NAV_ITEMS = [
     {

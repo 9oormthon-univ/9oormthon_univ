@@ -1,6 +1,5 @@
-import React from 'react';
+import { GithubIcon, InstagramIcon } from '@goorm-dev/gds-icons';
 import * as S from './style';
-import { FacebookIcon, GithubIcon, InstagramIcon } from '@goorm-dev/gds-icons';
 
 function CustomFooter() {
   return (
@@ -14,8 +13,7 @@ function CustomFooter() {
           <S.SocialIcon
             href="https://www.instagram.com/9oormthonuniv.official/"
             target="_blank"
-            rel="noopener noreferrer"
-          >
+            rel="noopener noreferrer">
             <InstagramIcon width="40" height="40" />
           </S.SocialIcon>
           {/*} <S.SocialIcon href="https://facebook.com/9oormthonuniv.official/" target="_blank" rel="noopener noreferrer">

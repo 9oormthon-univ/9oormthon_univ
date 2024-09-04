@@ -1,28 +1,28 @@
-import styles from './information.module.scss';
-import { BackPageIcon, PlusIcon, WarningIcon, ErrorCircleIcon } from '@goorm-dev/gds-icons';
+import { BackPageIcon, PlusIcon, WarningIcon } from '@goorm-dev/gds-icons';
 import {
-  Text,
-  Input,
+  Alert,
   Button,
   Checkbox,
   Dropdown,
-  DropdownToggle,
-  DropdownMenu,
   DropdownItem,
-  Alert,
-  ListGroupItem,
+  DropdownMenu,
+  DropdownToggle,
+  Input,
   ListGroup,
+  ListGroupItem,
+  Text,
 } from '@goorm-dev/vapor-components';
-import { useState } from 'react';
-import Universities from '../../utilities/UnivData';
+import { ChangeEvent, useState } from 'react';
 import errorCircleIcon from '../../assets/svgs/ErrorCircleIcon.svg';
+import Universities from '../../utilities/UnivData';
+import styles from './information.module.scss';
 
 interface SeasonPartSelection {
   selectedSeason: string;
   selectedPart: string;
 }
 
-export default function information() {
+export default function Information() {
   const [openSeasonIndex, setOpenSeasonIndex] = useState<number | null>(null);
   const [openPartIndex, setOpenPartIndex] = useState<number | null>(null);
   const [selections, setSelections] = useState<SeasonPartSelection[]>([
