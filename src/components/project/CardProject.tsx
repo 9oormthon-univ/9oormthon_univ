@@ -61,14 +61,14 @@ export default function CardProject({ project, key, activeIndex, currentPage }: 
       variants={cardVariants}
       initial="hidden"
       animate={isVisible ? 'visible' : 'hidden'}>
-      <div className={styles.cardImg}>
+      <article className={styles.cardImg}>
         <img className={styles.cardImg} src={image} />
         {award && (
           <div className={styles.badge}>
             <DarkBadge>{award}</DarkBadge>
           </div>
         )}
-      </div>
+      </article>
       <div className={styles.textWrapper}>
         {/* //NOTE ; 마진값 제대로 다시 확인하기 */}
         <Text className="mb-0" typography="heading3">

@@ -1,7 +1,5 @@
 import { Button, CarouselItem, CarouselNew } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
-import { CarouselButtonLeft } from '../../../assets/svgs/carouselButtonLeft';
-import { CarouselButtonRight } from '../../../assets/svgs/carouselButtonRight';
 import { allProjects } from '../../../constants/common';
 import useIsMobile from '../../../hooks/useIsMobile';
 import CardProject from '../../project/CardProject';
@@ -37,7 +35,7 @@ export default function ProjectCarousel() {
 
   return (
     <div className={styles.container}>
-      <CarouselNew ride activeIndex={activeIndex} next={next} previous={prev} items={splitProjects()}>
+      <CarouselNew ride interval={'3000'} activeIndex={activeIndex} next={next} previous={prev} items={splitProjects()}>
         <CarouselNew.Indicator
           outerClassName={styles.hidden}
           itemsLength={splitProjects().length}
@@ -53,14 +51,7 @@ export default function ProjectCarousel() {
             </div>
           </CarouselItem>
         ))}
-        <CarouselNew.Controller prevHandler={next} nextHandler={prev}>
-          {!isMobile && (
-            <>
-              <CarouselButtonLeft />
-              <CarouselButtonRight />
-            </>
-          )}
-        </CarouselNew.Controller>
+        <CarouselNew.Controller prevHandler={next} nextHandler={prev} />
       </CarouselNew>
       <Button size="xl">더 많은 프로젝트 보기</Button>
     </div>
