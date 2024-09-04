@@ -15,6 +15,7 @@ import {
 import { ChangeEvent, useState } from 'react';
 import errorCircleIcon from '../../assets/svgs/ErrorCircleIcon.svg';
 import Universities from '../../utilities/UnivData';
+import { ChevronDownIcon } from '@goorm-dev/gds-icons';
 import styles from './information.module.scss';
 
 interface SeasonPartSelection {
@@ -162,7 +163,7 @@ export default function Information() {
           </div>
           <Input onChange={handleUnivSearch} value={searchValue || univ} size="lg" placeholder="대학교 명" />
           {searchValue !== '' && (
-            <div style={{ marginTop: '0.3rem' }}>
+            <div>
               <ListGroup>
                 {UnivArray.filter((item) => item.name.includes(searchValue)).map((item) => (
                   <ListGroupItem key={item.name} action onClick={() => handleUnivSelect(item.name)}>
