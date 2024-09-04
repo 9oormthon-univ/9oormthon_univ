@@ -82,6 +82,14 @@
   color: var(--text-hint);
   width: 100%;
   font-weight: 400;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .iconRight {
+    margin-left: auto;
+  }
 }
 
 .errorCircleContainer {
