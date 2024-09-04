@@ -1,18 +1,17 @@
+import { BackPageIcon, WarningIcon } from '@goorm-dev/gds-icons';
+import { Alert, Button, Input, Text } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
-import { BackPageIcon, PlusIcon, WarningIcon, ErrorCircleIcon } from '@goorm-dev/gds-icons';
-import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
 
 import { useState } from 'react';
 
-interface SignUpProps {
-  isFirstLogin: boolean; // 첫 로그인여부
-}
-
-export default function SignUp({ isFirstLogin }: SignUpProps) {
+export default function SignUp() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
+  // TODO : 첫 로그인 여부 API로 받기
+  const isFirstLogin = true;
 
   const handleSubmit = () => {
     if (newPassword !== confirmPassword) {
@@ -34,7 +33,7 @@ export default function SignUp({ isFirstLogin }: SignUpProps) {
       </div>
       <hr className={styles.divider} />
       <div className={styles.contentContainer}>
-        {true && (
+        {isFirstLogin && (
           <div className={styles.inputGroup}>
             <div className={styles.title}>
               <Text className={styles.titleText}>현재 비밀번호</Text>
@@ -47,7 +46,7 @@ export default function SignUp({ isFirstLogin }: SignUpProps) {
               placeholder="현재 비밀번호"
               type="password"
               value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPassword(e.target.value)}
             />
           </div>
         )}
@@ -63,7 +62,7 @@ export default function SignUp({ isFirstLogin }: SignUpProps) {
             placeholder="영문, 특수문자 조합 8자 이상"
             type="password"
             value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
           />
         </div>
         <div className={styles.inputGroup}>
@@ -78,7 +77,7 @@ export default function SignUp({ isFirstLogin }: SignUpProps) {
             placeholder="영문, 특수문자 조합 8자 이상"
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
           />
         </div>
       </div>

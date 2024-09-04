@@ -8,7 +8,6 @@ import Layout from './components/layout/Layout';
 const About = lazy(() => import('./pages/about/About'));
 const Project = lazy(() => import('./pages/project/Project'));
 const Recruit = lazy(() => import('./pages/recruit/Recruit'));
-const Apply = lazy(() => import('./pages/apply/Apply'));
 const NotFound = lazy(() => import('./pages/errors/NotFound'));
 const SearchUniv = lazy(() => import('./pages/searchUniv/SearchUniv'));
 const SignUp = lazy(() => import('./pages/signUp/SignUp'));
@@ -59,14 +58,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <Recruit />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'apply',
-        element: (
-          <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <Apply />
           </Suspense>
         ),
       },

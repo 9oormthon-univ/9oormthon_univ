@@ -1,5 +1,5 @@
-import { GoormNavbar, Nav, NavItem, NavLink, Button } from '@goorm-dev/gds-components';
-import { SearchIcon, OutIcon } from '@goorm-dev/gds-icons';
+import { Button, GoormNavbar, Nav, NavItem, NavLink } from '@goorm-dev/gds-components';
+import { OutIcon, SearchIcon } from '@goorm-dev/gds-icons';
 import { useState } from 'react';
 import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';

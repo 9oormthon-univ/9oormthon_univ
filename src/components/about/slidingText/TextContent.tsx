@@ -1,10 +1,8 @@
-import React from 'react';
 import * as S from './style';
 
 import AmpersandImg from '../../../assets/svgs/ampersand.svg';
-import DanpoongImg from '../../../assets/svgs/danpoong.svg';
-import ArrowRightImg from '../../../assets/svgs/arrow-right.svg';
 import BeotkkotImg from '../../../assets/svgs/beotkkot.svg';
+import DanpoongImg from '../../../assets/svgs/danpoong.svg';
 
 export default function TextContent() {
   return (

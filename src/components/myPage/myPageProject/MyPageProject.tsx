@@ -1,19 +1,5 @@
-import { ChangeEvent, useState } from 'react';
+import { Text } from '@goorm-dev/vapor-components';
 import styles from './myPageProject.module.scss';
-import {
-  Text,
-  Input,
-  Button,
-  Checkbox,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Alert,
-  ListGroupItem,
-  ListGroup,
-} from '@goorm-dev/vapor-components';
-import { ImageIcon } from '@goorm-dev/gds-icons';
 
 interface Project {
   title: string;

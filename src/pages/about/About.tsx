@@ -6,17 +6,14 @@ import Intro from '../../components/about/intro/Intro.js';
 import MainBanner from '../../components/about/mainBanner/MainBanner.js';
 import PlanDesktop from '../../components/about/plan/planDesktop/PlanDesktop.js';
 import ProjectPreview from '../../components/about/projectPreiview/ProjectPreview.js';
-import useMoveScroll from '../../hooks/useMoveScroll.js';
 import styles from './about.module.scss';
 
 export default function About() {
-  const { element } = useMoveScroll();
-
   return (
     <div className={styles.container}>
       <MainBanner />
       <FindingUniv />
-      <Intro scrollTarget={element} />
+      <Intro />
       <PlanDesktop />
       <Activity />
       <ProjectPreview />
