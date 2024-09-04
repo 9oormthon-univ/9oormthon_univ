@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import DarkBadge from '../../components/common/ColoredBadge';
 
 import { useEffect, useRef, useState } from 'react';
-import styles from './styles.module.scss';
+import styles from './projectStyles.module.scss';
 
 interface CardProjectProps {
   project: Project;
