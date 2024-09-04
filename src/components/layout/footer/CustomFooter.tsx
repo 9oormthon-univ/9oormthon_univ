@@ -16,9 +16,6 @@ function CustomFooter() {
             rel="noopener noreferrer">
             <InstagramIcon width="40" height="40" />
           </S.SocialIcon>
-          {/*} <S.SocialIcon href="https://facebook.com/9oormthonuniv.official/" target="_blank" rel="noopener noreferrer">
-            <FacebookIcon width="40" height="40" />
-          </S.SocialIcon> */}
         </S.SocialContainer>
       </S.FooterContents>
     </S.FooterWrapper>

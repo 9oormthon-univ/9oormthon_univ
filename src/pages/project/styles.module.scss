@@ -1,3 +1,5 @@
+@import '../../style/mixin.scss';
+
 .buttonGroup {
   display: flex;
   justify-content: center;
@@ -7,14 +9,24 @@
   margin-bottom: var(--space-500);
 }
 
-.projectContainer {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.cardContainer {
   row-gap: var(--space-600);
   column-gap: var(--space-400);
   justify-content: start;
-}
+  display: grid;
 
+  @include container-xs {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @include container-lg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include container-xl {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 .emptyContainer {
   display: flex;
   flex-direction: column;
