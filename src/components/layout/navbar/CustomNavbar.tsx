@@ -56,7 +56,7 @@ function CustomNavbar() {
         <Nav className="gap-0">
           <NavLink
             className={isAbout ? styles.whiteFont : ''}
-            href="/"
+            href="/search-univ"
             onClick={() => isOpened && setIsOpened((prev) => !prev)}>
             <SearchIcon className="mx-1" />
             나의 유니브 찾기
