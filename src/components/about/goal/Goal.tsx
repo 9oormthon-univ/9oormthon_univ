@@ -1,7 +1,5 @@
-import React from 'react';
-
-import GoalImgWhole from '../../../assets/svgs/goal-graphic_whole.svg';
 import classNames from 'classnames/bind';
+import GoalImgWhole from '../../../assets/svgs/goal-graphic_whole.svg';
 
 import styles from './Goal.module.scss';
 

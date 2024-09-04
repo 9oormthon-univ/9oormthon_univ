@@ -1,15 +1,9 @@
-import React from 'react';
-
 import { Text } from '@goorm-dev/vapor-components';
 import styles from './Intro.module.scss';
 
-interface IntroProps {
-  scrollTarget: React.RefObject<HTMLDivElement>;
-}
-
 const TEXT = `카카오와 구름, 그리고 벚꽃과 단풍이 함께하는 \n 전국 대학 IT 연합 동아리입니다.`;
 
-export default function Intro({ scrollTarget }: IntroProps) {
+export default function Intro() {
   // console.log(scrollTarget);
   return (
     <div className={styles.intro}>
