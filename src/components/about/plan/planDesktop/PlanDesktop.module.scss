@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: center;
   position: relative;
+  padding-bottom: 15rem;
 }
 
 .title {
@@ -67,6 +68,10 @@
 // card
 
 .cardList {
+  display: grid;
+  gap: var(--space-200);
+  margin: 0 auto;
+
   @include container-xs {
     margin: 0 auto;
     width: 20.25rem;
@@ -83,10 +88,6 @@
     grid-template-columns: repeat(3, 1fr);
     width: 62.325rem;
   }
-
-  display: grid;
-  gap: var(--space-200);
-  margin: 0 auto;
 }
 
 .card {

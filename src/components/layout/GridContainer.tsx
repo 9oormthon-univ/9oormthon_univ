@@ -1,7 +1,7 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-export default function GridContainer({ children }) {
+export default function GridContainer({ children }: { children: ReactNode }) {
   return <GridContainerWrapper>{children}</GridContainerWrapper>;
 }
 

@@ -4,7 +4,7 @@ import styles from './ProjectPreview.module.scss';
 
 export default function ProjectPreview() {
   return (
-    <div className={styles.container}>
+    <div className={styles.previewContainer}>
       <div>
         <Text typography="heading2" color="gray-900">
           작은 아이디어가 현실로!

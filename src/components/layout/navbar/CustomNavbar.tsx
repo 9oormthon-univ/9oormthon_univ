@@ -1,5 +1,5 @@
-import { GoormNavbar, Nav, NavItem, NavLink, Button } from '@goorm-dev/gds-components';
-import { SearchIcon, OutIcon } from '@goorm-dev/gds-icons';
+import { Button, GoormNavbar, Nav, NavItem, NavLink } from '@goorm-dev/gds-components';
+import { OutIcon, SearchIcon } from '@goorm-dev/gds-icons';
 import { useState } from 'react';
 import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';
@@ -8,7 +8,9 @@ import styles from './CustomNavbar.module.scss';
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
   const isAbout = useIsAbout();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
+
+  // TODO: 로그인 여부 확인 로직 추가
+  const isLoggedIn = false;
 
   const NAV_ITEMS = [
     {
@@ -54,7 +56,7 @@ function CustomNavbar() {
         <Nav className="gap-0">
           <NavLink
             className={isAbout ? styles.whiteFont : ''}
-            href="/"
+            href="/search-univ"
             onClick={() => isOpened && setIsOpened((prev) => !prev)}>
             <SearchIcon className="mx-1" />
             나의 유니브 찾기

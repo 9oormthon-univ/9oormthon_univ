@@ -1,10 +1,10 @@
+import { Button, Text } from '@goorm-dev/vapor-components';
+import { useEffect, useState } from 'react';
+import exampleImg from '../../assets/images/activity_9oorm.png';
 import MyPageBasicInfo from '../../components/myPage/myPageBasicInfo/MyPageBasicInfo';
 import MyPageDetailedInfo from '../../components/myPage/myPageDetailedInfo/MyPageDetailedInfo';
 import MyPageProject from '../../components/myPage/myPageProject/MyPageProject';
 import styles from './styles.module.scss';
-import { Text, Button } from '@goorm-dev/vapor-components';
-import { useState, useEffect } from 'react';
-import exampleImg from '../../assets/images/activity_9oorm.png';
 
 interface Project {
   title: string;
@@ -27,15 +27,15 @@ export default function MyPage() {
   const [projects, setProjects] = useState<Project[]>([]);
 
   // API 호출
-  const fetchProjects = async () => {
-    try {
-      const response = await fetch('/api/projects'); // 예시 API 엔드포인트
-      const data = await response.json();
-      setProjects(data.projects);
-    } catch (error) {
-      console.error('Failed to fetch projects:', error);
-    }
-  };
+  // const fetchProjects = async () => {
+  //   try {
+  //     const response = await fetch('/api/projects'); // 예시 API 엔드포인트
+  //     const data = await response.json();
+  //     setProjects(data.projects);
+  //   } catch (error) {
+  //     console.error('Failed to fetch projects:', error);
+  //   }
+  // };
 
   const dummyUserData: UserData = {
     name: '이자민',
