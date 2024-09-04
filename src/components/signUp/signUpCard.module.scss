@@ -33,6 +33,12 @@
   width: 19.3rem;
 }
 
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+
 .logo {
   width: 16rem;
   margin-bottom: var(--space-600);

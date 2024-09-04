@@ -47,8 +47,11 @@ export default function SignUpCard() {
     <div className={styles.signUpCardContainer}>
       <img src={Logo} className={styles.logo} alt="구름톤 유니브 로고" />
       <div className={styles.loginContainer}>
-        <Input value={email} bsSize="xl" placeholder="이메일" onChange={handleEmailChange} />
-        <Input type="password" value={password} bsSize="xl" placeholder="비밀번호" onChange={handlePasswordChange} />
+        <div className={styles.inputContainer}>
+          <Input value={email} bsSize="xl" placeholder="이메일" onChange={handleEmailChange} />
+          <Input type="password" value={password} bsSize="xl" placeholder="비밀번호" onChange={handlePasswordChange} />
+        </div>
+
         <Button size="xl" onClick={handleLogin}>
           로그인
         </Button>
