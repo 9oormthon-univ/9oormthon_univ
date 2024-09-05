@@ -15,7 +15,7 @@ export default function Intro() {
       </div>
       <div className={styles.imageContainer}>
         <div className={styles.gridContainer}>
-          <img src="/src/assets/svgs/introKaKaoCard.svg" alt="introGoormCard" />
+          <img src="/src/assets/svgs/introKaKaoCard.svg" alt="introKakaoCard" />
           <img src="/src/assets/svgs/introGoormCard.svg" alt="introGoormCard" />
           <img
             className={styles.fullImgBoxDesktop}

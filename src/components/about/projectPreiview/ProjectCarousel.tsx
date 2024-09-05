@@ -35,7 +35,14 @@ export default function ProjectCarousel() {
 
   return (
     <div className={styles.container}>
-      <CarouselNew ride interval={'3000'} activeIndex={activeIndex} next={next} previous={prev} items={splitProjects()}>
+      <CarouselNew
+        r
+        ride
+        interval={'3000'}
+        activeIndex={activeIndex}
+        next={next}
+        previous={prev}
+        items={splitProjects()}>
         <CarouselNew.Indicator
           outerClassName={styles.hidden}
           itemsLength={splitProjects().length}

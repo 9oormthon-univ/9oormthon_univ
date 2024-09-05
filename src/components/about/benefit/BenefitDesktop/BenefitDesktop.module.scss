@@ -17,7 +17,7 @@
 
 .motionContainer {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--space-500);
   margin-top: 3.69rem;
 
   @include container-xs {
@@ -39,6 +39,11 @@
   background-color: var(--gray-050);
   padding: 1.5rem;
   border-radius: 1.25rem;
+
+  &:hover {
+    background-color: var(--gray-100);
+    text-decoration: none;
+  }
 
   @include container-xs {
     width: 100%;
