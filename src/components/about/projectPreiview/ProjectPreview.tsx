@@ -1,6 +1,6 @@
 import { Text } from '@goorm-dev/vapor-components';
 import ProjectCarousel from './ProjectCarousel';
-import styles from './ProjectPreview.module.scss';
+import styles from './projectPreview.module.scss';
 
 export default function ProjectPreview() {
   return (
