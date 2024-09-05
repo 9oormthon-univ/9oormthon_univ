@@ -40,7 +40,7 @@
   cursor: pointer;
   border-radius: 0.625rem;
   // 슬라이드 효과 넣기
-  // transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 
   @include container-xs {
     padding: 0.3rem 0.75rem;
