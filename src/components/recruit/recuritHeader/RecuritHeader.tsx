@@ -119,7 +119,7 @@ function RecuritHeader() {
       },
       afterTeamRecruiting: {
         title: '3기 모집이 완료되었어요!',
-        subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
+        subTitle: '구름톤 유니브 4기로 활동하고 싶으신가요?',
         button: '4기 사전 알림 받기',
         rightTitle: '4기 모집 시작',
         dDayText: '25년 1월',
