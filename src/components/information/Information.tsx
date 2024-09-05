@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { BackPageIcon, PlusIcon, WarningIcon } from '@goorm-dev/gds-icons';
 import {
   Alert,
@@ -24,6 +25,7 @@ interface SeasonPartSelection {
 }
 
 export default function Information() {
+  const navigate = useNavigate();
   const [openSeasonIndex, setOpenSeasonIndex] = useState<number | null>(null);
   const [openPartIndex, setOpenPartIndex] = useState<number | null>(null);
   const [selections, setSelections] = useState<SeasonPartSelection[]>([
@@ -136,6 +138,7 @@ export default function Information() {
     if (validateForm()) {
       console.log('Form submitted');
       // API 호출
+      navigate('/welcome', { state: { name } });
     }
   };
 

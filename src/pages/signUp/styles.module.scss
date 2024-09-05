@@ -2,3 +2,28 @@
   margin-top: 9rem;
   margin-bottom: 6rem;
 }
+
+.welcomeContainer {
+  margin-top: 9rem;
+  margin-bottom: 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.welcomeImg {
+  margin-bottom: var(--space-200);
+
+  width: 20rem;
+  height: 15rem;
+}
+
+.welcomeText {
+  font-size: 1rem;
+  margin-top: var(--space-100);
+}
+
+.mainBtn {
+  margin-top: var(--space-300);
+}

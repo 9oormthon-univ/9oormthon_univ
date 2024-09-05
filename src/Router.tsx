@@ -3,6 +3,7 @@ import { GoormLoader } from '@goorm-dev/gds-components';
 import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import Welcome from './pages/\bsignUp/Welcome';
 
 // 레이지 로딩 적용
 const About = lazy(() => import('./pages/about/About'));
@@ -14,6 +15,7 @@ const SignUp = lazy(() => import('./pages/signUp/SignUp'));
 const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
+const welcome = lazy(() => import('./pages/signUp/Welcome'));
 
 // GoormLoader 컴포넌트에 전달할 props 설정
 const loaderProps = {
@@ -78,7 +80,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'my-page',
+        path: 'mypage',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <MyPage />
@@ -90,6 +92,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <UpdatePW />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'welcome',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <Welcome />
           </Suspense>
         ),
       },
