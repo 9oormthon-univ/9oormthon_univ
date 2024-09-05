@@ -1,14 +1,48 @@
 import styles from './RecruitCalendar.module.scss';
 import newCalendar from '../../../assets/images/newCalendar.png';
 import { Text } from '@goorm-dev/vapor-components';
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 function RecuritCalendar() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      console.log(scrollY);
+      const isMobile = window.innerWidth <= 768; // 768px 미만을 모바일로 간주
+
+      // 모바일 및 데스크탑 환경에 따른 스크롤 위치 조정
+      const mobileBreakpoints = 500; // 모바일용 브레이크포인트
+      const desktopBreakpoints = 50; // 데스크탑용 브레이크포인트
+
+      const breakpoint = isMobile ? mobileBreakpoints : desktopBreakpoints;
+
+      if (scrollY >= breakpoint) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <Text as="h3" color="gray-900" typography="heading3" fontWeight="bold">
         3기 모집 일정
       </Text>
-      <div className={styles.wrapper}>
+      <motion.div
+        className={styles.wrapper}
+        initial={{ opacity: 0, y: 100 }}
+        animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
+        transition={{ duration: 0.5 }}>
         <div className={styles.rightSection}>
           <img className={styles.calendarImg} src={newCalendar} alt="4기 달력" />
         </div>
@@ -64,7 +98,7 @@ function RecuritCalendar() {
             </Text>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

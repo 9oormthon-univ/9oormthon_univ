@@ -5,15 +5,49 @@ import studyGraphic from '../../../assets/svgs/img-study.svg';
 import { Button } from '@goorm-dev/vapor-components';
 import { ChevronRightIcon } from '@goorm-dev/vapor-icons';
 import { Text } from '@goorm-dev/vapor-components';
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 function RecruitCaution() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      console.log(scrollY);
+      const isMobile = window.innerWidth <= 768; // 768px 미만을 모바일로 간주
+
+      // 모바일 및 데스크탑 환경에 따른 스크롤 위치 조정
+      const mobileBreakpoints = 1700; // 모바일용 브레이크포인트
+      const desktopBreakpoints = 1000; // 데스크탑용 브레이크포인트
+
+      const breakpoint = isMobile ? mobileBreakpoints : desktopBreakpoints;
+
+      if (scrollY >= breakpoint) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <Text as="h3" color="text-normal" typography="heading3" fontWeight="bold">
         유의 사항
       </Text>
       <div>
-        <div className={styles.rowLayout}>
+        <motion.div
+          className={styles.rowLayout}
+          initial={{ opacity: 0, y: 100 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
+          transition={{ duration: 0.5 }}>
           {/* 카드 UI */}
           <div className={styles.cardLayout}>
             <div className={styles.textLayout}>
@@ -60,9 +94,13 @@ function RecruitCaution() {
               <img className={styles.img} src={eventGraphic} alt="해커톤그래픽" />
             </div>
           </div>
-        </div>
+        </motion.div>
         {/* 카드 UI */}
-        <div className={`${styles.cardLayout} ${styles.widthFull}`}>
+        <motion.div
+          className={`${styles.cardLayout} ${styles.widthFull}`}
+          initial={{ opacity: 0, y: 100 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
+          transition={{ duration: 0.5 }}>
           <div className={styles.buttonLayout}>
             <div className={styles.textLayout}>
               <Text className={styles.showOnSm} as="h5" color="text-normal" typography="heading5" fontWeight="bold">
@@ -96,7 +134,7 @@ function RecruitCaution() {
           <div className={styles.showOnLg}>
             <img src={studyGraphic} alt="스터디그래픽" />
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
