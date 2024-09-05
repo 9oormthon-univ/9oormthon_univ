@@ -3,7 +3,7 @@ import { OutIcon, SearchIcon } from '@goorm-dev/gds-icons';
 import { useState } from 'react';
 import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';
-import styles from './CustomNavbar.module.scss';
+import styles from './customNavbar.module.scss';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
