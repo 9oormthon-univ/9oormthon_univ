@@ -14,7 +14,6 @@ function RecruitCaution() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      console.log(scrollY);
       const isMobile = window.innerWidth <= 768; // 768px 미만을 모바일로 간주
 
       // 모바일 및 데스크탑 환경에 따른 스크롤 위치 조정
