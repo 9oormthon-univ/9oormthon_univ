@@ -1,31 +1,34 @@
 import { Button, CarouselItem, CarouselNew } from '@goorm-dev/vapor-components';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { allProjects } from '../../../constants/common';
 import useIsMobile from '../../../hooks/useIsMobile';
 import CardProject from '../../project/CardProject';
 import styles from './projectPreview.module.scss';
 
 export default function ProjectCarousel() {
-  const [activeIndex, setActiveIndex] = useState(1);
-
+  const [activeIndex, setActiveIndex] = useState(0);
   const { isMobile } = useIsMobile();
-  const CardNumber = isMobile ? 1 : 3;
+  const cardNumber = isMobile ? 1 : 3;
 
-  function splitProjects() {
+  const splitProjects = useMemo(() => {
     const result = [];
-    for (let i = 0; i < allProjects.length; i += CardNumber) {
-      result.push(allProjects.slice(i, i + CardNumber));
+    for (let i = 0; i < allProjects.length; i += cardNumber) {
+      result.push(allProjects.slice(i, i + cardNumber));
     }
     return result;
-  }
+  }, [cardNumber]);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [cardNumber]);
 
   const next = () => {
-    const nextIndex = activeIndex === splitProjects().length - 1 ? 0 : activeIndex + 1;
+    const nextIndex = activeIndex === splitProjects.length - 1 ? 0 : activeIndex + 1;
     setActiveIndex(nextIndex);
   };
 
   const prev = () => {
-    const prevIndex = activeIndex === 0 ? splitProjects().length - 1 : activeIndex - 1;
+    const prevIndex = activeIndex === 0 ? splitProjects.length - 1 : activeIndex - 1;
     setActiveIndex(prevIndex);
   };
 
@@ -33,25 +36,29 @@ export default function ProjectCarousel() {
     setActiveIndex(newIndex);
   };
 
+  if (splitProjects.length === 0) {
+    return null;
+  }
+
   return (
     <div className={styles.container}>
-      <CarouselNew ride interval={'3000'} activeIndex={activeIndex} next={next} previous={prev} items={splitProjects()}>
+      <CarouselNew ride interval={'3000'} activeIndex={activeIndex} next={next} previous={prev} items={splitProjects}>
         <CarouselNew.Indicator
           outerClassName={styles.hidden}
-          itemsLength={splitProjects().length}
+          itemsLength={splitProjects.length}
           activeIndex={activeIndex}
           onClickHandler={goToIndex}
         />
-        {splitProjects().map((_, index) => (
+        {splitProjects.map((projectGroup, index) => (
           <CarouselItem key={index}>
             <div className={styles.projectCarousel}>
-              {splitProjects()[activeIndex].map((project, index) => (
-                <CardProject key={index} project={project} activeIndex={activeIndex} />
+              {projectGroup.map((project, projectIndex) => (
+                <CardProject key={projectIndex} project={project} activeIndex={activeIndex} />
               ))}
             </div>
           </CarouselItem>
         ))}
-        <CarouselNew.Controller prevHandler={next} nextHandler={prev} />
+        <CarouselNew.Controller prevHandler={prev} nextHandler={next} />
       </CarouselNew>
       <Button size="xl">더 많은 프로젝트 보기</Button>
     </div>

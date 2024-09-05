@@ -37,8 +37,10 @@ export default function Timeline({ month, handleMonthClick }: TimelineProps) {
     <div className={styles.timeline}>
       <figure className={styles.timelineBar}>
         {TIMELINE_DATA.map((_, index) => (
-          <div className={cx(`monthTextClickable`, `${index === month && 'active'}`)}>
-            <Text typography="heading6" key={index} onClick={() => handleMonthClick(index)}>
+          <div
+            onClick={() => handleMonthClick(index)}
+            className={cx(`monthTextClickable`, `${index === month && 'active'}`)}>
+            <Text typography="heading6" key={index}>
               {getMonthText(index)}
             </Text>
           </div>

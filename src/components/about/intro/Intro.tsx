@@ -1,10 +1,13 @@
 import { Text } from '@goorm-dev/vapor-components';
+import { motion } from 'framer-motion';
 import styles from './Intro.module.scss';
-
 const TEXT = `카카오와 구름, 그리고 벚꽃과 단풍이 함께하는 \n 전국 대학 IT 연합 동아리입니다.`;
 
 export default function Intro() {
-  // console.log(scrollTarget);
+  const itemAnimation = {
+    hidden: { opacity: 0, y: 100 },
+    visible: { opacity: 1, y: 0 },
+  };
   return (
     <div className={styles.intro}>
       <div className={styles.title}>
@@ -14,8 +17,13 @@ export default function Intro() {
         <Text typography="heading3">{TEXT}</Text>
       </div>
       <div className={styles.imageContainer}>
-        <div className={styles.gridContainer}>
-          <img src="/src/assets/svgs/introKaKaoCard.svg" alt="introGoormCard" />
+        <motion.div
+          className={styles.gridContainer}
+          initial="hidden"
+          animate={'visible'}
+          transition={{ duration: 0.85 }}
+          variants={itemAnimation}>
+          <img src="/src/assets/svgs/introKaKaoCard.svg" alt="introKakaoCard" />
           <img src="/src/assets/svgs/introGoormCard.svg" alt="introGoormCard" />
           <img
             className={styles.fullImgBoxDesktop}
@@ -27,7 +35,7 @@ export default function Intro() {
             src="/src/assets/images/introUnivImageMobile.png"
             alt="introBeotkkotCard"
           />
-        </div>
+        </motion.div>
       </div>
     </div>
   );
