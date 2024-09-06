@@ -54,6 +54,7 @@ export default function Information() {
     updatedSelections[index].selectedSeason = season === '선택 안함' ? '선택' : season;
     updatedSelections[index].selectedPart = '선택'; // 기수 변경 시 파트 초기화
     setSelections(updatedSelections);
+    checkForDuplicateSeasons(updatedSelections);
 
     if (season !== '선택' && updatedSelections[index].selectedPart !== '선택') {
       setFormAlertMessage(null);
@@ -64,6 +65,7 @@ export default function Information() {
     const updatedSelections = [...selections];
     updatedSelections[index].selectedPart = part === '선택 안함' ? '선택' : part;
     setSelections(updatedSelections);
+    checkForDuplicateSeasons(updatedSelections);
 
     if (part !== '선택' && updatedSelections[index].selectedSeason !== '선택') {
       setFormAlertMessage(null);
@@ -88,7 +90,9 @@ export default function Information() {
   const removeSeasonPartSelection = (index: number) => {
     const updatedSelections = selections.filter((_, i) => i !== index);
     setSelections(updatedSelections);
+    checkForDuplicateSeasons(updatedSelections);
   };
+
   const handleUnivSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
     setUniv(e.target.value);
@@ -129,9 +133,41 @@ export default function Information() {
       return false;
     }
 
+    // 중복된 기수 체크
+    const seasonCounts = selections.reduce((acc, selection) => {
+      if (selection.selectedSeason !== '선택') {
+        acc[selection.selectedSeason] = (acc[selection.selectedSeason] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+
+    const hasDuplicateSeasons = Object.values(seasonCounts).some((count) => count > 1);
+
+    if (hasDuplicateSeasons) {
+      setFormAlertMessage('한 기수당 한 파트만 선택할 수 있습니다.');
+      return false;
+    }
+
     // 모든 필드 채워짐
     setFormAlertMessage(null);
     return true;
+  };
+
+  const checkForDuplicateSeasons = (selections: SeasonPartSelection[]) => {
+    const seasonCounts = selections.reduce((acc, selection) => {
+      if (selection.selectedSeason !== '선택') {
+        acc[selection.selectedSeason] = (acc[selection.selectedSeason] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+
+    const hasDuplicateSeasons = Object.values(seasonCounts).some((count) => count > 1);
+
+    if (hasDuplicateSeasons) {
+      setFormAlertMessage('한 기수당 한 파트만 선택할 수 있습니다.');
+    } else {
+      setFormAlertMessage(null); // 중복이 해결되면 경고 메시지 제거
+    }
   };
 
   const handleSubmit = () => {
