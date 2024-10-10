@@ -13,6 +13,8 @@
     "@goorm-dev/gds-components": "^1.45.1",
     "@goorm-dev/gds-icons": "^1.45.1",
     "@goorm-dev/vapor-components": "^0.8.0",
+    "@types/axios": "^0.14.0",
+    "axios": "^1.7.7",
     "classnames": "^2.5.1",
     "firebase": "^10.12.5",
     "framer-motion": "^11.3.23",
