@@ -2,7 +2,7 @@
 
 .container {
   display: flex;
-  padding: 7.5rem 0;
+  padding: 0 0 7.5rem 0;
   flex-direction: column;
 
   margin: 0 auto;
@@ -85,12 +85,12 @@
 
   @include container-sm {
     flex-direction: row;
-    gap: 0.4375rem;
+    justify-content: space-between;
   }
 
   @include container-lg {
     flex-direction: column;
-    gap: var(--space-200);
+    gap: var(--space-100);
   }
 }
 
@@ -122,7 +122,7 @@
   flex-direction: column;
 
   @include container-sm {
-    gap: 0.3125rem;
+    gap: var(--space-100);
   }
 }
 
