@@ -47,7 +47,7 @@ import UnivImg42 from '../assets/images/univ/univ-soongsil.png';
 import UnivImg43 from '../assets/images/univ/univ-sungkonghoe.png';
 import UnivImg44 from '../assets/images/univ/univ-sungkyunkwan.png';
 import UnivImg45 from '../assets/images/univ/univ-sungshinwomen.png';
-import UnivImg46 from '../assets/images/univ/univ-SWU.png';
+import UnivImg46 from '../assets/images/univ/univ-swu.png';
 import UnivImg47 from '../assets/images/univ/univ-tech.png';
 import UnivImg48 from '../assets/images/univ/univ-ulsan.png';
 

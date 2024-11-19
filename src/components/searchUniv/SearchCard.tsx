@@ -6,7 +6,7 @@ import Universities from '../../utilities/UnivData';
 
 import { TypographyValue } from '@goorm-dev/gds-components/dist/types/src/components/Text/Text.type';
 import useBreakpoint from '../../hooks/useBreakPoint';
-import styles from './SearchCard.module.scss';
+import styles from './searchCard.module.scss';
 
 export default function SearchCard() {
   const [value, setValue] = useState('');
