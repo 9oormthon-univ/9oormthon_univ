@@ -31,5 +31,6 @@ export default Layout;
 const StyledFooter = styled(Footer)`
   position: absolute;
   width: 100%;
+  padding-left: 3rem;
   z-index: 2;
 `;
