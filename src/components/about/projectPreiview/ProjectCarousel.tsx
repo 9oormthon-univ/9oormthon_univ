@@ -1,11 +1,13 @@
 import { Button, CarouselItem, CarouselNew } from '@goorm-dev/vapor-components';
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { allProjects } from '../../../constants/common';
 import useIsMobile from '../../../hooks/useIsMobile';
 import CardProject from '../../project/CardProject';
 import styles from './projectPreview.module.scss';
 
 export default function ProjectCarousel() {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const { isMobile } = useIsMobile();
   const cardNumber = isMobile ? 1 : 3;
@@ -60,7 +62,9 @@ export default function ProjectCarousel() {
         ))}
         <CarouselNew.Controller prevHandler={prev} nextHandler={next} />
       </CarouselNew>
-      <Button size="xl">더 많은 프로젝트 보기</Button>
+      <Button size="xl" onClick={() => navigate('/project')}>
+        더 많은 프로젝트 보기
+      </Button>
     </div>
   );
 }
