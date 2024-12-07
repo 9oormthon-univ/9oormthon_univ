@@ -1,7 +1,7 @@
 import { OutIcon, PauseIcon, PlayIcon, SoundOffIcon, SoundOnIcon } from '@goorm-dev/gds-icons';
 import { Button, Text } from '@goorm-dev/vapor-components';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/file';
 import { MainBannerSlogan } from '../../../assets';
 import mainVideo from '../../../assets/etc/구름톤유니브_벚꽃톤_v8.mp4';
@@ -35,6 +35,22 @@ export default function MainBanner() {
   const MoveToYoutube = () => {
     window.location.href = 'https://youtu.be/AqTSrinWXNs';
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollThreshold = 900;
+      if (window.scrollY > scrollThreshold && playing) {
+        setPlaying(false);
+      } else if (window.scrollY <= scrollThreshold && !playing) {
+        setPlaying(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [playing]);
 
   return (
     <div className={styles.playerUpper}>
