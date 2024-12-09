@@ -27,9 +27,8 @@ export default function Intro() {
           animate={'visible'}
           transition={{ duration: 0.85 }}
           variants={itemAnimation}>
-          {/* <img src={introKaKaoCard} alt="introKakaoCard" /> */}
-          <IntroKakaoCard />
-          <IntroGoormCard />
+          <IntroKakaoCard className={styles.imgContainer} />
+          <IntroGoormCard className={styles.imgContainer} />
           <img className={styles.fullImgBoxDesktop} src={introBbeotkkotCard} alt="introBeotkkotCard" />
           <img className={styles.fullImgBoxMobile} src={introUnivImageMobile} alt="introBeotkkotCard" />
         </motion.div>
