@@ -1,10 +1,10 @@
-import styles from './RecruitCaution.module.scss';
+import { Button, Text } from '@goorm-dev/vapor-components';
+import { ChevronRightIcon } from '@goorm-dev/vapor-icons';
+import { Link } from 'react-router-dom';
 import calendarGraphic from '../../../assets/svgs/img-calendar.svg';
 import eventGraphic from '../../../assets/svgs/img-event.svg';
 import studyGraphic from '../../../assets/svgs/img-study.svg';
-import { Button } from '@goorm-dev/vapor-components';
-import { ChevronRightIcon } from '@goorm-dev/vapor-icons';
-import { Text } from '@goorm-dev/vapor-components';
+import styles from './RecruitCaution.module.scss';
 
 function RecruitCaution() {
   return (
@@ -81,15 +81,17 @@ function RecruitCaution() {
               </Text>
             </div>
             <div>
-              <Button
-                color="primary"
-                size="lg"
-                tag="button"
-                iconSide="right"
-                icon={ChevronRightIcon}
-                className={styles.button}>
-                KDC/KDT 자세히 보기
-              </Button>
+              <Link to={'https://kdc.goorm.io/goorm'} target="\_blank">
+                <Button
+                  color="primary"
+                  size="lg"
+                  tag="button"
+                  iconSide="right"
+                  icon={ChevronRightIcon}
+                  className={styles.button}>
+                  KDC/KDT 자세히 보기
+                </Button>
+              </Link>
             </div>
           </div>
 
