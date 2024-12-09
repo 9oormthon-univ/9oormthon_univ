@@ -67,8 +67,8 @@ function CustomNavbar() {
               <Button className={styles.loginButton} size="lg" onClick={() => alert('준비 중인 기능입니다.')}>
                 로그인
               </Button>
-              <NavLink className={styles.loginText} href="/login">
-                로그인하기
+              <NavLink className={styles.loginText}>
+                <button onClick={() => alert('준비 중인 기능입니다.')}>로그인하기</button>
                 <ChevronRightIcon className="ml-1" />
               </NavLink>
             </>
