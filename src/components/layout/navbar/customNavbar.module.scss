@@ -1,7 +1,77 @@
-.whiteFont {
+@import '/src/style/mixin.scss';
+
+.navBarStyle {
+  @include container-lg {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+  }
+}
+
+.loginButton {
   color: var(--gray-000);
-  &:hover {
+  @include container-xs {
+    display: none;
+  }
+  @include container-lg {
+    display: inline-flex;
+  }
+}
+
+.loginText {
+  color: var(--gray-900);
+  @include container-xs {
+    display: inline-flex;
+  }
+  @include container-lg {
+    display: none;
+  }
+}
+
+.collapse {
+  width: 100%;
+  display: flex;
+  @include container-xs {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  @include container-lg {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.customToggler {
+  @include container-xs {
+    & > span > span {
+      background-color: var(--gray-900) !important;
+    }
+  }
+
+  @include container-lg {
+    background-color: var(--gray-000) !important;
+  }
+}
+
+.navbar {
+  @include container-xs {
+    margin-bottom: var(--space-100);
+  }
+
+  @include container-lg {
+    margin-bottom: 0;
+    align-items: center;
+  }
+}
+
+.whiteFont {
+  @include container-xs {
+  }
+  @include container-lg {
     color: var(--gray-000);
+    &:hover {
+      color: var(--gray-000);
+    }
   }
 }
 .grayCircle {

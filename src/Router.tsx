@@ -1,33 +1,33 @@
-// Router.tsx
 import { GoormLoader } from '@goorm-dev/gds-components';
 import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import SignUp from './pages/updatePW/UpdatePW';
 
-// 레이지 로딩 적용
 const About = lazy(() => import('./pages/about/About'));
 const Project = lazy(() => import('./pages/project/Project'));
 const Recruit = lazy(() => import('./pages/recruit/Recruit'));
 const NotFound = lazy(() => import('./pages/errors/NotFound'));
 const SearchUniv = lazy(() => import('./pages/searchUniv/SearchUniv'));
-const SignUp = lazy(() => import('./pages/signUp/SignUp'));
 const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 
-// GoormLoader 컴포넌트에 전달할 props 설정
 const loaderProps = {
-  color: 'black', // 예시 색상
+  color: 'black',
   lottieProps: {
     loop: true,
   },
 };
 
-// 라우터 생성
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />, // Layout 컴포넌트를 사용
+    element: (
+      <Suspense fallback={<GoormLoader {...loaderProps} />}>
+        <Layout />,
+      </Suspense>
+    ),
     children: [
       {
         index: true,
@@ -96,7 +96,7 @@ const router = createBrowserRouter([
       {
         path: '*',
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <NotFound />
           </Suspense>
         ),
@@ -106,7 +106,7 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<GoormLoader {...loaderProps} />}>
         <NotFound />
       </Suspense>
     ),

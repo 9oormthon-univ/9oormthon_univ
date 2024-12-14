@@ -61,8 +61,9 @@
   justify-self: center;
   align-items: center;
   grid-column: span 3;
+  gap: var(--space-100);
 
-  margin: 2rem 0 8rem 0;
+  margin-bottom: 6.6rem;
 }
 
 .modalChips {
@@ -126,4 +127,8 @@
 
 .active {
   background: #5094fa3d;
+}
+
+.space500 {
+  margin-top: var(--space-500);
 }

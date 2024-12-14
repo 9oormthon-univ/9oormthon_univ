@@ -88,16 +88,16 @@ export const BENEFIT_ITEM_DATA = [
   {
     title: 'KDC/KDT',
     description: '카카오X구름 구름톤 트레이닝',
-    url: 'https://ide.goorm.io/',
+    url: 'https://kdc.goorm.io/goorm',
   },
   {
     title: '구름EDU',
     description: '모두를 위한 맞춤형 IT교육 ',
-    url: 'https://ide.goorm.io/',
+    url: 'https://edu.goorm.io/',
   },
   {
     title: '인프런',
     description: '나에게 딱 맞는 강의',
-    url: 'https://ide.goorm.io/',
+    url: 'https://www.inflearn.com/',
   },
 ];

@@ -1,9 +1,12 @@
 import { OutIcon, PauseIcon, PlayIcon, SoundOffIcon, SoundOnIcon } from '@goorm-dev/gds-icons';
 import { Button, Text } from '@goorm-dev/vapor-components';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/file';
 import { MainBannerSlogan } from '../../../assets';
+import mainVideo from '../../../assets/etc/구름톤유니브_벚꽃톤_v8.mp4';
+import playerThumbnail from '../../../assets/images/playerThumbnail.png';
+
 import useIsMobile from '../../../hooks/useIsMobile';
 import styles from './MainBanner.module.scss';
 
@@ -33,6 +36,22 @@ export default function MainBanner() {
     window.location.href = 'https://youtu.be/AqTSrinWXNs';
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollThreshold = 900;
+      if (window.scrollY > scrollThreshold && playing) {
+        setPlaying(false);
+      } else if (window.scrollY <= scrollThreshold && !playing) {
+        setPlaying(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [playing]);
+
   return (
     <div className={styles.playerUpper}>
       <div className={styles.playerFitter}>
@@ -40,7 +59,7 @@ export default function MainBanner() {
           {!onlyThumbnail && (
             <ReactPlayer
               onError={handleError}
-              url="/src/assets/etc/구름톤유니브_벚꽃톤_v8.mp4"
+              url={mainVideo}
               playing={playing}
               muted={muted}
               loop={true}
@@ -61,7 +80,7 @@ export default function MainBanner() {
         </div>
         {onlyThumbnail && (
           <div className={styles.thumbnailWrapper}>
-            <img className="w-100" src="/src/assets/images/playerThumbnail.png" />
+            <img className="w-100" src={playerThumbnail} alt="playerThumbnail" />
           </div>
         )}
         <div className={styles.buttonWrapper}>
