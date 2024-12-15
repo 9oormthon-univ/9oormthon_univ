@@ -5,6 +5,7 @@ import DarkBadge from '../../components/common/ColoredBadge';
 
 import { useEffect, useRef, useState } from 'react';
 import styles from './projectStyles.module.scss';
+import ProjectDetailModal from './ProjectDetailModal';
 
 interface CardProjectProps {
   project: Project;
@@ -54,31 +55,45 @@ export default function CardProject({ project, key, activeIndex, currentPage }: 
   const cardRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <motion.div
-      className={styles.cardContainer}
-      ref={cardRef}
-      variants={cardVariants}
-      initial="hidden"
-      animate={isVisible ? 'visible' : 'hidden'}>
-      <article className={styles.cardImg}>
-        <img className={styles.cardImg} src={image} />
-        {award && (
-          <div className={styles.badge}>
-            <DarkBadge>{award}</DarkBadge>
-          </div>
-        )}
-      </article>
-      <div className={styles.textWrapper}>
-        {/* //NOTE ; 마진값 제대로 다시 확인하기 */}
-        <Text className="mb-0" typography="heading3">
-          {title}
-        </Text>
-        <Text className={styles.subText} typography="body1">
-          {content}
-        </Text>
-        {releaseLink && <Status label="서비스 중" />}
-      </div>
-    </motion.div>
+    <>
+      <motion.div
+        className={styles.cardContainer}
+        ref={cardRef}
+        variants={cardVariants}
+        initial="hidden"
+        onClick={handleOpenModal}
+        animate={isVisible ? 'visible' : 'hidden'}>
+        <article className={styles.cardImg}>
+          <img className={styles.cardImg} src={image} />
+          {award && (
+            <div className={styles.badge}>
+              <DarkBadge>{award}</DarkBadge>
+            </div>
+          )}
+        </article>
+        <div className={styles.textWrapper}>
+          {/* //NOTE ; 마진값 제대로 다시 확인하기 */}
+          <Text className="mb-0" typography="heading3">
+            {title}
+          </Text>
+          <Text className={styles.subText} typography="body1">
+            {content}
+          </Text>
+          {releaseLink && <Status label="서비스 중" />}
+        </div>
+      </motion.div>
+      <ProjectDetailModal project={project} isOpen={isModalOpen} onClose={handleCloseModal} />
+    </>
   );
 }
