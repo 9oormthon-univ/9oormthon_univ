@@ -12,15 +12,16 @@ interface ActivityItemProps {
 
 export default function ActivityItem({ idx, imgSrc, title, title_en }: ActivityItemProps) {
   return (
-    <div
-      className={cx('activityItem', `${idx === 2 && 'hackathonItem'}`, 'd-flex flex-column flex-column-reverse h-100')}>
+    <div className={cx('activityItem', `${idx === 2 && 'hackathonItem'}`, 'd-flex flex-column flex-column-reverse')}>
       <article className={cx('contentBox', 'd-flex flex-column')}>
-        <div className={cx('contentTitle', 'd-flex align-items-end')}>
-          <h3>{title}</h3>
+        <div className={cx('contentTitle', 'd-flex align-items-baseline')}>
+          <h3 className={cx('titleTextKo')}>{title}</h3>
           <h6 className={cx('titleTextEn')}>{title_en}</h6>
         </div>
       </article>
-      <img className={cx('contentImg')} src={imgSrc} alt={title} />
+      <div className={cx('contentImgWrap', `${idx === 2 && 'hackathonImg'}`)}>
+        <img className={cx('contentImg')} src={imgSrc} alt={title} />
+      </div>
     </div>
   );
 }

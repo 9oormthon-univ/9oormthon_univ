@@ -59,9 +59,9 @@ export default function ActivityList() {
         let customStyle = {};
 
         if (idx === 2 && window.innerWidth < 1200) {
-          customStyle = { gridColumn: '1 / -1', width: '100%', height: '18.625rem' };
+          customStyle = { gridColumn: '1 / -1', width: '100%' };
         } else if (idx === 2 && window.innerWidth >= 1200) {
-          customStyle = { gridColumn: '1 / -1', width: '100%', height: '26.75rem' };
+          customStyle = { gridColumn: '1 / -1', width: '100%' };
         }
 
         return (
