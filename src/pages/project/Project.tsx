@@ -26,7 +26,7 @@ export default function Project() {
   }, [breakpoint]);
 
   const currentProjects =
-    activeIndex !== 3
+    activeIndex !== 4
       ? PROJECTS[activeIndex].slice((currentPage - 1) * projectsPerPage, currentPage * projectsPerPage)
       : [];
 
@@ -39,7 +39,7 @@ export default function Project() {
     setCurrentPage(page);
   };
 
-  const pageLength = activeIndex !== 3 ? Math.ceil(PROJECTS[activeIndex].length / projectsPerPage) : NaN;
+  const pageLength = activeIndex !== 4 ? Math.ceil(PROJECTS[activeIndex].length / projectsPerPage) : NaN;
 
   return (
     <>
@@ -53,7 +53,7 @@ export default function Project() {
           </TermFilterButton>
         ))}
       </div>
-      {activeIndex !== 3 ? (
+      {activeIndex !== 4 ? (
         <>
           <div className={styles.cardContainer}>
             {currentProjects.map((project, index) => (
