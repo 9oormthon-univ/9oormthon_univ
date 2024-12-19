@@ -165,9 +165,9 @@
 }
 
 .cardImgWrap {
-  min-width: 18.5rem;
+  // min-width: 18.5rem;
   max-height: 15.8125rem;
-  min-height: 10.5rem;
+  width: 100%;
 
   border-radius: 0.5rem;
   background: var(--gray-050);
@@ -232,7 +232,9 @@
   pointer-events: none;
   list-style: none;
   display: flex;
-  width: 28.25rem;
+  width: calc(100% - 2rem);
+  max-width: 28.25rem;
+  min-width: 16rem;
   padding: 0.25rem;
   flex-direction: column;
   border-radius: 0.5rem;
