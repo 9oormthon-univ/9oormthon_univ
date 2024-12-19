@@ -228,6 +228,8 @@
   position: absolute;
   top: 110px;
 
+  visibility: hidden;
+  pointer-events: none;
   list-style: none;
   display: flex;
   width: 28.25rem;
@@ -243,6 +245,8 @@
 
   &.listVisible {
     opacity: 1 !important;
+    visibility: visible;
+    pointer-events: auto;
     transition: opacity 0.1s linear;
   }
 }
