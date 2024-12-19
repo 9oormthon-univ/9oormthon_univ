@@ -54,7 +54,7 @@ const ProjectDetailModal = ({ project, isOpen, onClose }: ModalProps) => {
             {project.title}
           </Text>
         </div>
-        <Text as="p" typography="body2" color="text-normal">
+        <Text as="p" typography="body2" color="text-normal" className={styles.textContent}>
           {project.content}
         </Text>
         <div className={styles.cardImgWrap}>
@@ -84,24 +84,38 @@ const ProjectDetailModal = ({ project, isOpen, onClose }: ModalProps) => {
               프론트
             </Text>
             <img src={DividerIcon} alt="구분선" />
-            <Text typography="body2" as="p">
-              {project.frontend.join(', ')}
-            </Text>
+            <div className={styles.content}>
+              {project.frontend.map((member, index) => (
+                <Text key={index} typography="body2" as="p" className={styles.name}>
+                  {member}
+                </Text>
+              ))}
+            </div>
           </div>
+
           <div className={styles.listName}>
             <Text as="p" color="text-hint" typography="body2" className={styles.textWidth}>
               백엔드
             </Text>
             <img src={DividerIcon} alt="구분선" />
-            <Text typography="body2" as="p">
-              {project.backend.join(', ')}
-            </Text>
+            <div className={styles.content}>
+              {project.backend.map((member, index) => (
+                <Text key={index} typography="body2" as="p" className={styles.name}>
+                  {member}
+                </Text>
+              ))}
+            </div>
           </div>
         </div>
       </div>
       {/* DialogFooter가 불러와지지 않아서 div값으로 사용 */}
       <div className={styles.dialogFooter}>
-        <Button size="lg" block color="primary" onClick={() => window.open(project.releaseLink, '_blank')}>
+        <Button
+          disabled={!project.releaseLink}
+          size="lg"
+          block
+          color="primary"
+          onClick={() => window.open(project.releaseLink, '_blank')}>
           서비스 바로가기
         </Button>
         {/* Button GDS가 안되어서 임의로 제작 */}

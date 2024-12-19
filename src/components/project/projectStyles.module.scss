@@ -165,9 +165,9 @@
 }
 
 .cardImgWrap {
-  min-width: 18.5rem;
+  // min-width: 18.5rem;
   max-height: 15.8125rem;
-  min-height: 10.5rem;
+  width: 100%;
 
   border-radius: 0.5rem;
   background: var(--gray-050);
@@ -190,13 +190,28 @@
   gap: var(--space-200);
 }
 
-.textWidth {
-  width: 3.5rem;
-}
-
 .listName {
   display: flex;
+  align-items: flex-start;
   gap: var(--space-200);
+
+  .textWidth {
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 3.5rem;
+  }
+
+  .content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .name {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
 
 .dialogFooter {
@@ -228,9 +243,13 @@
   position: absolute;
   top: 110px;
 
+  visibility: hidden;
+  pointer-events: none;
   list-style: none;
   display: flex;
-  width: 28.25rem;
+  width: calc(100% - 2rem);
+  max-width: 28.25rem;
+  min-width: 16rem;
   padding: 0.25rem;
   flex-direction: column;
   border-radius: 0.5rem;
@@ -243,6 +262,8 @@
 
   &.listVisible {
     opacity: 1 !important;
+    visibility: visible;
+    pointer-events: auto;
     transition: opacity 0.1s linear;
   }
 }
@@ -258,4 +279,12 @@
     background: rgba(133, 136, 153, 0.08);
     border-radius: 0.5rem;
   }
+}
+
+.textContent {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
