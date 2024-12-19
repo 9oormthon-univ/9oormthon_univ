@@ -54,7 +54,7 @@ const ProjectDetailModal = ({ project, isOpen, onClose }: ModalProps) => {
             {project.title}
           </Text>
         </div>
-        <Text as="p" typography="body2" color="text-normal">
+        <Text as="p" typography="body2" color="text-normal" className={styles.textContent}>
           {project.content}
         </Text>
         <div className={styles.cardImgWrap}>
