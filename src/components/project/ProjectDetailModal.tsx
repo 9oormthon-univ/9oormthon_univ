@@ -84,18 +84,27 @@ const ProjectDetailModal = ({ project, isOpen, onClose }: ModalProps) => {
               프론트
             </Text>
             <img src={DividerIcon} alt="구분선" />
-            <Text typography="body2" as="p">
-              {project.frontend.join(', ')}
-            </Text>
+            <div className={styles.content}>
+              {project.frontend.map((member, index) => (
+                <Text key={index} typography="body2" as="p" className={styles.name}>
+                  {member}
+                </Text>
+              ))}
+            </div>
           </div>
+
           <div className={styles.listName}>
             <Text as="p" color="text-hint" typography="body2" className={styles.textWidth}>
               백엔드
             </Text>
             <img src={DividerIcon} alt="구분선" />
-            <Text typography="body2" as="p">
-              {project.backend.join(', ')}
-            </Text>
+            <div className={styles.content}>
+              {project.backend.map((member, index) => (
+                <Text key={index} typography="body2" as="p" className={styles.name}>
+                  {member}
+                </Text>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -190,13 +190,28 @@
   gap: var(--space-200);
 }
 
-.textWidth {
-  width: 3.5rem;
-}
-
 .listName {
   display: flex;
+  align-items: flex-start;
   gap: var(--space-200);
+
+  .textWidth {
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 3.5rem;
+  }
+
+  .content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .name {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
 
 .dialogFooter {
