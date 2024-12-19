@@ -26,9 +26,13 @@
   flex-direction: column;
 
   @include container-xs {
-    width: 34.5rem;
+    width: 23.4375rem;
 
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  @include container-sm {
+    width: 33.75rem;
   }
 
   @include container-lg {
@@ -36,8 +40,8 @@
     width: 71.125rem;
     justify-content: center;
 
-    grid-template-columns: 34.5625rem 34.5625rem;
-    grid-template-rows: 24rem 24rem 28rem;
+    grid-template-columns: 34.5rem 34.5rem;
+    grid-template-rows: 23.3rem 25.9rem 23.3rem;
     display: grid;
     grid-template-areas:
       'activity1 activity2'
@@ -65,12 +69,12 @@
 .activityItem {
   gap: 1rem;
 
-  @include container-xs {
-    &.hackathonItem img {
-      height: 20rem;
-      object-fit: fill;
-    }
-  }
+  // @include container-xs {
+  //   &.hackathonItem img {
+  //     height: 20rem;
+  //     object-fit: fill;
+  //   }
+  // }
 }
 
 .contentBox {
@@ -78,11 +82,43 @@
 }
 
 .contentTitle {
-  gap: 1rem;
+  gap: var(--space-150);
+}
+
+.titleTextKo {
+  color: #000;
+
+  font-family: Pretendard;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.625rem; /* 144.444% */
+  letter-spacing: -0.00625rem;
+
+  @include container-md {
+    font-size: 1.5rem;
+    line-height: 2.25rem; /* 150% */
+    letter-spacing: -0.01875rem;
+  }
 }
 
 .titleTextEn {
   color: var(--gray-500);
+
+  font-family: Pretendard;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.375rem; /* 157.143% */
+  letter-spacing: -0.00625rem;
+
+  @include container-md {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem; /* 150% */
+    letter-spacing: -0.00625rem;
+  }
 }
 
 .descriptionText {
@@ -96,6 +132,33 @@
 }
 
 .contentImg {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 1rem;
+}
+
+.contentImgWrap {
+  height: 13.75rem;
+  @include container-sm {
+    height: 15rem;
+  }
+  @include container-md {
+    height: 20rem;
+  }
+}
+
+.hackathonImg {
+  height: 13.75rem;
+  @include container-sm {
+    height: 15rem;
+  }
+
+  @include container-md {
+    height: 20rem;
+  }
+
+  @include container-lg {
+    height: 22.625rem;
+  }
 }
