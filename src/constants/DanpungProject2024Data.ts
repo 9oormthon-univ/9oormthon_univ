@@ -1,5 +1,5 @@
 import Team1 from '../assets/images/projects_danpung_2024/team1.jpg';
-import Team2 from '../assets/images/projects_danpung_2024/team2.jpg';
+import Team2 from '../assets/images/projects_danpung_2024/team2.png';
 import Team3 from '../assets/images/projects_danpung_2024/team3.jpg';
 import Team4 from '../assets/images/projects_danpung_2024/team4.jpg';
 import Team5 from '../assets/images/projects_danpung_2024/team5.png';
@@ -142,7 +142,7 @@ const DanpungProject2024Data = [
     pm: '고주연(서울여대)',
     design: '김가현(중앙대)',
     frontend: ['변상우(서울과기대)', '피유진(서울과기대)'],
-    backend: ['이재혁(서울과기대)', '오현우(한국외대)'],
+    backend: ['이재혁(명지대)', '오현우(한국외대)'],
   },
   {
     award: '',
@@ -206,7 +206,7 @@ const DanpungProject2024Data = [
     image: Team6,
     pm: '김유빈(울산대)',
     design: '박우석(광운대)',
-    frontend: ['박지윤(숭실대)', '배진우(울산대)'],
+    frontend: ['박지윤(청주대)', '배진우(울산대)'],
     backend: ['백소미(경기대)', '한현규(동국대)'],
   },
   {
