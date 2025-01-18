@@ -15,8 +15,8 @@ function RecuritTarget() {
       const isMobile = window.innerWidth <= 768; // 768px 미만을 모바일로 간주
 
       // 모바일 및 데스크탑 환경에 따른 스크롤 위치 조정
-      const mobileBreakpoints = 1050; // 모바일용 브레이크포인트
-      const desktopBreakpoints = 650; // 데스크탑용 브레이크포인트
+      const mobileBreakpoints = 950; // 모바일용 브레이크포인트
+      const desktopBreakpoints = 500; // 데스크탑용 브레이크포인트
 
       const breakpoint = isMobile ? mobileBreakpoints : desktopBreakpoints;
 
@@ -37,7 +37,7 @@ function RecuritTarget() {
   return (
     <div className={styles.container}>
       <Text as="h3" color="text-normal" typography="heading3" fontWeight="bold">
-        3기 지원 대상
+        4기 지원 대상
       </Text>
       <motion.div
         className={styles.bottomSection}

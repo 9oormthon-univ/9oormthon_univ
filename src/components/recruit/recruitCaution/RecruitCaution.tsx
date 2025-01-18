@@ -18,7 +18,7 @@ function RecruitCaution() {
 
       // 모바일 및 데스크탑 환경에 따른 스크롤 위치 조정
       const mobileBreakpoints = 1700; // 모바일용 브레이크포인트
-      const desktopBreakpoints = 1000; // 데스크탑용 브레이크포인트
+      const desktopBreakpoints = 900; // 데스크탑용 브레이크포인트
 
       const breakpoint = isMobile ? mobileBreakpoints : desktopBreakpoints;
 
@@ -58,11 +58,11 @@ function RecruitCaution() {
                 활동 기간
               </Text>
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
-                6월부터 12월까지 <br />
+                3월부터 11월까지 <br />
                 활동 가능해야 합니다.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
-                6월부터 12월까지 <br />
+                3월부터 11월까지 <br />
                 활동 가능해야 합니다.
               </Text>
             </div>
@@ -81,11 +81,11 @@ function RecruitCaution() {
               </Text>
 
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
-                OT와 단풍톤에 <br />
+                OT, 단풍톤, 데모데이에 <br />
                 필수적으로 참여해야 합니다.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
-                OT와 단풍톤에 <br />
+                OT, 단풍톤, 데모데이에 <br />
                 필수적으로 참여해야 합니다.
               </Text>
             </div>
@@ -109,16 +109,16 @@ function RecruitCaution() {
                 스터디 참여
               </Text>
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
-                KDC/KDT 1개 이상 수강 및 스터디 (3~4학년) <br />
-                구름EDU 강의 1개 이상 수강 및 스터디(1~2학년)
+                구름의 다양한 서비스들을 활용하여 <br />
+                교내 및 연합 스터디에 참여해야 합니다.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
-                KDC/KDT 1개 이상 수강 및 스터디 (3~4학년) <br />
-                구름EDU 강의 1개 이상 수강 및 스터디(1~2학년)
+                구름의 다양한 서비스들을 활용하여 <br />
+                교내 및 연합 스터디에 참여해야 합니다.
               </Text>
             </div>
             <div>
-              <Link to={'https://kdc.goorm.io/goorm'} target="\_blank">
+              <Link to={'https://deepdive.goorm.io/'} target="\_blank">
                 <Button
                   color="primary"
                   size="lg"
@@ -126,7 +126,7 @@ function RecruitCaution() {
                   iconSide="right"
                   icon={ChevronRightIcon}
                   className={styles.button}>
-                  KDC/KDT 자세히 보기
+                  Deep Dive 자세히보기
                 </Button>
               </Link>
             </div>

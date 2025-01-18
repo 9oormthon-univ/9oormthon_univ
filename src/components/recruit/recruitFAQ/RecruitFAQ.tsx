@@ -30,7 +30,7 @@ const RecuritFAQ: React.FC = () => {
 
       // 모바일 및 데스크탑 환경에 따른 스크롤 위치 조정
       const mobileBreakpoints = 2400; // 모바일용 브레이크포인트
-      const desktopBreakpoints = 1550; // 데스크탑용 브레이크포인트
+      const desktopBreakpoints = 1450; // 데스크탑용 브레이크포인트
 
       const breakpoint = isMobile ? mobileBreakpoints : desktopBreakpoints;
 

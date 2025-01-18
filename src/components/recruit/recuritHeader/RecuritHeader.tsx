@@ -3,10 +3,15 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './RecruitHeader.module.scss';
 
-const REP_START_DATE = new Date('2024-08-10T10:00:00');
-const REP_END_DATE = new Date('2024-08-22T19:00:00');
-const TEAM_START_DATE = new Date('2024-08-01T10:00:00');
-const TEAM_END_DATE = new Date('2024-08-15T10:00:00');
+// 유니브 대표 모집 시작
+const REP_START_DATE = new Date('2025-01-20T10:00:00');
+// 유니브 대표 모집 마감
+const REP_END_DATE = new Date('2025-02-07T19:00:00');
+// 미르미 모집 시작
+const TEAM_START_DATE = new Date('2025-04-01T10:00:00'); // 임의로 설정
+// 미르미 모집 마감
+const TEAM_END_DATE = new Date('2024-04-15T10:00:00'); // 임의로 설정
+// 대표 모집 1주 전
 const REP_START_ONE_WEEK_BEFORE = new Date(REP_START_DATE.getTime() - 7 * 24 * 60 * 60 * 1000);
 
 function RecuritHeader() {
@@ -68,9 +73,12 @@ function RecuritHeader() {
 
   const handleButtonClick = () => {
     if (currentStatus === 'afterTeamRecruiting') {
-      window.open('https://forms.gle/8qTowhqD5JptwGUx6', '_blank');
+      navigate('/about'); // 추후 수정 필요
     } else {
-      navigate('/about');
+      window.open(
+        'https://docs.google.com/forms/d/e/1FAIpQLSeg4pfokyfK0YXfOYI8GGk_ACsSdu_tcztfH_t-ODJ2cY0Sow/viewform?usp=sharing',
+        '_blank',
+      );
     }
   };
 
@@ -87,24 +95,24 @@ function RecuritHeader() {
     } = {
       oneWeekBeforeRepStart: {
         title: '곧 유니브 대표 모집 기간이예요!',
-        subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
-        button: '우리 학교 찾아보기',
+        subTitle: '이번 4기 유니브 대표로 함께 해요!',
+        button: '유니브 대표 지원하기',
         rightTitle: '유니브 대표 모집 시작',
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: formatDate(REP_START_DATE),
       },
       repRecruiting: {
         title: '유니브 대표 모집 기간이예요!',
-        subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
-        button: '우리 학교 찾아보기',
+        subTitle: '이번 4기 유니브 대표로 함께 해요!',
+        button: '유니브 대표 지원하기',
         rightTitle: '유니브 대표 모집 마감',
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: formatDate(REP_END_DATE),
       },
       afterRepBeforeTeam: {
         title: '곧 미르미 모집 기간이에요!',
-        subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
-        button: '우리 학교 찾아보기',
+        subTitle: '미르미 사전 신청을 통해 유니브 소식을 받아보세요!',
+        button: '미르미 사전 신청하기',
         rightTitle: '유니브 팀원 모집 시작',
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: '유니브 별로 일정 상이',
@@ -118,11 +126,11 @@ function RecuritHeader() {
         rightSubtitle: '유니브 별로 일정 상이',
       },
       afterTeamRecruiting: {
-        title: '3기 모집이 완료되었어요!',
+        title: '4기 모집이 완료되었어요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
-        button: '4기 사전 알림 받기',
-        rightTitle: '4기 모집 시작',
-        dDayText: '25년 1월',
+        button: '5기 사전 알림 받기',
+        rightTitle: '5기 모집 시작',
+        dDayText: '26년 1월',
         rightSubtitle: 'Coming soon!',
       },
     };
