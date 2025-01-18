@@ -11,17 +11,17 @@ const cx = classNames.bind(styles);
 export const getMonthText = (key: number) => {
   switch (key) {
     case 0:
-      return '6월';
+      return '2월';
     case 1:
-      return '7월';
+      return '3월';
     case 2:
-      return '8월';
+      return '5월';
     case 3:
-      return '8-10월';
+      return '4월-6월';
     case 4:
-      return '11월';
+      return '7월-9월';
     case 5:
-      return '12월';
+      return '11월';
     default:
       return `${key}월`;
   }

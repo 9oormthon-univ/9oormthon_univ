@@ -7,8 +7,10 @@ export const THIS_SEASON = {
   AMOUNT_OF_UNIV: 48,
 };
 
+// 추후 업데이트 필요
 export const LINKS = {
-  PRE_REGISTRATION_LINK_4TH: 'https://forms.gle/Pt1xfeHbKgbYFZhj8',
+  PRE_REGISTRATION_LINK_4TH:
+    'https://docs.google.com/forms/d/e/1FAIpQLSeg4pfokyfK0YXfOYI8GGk_ACsSdu_tcztfH_t-ODJ2cY0Sow/viewform?usp=sharing',
 };
 
 export const allProjects = [...DanpoongProject2023Data, ...BeotkkotProject2024Data, ...DanpungProject2024Data].sort(

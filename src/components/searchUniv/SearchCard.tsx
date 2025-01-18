@@ -60,6 +60,7 @@ export default function SearchCard() {
       <Text className="mb-3" typography={fontTypo[1]} fontWeight="regular">
         학교가 없으신가요? 직접 대표가 되어 함께 해요!
       </Text>
+      {/* 추후 업데이트 필요 */}
       <Button
         className="btn-block"
         size="xl"
@@ -68,7 +69,7 @@ export default function SearchCard() {
         onClick={() => {
           window.open(LINKS.PRE_REGISTRATION_LINK_4TH, '_blank');
         }}>
-        4기 사전 신청하기
+        4기 대표 및 미르미 사전 신청하기
       </Button>
     </div>
   );

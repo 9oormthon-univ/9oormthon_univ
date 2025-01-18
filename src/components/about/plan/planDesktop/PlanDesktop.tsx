@@ -15,7 +15,7 @@ export default function PlanDesktop() {
 
   return (
     <div className={styles.planDesktop}>
-      <h2 className={styles.title}>구름톤 유니브 3기 로드맵</h2>
+      <h2 className={styles.title}>구름톤 유니브 4기 로드맵</h2>
       <Text typography="heading6" className={styles.description} color="gray-500">
         다가올 새로운 여정을 함께해요!
       </Text>
@@ -26,7 +26,7 @@ export default function PlanDesktop() {
           onClick={() => {
             navigate('recruit');
           }}>
-          3기 일정 자세히 보기
+          4기 일정 자세히 보기
         </Button>
       </div>
     </div>

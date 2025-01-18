@@ -16,13 +16,13 @@ interface timelineDataType {
 export const TIMELINE_DATA: timelineDataType[] = [
   {
     Icon: GroupIcon,
-    title: '9oormthonUNIV 3기 모집!',
-    description: '단풍톤을 함께 할 3기 운영진과 참가자를 모집해요.\n2024년을 함께 마무리해요!',
+    title: '9oormthonUNIV 4기 모집!',
+    description: '구름톤 유니브 4기 여정을 함께 할 4기 운영진과 참가자를 모집해요.',
   },
   {
     Icon: SchoolIcon,
     title: 'ORIENTATION',
-    description: '구름톤 유니브 3기는 어떻게 진행될까요?\n오리엔테이션에서 알아보아요!',
+    description: '구름톤 유니브 4기는 어떻게 진행될까요?\n오리엔테이션에서 알아보아요!',
   },
   {
     Icon: LightbulbIcon,
@@ -31,18 +31,18 @@ export const TIMELINE_DATA: timelineDataType[] = [
   },
   {
     Icon: LightningIcon,
-    title: '유니브별 스터디 기간',
-    description: '단풍톤이 시작하기 이전 교내 스터디를 운영해요! 해커톤까지 열심히 준비해보아요!',
+    title: '교내/연합 활동 기간',
+    description: '해커톤이 시작하기 이전 역량 강화를 위해 교내/연합 스터디, 세미나를 진행해보아요!',
   },
   {
     Icon: DanpoongSmall,
-    title: '무박 2일, 단풍톤',
-    description: '구름톤 유니브의 하이라이트, 단풍톤!\n모두가 밤을 새워 아이디어를 실현하는 장이에요.',
+    title: '무박 2일, 해커톤',
+    description: '구름톤 유니브의 특별한 여정, 해커톤에서 아이디어를 함께 실현해요!',
   },
   {
     Icon: CakeIcon,
-    title: '구름톤 유니브 애프터 파티',
-    description: '해커톤의 여운을 이어갈 수 있도록 현직자와 수상자의 세미나,\n그리고 마무리 회고를 진행해요.',
+    title: '데모데이',
+    description: '해커톤의 여운을 이어갈 수 있도록 프로젝트를 고도화하여 부스를 진행해요!',
   },
 ];
 
@@ -86,9 +86,9 @@ export const ACTIVITY_DATA = [
 
 export const BENEFIT_ITEM_DATA = [
   {
-    title: 'KDC/KDT',
-    description: '카카오X구름 구름톤 트레이닝',
-    url: 'https://kdc.goorm.io/goorm',
+    title: '구름톤 DEEP DIVE',
+    description: '카카오X구름 구름톤 딥다이브',
+    url: 'https://deepdive.goorm.io/',
   },
   {
     title: '구름EDU',
