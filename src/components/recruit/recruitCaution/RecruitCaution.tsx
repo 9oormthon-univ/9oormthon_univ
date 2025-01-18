@@ -81,11 +81,11 @@ function RecruitCaution() {
               </Text>
 
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
-                OT, 단풍톤, 데모데이에 <br />
+                OT, 해커톤, 데모데이에 <br />
                 필수적으로 참여해야 합니다.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
-                OT, 단풍톤, 데모데이에 <br />
+                OT, 해커톤, 데모데이에 <br />
                 필수적으로 참여해야 합니다.
               </Text>
             </div>
@@ -109,11 +109,11 @@ function RecruitCaution() {
                 스터디 참여
               </Text>
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
-                구름의 다양한 서비스들을 활용하여 <br />
+                구름의 다양한 서비스를 활용하여 <br />
                 교내 및 연합 스터디에 참여해야 합니다.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
-                구름의 다양한 서비스들을 활용하여 <br />
+                구름의 다양한 서비스를 활용하여 <br />
                 교내 및 연합 스터디에 참여해야 합니다.
               </Text>
             </div>
