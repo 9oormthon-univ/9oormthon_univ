@@ -10,7 +10,7 @@ import Team9 from '../assets/images/projects_danpung_2024/team9.jpg';
 import Team10 from '../assets/images/projects_danpung_2024/team10.jpg';
 import Team11 from '../assets/images/projects_danpung_2024/team11.jpg';
 import Team12 from '../assets/images/projects_danpung_2024/team12.jpg';
-import Team13 from '../assets/images/projects_danpung_2024/team13.jpg';
+import Team13 from '../assets/images/projects_danpung_2024/team13.png';
 import Team14 from '../assets/images/projects_danpung_2024/team14.jpg';
 import Team15 from '../assets/images/projects_danpung_2024/team15.png';
 import Team16 from '../assets/images/projects_danpung_2024/team16.png';
