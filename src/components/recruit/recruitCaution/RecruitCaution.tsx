@@ -59,11 +59,11 @@ function RecruitCaution() {
               </Text>
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
                 3월부터 11월까지 <br />
-                활동 가능해야 합니다.
+                활동할 수 있어야 합니다.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
                 3월부터 11월까지 <br />
-                활동 가능해야 합니다.
+                활동할 수 있어야 합니다.
               </Text>
             </div>
             <div>

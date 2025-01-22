@@ -6,7 +6,7 @@ import styles from './RecruitHeader.module.scss';
 // 유니브 대표 모집 시작
 const REP_START_DATE = new Date('2025-01-20T10:00:00');
 // 유니브 대표 모집 마감
-const REP_END_DATE = new Date('2025-02-07T19:00:00');
+const REP_END_DATE = new Date('2025-02-07T18:00:00');
 // 미르미 모집 시작
 const TEAM_START_DATE = new Date('2025-04-01T10:00:00'); // 임의로 설정
 // 미르미 모집 마감
@@ -94,17 +94,17 @@ function RecuritHeader() {
       };
     } = {
       oneWeekBeforeRepStart: {
-        title: '곧 유니브 대표 모집 기간이예요!',
-        subTitle: '이번 4기 유니브 대표로 함께 해요!',
+        title: '곧 유니브 대표 모집 기간이에요!',
+        subTitle: '이번 4기 유니브 대표로 함께해요! ',
         button: '유니브 대표 지원하기',
         rightTitle: '유니브 대표 모집 시작',
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: formatDate(REP_START_DATE),
       },
       repRecruiting: {
-        title: '유니브 대표 모집 기간이예요!',
-        subTitle: '이번 4기 유니브 대표로 함께 해요!',
-        button: '유니브 대표 지원하기',
+        title: '유니브 대표 모집 기간이에요!',
+        subTitle: '혹은 미르미로 참여하고 싶으신가요? \n미르미 사전 신청을 통해 유니브 소식을 받아보세요!',
+        button: '대표 지원 및 미르미 사전 신청하기',
         rightTitle: '유니브 대표 모집 마감',
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,
         rightSubtitle: formatDate(REP_END_DATE),
