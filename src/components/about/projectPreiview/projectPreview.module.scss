@@ -33,20 +33,8 @@
     background-color: var(--gray-200);
     border-radius: var(--space-200);
     margin-bottom: var(--space-100);
-    @include container-xs {
-      width: 22.25rem;
-      height: 12.5rem;
-    }
-
-    @include container-md {
-      width: 17.5rem;
-      height: 9.5rem;
-    }
-
-    @include container-xl {
-      width: 22.25rem;
-      height: 12.5rem;
-    }
+    width: 22.25rem;
+    height: 12.5rem;
   }
 }
 
@@ -54,8 +42,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2.5rem;
+  gap: var(--size-400);
   margin: 0rem 8rem;
+
+  @include container-xl {
+    gap: 2.5rem;
+  }
 }
 
 .hidden {

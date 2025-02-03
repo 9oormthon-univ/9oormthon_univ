@@ -2,15 +2,31 @@ import { Button, CarouselItem, CarouselNew } from '@goorm-dev/vapor-components';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { allProjects } from '../../../constants/common';
-import useIsMobile from '../../../hooks/useIsMobile';
+// import useIsMobile from '../../../hooks/useIsMobile';
 import CardProject from '../../project/CardProject';
 import styles from './projectPreview.module.scss';
 
 export default function ProjectCarousel() {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
-  const { isMobile } = useIsMobile();
-  const cardNumber = isMobile ? 1 : 3;
+  const [cardNumber, setCardNumber] = useState(3); // 기본값 3개
+
+  useEffect(() => {
+    const updateCardNumber = () => {
+      if (window.innerWidth <= 992) {
+        setCardNumber(1);
+      } else if (window.innerWidth <= 1200) {
+        setCardNumber(2);
+      } else {
+        setCardNumber(3);
+      }
+    };
+
+    updateCardNumber(); // 초기 실행
+    window.addEventListener('resize', updateCardNumber); // 리사이즈 감지
+
+    return () => window.removeEventListener('resize', updateCardNumber);
+  }, []);
 
   const splitProjects = useMemo(() => {
     const result = [];
@@ -44,7 +60,7 @@ export default function ProjectCarousel() {
 
   return (
     <div className={styles.container}>
-      <CarouselNew ride interval={'3000'} activeIndex={activeIndex} next={next} previous={prev} items={splitProjects}>
+      <CarouselNew ride interval={'100000'} activeIndex={activeIndex} next={next} previous={prev} items={splitProjects}>
         <CarouselNew.Indicator
           outerClassName={styles.hidden}
           itemsLength={splitProjects.length}
