@@ -11,6 +11,26 @@
   background-color: var(--background-alternative-01);
 }
 
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bigTextContainer {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.25rem;
+  letter-spacing: -0.01875rem;
+
+  @include container-sm {
+    font-size: 2rem;
+    line-height: 3rem;
+    letter-spacing: -0.025rem;
+  }
+}
+
 .textContainer {
   display: flex;
   flex-direction: column;

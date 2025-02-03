@@ -5,8 +5,8 @@ import styles from './projectPreview.module.scss';
 export default function ProjectPreview() {
   return (
     <div className={styles.previewContainer}>
-      <div>
-        <Text typography="heading2" color="gray-900">
+      <div className={styles.textWrap}>
+        <Text className={styles.bigTextContainer} typography="heading2" color="gray-900">
           작은 아이디어가 현실로!
         </Text>
         <Text className={styles.textContainer} typography="heading6">
