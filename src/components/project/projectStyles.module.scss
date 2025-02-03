@@ -1,6 +1,8 @@
 @import '../../style/mixin.scss';
 
 .cardContainer {
+  height: 19.375rem;
+
   overflow: hidden;
   transition: transform 0.3s ease;
 
