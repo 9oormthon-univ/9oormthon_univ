@@ -54,7 +54,7 @@ export const FooterSlogan = styled.h3`
 `;
 
 export const SocialIcon = styled.a`
-  color: var(--alternative);
+  color: var(--gray-700);
   text-decoration: none;
   font-size: 1.5rem;
 
