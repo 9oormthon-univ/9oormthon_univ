@@ -103,7 +103,7 @@ function RecuritHeader() {
       },
       repRecruiting: {
         title: '유니브 대표 모집 기간이에요!',
-        subTitle: '혹은 미르미로 참여하고 싶으신가요? \n미르미 사전 신청을 통해 유니브 소식을 받아보세요!',
+        subTitle: '혹은 미르미로 참여하고 싶은가요? \n미르미 사전 신청을 통해 유니브 소식을 받아보세요!',
         button: '대표 지원 및 미르미 사전 신청하기',
         rightTitle: '유니브 대표 모집 마감',
         dDayText: timeRemaining.days === 0 ? 'D-day' : `D-${timeRemaining.days}`,

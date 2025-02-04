@@ -58,7 +58,7 @@ export default function SearchCard() {
         <Divider />
       </div>
       <Text className="mb-3" typography={fontTypo[1]} fontWeight="regular">
-        학교가 없으신가요? 직접 대표가 되어 함께 해요!
+        학교가 없나요? 직접 대표가 되어 함께해요!
       </Text>
       {/* 추후 업데이트 필요 */}
       <Button

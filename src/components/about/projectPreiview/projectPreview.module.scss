@@ -11,6 +11,26 @@
   background-color: var(--background-alternative-01);
 }
 
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bigTextContainer {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.25rem;
+  letter-spacing: -0.01875rem;
+
+  @include container-sm {
+    font-size: 2rem;
+    line-height: 3rem;
+    letter-spacing: -0.025rem;
+  }
+}
+
 .textContainer {
   display: flex;
   flex-direction: column;
@@ -33,20 +53,8 @@
     background-color: var(--gray-200);
     border-radius: var(--space-200);
     margin-bottom: var(--space-100);
-    @include container-xs {
-      width: 22.25rem;
-      height: 12.5rem;
-    }
-
-    @include container-md {
-      width: 17.5rem;
-      height: 9.5rem;
-    }
-
-    @include container-xl {
-      width: 22.25rem;
-      height: 12.5rem;
-    }
+    width: 22.25rem;
+    height: 12.5rem;
   }
 }
 
@@ -54,8 +62,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2.5rem;
+  gap: var(--size-400);
   margin: 0rem 8rem;
+
+  @include container-xl {
+    gap: 2.5rem;
+  }
 }
 
 .hidden {

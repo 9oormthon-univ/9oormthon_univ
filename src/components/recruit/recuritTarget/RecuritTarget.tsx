@@ -52,7 +52,7 @@ function RecuritTarget() {
             color="text-alternative"
             typography="heading4"
             fontWeight="bold">
-            IT 서비스의 구현에
+            IT 서비스 구현에
             <br /> 관심이 많은 대학생
           </Text>
           <Text

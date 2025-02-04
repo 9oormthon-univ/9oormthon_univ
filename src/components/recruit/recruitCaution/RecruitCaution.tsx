@@ -59,11 +59,11 @@ function RecruitCaution() {
               </Text>
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
                 3월부터 11월까지 <br />
-                활동할 수 있어야 합니다.
+                활동할 수 있어야 해요.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
                 3월부터 11월까지 <br />
-                활동할 수 있어야 합니다.
+                활동할 수 있어야 해요.
               </Text>
             </div>
             <div>
@@ -82,11 +82,11 @@ function RecruitCaution() {
 
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
                 OT, 해커톤, 데모데이에 <br />
-                필수적으로 참여해야 합니다.
+                필수적으로 참여해야 해요.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
                 OT, 해커톤, 데모데이에 <br />
-                필수적으로 참여해야 합니다.
+                필수적으로 참여해야 해요.
               </Text>
             </div>
             <div>
@@ -109,12 +109,12 @@ function RecruitCaution() {
                 스터디 참여
               </Text>
               <Text className={styles.showOnSm} as="p" color="text-hint" typography="body1" fontWeight="regular">
-                구름의 다양한 서비스를 활용하여 <br />
-                교내 및 연합 스터디에 참여해야 합니다.
+                구름의 다양한 서비스를 자유롭게 활용하여 <br />
+                교내 및 연합 스터디에 참여해야 해요.
               </Text>
               <Text className={styles.showOnXs} as="p" color="text-hint" typography="body3" fontWeight="regular">
-                구름의 다양한 서비스를 활용하여 <br />
-                교내 및 연합 스터디에 참여해야 합니다.
+                구름의 다양한 서비스를 자유롭게 활용하여 <br />
+                교내 및 연합 스터디에 참여해야 해요.
               </Text>
             </div>
             <div>
@@ -126,7 +126,7 @@ function RecruitCaution() {
                   iconSide="right"
                   icon={ChevronRightIcon}
                   className={styles.button}>
-                  Deep Dive 자세히보기
+                  Deep Dive 자세히 보기
                 </Button>
               </Link>
             </div>
