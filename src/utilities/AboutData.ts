@@ -27,7 +27,7 @@ export const TIMELINE_DATA: timelineDataType[] = [
   {
     Icon: LightbulbIcon,
     title: 'ONBOARDING',
-    description: '해커톤을 시작하기 이전, 해커톤에 대해 알아봐요!\n다양한 연사자분께서 협업에 대해 알려주실 거에요!',
+    description: '해커톤에 앞서 여러분의 성장을 도와요.\n다양한 연사자분께서 협업에 대해 알려주실 거에요!',
   },
   {
     Icon: LightningIcon,
@@ -86,13 +86,13 @@ export const ACTIVITY_DATA = [
 
 export const BENEFIT_ITEM_DATA = [
   {
-    title: '구름톤 DEEP DIVE',
-    description: '카카오X구름 구름톤 딥다이브',
+    title: '구름톤 딥다이브',
+    description: '카카오 X 구름',
     url: 'https://deepdive.goorm.io/',
   },
   {
     title: '구름EDU',
-    description: '모두를 위한 맞춤형 IT교육 ',
+    description: '모두를 위한 맞춤형 IT 교육 ',
     url: 'https://edu.goorm.io/',
   },
   {

@@ -89,14 +89,14 @@ function RecuritCalendar() {
           </div>
           <div className={styles.leftTopSection}>
             <Text className={styles.showOnLg} color="text-hint" typography="subtitle1" fontWeight="medium">
-              유니브 별로 모집 일정이 상이하니 <br />
+              유니브별로 모집 일정이 상이하니 <br />
               자세한 일정은 각 유니브 인스타를 참고하세요.
             </Text>
             <Text className={styles.showOnMd} as="span" color="text-hint" typography="subtitle2" fontWeight="medium">
-              유니브 별로 모집 일정이 상이하니 자세한 일정은 각 유니브 인스타를 참고하세요.
+              유니브별로 모집 일정이 상이하니 자세한 일정은 각 유니브 인스타를 참고하세요.
             </Text>
             <Text className={styles.showOnXs} as="span" color="text-hint" typography="subtitle2" fontWeight="medium">
-              유니브 별로 모집 일정이 상이하니 <br />
+              유니브별로 모집 일정이 상이하니 <br />
               자세한 일정은 각 유니브 인스타를 참고하세요.
             </Text>
           </div>
