@@ -23,6 +23,12 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
+      # .npmrc 파일 생성
+      - name: Create .npmrc
+        run: |
+          echo "${{ secrets.NPMRC_CONTENT }}" | base64 --decode > .npmrc
+      
+
       # 프로젝트 의존성 설치
       - name: Install Dependencies
         run: |
