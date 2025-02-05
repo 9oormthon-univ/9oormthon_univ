@@ -56,7 +56,7 @@ function RecuritCalendar() {
                   1. 대표 모집 :
                 </Text>
                 <Text color="text-hint" typography="subtitle2" fontWeight="medium">
-                  1월 20일 ~ 2월 7일
+                  1월 20일 ~ 2월 12일
                 </Text>
               </div>
               <div className={styles.scheduleDiv}>
