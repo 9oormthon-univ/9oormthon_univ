@@ -1,0 +1,83 @@
+name: Web Application Develop Server CI/CD
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types:
+      - opened
+      - synchronize
+      - closed
+
+jobs:
+  CI:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Node.js 설정
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # .npmrc 파일 생성
+      - name: Create .npmrc
+        run: |
+          echo "${{ secrets.NPMRC_CONTENT }}" | base64 --decode > .npmrc
+      
+
+      # 프로젝트 의존성 설치
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      # 프로젝트 빌드
+      - name: Build React Application
+        run: |
+          npm run build
+
+      ### Docker Image Build and Push
+      - name: Login to Docker Hub
+        if: github.event.pull_request.merged == true
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        if: github.event.pull_request.merged == true
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push Docker image
+        if: github.event.pull_request.merged == true
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}
+
+  # closed에 대한 server deploy
+  CD:
+    if: github.event.pull_request.merged == true
+    needs: [CI]
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      ### SSH Connect and Docker Image Pull and Container Run
+      - name: Docker Image Pull and Container Run
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEV_SSH_HOST }}
+          username: ${{ secrets.DEV_SSH_USERNAME }}
+          key: ${{ secrets.DEV_SSH_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          script: |
+            docker stop ${{ secrets.CONTAINER_NAME }}
+            docker rm ${{ secrets.CONTAINER_NAME }}
+            docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}
+            docker run -d -p 8080:80 --name ${{ secrets.CONTAINER_NAME }} --network ${{ secrets.DOCKER_NETWORKNAME }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}
