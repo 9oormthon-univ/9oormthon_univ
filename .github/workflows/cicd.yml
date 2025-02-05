@@ -16,30 +16,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Cache npm/yarn dependencies
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.npm
-            ~/.yarn
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      ### Set up Node.js
-      - name: Set up Node.js
+      # Node.js 설정
+      - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '18'
+          cache: 'npm'
 
-      ### Install dependencies
-      - name: Install dependencies
+      # 프로젝트 의존성 설치
+      - name: Install Dependencies
         run: |
-          npm ci
+          npm install
 
-      ### Build the project
-      - name: Build project
+      # 프로젝트 빌드
+      - name: Build React Application
         run: |
           npm run build
 
