@@ -6,11 +6,11 @@ import styles from './RecruitHeader.module.scss';
 // 유니브 대표 모집 시작
 const REP_START_DATE = new Date('2025-01-20T10:00:00');
 // 유니브 대표 모집 마감
-const REP_END_DATE = new Date('2025-02-07T18:00:00');
+const REP_END_DATE = new Date('2025-02-12T18:00:00');
 // 미르미 모집 시작
-const TEAM_START_DATE = new Date('2025-04-01T10:00:00'); // 임의로 설정
+const TEAM_START_DATE = new Date('2025-02-24T10:00:00'); // 임의로 설정
 // 미르미 모집 마감
-const TEAM_END_DATE = new Date('2024-04-15T10:00:00'); // 임의로 설정
+const TEAM_END_DATE = new Date('2025-03-23T10:00:00'); // 임의로 설정
 // 대표 모집 1주 전
 const REP_START_ONE_WEEK_BEFORE = new Date(REP_START_DATE.getTime() - 7 * 24 * 60 * 60 * 1000);
 
