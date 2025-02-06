@@ -22,6 +22,10 @@ function CustomNavbar() {
       to: '/recruit',
     },
     {
+      title: 'Hackathon',
+      to: '/hackathon',
+    },
+    {
       title: (
         <>
           UNIV-LOG <OutIcon className="mx-1" />
