@@ -41,4 +41,22 @@
 .dropdownWrap {
   display: flex;
   gap: var(--space-100);
+
+  @include container-xs {
+    flex-direction: column;
+  }
+
+  @include container-sm {
+    flex-direction: row;
+  }
+}
+
+.noneBtn {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-sm {
+    display: inline-flex;
+  }
 }

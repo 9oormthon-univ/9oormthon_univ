@@ -68,7 +68,7 @@ export default function IdeaList() {
               disabled={!isTeamBuilding}
             />
           </div>
-          <Button icon={EditIcon} active={false} size="lg" href="/hackathon/create">
+          <Button icon={EditIcon} active={false} size="lg" href="/hackathon/create" className={styles.noneBtn}>
             아이디어 등록
           </Button>
         </div>
