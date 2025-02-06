@@ -1,8 +1,7 @@
 import { Button } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
-import { Text } from '@goorm-dev/gds-components';
-import { BookmarkIcon } from '@goorm-dev/gds-icons';
-// import { Button } from '@goorm-dev/gds-components';
+import { Text } from '@goorm-dev/vapor-components';
+import { BookmarkIcon } from '@goorm-dev/vapor-icons';
 
 interface IdeaListItemProps {
   topic: string; // 해커톤 주제
@@ -35,7 +34,7 @@ export default function IdeaListItem({ topic, title, description, status }: Idea
           className={styles.fixedText}>
           {status}
         </Text>
-        <Button className={styles.buttonColor} size="md" icon={BookmarkIcon} />
+        <Button color="secondary" size="md" icon={BookmarkIcon} />
       </div>
     </div>
   );

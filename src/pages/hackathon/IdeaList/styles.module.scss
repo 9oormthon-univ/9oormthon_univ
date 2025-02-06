@@ -60,3 +60,13 @@
     display: inline-flex;
   }
 }
+
+.ideaListWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-250);
+}
+
+.basicPagination {
+  justify-content: center;
+}
