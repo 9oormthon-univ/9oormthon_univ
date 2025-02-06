@@ -12,7 +12,8 @@
   "dependencies": {
     "@goorm-dev/gds-components": "^1.45.1",
     "@goorm-dev/gds-icons": "^1.45.1",
-    "@goorm-dev/vapor-components": "^0.8.0",
+    "@goorm-dev/vapor-components": "^0.24.3",
+    "@goorm-dev/vapor-icons": "^0.24.3",
     "classnames": "^2.5.1",
     "firebase": "^10.12.5",
     "framer-motion": "^11.3.23",
