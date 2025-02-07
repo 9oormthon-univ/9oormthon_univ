@@ -14,7 +14,7 @@ const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
 
-const IdeaCreate = lazy(() => import('./pages/hackathon/IdeaCreate/IdeaCreate'));
+const TeamPreferenceStep1 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep1'));
 
 const loaderProps = {
   color: 'black',
@@ -108,7 +108,7 @@ const router = createBrowserRouter([
         path: 'hackathon/create',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <IdeaCreate />
+            <TeamPreferenceStep1 />
           </Suspense>
         ),
       },

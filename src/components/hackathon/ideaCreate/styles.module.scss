@@ -1,0 +1,14 @@
+.labelWrap {
+  display: flex;
+  gap: var(--size-050);
+  align-items: center;
+}
+
+.dropdown {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dropdownMenu {
+  width: 100%;
+}
