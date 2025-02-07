@@ -12,6 +12,9 @@ const SearchUniv = lazy(() => import('./pages/searchUniv/SearchUniv'));
 const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
+const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
+
+const IdeaCreate = lazy(() => import('./pages/hackathon/IdeaCreate/IdeaCreate'));
 
 const loaderProps = {
   color: 'black',
@@ -90,6 +93,22 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <UpdatePW />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'hackathon',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <IdeaList />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'hackathon/create',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <IdeaCreate />
           </Suspense>
         ),
       },

@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+  padding: var(--space-500);
+  justify-content: center;
+  align-self: stretch;
+  align-items: center;
+
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-300);
+}
+
+.imgSrc {
+  width: 10rem;
+  height: 7.5rem;
+}
+
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  align-items: center;
+}

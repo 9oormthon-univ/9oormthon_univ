@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  gap: var(--space-100);
+  padding: 0 var(--space-200);
+  height: var(--dimension-500);
+}
+
+.dropdown {
+  border: 1px solid var(--border-color);
+}
+
+.dropdown:disabled {
+  opacity: 0.32;
+}
+
+.textSelect {
+  margin: 0 1rem 0 0;
+}
