@@ -4,6 +4,7 @@ import { Button, Form, Text } from '@goorm-dev/vapor-components';
 import FormDropdown from '../../../components/hackathon/ideaCreate/FormDropdown';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FormInput from '../../../components/hackathon/ideaCreate/FormInput';
 
 export default function TeamPreferenceStep1() {
   const hackathonTopics = ['해커톤 주제1', '해커톤 주제2', '해커톤 주제3'];
@@ -38,6 +39,7 @@ export default function TeamPreferenceStep1() {
             options={hackathonTopics}
             onChange={setSelectedTopic}
           />
+          <FormInput label="아이디어 제목" nullable={false} placeholder="제목을 입력해주세요" />
         </div>
         <div className={styles.buttonAlign}>
           <Button size="xl" color="primary" onClick={handleSubmit} icon={ChevronRightOutlineIcon}>
