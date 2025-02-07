@@ -2,8 +2,6 @@ import { GoormLoader } from '@goorm-dev/gds-components';
 import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
-import SignUp from './pages/updatePW/UpdatePW';
-
 const About = lazy(() => import('./pages/about/About'));
 const Project = lazy(() => import('./pages/project/Project'));
 const Recruit = lazy(() => import('./pages/recruit/Recruit'));
@@ -13,6 +11,7 @@ const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
+const SignUp = lazy(() => import('./pages/signUp/SignUp'));
 
 const IdeaCreate = lazy(() => import('./pages/hackathon/IdeaCreate/IdeaCreate'));
 
