@@ -5,6 +5,7 @@ import FormDropdown from '../../../components/hackathon/ideaCreate/FormDropdown'
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../../components/hackathon/ideaCreate/FormInput';
+import FormTextarea from '../../../components/hackathon/ideaCreate/FormTextarea';
 
 export default function TeamPreferenceStep1() {
   const hackathonTopics = ['해커톤 주제1', '해커톤 주제2', '해커톤 주제3'];
@@ -40,6 +41,11 @@ export default function TeamPreferenceStep1() {
             onChange={setSelectedTopic}
           />
           <FormInput label="아이디어 제목" nullable={false} placeholder="제목을 입력해주세요" />
+          <FormTextarea
+            label="한 줄 소개"
+            nullable={false}
+            placeholder="아이디어를 잘 표현할 수 있는 소개 글을 입력해주세요"
+          />
         </div>
         <div className={styles.buttonAlign}>
           <Button size="xl" color="primary" onClick={handleSubmit} icon={ChevronRightOutlineIcon}>
