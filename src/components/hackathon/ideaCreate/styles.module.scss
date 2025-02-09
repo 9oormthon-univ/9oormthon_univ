@@ -28,4 +28,12 @@
   line-height: var(--line-height-075); /* 157.143% */
   letter-spacing: var(--letter-spacing-b2, -0.00625rem);
   resize: none;
+  outline: 0;
+
+  // input vapor과 동일하게 설정
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+  &:focus {
+    border-color: var(--primary);
+  }
 }
