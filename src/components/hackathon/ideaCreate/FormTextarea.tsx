@@ -5,9 +5,11 @@ interface FormTextareaProps {
   label: string;
   nullable: boolean;
   placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export default function FormTextarea({ label, nullable, placeholder }: FormTextareaProps) {
+export default function FormTextarea({ label, nullable, placeholder, value, onChange }: FormTextareaProps) {
   return (
     <FormGroup>
       <Label className={styles.labelWrap}>
@@ -20,7 +22,7 @@ export default function FormTextarea({ label, nullable, placeholder }: FormTexta
           </Text>
         )}
       </Label>
-      <textarea placeholder={placeholder} className={styles.textArea}></textarea>
+      <textarea placeholder={placeholder} className={styles.textArea} value={value} onChange={onChange}></textarea>
     </FormGroup>
   );
 }

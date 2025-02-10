@@ -2,27 +2,23 @@ import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@goorm-dev/vapo
 import styles from './styles.module.scss';
 import { Button, Form, Text } from '@goorm-dev/vapor-components';
 import FormDropdown from '../../../components/hackathon/ideaCreate/FormDropdown';
-import React, { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../../components/hackathon/ideaCreate/FormInput';
 import FormTextarea from '../../../components/hackathon/ideaCreate/FormTextarea';
 import FormEditor from '../../../components/hackathon/ideaCreate/FormEditor';
-import type { Editor } from '@toast-ui/react-editor';
 import FormRadio from '../../../components/hackathon/ideaCreate/FormRadio';
-
+import type { Editor } from '@toast-ui/react-editor';
+import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 export default function TeamPreferenceStep1() {
-  const hackathonTopics = ['해커톤 주제1', '해커톤 주제2', '해커톤 주제3'];
-  const [selectedTopic, setSelectedTopic] = useState('');
+  const { idea_info, updateIdeaInfo } = useIdeaFormStore();
+  const hackathonTopics = [
+    { id: 1, name: '해커톤 주제1' },
+    { id: 2, name: '해커톤 주제2' },
+    { id: 3, name: '해커톤 주제3' },
+  ];
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = {
-      idea_subject_id: selectedTopic,
-    };
-    console.log(formData);
-  };
 
   const getImageUrl = async (file: File): Promise<string> => {
     // 실제 파일을 Base64로 변환하여 임시 URL 생성
@@ -41,10 +37,27 @@ export default function TeamPreferenceStep1() {
     callback(imageUrl);
   };
 
+  const isFormValid = () => {
+    const formStatus = {
+      subject: idea_info.idea_subject_id !== 0,
+      title: idea_info.title.trim() !== '',
+      summary: idea_info.summary.trim() !== '',
+      content: idea_info.content.trim() !== '',
+    };
+
+    console.log('Form Status:', formStatus);
+    console.log(
+      'Is form valid:',
+      Object.values(formStatus).every((value) => value === true),
+    );
+
+    return Object.values(formStatus).every((value) => value === true);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.backLink}>
-        <Button color="secondary" size="lg" icon={ChevronLeftOutlineIcon} onClick={() => navigate(-1)}>
+        <Button color="secondary" size="lg" icon={ChevronLeftOutlineIcon} onClick={() => navigate('/hackathon')}>
           뒤로가기
         </Button>
       </div>
@@ -56,24 +69,58 @@ export default function TeamPreferenceStep1() {
           <FormDropdown
             label="어떤 주제에 해당 되나요?"
             nullable={false}
-            selectedValue={selectedTopic}
+            selectedValue={
+              hackathonTopics.find((topic) => topic.id.toString() === idea_info.idea_subject_id.toString())?.name || ''
+            }
             placeholder="주제를 선택해주세요"
             options={hackathonTopics}
-            onChange={setSelectedTopic}
+            onChange={(e) => updateIdeaInfo('idea_subject_id', parseInt(e.target.value))}
           />
-          <FormInput label="아이디어 제목" nullable={false} placeholder="제목을 입력해주세요" />
+          <FormInput
+            label="아이디어 제목"
+            nullable={false}
+            placeholder="제목을 입력해주세요"
+            value={idea_info.title}
+            onChange={(e) => updateIdeaInfo('title', e.target.value)}
+          />
           <FormTextarea
             label="한 줄 소개"
             nullable={false}
             placeholder="아이디어를 잘 표현할 수 있는 소개 글을 입력해주세요"
+            value={idea_info.summary}
+            onChange={(e) => updateIdeaInfo('summary', e.target.value)}
           />
-          <FormEditor label="설명" nullable={false} editorRef={editorRef} imageHandler={handleImage} />
+          <FormEditor
+            label="설명"
+            nullable={false}
+            placeholder="아이디어에 대해 자유롭게 설명해주세요"
+            editorRef={editorRef}
+            imageHandler={handleImage}
+            value={idea_info.content}
+            onChange={() => {
+              const markdownContent = editorRef.current?.getInstance().getMarkdown() || '';
+              updateIdeaInfo('content', markdownContent);
+            }}
+          />
         </div>
         <div className={styles.radioContainer}>
-          <FormRadio label="본인 파트를 선택해 주세요" nullable={false} />
+          <FormRadio
+            label="본인 파트를 선택해 주세요"
+            nullable={false}
+            value={idea_info.provider_role}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateIdeaInfo('provider_role', e.target.id)}
+          />
         </div>
         <div className={styles.buttonAlign}>
-          <Button size="xl" color="primary" onClick={handleSubmit} icon={ChevronRightOutlineIcon}>
+          <Button
+            size="xl"
+            color="primary"
+            icon={ChevronRightOutlineIcon}
+            disabled={!isFormValid()}
+            onClick={() => {
+              console.log('Current idea_info:', idea_info);
+              navigate('/hackathon/create/step2', { state: { idea_info } });
+            }}>
             다음 페이지
           </Button>
         </div>

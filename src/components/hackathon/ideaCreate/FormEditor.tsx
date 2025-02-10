@@ -8,9 +8,20 @@ interface FormEditorProps {
   nullable: boolean;
   editorRef: React.RefObject<Editor> | null;
   imageHandler: (blob: File, callback: typeof Function) => void;
+  value: string;
+  onChange: () => void;
+  placeholder: string;
 }
 
-export default function FormEditor({ label, nullable, editorRef, imageHandler }: FormEditorProps) {
+export default function FormEditor({
+  label,
+  nullable,
+  editorRef,
+  imageHandler,
+  value,
+  onChange,
+  placeholder = '아이디어에 대해 자유롭게 설명해주세요',
+}: FormEditorProps) {
   const toolbar = [
     ['heading', 'bold', 'italic', 'strike'],
     ['hr', 'quote'],
@@ -32,8 +43,8 @@ export default function FormEditor({ label, nullable, editorRef, imageHandler }:
         )}
       </Label>
       <Editor
-        initialValue={''}
-        placeholder="아이디어에 대해 자유롭게 설명해주세요"
+        initialValue={value || ''}
+        placeholder={placeholder}
         initialEditType="markdown"
         previewStyle="tab"
         ref={editorRef}
@@ -41,6 +52,8 @@ export default function FormEditor({ label, nullable, editorRef, imageHandler }:
         hideModeSwitch
         height="500px"
         hooks={{ addImageBlobHook: imageHandler }}
+        value={value}
+        onChange={onChange}
       />
     </FormGroup>
   );

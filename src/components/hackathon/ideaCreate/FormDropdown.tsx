@@ -15,8 +15,8 @@ interface FormDropdownProps {
   nullable: boolean; // null 허용
   selectedValue: string;
   placeholder: string;
-  options: string[]; // 옵션
-  onChange: (value: string) => void;
+  options: { id: number; name: string }[]; // 옵션
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export default function FormDropdown({
@@ -51,8 +51,12 @@ export default function FormDropdown({
         </DropdownToggle>
         <DropdownMenu className={styles.dropdownMenu}>
           {options.map((option, index) => (
-            <DropdownItem key={index} onClick={() => onChange(option)}>
-              {option}
+            <DropdownItem
+              key={index}
+              onClick={() =>
+                onChange({ target: { value: option.id } } as unknown as React.ChangeEvent<HTMLSelectElement>)
+              }>
+              {option.name}
             </DropdownItem>
           ))}
         </DropdownMenu>

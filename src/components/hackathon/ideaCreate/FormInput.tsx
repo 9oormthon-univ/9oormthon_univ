@@ -5,9 +5,11 @@ interface FormInputProps {
   label: string;
   nullable: boolean;
   placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function FormInput({ label, nullable, placeholder }: FormInputProps) {
+export default function FormInput({ label, nullable, placeholder, value, onChange }: FormInputProps) {
   return (
     <FormGroup>
       <Label className={styles.labelWrap}>
@@ -21,7 +23,7 @@ export default function FormInput({ label, nullable, placeholder }: FormInputPro
         )}
       </Label>
       {/* 추후 글자수 제한 필요 */}
-      <Input bsSize="lg" counter={true} placeholder={placeholder} />
+      <Input bsSize="lg" counter={true} placeholder={placeholder} value={value} onChange={onChange} />
     </FormGroup>
   );
 }
