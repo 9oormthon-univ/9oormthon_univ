@@ -37,3 +37,14 @@
     border-color: var(--primary);
   }
 }
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-500);
+}
+
+.radioContainer {
+  display: flex;
+  gap: var(--space-500);
+}

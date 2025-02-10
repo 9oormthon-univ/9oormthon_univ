@@ -8,10 +8,9 @@ interface FormEditorProps {
   nullable: boolean;
   editorRef: React.RefObject<Editor> | null;
   imageHandler: (blob: File, callback: typeof Function) => void;
-  content?: string;
 }
 
-export default function FormEditor({ label, nullable, content = '', editorRef, imageHandler }: FormEditorProps) {
+export default function FormEditor({ label, nullable, editorRef, imageHandler }: FormEditorProps) {
   const toolbar = [
     ['heading', 'bold', 'italic', 'strike'],
     ['hr', 'quote'],
@@ -33,11 +32,10 @@ export default function FormEditor({ label, nullable, content = '', editorRef, i
         )}
       </Label>
       <Editor
-        initialValue={content ?? ''}
+        initialValue={''}
+        placeholder="아이디어에 대해 자유롭게 설명해주세요"
         initialEditType="markdown"
         previewStyle="tab"
-        useCommandShortcut={true}
-        autofocus={false}
         ref={editorRef}
         toolbarItems={toolbar}
         hideModeSwitch

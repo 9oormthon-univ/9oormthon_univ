@@ -8,6 +8,7 @@ import FormInput from '../../../components/hackathon/ideaCreate/FormInput';
 import FormTextarea from '../../../components/hackathon/ideaCreate/FormTextarea';
 import FormEditor from '../../../components/hackathon/ideaCreate/FormEditor';
 import type { Editor } from '@toast-ui/react-editor';
+import FormRadio from '../../../components/hackathon/ideaCreate/FormRadio';
 
 export default function TeamPreferenceStep1() {
   const hackathonTopics = ['해커톤 주제1', '해커톤 주제2', '해커톤 주제3'];
@@ -50,7 +51,7 @@ export default function TeamPreferenceStep1() {
       <Text typography="heading4" as="h4" color="text-normal" className={styles.headerText}>
         상상 속에만 있던 <br /> 여러분의 아이디어를 펼쳐주세요!
       </Text>
-      <Form>
+      <Form style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-500)' }}>
         <div className={styles.formWrap}>
           <FormDropdown
             label="어떤 주제에 해당 되나요?"
@@ -67,6 +68,9 @@ export default function TeamPreferenceStep1() {
             placeholder="아이디어를 잘 표현할 수 있는 소개 글을 입력해주세요"
           />
           <FormEditor label="설명" nullable={false} editorRef={editorRef} imageHandler={handleImage} />
+        </div>
+        <div className={styles.radioContainer}>
+          <FormRadio label="본인 파트를 선택해 주세요" nullable={false} />
         </div>
         <div className={styles.buttonAlign}>
           <Button size="xl" color="primary" onClick={handleSubmit} icon={ChevronRightOutlineIcon}>
