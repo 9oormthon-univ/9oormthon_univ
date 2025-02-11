@@ -70,14 +70,14 @@ export default function MyPageBasicInfo({ onInfoChange, initialName, initialEmai
               className={styles.buttonContainer}
               icon={ImageIcon}
               size="md"
-              color="secondary"
+              color="hint"
               onClick={() => document.getElementById('profile-upload')?.click()}
               outline>
               이미지 수정
             </Button>
           </label>
           {showResetButton && (
-            <Button className={styles.buttonContainer} color="secondary" size="md" outline onClick={resetProfileImage}>
+            <Button className={styles.buttonContainer} color="link" size="md" outline onClick={resetProfileImage}>
               이미지 초기화
             </Button>
           )}
@@ -103,7 +103,7 @@ export default function MyPageBasicInfo({ onInfoChange, initialName, initialEmai
           </div>
           <Input bsSize="lg" value={email} onChange={handleEmailChange}></Input>
         </div>
-        <Button className={styles.buttonStyle} size="md" color="secondary" onClick={handlePasswordChange}>
+        <Button className={styles.buttonStyle} size="md" color="hint" onClick={handlePasswordChange}>
           비밀번호 변경
         </Button>
       </div>
