@@ -1,4 +1,4 @@
-import { OutIcon, PauseIcon, PlayIcon, SoundOffIcon, SoundOnIcon } from '@goorm-dev/gds-icons';
+import { PauseIcon, PlayIcon, SoundOffIcon, SoundOnIcon, OutOutlineIcon } from '@goorm-dev/vapor-icons';
 import { Button, Text } from '@goorm-dev/vapor-components';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import playerThumbnail from '../../../assets/images/playerThumbnail.png';
 
 import useIsMobile from '../../../hooks/useIsMobile';
 import styles from './MainBanner.module.scss';
+// import { PlayOutlineIcon } from '@goorm-dev/vapor-icons';
 
 const cx = classNames.bind(styles);
 
@@ -86,17 +87,17 @@ export default function MainBanner() {
         <div className={styles.buttonWrapper}>
           {!onlyThumbnail && (
             <>
-              <Button onClick={handleClickPlay} size="lg" color="light">
-                {playing ? <PauseIcon /> : <PlayIcon />}
-              </Button>
-              <Button onClick={handleClickSoundsOn} size="lg" color="light">
-                {muted ? <SoundOffIcon /> : <SoundOnIcon />}
-              </Button>
+              <Button onClick={handleClickPlay} size="xl" color="secondary" icon={playing ? PauseIcon : PlayIcon} />
+
+              <Button
+                onClick={handleClickSoundsOn}
+                size="xl"
+                color="secondary"
+                icon={muted ? SoundOffIcon : SoundOnIcon}
+              />
             </>
           )}
-          <Button onClick={MoveToYoutube} size="lg" color="light">
-            <OutIcon />
-          </Button>
+          <Button onClick={MoveToYoutube} size="xl" color="secondary" icon={OutOutlineIcon} />
         </div>
         {(!playing || onlyThumbnail) && (
           <div className={styles.mainBanner}>
