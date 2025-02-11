@@ -2,8 +2,6 @@ import { GoormLoader } from '@goorm-dev/gds-components';
 import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
-import SignUp from './pages/updatePW/UpdatePW';
-
 const About = lazy(() => import('./pages/about/About'));
 const Project = lazy(() => import('./pages/project/Project'));
 const Recruit = lazy(() => import('./pages/recruit/Recruit'));
@@ -12,6 +10,10 @@ const SearchUniv = lazy(() => import('./pages/searchUniv/SearchUniv'));
 const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
+const SignUp = lazy(() => import('./pages/signUp/SignUp'));
+// const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
+
+// const IdeaCreate = lazy(() => import('./pages/hackathon/IdeaCreate/IdeaCreate'));
 
 const loaderProps = {
   color: 'black',
@@ -93,6 +95,22 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      // {
+      //   path: 'hackathon',
+      //   element: (
+      //     <Suspense fallback={<GoormLoader {...loaderProps} />}>
+      //       <IdeaList />
+      //     </Suspense>
+      //   ),
+      // },
+      // {
+      //   path: 'hackathon/create',
+      //   element: (
+      //     <Suspense fallback={<GoormLoader {...loaderProps} />}>
+      //       <IdeaCreate />
+      //     </Suspense>
+      //   ),
+      // },
       {
         path: '*',
         element: (

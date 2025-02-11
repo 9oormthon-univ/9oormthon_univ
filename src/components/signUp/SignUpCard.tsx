@@ -1,10 +1,14 @@
 import styles from './signUpCard.module.scss';
-import { WarningIcon } from '@goorm-dev/gds-icons';
+import { WarningIcon } from '@goorm-dev/vapor-icons';
 import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
 import { ChangeEvent, useState } from 'react';
 import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
+import { loginAPI } from '../../api/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUpCard() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -23,6 +27,15 @@ export default function SignUpCard() {
   };
 
   const handleLogin = async () => {
+    try {
+      const response = await loginAPI(email, password);
+      console.log(response);
+
+      navigate('/');
+    } catch (error) {
+      console.error('로그인 실패', error);
+    }
+
     if (!email && !password) {
       setErrorMessage('이메일을 입력해주세요');
       return;
@@ -53,7 +66,7 @@ export default function SignUpCard() {
           로그인
         </Button>
         {errorMessage && (
-          <Alert color="danger" leftIcon={WarningIcon}>
+          <Alert color="danger" leftIcon={WarningIcon} className={styles.alignCenter}>
             {errorMessage}
           </Alert>
         )}

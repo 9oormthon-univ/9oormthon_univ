@@ -26,7 +26,7 @@ export default function SignUp() {
   return (
     <div className={styles.updatePWContainer}>
       <div className={styles.header}>
-        <Button icon={BackPageIcon} color="link"></Button>
+        <Button icon={BackPageIcon} color="secondary"></Button>
         <Text typography="heading3" color="gray-900">
           비밀번호 변경
         </Text>

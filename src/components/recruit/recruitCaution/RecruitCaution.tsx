@@ -1,5 +1,5 @@
 import { Button, Text } from '@goorm-dev/vapor-components';
-import { ChevronRightIcon } from '@goorm-dev/vapor-icons';
+import { ChevronRightOutlineIcon } from '@goorm-dev/vapor-icons';
 import { Link } from 'react-router-dom';
 import calendarGraphic from '../../../assets/svgs/img-calendar.svg';
 import eventGraphic from '../../../assets/svgs/img-event.svg';
@@ -124,7 +124,7 @@ function RecruitCaution() {
                   size="lg"
                   tag="button"
                   iconSide="right"
-                  icon={ChevronRightIcon}
+                  icon={ChevronRightOutlineIcon}
                   className={styles.button}>
                   Deep Dive 자세히 보기
                 </Button>

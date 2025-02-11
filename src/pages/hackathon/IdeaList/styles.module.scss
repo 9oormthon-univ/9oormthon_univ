@@ -1,0 +1,72 @@
+@import '../../../style/mixin.scss';
+
+.mainContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 4rem;
+}
+
+.imgBox {
+  width: 100%;
+  height: 19rem;
+  background: #d9d9d9;
+}
+
+.listContainer {
+  width: 59.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-250);
+  margin: var(--space-400) auto 12.5rem auto;
+
+  @include container-xs {
+    width: 23.375rem;
+  }
+
+  @include container-sm {
+    width: 36rem;
+  }
+
+  @include container-md {
+    width: 48rem;
+  }
+}
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdownWrap {
+  display: flex;
+  gap: var(--space-100);
+
+  @include container-xs {
+    flex-direction: column;
+  }
+
+  @include container-sm {
+    flex-direction: row;
+  }
+}
+
+.noneBtn {
+  @include container-xs {
+    display: none;
+  }
+
+  @include container-sm {
+    display: inline-flex;
+  }
+}
+
+.ideaListWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-250);
+}
+
+.basicPagination {
+  justify-content: center;
+}

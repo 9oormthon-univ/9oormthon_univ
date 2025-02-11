@@ -53,7 +53,7 @@
     text-align: center;
     background-color: var(--background-alternative-01);
     border-radius: 1.5rem; // GDS와 다름
-    padding: 2rem; // GDS와 다름
+    padding: 2rem;
     gap: var(--space-050);
 
     @include container-xs {
@@ -67,6 +67,8 @@
     .dDayText {
       font-size: var(--size-size-600, 48px);
       font-weight: bold;
+      line-height: 3.875rem;
+      letter-spacing: -0.025rem;
     }
   }
 
@@ -82,6 +84,8 @@
     .dDayText {
       font-size: var(--size-size-600, 3rem);
       font-weight: 800;
+      line-height: 3.875rem;
+      letter-spacing: -0.025rem;
     }
 
     @include container-xs {

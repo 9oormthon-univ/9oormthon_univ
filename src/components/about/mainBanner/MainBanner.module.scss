@@ -90,6 +90,14 @@
   right: 60px;
   bottom: 60px;
   z-index: 100;
+
+  button {
+    background: rgba(232, 232, 238, 0.08);
+  }
+
+  svg {
+    color: #fff;
+  }
 }
 
 .title {

@@ -150,7 +150,7 @@ export default function MyPageDetailedInfo({ onInfoChange, initialUniv, initialS
                     </div>
                   )}
                   <Dropdown isOpen={openSeasonIndex === index} toggle={() => toggleSeason(index)} direction="down">
-                    <DropdownToggle className={styles.toggleStyle} caret size="lg" color="hint">
+                    <DropdownToggle className={styles.toggleStyle} caret size="lg" color="secondary">
                       {selection.selectedSeason}
                     </DropdownToggle>
                     <DropdownMenu>
@@ -176,7 +176,7 @@ export default function MyPageDetailedInfo({ onInfoChange, initialUniv, initialS
                       className={styles.toggleStyle}
                       caret
                       size="lg"
-                      color="hint"
+                      color="contrast"
                       disabled={selection.selectedSeason === '선택'}>
                       {selection.selectedPart}
                     </DropdownToggle>
@@ -200,7 +200,7 @@ export default function MyPageDetailedInfo({ onInfoChange, initialUniv, initialS
               )}
             </div>
           ))}
-          <Button icon={PlusIcon} block color="link" size="lg" disabled={false} onClick={addSeasonPartSelection}>
+          <Button icon={PlusIcon} block color="secondary" size="lg" disabled={false} onClick={addSeasonPartSelection}>
             기수/파트 추가
           </Button>
           {errorMessage && (
