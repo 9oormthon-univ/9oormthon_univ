@@ -12,6 +12,7 @@ import type { Editor } from '@toast-ui/react-editor';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 export default function TeamPreferenceStep1() {
   const { idea_info, updateIdeaInfo } = useIdeaFormStore();
+  // 추후 변동 필요
   const hackathonTopics = [
     { id: 1, name: '해커톤 주제1' },
     { id: 2, name: '해커톤 주제2' },

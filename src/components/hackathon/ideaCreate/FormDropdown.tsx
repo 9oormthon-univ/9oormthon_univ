@@ -1,14 +1,7 @@
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  FormGroup,
-  Label,
-  Text,
-} from '@goorm-dev/vapor-components';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormGroup, Text } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import styles from './styles.module.scss';
+import FormLabel from './FormLabel';
 
 interface FormDropdownProps {
   label: string; // 질문 네이밍
@@ -32,17 +25,7 @@ export default function FormDropdown({
 
   return (
     <FormGroup>
-      <Label className={styles.labelWrap}>
-        <Text typography="subtitle2" color="text-alternative">
-          {label}
-        </Text>
-        {!nullable && (
-          <Text typography="body3" color="text-danger">
-            *
-          </Text>
-        )}
-      </Label>
-
+      <FormLabel label={label} nullable={nullable} />
       <Dropdown direction="down" size="lg" isOpen={isOpen} toggle={toggle}>
         <DropdownToggle caret color="select" className={styles.dropdown}>
           <Text typography="body2" fontWeight="medium" color="text-hint">
