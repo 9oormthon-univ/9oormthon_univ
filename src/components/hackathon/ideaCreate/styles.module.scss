@@ -1,0 +1,50 @@
+.labelWrap {
+  display: flex;
+  gap: var(--size-050);
+  align-items: center;
+}
+
+.dropdown {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dropdownMenu {
+  width: 100%;
+}
+
+.textArea {
+  width: 100%;
+  min-height: 5.375rem;
+  padding: var(--space-100) var(--space-200);
+  background: var(--background-normal);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-300);
+
+  color: var(--text-hint);
+  font-family: var(--font-Sans);
+  font-size: var(--font-size-075);
+  font-weight: 400;
+  line-height: var(--line-height-075); /* 157.143% */
+  letter-spacing: var(--letter-spacing-b2, -0.00625rem);
+  resize: none;
+  outline: 0;
+
+  // input vapor과 동일하게 설정
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+  &:focus {
+    border-color: var(--primary);
+  }
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-500);
+}
+
+.radioContainer {
+  display: flex;
+  gap: var(--space-500);
+}

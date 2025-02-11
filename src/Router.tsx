@@ -11,9 +11,9 @@ const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 const SignUp = lazy(() => import('./pages/signUp/SignUp'));
-// const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
-
-// const IdeaCreate = lazy(() => import('./pages/hackathon/IdeaCreate/IdeaCreate'));
+const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
+const TeamPreferenceStep1 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep1'));
+const TeamPreferenceStep2 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep2'));
 
 const loaderProps = {
   color: 'black',
@@ -95,22 +95,30 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      // {
-      //   path: 'hackathon',
-      //   element: (
-      //     <Suspense fallback={<GoormLoader {...loaderProps} />}>
-      //       <IdeaList />
-      //     </Suspense>
-      //   ),
-      // },
-      // {
-      //   path: 'hackathon/create',
-      //   element: (
-      //     <Suspense fallback={<GoormLoader {...loaderProps} />}>
-      //       <IdeaCreate />
-      //     </Suspense>
-      //   ),
-      // },
+      {
+        path: 'hackathon',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <IdeaList />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'hackathon/create/step1',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <TeamPreferenceStep1 />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'hackathon/create/step2',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <TeamPreferenceStep2 />
+          </Suspense>
+        ),
+      },
       {
         path: '*',
         element: (
