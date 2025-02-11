@@ -7,7 +7,7 @@ export default function ProtectedRoute() {
 
   if (!cookies.access_token) {
     console.log('엑세스 토큰 없음');
-    return <Navigate to="/404" replace />;
+    return <Navigate to="/notFound" replace />;
   }
 
   return <Outlet />;

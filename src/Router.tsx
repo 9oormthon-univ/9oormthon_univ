@@ -2,6 +2,7 @@ import { GoormLoader } from '@goorm-dev/gds-components';
 import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import ProtectedRoute from './routes/ProtectedRoute';
 const About = lazy(() => import('./pages/about/About'));
 const Project = lazy(() => import('./pages/project/Project'));
 const Recruit = lazy(() => import('./pages/recruit/Recruit'));
@@ -96,29 +97,14 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'hackathon',
+        path: 'notFound',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <IdeaList />
+            <NotFound />
           </Suspense>
         ),
       },
-      {
-        path: 'hackathon/create/step1',
-        element: (
-          <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <TeamPreferenceStep1 />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'hackathon/create/step2',
-        element: (
-          <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <TeamPreferenceStep2 />
-          </Suspense>
-        ),
-      },
+
       {
         path: '*',
         element: (
@@ -129,6 +115,38 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  {
+    path: 'hackathon',
+    element: <ProtectedRoute />,
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <IdeaList />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'create/step1',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <TeamPreferenceStep1 />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'create/step2',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <TeamPreferenceStep2 />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+
   {
     path: '*',
     element: (
