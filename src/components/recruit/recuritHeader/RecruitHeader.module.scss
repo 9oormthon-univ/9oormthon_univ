@@ -67,6 +67,8 @@
     .dDayText {
       font-size: var(--size-size-600, 48px);
       font-weight: bold;
+      line-height: 3.875rem;
+      letter-spacing: -0.025rem;
     }
   }
 
@@ -82,6 +84,8 @@
     .dDayText {
       font-size: var(--size-size-600, 3rem);
       font-weight: 800;
+      line-height: 3.875rem;
+      letter-spacing: -0.025rem;
     }
 
     @include container-xs {

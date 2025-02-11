@@ -166,6 +166,7 @@ function RecuritHeader() {
           <Text className={styles.titleTextSmall} typography="heading6" color="text-hint">
             {subTitle}
           </Text>
+          {/* 작아졌을 때 */}
           <div className={styles.rightSection_OnlySm}>
             <Text typography="heading4" color="text-alternative">
               {rightTitle}
@@ -189,10 +190,7 @@ function RecuritHeader() {
             style={{ lineHeight: '1.875rem', letterSpacing: '-0.0125rem' }}>
             {rightTitle}
           </Text>
-          <Text
-            className={styles.dDayText}
-            color="text-alternative"
-            style={{ lineHeight: '3.875rem', letterSpacing: '-0.025rem', fontWeight: 'bold' }}>
+          <Text className={styles.dDayText} color="text-alternative">
             {dDayText}
           </Text>
           <Text typography="heading6" color="text-hint" style={{ lineHeight: '1.5rem', letterSpacing: '-0.00625rem' }}>
