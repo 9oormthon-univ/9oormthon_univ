@@ -1,9 +1,10 @@
-import { Button, GoormNavbar, Nav, NavItem, NavLink } from '@goorm-dev/gds-components';
-import { ChevronRightIcon, OutIcon } from '@goorm-dev/gds-icons';
+import { Button, GoormNavbar } from '@goorm-dev/gds-components';
+import { ChevronRightOutlineIcon, OutOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';
 import styles from './customNavbar.module.scss';
+import { Nav, NavItem, NavLink } from '@goorm-dev/vapor-components';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
@@ -28,7 +29,7 @@ function CustomNavbar() {
     {
       title: (
         <>
-          UNIV-LOG <OutIcon className="mx-1" />
+          UNIV-LOG <OutOutlineIcon className="mx-1" />
         </>
       ),
       to: 'https://9oormthonuniv.tistory.com/',
@@ -41,7 +42,7 @@ function CustomNavbar() {
         {isAbout && !isOpened ? <GoormWhiteBI /> : <GoormBlackBI />}
       </GoormNavbar.Brand>
       <GoormNavbar.Collapse isOpened={isOpened} className={styles.collapse}>
-        <Nav navbar pills className={styles.navbar}>
+        <Nav navbar className={styles.navbar}>
           {NAV_ITEMS.map((_, index) => (
             <NavItem key={index}>
               <NavLink
@@ -73,7 +74,7 @@ function CustomNavbar() {
               </Button>
               <NavLink className={styles.loginText}>
                 <button onClick={() => alert('준비 중인 기능입니다.')}>로그인하기</button>
-                <ChevronRightIcon className="ml-1" />
+                <ChevronRightOutlineIcon className="ml-1" />
               </NavLink>
             </>
           )}

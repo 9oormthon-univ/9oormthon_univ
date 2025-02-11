@@ -6,7 +6,7 @@ import styles from './RecruitHeader.module.scss';
 // 유니브 대표 모집 시작
 const REP_START_DATE = new Date('2025-01-20T10:00:00');
 // 유니브 대표 모집 마감
-const REP_END_DATE = new Date('2025-02-12T18:00:00');
+const REP_END_DATE = new Date('2025-02-12T23:59:59');
 // 미르미 모집 시작
 const TEAM_START_DATE = new Date('2025-02-24T10:00:00'); // 임의로 설정
 // 미르미 모집 마감
@@ -183,13 +183,19 @@ function RecuritHeader() {
         </div>
 
         <div className={styles.rightSection}>
-          <Text typography="heading4" color="text-alternative">
+          <Text
+            typography="heading4"
+            color="text-alternative"
+            style={{ lineHeight: '1.875rem', letterSpacing: '-0.0125rem' }}>
             {rightTitle}
           </Text>
-          <Text className={styles.dDayText} color="text-alternative">
+          <Text
+            className={styles.dDayText}
+            color="text-alternative"
+            style={{ lineHeight: '3.875rem', letterSpacing: '-0.025rem', fontWeight: 'bold' }}>
             {dDayText}
           </Text>
-          <Text typography="heading6" color="text-hint">
+          <Text typography="heading6" color="text-hint" style={{ lineHeight: '1.5rem', letterSpacing: '-0.00625rem' }}>
             {rightSubtitle}
           </Text>
         </div>
