@@ -21,10 +21,10 @@ function CustomNavbar() {
       title: 'Recruit',
       to: '/recruit',
     },
-    {
-      title: 'Hackathon',
-      to: '/hackathon',
-    },
+    // {
+    //   title: 'Hackathon',
+    //   to: '/hackathon',
+    // },
     {
       title: (
         <>
