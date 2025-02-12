@@ -2,6 +2,13 @@
 
 import instance from './instance';
 
+// JWT 토큰 재발급
+export const reissueAPI = async () => {
+  const response = await instance.post('/api/v1/auth/reissue');
+
+  return response.data;
+};
+
 // 로그인 api
 export const loginAPI = async (serial_id: string, password: string) => {
   const response = await instance.post('/api/v1/auth/login', { serial_id, password });
