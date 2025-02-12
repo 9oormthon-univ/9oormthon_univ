@@ -1,8 +1,9 @@
-import { BackPageIcon, WarningIcon } from '@goorm-dev/gds-icons';
+import { BackPageOutlineIcon, WarningIcon } from '@goorm-dev/vapor-icons';
 import { Alert, Button, Input, Text } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 
 import { useState } from 'react';
+import { resetPasswordAPI } from '../../api/auth';
 
 export default function SignUp() {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -13,20 +14,28 @@ export default function SignUp() {
   // TODO : 첫 로그인 여부 API로 받기
   const isFirstLogin = true;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (newPassword !== confirmPassword) {
-      setAlertMessage('비밀번호가 일치하지 않습니다.');
-    } else {
-      setAlertMessage(null);
-      // 비밀번호 변경 로직 추가
-      console.log('Password changed successfully');
+      setAlertMessage('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    try {
+      const response = await resetPasswordAPI(currentPassword, newPassword);
+      console.log(response);
+      if (response.status !== 200) {
+        setAlertMessage(response.message);
+      } else {
+        setAlertMessage(null);
+      }
+    } catch (error) {
+      console.error('비밀번호 변경 실패', error);
     }
   };
 
   return (
     <div className={styles.updatePWContainer}>
       <div className={styles.header}>
-        <Button icon={BackPageIcon} color="link"></Button>
+        <Button icon={BackPageOutlineIcon} color="secondary"></Button>
         <Text typography="heading3" color="gray-900">
           비밀번호 변경
         </Text>
