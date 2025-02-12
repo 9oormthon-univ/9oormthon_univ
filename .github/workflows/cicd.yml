@@ -2,7 +2,7 @@ name: Web Application Develop Server CI/CD
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
     types:
       - opened
       - synchronize
@@ -27,7 +27,11 @@ jobs:
       - name: Create .npmrc
         run: |
           echo "${{ secrets.NPMRC_CONTENT }}" | base64 --decode > .npmrc
-      
+
+      # .env 파일 생성
+      - name: Create .env
+        run: |
+          echo "${{ secrets.ENV }}" | base64 --decode > .env
 
       # 프로젝트 의존성 설치
       - name: Install Dependencies

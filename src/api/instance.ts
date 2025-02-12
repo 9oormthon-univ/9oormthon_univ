@@ -2,7 +2,7 @@ import axios from 'axios';
 import { reissueAPI } from './auth';
 
 const instance = axios.create({
-  baseURL: 'http://api-server/8080',
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
