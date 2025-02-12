@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 interface PositionRequirement {
   requirement: string;
   capacity: number;
-  required_tech_stacks: string[] | null;
+  required_tech_stacks?: string[];
 }
 
 type Position = 'pm' | 'pd' | 'fe' | 'be';

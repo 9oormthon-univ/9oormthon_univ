@@ -4,6 +4,7 @@ import { Button, Form, Text } from '@goorm-dev/vapor-components';
 import { useNavigate } from 'react-router-dom';
 import PositionForm from '../../../components/hackathon/ideaCreate/PositionForm';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
+import { createIdeaAPI } from '../../../api/idea';
 export default function TeamPreferenceStep2() {
   const { idea_info, requirements, resetIdeaForm } = useIdeaFormStore();
   const navigate = useNavigate();
@@ -20,11 +21,20 @@ export default function TeamPreferenceStep2() {
       requirements: { ...requirements },
     };
 
-    // 제출이 되면, 전역에 있는 데이터 초기화
-    resetIdeaForm();
+    try {
+      const response = await createIdeaAPI(formData);
+      // 제출이 되면, 전역에 있는 데이터 초기화
+      resetIdeaForm();
+      // 추후에 api 호출 추가
+      console.log('Form data:', formData);
+      console.log(response);
 
-    // 추후에 api 호출 추가
-    console.log('Form data:', formData);
+      navigate('/hackathon');
+    } catch (error) {
+      // 추후에 api 호출 추가
+      console.log('Form data:', formData);
+      console.error(error);
+    }
   };
 
   return (
