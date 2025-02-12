@@ -107,7 +107,7 @@ const router = createBrowserRouter([
 
       {
         path: 'hackathon',
-        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />, // ✅ 보호된 경로 적용
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
         children: [
           {
             index: true,

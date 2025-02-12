@@ -10,6 +10,7 @@ interface FormDropdownProps {
   placeholder: string;
   options: { id: number; name: string }[]; // 옵션
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  disabled?: boolean;
 }
 
 export default function FormDropdown({
@@ -19,6 +20,7 @@ export default function FormDropdown({
   placeholder,
   options,
   onChange,
+  disabled,
 }: FormDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -26,7 +28,7 @@ export default function FormDropdown({
   return (
     <FormGroup>
       <FormLabel label={label} nullable={nullable} />
-      <Dropdown direction="down" size="lg" isOpen={isOpen} toggle={toggle}>
+      <Dropdown direction="down" size="lg" isOpen={isOpen} toggle={toggle} disabled={disabled}>
         <DropdownToggle caret color="select" className={styles.dropdown}>
           <Text typography="body2" fontWeight="medium" color="text-hint">
             {selectedValue || placeholder}

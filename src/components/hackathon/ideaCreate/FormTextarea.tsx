@@ -7,9 +7,10 @@ interface FormTextareaProps {
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  disabled?: boolean;
 }
 
-export default function FormTextarea({ label, nullable, placeholder, value, onChange }: FormTextareaProps) {
+export default function FormTextarea({ label, nullable, placeholder, value, onChange, disabled }: FormTextareaProps) {
   return (
     <FormGroup>
       <Label className={styles.labelWrap}>
@@ -22,7 +23,12 @@ export default function FormTextarea({ label, nullable, placeholder, value, onCh
           </Text>
         )}
       </Label>
-      <textarea placeholder={placeholder} className={styles.textArea} value={value} onChange={onChange}></textarea>
+      <textarea
+        placeholder={placeholder}
+        className={styles.textArea}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}></textarea>
     </FormGroup>
   );
 }

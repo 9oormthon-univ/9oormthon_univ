@@ -46,12 +46,6 @@ export default function TeamPreferenceStep1() {
       content: idea_info.content.trim() !== '',
     };
 
-    console.log('Form Status:', formStatus);
-    console.log(
-      'Is form valid:',
-      Object.values(formStatus).every((value) => value === true),
-    );
-
     return Object.values(formStatus).every((value) => value === true);
   };
 
@@ -119,7 +113,6 @@ export default function TeamPreferenceStep1() {
             icon={ChevronRightOutlineIcon}
             disabled={!isFormValid()}
             onClick={() => {
-              console.log('Current idea_info:', idea_info);
               navigate('/hackathon/create/step2', { state: { idea_info } });
             }}>
             다음 페이지

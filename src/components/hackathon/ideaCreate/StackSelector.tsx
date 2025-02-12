@@ -15,9 +15,10 @@ import StackBadge from './stackInput/StackBadge';
 interface StackSelectorProps {
   selectedStacks: string[];
   setSelectedStacks: (stacks: string[]) => void;
+  disabled?: boolean;
 }
 
-export default function StackSelector({ selectedStacks, setSelectedStacks }: StackSelectorProps) {
+export default function StackSelector({ selectedStacks, setSelectedStacks, disabled }: StackSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,7 +40,7 @@ export default function StackSelector({ selectedStacks, setSelectedStacks }: Sta
   return (
     <FormGroup>
       <FormLabel label="필요 스택 (최대 5개)" nullable={true} />
-      <Dropdown size="lg" isOpen={isOpen} toggle={toggle}>
+      <Dropdown size="lg" isOpen={isOpen} toggle={toggle} disabled={disabled}>
         <DropdownToggle caret color="select" className={styles.dropdown}>
           {selectedStacks.length > 0 ? (
             <div className={styles.selectedStacks}>

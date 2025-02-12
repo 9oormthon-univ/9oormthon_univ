@@ -5,12 +5,16 @@ import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import FormTextarea from './FormTextarea';
 import FormDropdown from './FormDropdown';
 import StackSelector from './StackSelector';
+
+type Position = 'pm' | 'pd' | 'fe' | 'be';
+
 interface PositionFormProps {
   position: {
-    key: 'pm' | 'pd' | 'fe' | 'be';
+    key: Position;
     name: string;
     index: number;
   };
+  isDisabled: boolean;
 }
 
 const POSITION_NAME = {
@@ -20,13 +24,13 @@ const POSITION_NAME = {
   be: '백엔드',
 };
 
-export default function PositionForm({ position }: PositionFormProps) {
+export default function PositionForm({ position, isDisabled }: PositionFormProps) {
   const { requirements, updateRequirements } = useIdeaFormStore();
 
   // const isDisabled = position.key === idea_info.provider_role;
-  const currentValue = requirements[position.key] || {
+  const currentValue = requirements[position.key as Position] || {
     requirement: '',
-    capacity: 0,
+    capacity: requirements[position.key as Position]?.capacity || 0,
     required_tech_stacks: [],
   };
 
@@ -38,7 +42,7 @@ export default function PositionForm({ position }: PositionFormProps) {
   };
 
   const handleChange = (value: any) => {
-    updateRequirements(position.key, {
+    updateRequirements(position.key as Position, {
       ...currentValue,
       ...value,
     });
@@ -47,7 +51,7 @@ export default function PositionForm({ position }: PositionFormProps) {
   return (
     <div className={styles.positionFormContainer}>
       <Text as="h6" typography="heading6" color="text-normal" style={{ marginBottom: 'var(--space-200)' }}>
-        {`${position.index + 1}. ${POSITION_NAME[position.key]}`}
+        {`${position.index + 1}. ${POSITION_NAME[position.key as keyof typeof POSITION_NAME]}`}
       </Text>
       <FormTextarea
         label="원하는 팀원상"
@@ -55,6 +59,7 @@ export default function PositionForm({ position }: PositionFormProps) {
         placeholder="이런 팀원과 함께 하고싶어요"
         value={currentValue.requirement}
         onChange={(e) => handleChange({ requirement: e.target.value })}
+        disabled={isDisabled}
       />
       <FormDropdown
         label="필요 인원"
@@ -64,19 +69,13 @@ export default function PositionForm({ position }: PositionFormProps) {
         // 직군에 따라 최대 팀원 수 다름
         options={Array.from({ length: getMaxCapacity(position.key) + 1 }, (_, i) => ({ id: i, name: i.toString() }))}
         onChange={(e) => handleChange({ capacity: parseInt(e.target.value) })}
+        disabled={isDisabled}
       />
       <StackSelector
+        disabled={isDisabled}
         selectedStacks={currentValue.required_tech_stacks || []}
         setSelectedStacks={(stacks) => handleChange({ required_tech_stacks: stacks })}
       />
-      {/* <FormDropdown
-        label="필요 스택 (최대 5개)"
-        nullable={true}
-        selectedValue={currentValue.required_tech_stacks?.join(', ') || ''}
-        placeholder="스택을 선택해주세요"
-        options={[]}
-        onChange={(e) => handleChange({ required_tech_stacks: e.target.value.split(',') })}
-      /> */}
     </div>
   );
 }

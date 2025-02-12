@@ -3,8 +3,9 @@ import { ChevronLeftOutlineIcon } from '@goorm-dev/vapor-icons';
 import { Button, Form, Text } from '@goorm-dev/vapor-components';
 import { useNavigate } from 'react-router-dom';
 import PositionForm from '../../../components/hackathon/ideaCreate/PositionForm';
-
+import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 export default function TeamPreferenceStep2() {
+  const { idea_info, requirements, resetIdeaForm } = useIdeaFormStore();
   const navigate = useNavigate();
   const positions = [
     { key: 'pm', name: '기획', index: 0 },
@@ -12,6 +13,19 @@ export default function TeamPreferenceStep2() {
     { key: 'fe', name: '프론트엔드', index: 2 },
     { key: 'be', name: '백엔드', index: 3 },
   ] as const;
+
+  const submitForm = async () => {
+    const formData = {
+      idea_info: { ...idea_info },
+      requirements: { ...requirements },
+    };
+
+    // 제출이 되면, 전역에 있는 데이터 초기화
+    resetIdeaForm();
+
+    // 추후에 api 호출 추가
+    console.log('Form data:', formData);
+  };
 
   return (
     <div className={styles.container}>
@@ -28,7 +42,11 @@ export default function TeamPreferenceStep2() {
         어떤 팀원과 함께하고 싶나요?
       </Text>
       {positions.map((position) => (
-        <PositionForm key={position.key} position={position} />
+        <PositionForm
+          key={position.key}
+          position={position}
+          isDisabled={['pm', 'pd'].includes(idea_info.provider_role) && position.key === idea_info.provider_role}
+        />
       ))}
 
       <Form style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-500)' }}>
@@ -37,6 +55,7 @@ export default function TeamPreferenceStep2() {
             size="xl"
             color="primary"
             onClick={() => {
+              submitForm();
               navigate('/hackathon');
             }}>
             완료
