@@ -16,7 +16,11 @@ export default function TeamPreferenceStep2() {
   return (
     <div className={styles.container}>
       <div className={styles.backLink}>
-        <Button color="secondary" size="lg" icon={ChevronLeftOutlineIcon} onClick={() => navigate('/hackathon')}>
+        <Button
+          color="secondary"
+          size="lg"
+          icon={ChevronLeftOutlineIcon}
+          onClick={() => navigate('/hackathon/create/step1')}>
           뒤로가기
         </Button>
       </div>

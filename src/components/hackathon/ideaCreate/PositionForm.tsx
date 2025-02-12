@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import FormTextarea from './FormTextarea';
 import FormDropdown from './FormDropdown';
+import StackSelector from './StackSelector';
 interface PositionFormProps {
   position: {
     key: 'pm' | 'pd' | 'fe' | 'be';
@@ -64,14 +65,18 @@ export default function PositionForm({ position }: PositionFormProps) {
         options={Array.from({ length: getMaxCapacity(position.key) + 1 }, (_, i) => ({ id: i, name: i.toString() }))}
         onChange={(e) => handleChange({ capacity: parseInt(e.target.value) })}
       />
-      <FormDropdown
+      <StackSelector
+        selectedStacks={currentValue.required_tech_stacks || []}
+        setSelectedStacks={(stacks) => handleChange({ required_tech_stacks: stacks })}
+      />
+      {/* <FormDropdown
         label="필요 스택 (최대 5개)"
         nullable={true}
         selectedValue={currentValue.required_tech_stacks?.join(', ') || ''}
         placeholder="스택을 선택해주세요"
         options={[]}
         onChange={(e) => handleChange({ required_tech_stacks: e.target.value.split(',') })}
-      />
+      /> */}
     </div>
   );
 }

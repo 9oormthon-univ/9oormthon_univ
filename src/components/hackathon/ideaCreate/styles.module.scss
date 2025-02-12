@@ -48,3 +48,29 @@
   display: flex;
   gap: var(--space-500);
 }
+
+.searchInput {
+  width: 100%;
+
+  border: none;
+  &:hover {
+    border: none;
+  }
+  &:focus {
+    border: none;
+  }
+}
+
+.stackMenu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 6rem;
+  overflow-y: auto;
+}
+
+.selectedStacks {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+}
