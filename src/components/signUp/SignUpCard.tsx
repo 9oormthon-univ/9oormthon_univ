@@ -3,12 +3,13 @@ import { WarningIcon } from '@goorm-dev/vapor-icons';
 import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
 import { ChangeEvent, useState } from 'react';
 import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
-import { loginAPI } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../store/useAuthStore';
 
 export default function SignUpCard() {
   const navigate = useNavigate();
 
+  const { login } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -28,8 +29,7 @@ export default function SignUpCard() {
 
   const handleLogin = async () => {
     try {
-      const response = await loginAPI(email, password);
-      console.log(response);
+      await login(email, password);
 
       navigate('/');
     } catch (error) {

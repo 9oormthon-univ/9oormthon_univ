@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { reissueAPI } from './auth';
-
+import useAuthStore from '../store/useAuthStore';
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
@@ -14,6 +14,7 @@ let refreshSubscribers: ((token: string) => void)[] = []; // 토큰 갱신 중�
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    const { resetToGuest } = useAuthStore.getState(); // 상태 가져오기
     // 원래 요청 정보 저장
     const originalRequest = error.config;
     if (!originalRequest) {
@@ -46,6 +47,7 @@ instance.interceptors.response.use(
       } catch (error) {
         isRefreshing = false;
         refreshSubscribers = [];
+        resetToGuest(); // 로그인 풀리면 GUEST로 변경
         console.log(error);
         window.location.href = '/login'; // 리프레시 토큰도 만료되었다면 리다이렉트
         return Promise.reject(error);

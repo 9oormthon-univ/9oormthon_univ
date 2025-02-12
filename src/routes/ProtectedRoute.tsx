@@ -1,12 +1,11 @@
-import { useCookies } from 'react-cookie';
 import { Navigate, Outlet } from 'react-router-dom';
+import useAuthStore from '../store/useAuthStore';
 
-// 엑세스 토큰 있어야 접근 가능
-export default function ProtectedRoute() {
-  const [cookies] = useCookies(['access_token']);
+// 유저 상태에 따라 접근가능
+export default function ProtectedRoute({ allowedRoles }: { allowedRoles: string[] }) {
+  const { role } = useAuthStore();
 
-  if (!cookies.access_token) {
-    console.log('엑세스 토큰 없음');
+  if (!allowedRoles.includes(role)) {
     return <Navigate to="/notFound" replace />;
   }
 

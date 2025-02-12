@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     path: '/',
     element: (
       <Suspense fallback={<GoormLoader {...loaderProps} />}>
-        <Layout />,
+        <Layout />
       </Suspense>
     ),
     children: [
@@ -106,54 +106,36 @@ const router = createBrowserRouter([
       },
 
       {
-        path: '*',
-        element: (
-          <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <NotFound />
-          </Suspense>
-        ),
-      },
+        path: 'hackathon',
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />, // ✅ 보호된 경로 적용
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <IdeaList />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'create/step1',
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamPreferenceStep1 />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'create/step2',
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamPreferenceStep2 />
+              </Suspense>
+            ),
+          },
+        ],
+      }, // 해커톤
     ],
-  },
-
-  {
-    path: 'hackathon',
-    element: <ProtectedRoute />,
-    children: [
-      {
-        index: true,
-        element: (
-          <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <IdeaList />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'create/step1',
-        element: (
-          <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <TeamPreferenceStep1 />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'create/step2',
-        element: (
-          <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <TeamPreferenceStep2 />
-          </Suspense>
-        ),
-      },
-    ],
-  },
-
-  {
-    path: '*',
-    element: (
-      <Suspense fallback={<GoormLoader {...loaderProps} />}>
-        <NotFound />
-      </Suspense>
-    ),
   },
 ]);
 
