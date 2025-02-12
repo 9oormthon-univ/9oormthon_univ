@@ -1,16 +1,10 @@
 import FormLabel from './FormLabel';
-import {
-  FormGroup,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  SearchInput,
-} from '@goorm-dev/vapor-components';
+import { FormGroup, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import styles from './styles.module.scss';
 import { STACKS_WITH_NAMES } from '../../../constants/Stacks';
 import StackBadge from './stackInput/StackBadge';
+import { SearchOutlineIcon, ErrorCircleIcon } from '@goorm-dev/vapor-icons';
 
 interface StackSelectorProps {
   selectedStacks: string[];
@@ -22,6 +16,11 @@ export default function StackSelector({ selectedStacks, setSelectedStacks, disab
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // 입력 필드 초기화
+  const handleClearInput = () => {
+    setSearchTerm('');
+  };
 
   const filteredStacks = STACKS_WITH_NAMES.filter((stack) =>
     stack.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -58,13 +57,19 @@ export default function StackSelector({ selectedStacks, setSelectedStacks, disab
           )}
         </DropdownToggle>
         <DropdownMenu className={styles.dropdownMenu}>
-          <SearchInput
-            type="text"
-            placeholder="스택명을 입력해 주세요"
-            className={styles.searchInput}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          {/* event오류로 직접 제작 */}
+          <div className={styles.searchInputContainer}>
+            {searchTerm.length === 0 && <SearchOutlineIcon className={styles.searchIcon} />}
+            <input
+              type="text"
+              placeholder="스택명을 입력해 주세요"
+              className={styles.searchInput}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm.length > 0 && <ErrorCircleIcon className={styles.cancelIcon} onClick={handleClearInput} />}
+          </div>
+
           <DropdownItem divider />
           <div className={styles.stackMenu}>
             {filteredStacks.map((stack) => (

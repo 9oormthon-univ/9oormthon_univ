@@ -82,7 +82,7 @@ export default function MyPage() {
         <Text typography="heading3" color="gray-900">
           마이 페이지
         </Text>
-        <Button color="link" size="sm">
+        <Button color="secondary" size="sm">
           로그아웃
         </Button>
       </div>

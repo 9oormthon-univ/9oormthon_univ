@@ -141,7 +141,7 @@ export default function Information() {
   return (
     <div className={styles.informationContainer}>
       <div className={styles.informationHeader}>
-        <Button icon={BackPageIcon} color="link"></Button>
+        <Button icon={BackPageIcon} color="secondary"></Button>
         <Text typography="heading3" color="gray-900">
           정보 입력
         </Text>
@@ -185,7 +185,7 @@ export default function Information() {
                     </div>
                   )}
                   <Dropdown isOpen={openSeasonIndex === index} toggle={() => toggleSeason(index)} direction="down">
-                    <DropdownToggle className={styles.toggleStyle} caret size="lg" color="hint">
+                    <DropdownToggle className={styles.toggleStyle} caret size="lg" color="secondary">
                       {selection.selectedSeason}
                     </DropdownToggle>
                     <DropdownMenu>
@@ -209,7 +209,7 @@ export default function Information() {
                       className={styles.toggleStyle}
                       caret
                       size="lg"
-                      color="hint"
+                      color="secondary"
                       disabled={selection.selectedSeason === '선택'}>
                       {selection.selectedPart}
                     </DropdownToggle>
@@ -233,7 +233,7 @@ export default function Information() {
               )}
             </div>
           ))}
-          <Button icon={PlusIcon} block color="link" size="lg" disabled={false} onClick={addSeasonPartSelection}>
+          <Button icon={PlusIcon} block color="secondary" size="lg" disabled={false} onClick={addSeasonPartSelection}>
             기수/파트 추가
           </Button>
           {addSelectionAlertMessage && (
