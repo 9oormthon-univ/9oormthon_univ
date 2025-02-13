@@ -2,13 +2,11 @@ import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@goorm-dev/vapo
 import styles from './styles.module.scss';
 import { Button, Form, Text } from '@goorm-dev/vapor-components';
 import FormDropdown from '../../../components/hackathon/ideaCreate/FormDropdown';
-import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../../components/hackathon/ideaCreate/FormInput';
 import FormTextarea from '../../../components/hackathon/ideaCreate/FormTextarea';
 import FormEditor from '../../../components/hackathon/ideaCreate/FormEditor';
 import FormRadio from '../../../components/hackathon/ideaCreate/FormRadio';
-import type { Editor } from '@toast-ui/react-editor';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 export default function TeamPreferenceStep1() {
   const { idea_info, updateIdeaInfo } = useIdeaFormStore();
@@ -19,24 +17,23 @@ export default function TeamPreferenceStep1() {
     { id: 3, name: '해커톤 주제3' },
   ];
   const navigate = useNavigate();
-  const editorRef = useRef<Editor>(null);
 
-  const getImageUrl = async (file: File): Promise<string> => {
-    // 실제 파일을 Base64로 변환하여 임시 URL 생성
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        resolve(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    });
-  };
+  // const getImageUrl = async (file: File): Promise<string> => {
+  //   // 실제 파일을 Base64로 변환하여 임시 URL 생성
+  //   return new Promise((resolve) => {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       resolve(reader.result as string);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
 
   // 이미지 업로드 핸들러
-  const handleImage = async (file: File, callback: typeof Function) => {
-    const imageUrl = await getImageUrl(file);
-    callback(imageUrl);
-  };
+  // const handleImage = async (file: File, callback: typeof Function) => {
+  //   const imageUrl = await getImageUrl(file);
+  //   callback(imageUrl);
+  // };
 
   const isFormValid = () => {
     const formStatus = {
@@ -86,16 +83,11 @@ export default function TeamPreferenceStep1() {
             onChange={(e) => updateIdeaInfo('summary', e.target.value)}
           />
           <FormEditor
-            label="설명"
+            label="아이디어 설명"
             nullable={false}
             placeholder="아이디어에 대해 자유롭게 설명해주세요"
-            editorRef={editorRef}
-            imageHandler={handleImage}
             value={idea_info.content}
-            onChange={() => {
-              const markdownContent = editorRef.current?.getInstance().getMarkdown() || '';
-              updateIdeaInfo('content', markdownContent);
-            }}
+            onChange={(val) => updateIdeaInfo('content', val)}
           />
         </div>
         <div className={styles.radioContainer}>

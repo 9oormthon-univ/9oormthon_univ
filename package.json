@@ -14,6 +14,7 @@
     "@goorm-dev/gds-icons": "^1.45.1",
     "@goorm-dev/vapor-components": "^0.24.3",
     "@goorm-dev/vapor-icons": "^0.24.3",
+    "@uiw/react-md-editor": "^4.0.5",
     "axios": "^1.7.9",
     "classnames": "^2.5.1",
     "firebase": "^10.12.5",

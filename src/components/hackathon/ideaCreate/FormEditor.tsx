@@ -1,50 +1,34 @@
-import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
+// import '@uiw/react-md-editor/dist/markdown-editor.css';
+import MDEditor from '@uiw/react-md-editor';
 import { FormGroup } from '@goorm-dev/vapor-components';
 import FormLabel from './FormLabel';
 
 interface FormEditorProps {
   label: string;
   nullable: boolean;
-  editorRef: React.RefObject<Editor> | null;
-  imageHandler: (blob: File, callback: typeof Function) => void;
   value: string;
-  onChange: () => void;
+  onChange: (val: string) => void;
   placeholder: string;
 }
 
 export default function FormEditor({
   label,
   nullable,
-  editorRef,
-  imageHandler,
   value,
   onChange,
   placeholder = '아이디어에 대해 자유롭게 설명해주세요',
 }: FormEditorProps) {
-  const toolbar = [
-    ['heading', 'bold', 'italic', 'strike'],
-    ['hr', 'quote'],
-    ['ul', 'ol', 'task', 'indent', 'outdent'],
-    ['table', 'image', 'link'],
-    ['code', 'codeblock'],
-  ];
-
   return (
-    <FormGroup>
+    <FormGroup data-color-mode="light">
       <FormLabel label={label} nullable={nullable} />
-      <Editor
-        initialValue={value || ''}
-        placeholder={placeholder}
-        initialEditType="markdown"
-        previewStyle="tab"
-        ref={editorRef}
-        toolbarItems={toolbar}
-        hideModeSwitch
-        height="500px"
-        hooks={{ addImageBlobHook: imageHandler }}
+      <MDEditor
         value={value}
-        onChange={onChange}
+        onChange={(val) => onChange(val || '')}
+        textareaProps={{
+          placeholder: placeholder,
+        }}
+        height={300}
+        preview="edit"
       />
     </FormGroup>
   );
