@@ -3,6 +3,7 @@ import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './routes/ProtectedRoute';
+
 const About = lazy(() => import('./pages/about/About'));
 const Project = lazy(() => import('./pages/project/Project'));
 const Recruit = lazy(() => import('./pages/recruit/Recruit'));
@@ -16,6 +17,7 @@ const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
 const TeamPreferenceStep1 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep1'));
 const TeamPreferenceStep2 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep2'));
 const IdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
+
 const loaderProps = {
   color: 'black',
   lottieProps: {

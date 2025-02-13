@@ -6,3 +6,9 @@
   padding: var(--space-400) 0 12.5rem 0;
   margin-top: 4rem;
 }
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+}
