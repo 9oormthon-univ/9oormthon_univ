@@ -7,7 +7,7 @@ export const createIdeaAPI = async (idea: {
     summary: string;
     content: string;
     generation: number;
-    provider_role: 'pm' | 'pd' | 'fe' | 'be';
+    provider_role: 'PM' | 'PD' | 'FE' | 'BE';
   };
   requirements: {
     pm?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
