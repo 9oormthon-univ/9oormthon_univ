@@ -17,7 +17,10 @@ export default function TeamPreferenceStep2() {
 
   const submitForm = async () => {
     const formData = {
-      idea_info: { ...idea_info },
+      idea_info: {
+        ...idea_info,
+        provider_role: idea_info.provider_role.toUpperCase() as 'PM' | 'PD' | 'FE' | 'BE',
+      },
       requirements: { ...requirements },
     };
 
