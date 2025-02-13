@@ -91,11 +91,13 @@
   bottom: 60px;
   z-index: 100;
 
-  button {
+  .button {
     background: rgba(232, 232, 238, 0.08);
+    width: var(--dimension-600);
+    height: var(--dimension-600);
   }
 
-  svg {
+  .icon {
     color: #fff;
   }
 }

@@ -176,7 +176,7 @@ export default function MyPageDetailedInfo({ onInfoChange, initialUniv, initialS
                       className={styles.toggleStyle}
                       caret
                       size="lg"
-                      color="contrast"
+                      color="secondary"
                       disabled={selection.selectedSeason === '선택'}>
                       {selection.selectedPart}
                     </DropdownToggle>

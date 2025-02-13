@@ -2,6 +2,7 @@ import { GoormLoader } from '@goorm-dev/gds-components';
 import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import ProtectedRoute from './routes/ProtectedRoute';
 const About = lazy(() => import('./pages/about/About'));
 const Project = lazy(() => import('./pages/project/Project'));
 const Recruit = lazy(() => import('./pages/recruit/Recruit'));
@@ -11,9 +12,9 @@ const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 const SignUp = lazy(() => import('./pages/signUp/SignUp'));
-// const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
-
-// const IdeaCreate = lazy(() => import('./pages/hackathon/IdeaCreate/IdeaCreate'));
+const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
+const TeamPreferenceStep1 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep1'));
+const TeamPreferenceStep2 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep2'));
 
 const loaderProps = {
   color: 'black',
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
     path: '/',
     element: (
       <Suspense fallback={<GoormLoader {...loaderProps} />}>
-        <Layout />,
+        <Layout />
       </Suspense>
     ),
     children: [
@@ -95,39 +96,46 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      // {
-      //   path: 'hackathon',
-      //   element: (
-      //     <Suspense fallback={<GoormLoader {...loaderProps} />}>
-      //       <IdeaList />
-      //     </Suspense>
-      //   ),
-      // },
-      // {
-      //   path: 'hackathon/create',
-      //   element: (
-      //     <Suspense fallback={<GoormLoader {...loaderProps} />}>
-      //       <IdeaCreate />
-      //     </Suspense>
-      //   ),
-      // },
       {
-        path: '*',
+        path: 'notFound',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <NotFound />
           </Suspense>
         ),
       },
+
+      {
+        path: 'hackathon',
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <IdeaList />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'create/step1',
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamPreferenceStep1 />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'create/step2',
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamPreferenceStep2 />
+              </Suspense>
+            ),
+          },
+        ],
+      }, // 해커톤
     ],
-  },
-  {
-    path: '*',
-    element: (
-      <Suspense fallback={<GoormLoader {...loaderProps} />}>
-        <NotFound />
-      </Suspense>
-    ),
   },
 ]);
 
