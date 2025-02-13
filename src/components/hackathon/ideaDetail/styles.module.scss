@@ -1,0 +1,19 @@
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonAlign {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-250);
+  gap: var(--space-250);
+  border-radius: var(--radius-300);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-normal);
+}
