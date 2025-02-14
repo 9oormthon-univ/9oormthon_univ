@@ -44,7 +44,11 @@ export default function TeamInfo({ requirements }: TeamInfoProps) {
             maxCount={info.max_count}
             description={info.requirement}
             skills={info.required_tech_stacks}
-            currentMembers={info.current_members}
+            currentMembers={info.current_members.map((member) => ({
+              id: member.id,
+              name: member.name,
+              imgUrl: member.img_url,
+            }))}
           />
         ))}
       </div>
