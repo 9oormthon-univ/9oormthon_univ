@@ -28,7 +28,6 @@ export default function TeamPreferenceStep2() {
       // 추후에 api 호출 추가
       console.log('Form data:', formData);
       console.log(response);
-
       navigate('/hackathon');
     } catch (error) {
       // 추후에 api 호출 추가

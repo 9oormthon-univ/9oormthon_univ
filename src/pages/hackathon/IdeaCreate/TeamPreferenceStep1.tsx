@@ -8,15 +8,30 @@ import FormTextarea from '../../../components/hackathon/ideaCreate/FormTextarea'
 import FormEditor from '../../../components/hackathon/ideaCreate/FormEditor';
 import FormRadio from '../../../components/hackathon/ideaCreate/FormRadio';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
+import { useEffect } from 'react';
+import { fetchIdeaSubjects } from '../../../api/idea';
+import { useState } from 'react';
 export default function TeamPreferenceStep1() {
-  const { idea_info, updateIdeaInfo } = useIdeaFormStore();
-  // 추후 변동 필요
-  const hackathonTopics = [
-    { id: 1, name: '해커톤 주제1' },
-    { id: 2, name: '해커톤 주제2' },
-    { id: 3, name: '해커톤 주제3' },
-  ];
   const navigate = useNavigate();
+  const { idea_info, updateIdeaInfo } = useIdeaFormStore();
+  const [topics, setTopics] = useState<{ id: number; name: string }[]>([]);
+
+  // 아이디어 주제 조회
+  useEffect(() => {
+    const loadTopics = async () => {
+      try {
+        const response = await fetchIdeaSubjects();
+        const activeTopics = response.data.idea_subjects
+          .filter((topic: { is_active: boolean }) => topic.is_active)
+          .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
+        setTopics(activeTopics);
+      } catch (error) {
+        console.error('Error fetching idea subjects:', error);
+      }
+    };
+
+    loadTopics();
+  }, []);
 
   // const getImageUrl = async (file: File): Promise<string> => {
   //   // 실제 파일을 Base64로 변환하여 임시 URL 생성
@@ -61,11 +76,9 @@ export default function TeamPreferenceStep1() {
           <FormDropdown
             label="어떤 주제에 해당 되나요?"
             nullable={false}
-            selectedValue={
-              hackathonTopics.find((topic) => topic.id.toString() === idea_info.idea_subject_id.toString())?.name || ''
-            }
+            selectedValue={topics.find((topic) => topic.id === idea_info.idea_subject_id)?.name || ''}
             placeholder="주제를 선택해주세요"
-            options={hackathonTopics}
+            options={topics}
             onChange={(e) => updateIdeaInfo('idea_subject_id', parseInt(e.target.value))}
           />
           <FormInput
