@@ -18,3 +18,15 @@ export const createIdeaAPI = async (idea: {
 }) => {
   await instance.post('/api/v1/users/ideas', idea);
 };
+
+// 내 아이디어 상세 조회 API
+export const fetchMyIdeaDetail = async () => {
+  const response = await instance.get('/api/v1/users/ideas/details');
+  return response.data;
+};
+
+// 다른 사람의 아이디어 상세 조회 API
+export const fetchIdeaDetailById = async (idea_id: string) => {
+  const response = await instance.get(`/api/v1/users/ideas/${idea_id}/details`);
+  return response.data;
+};

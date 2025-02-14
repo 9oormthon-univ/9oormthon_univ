@@ -1,0 +1,78 @@
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonAlign {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-250);
+  gap: var(--space-250);
+  border-radius: var(--border-radius-300);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-normal);
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-250);
+}
+
+.titleDetail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+}
+
+.titleStatus {
+  display: flex;
+  gap: var(--space-100);
+  align-items: center;
+}
+
+.titleWrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabLink {
+  justify-content: center;
+  background: none !important;
+  &.active {
+    border-color: var(--border) !important;
+  }
+}
+
+.active {
+  justify-content: center;
+  background: none !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+.notProvider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
+}
+
+.dropdownToggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: var(--space-150);
+}
+
+.dropdownIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.deleteItem {
+  color: var(--text-danger);
+}
