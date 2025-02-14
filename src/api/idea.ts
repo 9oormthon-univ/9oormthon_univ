@@ -1,5 +1,6 @@
 import instance from './instance';
 
+// 아이디어 생성 API
 export const createIdeaAPI = async (idea: {
   idea_info: {
     idea_subject_id: number;
