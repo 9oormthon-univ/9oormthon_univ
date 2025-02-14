@@ -2,28 +2,35 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Text } from '@goo
 import { useState } from 'react';
 import styles from './styles.module.scss';
 
-interface FilterDropDownProps {
-  options: string[]; // 필터 옵션
-  selectedValue: string; // 현재 선택된 값
-  onChange: (value: string) => void;
+interface ActiveFilterDropdownProps {
+  options: { label: string; value: boolean | undefined }[];
+  selectedValue: boolean | undefined;
+  onChange: (value: boolean | undefined) => void;
   disabled?: boolean;
 }
 
-export default function FilterDropdown({ options, selectedValue, onChange, disabled = false }: FilterDropDownProps) {
+export default function ActiveFilterDropdown({
+  options,
+  selectedValue,
+  onChange,
+  disabled = false,
+}: ActiveFilterDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => !disabled && setIsOpen(!isOpen);
+
+  const selectedLabel = options.find((option) => option.value === selectedValue)?.label || '전체';
 
   return (
     <Dropdown direction="down" size="lg" isOpen={isOpen} toggle={toggle} disabled={disabled}>
       <DropdownToggle caret color="select" className={styles.dropdown} disabled={disabled}>
         <Text typography="body2" fontWeight="medium" className={styles.textSelect}>
-          {selectedValue || '전체'}
+          {selectedLabel}
         </Text>
       </DropdownToggle>
       <DropdownMenu>
-        {options.map((option, index) => (
-          <DropdownItem key={index} onClick={() => onChange(option)}>
-            {option}
+        {options.map((option) => (
+          <DropdownItem key={option.label} onClick={() => onChange(option.value)}>
+            {option.label}
           </DropdownItem>
         ))}
       </DropdownMenu>

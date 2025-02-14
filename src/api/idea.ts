@@ -37,3 +37,18 @@ export const fetchIdeaSubjects = async () => {
   const response = await instance.get('/api/v1/idea-subjects/briefs');
   return response.data;
 };
+
+// 아이디어 리스트 조회 API
+export const fetchIdeas = async (
+  page: number,
+  size: number,
+  generation: number,
+  subjectId?: number,
+  isActive?: boolean,
+  isBookmarked?: boolean,
+) => {
+  const response = await instance.get(
+    `/api/v1/users/ideas/overviews?page=${page}&size=${size}&generation=${generation}&subject-id=${subjectId}&is-active=${isActive}&is-bookmarked=${isBookmarked}`,
+  );
+  return response.data;
+};

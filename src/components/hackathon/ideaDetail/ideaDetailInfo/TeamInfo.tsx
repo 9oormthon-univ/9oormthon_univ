@@ -28,8 +28,6 @@ interface TeamInfoProps {
 }
 
 export default function TeamInfo({ requirements }: TeamInfoProps) {
-  // 목업 데이터
-
   return (
     <div className={styles.container}>
       <Text as="h5" typography="heading5" color="gray-900">
