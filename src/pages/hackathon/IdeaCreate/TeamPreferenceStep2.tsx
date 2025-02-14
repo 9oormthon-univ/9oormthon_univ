@@ -68,7 +68,6 @@ export default function TeamPreferenceStep2() {
             color="primary"
             onClick={() => {
               submitForm();
-              navigate('/hackathon');
             }}>
             완료
           </Button>
