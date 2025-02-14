@@ -17,7 +17,7 @@ const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
 const TeamPreferenceStep1 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep1'));
 const TeamPreferenceStep2 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep2'));
 const IdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
-
+const MyIdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
 const loaderProps = {
   color: 'black',
   lottieProps: {
@@ -135,6 +135,16 @@ const router = createBrowserRouter([
               </Suspense>
             ),
           },
+          // 내 아이디어
+          {
+            path: 'detail/myIdea',
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <MyIdeaDetail />
+              </Suspense>
+            ),
+          },
+          // 타인 아이디어
           {
             path: 'detail/:idea_id',
             element: (

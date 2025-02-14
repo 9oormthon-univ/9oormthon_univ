@@ -2,10 +2,26 @@ import { Text, Badge, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Butt
 import styles from './styles.module.scss';
 import { BookmarkOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
-// 아이디어 제공자 여부
-const isIdeaProvider = false;
 
-export default function IdeaDetailHeader() {
+interface IdeaDetailHeaderProps {
+  subject: string;
+  title: string;
+  is_active: boolean;
+  summary: string;
+  name: string;
+  university: string;
+  is_provider: boolean;
+}
+
+export default function IdeaDetailHeader({
+  subject,
+  title,
+  is_active,
+  summary,
+  name,
+  university,
+  is_provider,
+}: IdeaDetailHeaderProps) {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((prev) => !prev);
 
@@ -15,20 +31,20 @@ export default function IdeaDetailHeader() {
         <div className={styles.titleWrap}>
           <div className={styles.titleDetail}>
             <Text typography="subtitle1" color="text-hint">
-              해커톤 주제1
+              {subject}
             </Text>
             <div className={styles.titleStatus}>
               <Text as="h4" typography="heading4" color="text-normal">
-                아이디어 제목
+                {title}
               </Text>
 
               {/* 모집 완료 시 color 변경 필요 */}
-              <Badge pill color="primary">
-                모집 중
+              <Badge pill color={is_active ? 'primary' : 'success'}>
+                {is_active ? '모집 중' : '모집 완료'}
               </Badge>
             </div>
           </div>
-          {isIdeaProvider ? (
+          {is_provider ? (
             <Dropdown isOpen={open} toggle={toggle}>
               <DropdownToggle color="secondary" size="lg" className={styles.dropdownToggle}>
                 <MoreCommonOutlineIcon className={styles.dropdownIcon} />
@@ -49,12 +65,10 @@ export default function IdeaDetailHeader() {
           )}
         </div>
         <Text as="p" typography="body2" color="text-alternative">
-          아이디어에 대한 간단한 소개가 들어가는 자리입니다. 아이디어에 대한 간단한 소개가 들어가는 자리입니다.
-          아이디어에 대한 간단한 소개가 들어가는 자리입니다. 아이디어에 대한 간단한 소개가 들어가는 자리입니다.
-          아이디어에 대한 간단한 소개가 들어가는 자리입
+          {summary}
         </Text>
         <Text as="span" typography="body3" color="text-hint">
-          작성자 : 김구름/구름대학교
+          작성자 : {name}/{university}
         </Text>
       </div>
     </div>
