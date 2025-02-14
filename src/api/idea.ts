@@ -1,5 +1,6 @@
 import instance from './instance';
 
+// 아이디어 생성 API
 export const createIdeaAPI = async (idea: {
   idea_info: {
     idea_subject_id: number;
@@ -28,5 +29,11 @@ export const fetchMyIdeaDetail = async () => {
 // 다른 사람의 아이디어 상세 조회 API
 export const fetchIdeaDetailById = async (idea_id: string) => {
   const response = await instance.get(`/api/v1/users/ideas/${idea_id}/details`);
+  return response.data;
+};
+
+// 아이디어 주제 조회 API
+export const fetchIdeaSubjects = async () => {
+  const response = await instance.get('/api/v1/idea-subjects/briefs');
   return response.data;
 };

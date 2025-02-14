@@ -12,7 +12,7 @@ interface TeamInfoCardProps {
   currentMembers: {
     id: number;
     name: string;
-    imgUrl?: string;
+    imgUrl: string;
   }[];
 }
 
