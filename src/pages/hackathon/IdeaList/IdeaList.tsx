@@ -11,7 +11,13 @@ import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter
 export default function IdeaList() {
   // 주제 가져오기
   const [hackathonTopics, setHackathonTopics] = useState<{ id: number; name: string }[]>([]);
-  const [ideaList, setIdeaList] = useState<any>(null);
+  const [ideaList, setIdeaList] = useState<{ ideas: any[]; page_info: any }>({
+    ideas: [],
+    page_info: {
+      current_page: 1,
+      total_pages: 1,
+    },
+  });
   const { ideas, page_info } = ideaList;
   const [loading, setLoading] = useState(false);
 
