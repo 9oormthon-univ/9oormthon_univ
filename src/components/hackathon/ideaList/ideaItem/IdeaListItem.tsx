@@ -23,13 +23,13 @@ export default function IdeaListItem({
   onBookmarkToggle,
 }: IdeaListItemProps) {
   return (
-    <div className={styles.container} onClick={onClick}>
+    <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.titleWrap}>
           <Text typography="body3" color="text-hint" fontWeight="medium">
             {topic}
           </Text>
-          <Text typography="heading4" color="text-normal" fontWeight="bold">
+          <Text typography="heading4" color="text-normal" fontWeight="bold" onClick={onClick} className={styles.title}>
             {title}
           </Text>
         </div>
@@ -49,7 +49,10 @@ export default function IdeaListItem({
           color="secondary"
           size="md"
           icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
-          onClick={onBookmarkToggle}
+          onClick={(e) => {
+            e.stopPropagation();
+            onBookmarkToggle();
+          }}
         />
       </div>
     </div>
