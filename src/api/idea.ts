@@ -69,3 +69,26 @@ export const addIdeaBookmark = async (idea_id: number) => {
   const response = await instance.post(`/api/v1/users/ideas/${idea_id}/bookmarks`);
   return response.data;
 };
+
+// 내 잔여 지망 간단 리스트 조회 API
+export const fetchMyRemainingRanks = async (generation: number, phase: number) => {
+  const response = await instance.get(`/api/v1/users/applies/briefs?generation=${generation}&phase=${phase}`);
+  return response.data;
+};
+
+// 아이디어 지원
+export const applyIdea = async (
+  idea_id: number,
+  phase: number,
+  preference: number,
+  motivation: string,
+  role: 'PM' | 'PD' | 'FE' | 'BE',
+) => {
+  const response = await instance.post(`/api/v1/users/ideas/${idea_id}/applies`, {
+    phase,
+    preference,
+    motivation,
+    role,
+  });
+  return response.data;
+};

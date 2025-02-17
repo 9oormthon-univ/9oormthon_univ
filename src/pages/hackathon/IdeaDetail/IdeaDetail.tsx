@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import IdeaDetailHeader from '../../../components/hackathon/ideaDetail/IdeaDetailHeader';
-import IdeaDetailNavigation from '../../../components/hackathon/ideaDetail/IdeaDetailNavigation';
 import IdeaDetailTab from '../../../components/hackathon/ideaDetail/IdeaDetailTab';
 import styles from './styles.module.scss';
 import IdeaInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/IdeaInfo';
 import TeamInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/TeamInfo';
 import { addIdeaBookmark, fetchIdeaDetailById, fetchMyIdeaDetail } from '../../../api/idea';
 import { useParams } from 'react-router-dom';
+import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 export default function IdeaDetail() {
   const { idea_id } = useParams();
   const [activeTab, setActiveTab] = useState<'basic' | 'team'>('basic');
@@ -61,7 +61,7 @@ export default function IdeaDetail() {
 
   return (
     <div className={styles.container}>
-      <IdeaDetailNavigation />
+      <BackLinkNavigation backLink="/hackathon" />
       <IdeaDetailHeader
         subject={idea_info?.subject}
         title={idea_info?.title}
@@ -80,7 +80,7 @@ export default function IdeaDetail() {
           {activeTab === 'team' && <TeamInfo requirements={requirements} />}
         </div>
       </div>
-      <IdeaDetailNavigation />
+      <BackLinkNavigation backLink="/hackathon" />
     </div>
   );
 }
