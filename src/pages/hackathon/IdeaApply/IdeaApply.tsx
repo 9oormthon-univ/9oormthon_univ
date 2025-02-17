@@ -55,7 +55,7 @@ export default function IdeaApply() {
       }
     } catch (error: any) {
       if (error.response) {
-        const serverMessage = error.response.data.message;
+        const serverMessage = error.response.error.message;
         setErrorMessage(serverMessage || '알 수 없는 오류가 발생했습니다.');
       } else {
         console.error('Error applying idea:', error);
