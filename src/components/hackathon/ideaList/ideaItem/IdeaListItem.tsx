@@ -9,11 +9,19 @@ interface IdeaListItemProps {
   description: string; // 아이디어 소개
   is_active: boolean; // 모집 상태
   is_bookmarked: boolean; // 북마크 상태
+  onClick: () => void; // 클릭 이벤트 핸들러
 }
 
-export default function IdeaListItem({ topic, title, description, is_active, is_bookmarked }: IdeaListItemProps) {
+export default function IdeaListItem({
+  topic,
+  title,
+  description,
+  is_active,
+  is_bookmarked,
+  onClick,
+}: IdeaListItemProps) {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={onClick}>
       <div className={styles.leftContainer}>
         <div className={styles.titleWrap}>
           <Text typography="body3" color="text-hint" fontWeight="medium">

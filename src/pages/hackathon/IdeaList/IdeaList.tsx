@@ -7,8 +7,9 @@ import { useEffect, useState } from 'react';
 import { fetchIdeas, fetchIdeaSubjects } from '../../../api/idea';
 import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/ActiveFilterDropdown';
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
-
+import { useNavigate } from 'react-router-dom';
 export default function IdeaList() {
+  const navigate = useNavigate();
   // 주제 가져오기
   const [hackathonTopics, setHackathonTopics] = useState<{ id: number; name: string }[]>([]);
   const [ideaList, setIdeaList] = useState<{ ideas: any[]; page_info: any }>({
@@ -80,6 +81,10 @@ export default function IdeaList() {
     setCurrentPage(page);
   };
 
+  const handleIdeaClick = (ideaId: number) => {
+    navigate(`/hackathon/detail/${ideaId}`);
+  };
+
   return (
     <div className={styles.mainContainer}>
       {/* 추후 이미지 */}
@@ -121,6 +126,7 @@ export default function IdeaList() {
                   description={idea.summary}
                   is_active={idea.is_active}
                   is_bookmarked={idea.is_bookmarked}
+                  onClick={() => handleIdeaClick(idea.id)}
                 />
               ))}
 

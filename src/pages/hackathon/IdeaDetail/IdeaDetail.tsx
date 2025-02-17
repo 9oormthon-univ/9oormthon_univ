@@ -5,21 +5,31 @@ import IdeaDetailTab from '../../../components/hackathon/ideaDetail/IdeaDetailTa
 import styles from './styles.module.scss';
 import IdeaInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/IdeaInfo';
 import TeamInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/TeamInfo';
-import { fetchMyIdeaDetail } from '../../../api/idea';
-// import { useParams } from 'react-router-dom';
+import { fetchIdeaDetailById, fetchMyIdeaDetail } from '../../../api/idea';
+import { useParams } from 'react-router-dom';
 export default function IdeaDetail() {
-  // const { idea_id } = useParams();
+  const { idea_id } = useParams();
   const [activeTab, setActiveTab] = useState<'basic' | 'team'>('basic');
   const [ideaDetail, setIdeaDetail] = useState<any>(null);
   const { idea_info, provider_info, requirements, is_provider } = ideaDetail || {};
 
   useEffect(() => {
     const fetchIdeaDetail = async () => {
-      const response = await fetchMyIdeaDetail();
-      setIdeaDetail(response.data);
+      try {
+        let response;
+        if (!idea_id) {
+          response = await fetchMyIdeaDetail();
+        } else {
+          response = await fetchIdeaDetailById(idea_id);
+        }
+        setIdeaDetail(response.data);
+      } catch (error) {
+        console.error('Error fetching idea details:', error);
+      }
     };
+
     fetchIdeaDetail();
-  }, []);
+  }, [idea_id]);
 
   return (
     <div className={styles.container}>
