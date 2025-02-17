@@ -7,8 +7,8 @@ interface IdeaInfoProps {
 
 export default function IdeaInfo({ ideaInfo }: IdeaInfoProps) {
   return (
-    <div className={styles.ideaInfoContainer}>
-      <MDEditor.Markdown source={ideaInfo} />
+    <div className={styles.ideaInfoContainer} data-color-mode="light">
+      <MDEditor.Markdown source={ideaInfo} className={styles.ideaInfo} />
     </div>
   );
 }
