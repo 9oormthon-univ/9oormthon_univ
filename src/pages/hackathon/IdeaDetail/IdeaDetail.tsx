@@ -5,22 +5,39 @@ import IdeaDetailTab from '../../../components/hackathon/ideaDetail/IdeaDetailTa
 import styles from './styles.module.scss';
 import IdeaInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/IdeaInfo';
 import TeamInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/TeamInfo';
-import { fetchMyIdeaDetail } from '../../../api/idea';
-// import { useParams } from 'react-router-dom';
+import { addIdeaBookmark, fetchIdeaDetailById, fetchMyIdeaDetail } from '../../../api/idea';
+import { useParams } from 'react-router-dom';
 export default function IdeaDetail() {
-  // const { idea_id } = useParams();
+  const { idea_id } = useParams();
   const [activeTab, setActiveTab] = useState<'basic' | 'team'>('basic');
   const [ideaDetail, setIdeaDetail] = useState<any>(null);
   const { idea_info, provider_info, requirements, is_provider } = ideaDetail || {};
 
   useEffect(() => {
     const fetchIdeaDetail = async () => {
-      const response = await fetchMyIdeaDetail();
-      setIdeaDetail(response.data);
+      try {
+        let response;
+        if (!idea_id) {
+          response = await fetchMyIdeaDetail();
+        } else {
+          response = await fetchIdeaDetailById(idea_id);
+        }
+        setIdeaDetail(response.data);
+      } catch (error) {
+        console.error('Error fetching idea details:', error);
+      }
     };
-    fetchIdeaDetail();
-  }, []);
 
+    fetchIdeaDetail();
+  }, [idea_id]);
+
+  const handleBookmarkToggle = async (ideaId: number) => {
+    try {
+      await addIdeaBookmark(ideaId);
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
+  };
   return (
     <div className={styles.container}>
       <IdeaDetailNavigation />
@@ -32,6 +49,8 @@ export default function IdeaDetail() {
         name={provider_info?.name}
         university={provider_info?.univ}
         is_provider={is_provider}
+        is_bookmarked={idea_info?.is_bookmarked}
+        onBookmarkToggle={() => handleBookmarkToggle(idea_info?.id)}
       />
       <div className={styles.contentContainer}>
         <IdeaDetailTab activeTab={activeTab} setActiveTab={setActiveTab} />

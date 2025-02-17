@@ -47,8 +47,25 @@ export const fetchIdeas = async (
   isActive?: boolean,
   isBookmarked?: boolean,
 ) => {
-  const response = await instance.get(
-    `/api/v1/users/ideas/overviews?page=${page}&size=${size}&generation=${generation}&subject-id=${subjectId}&is-active=${isActive}&is-bookmarked=${isBookmarked}`,
-  );
+  const queryParams = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    generation: generation.toString(),
+  });
+
+  // undefined인 경우 쿼리 파라미터에 추가하지 않음
+  if (subjectId !== undefined) queryParams.append('subject-id', subjectId.toString());
+  if (isActive !== undefined) queryParams.append('is-active', isActive.toString());
+  if (isBookmarked !== undefined) queryParams.append('is-bookmarked', isBookmarked.toString());
+
+  const requestUrl = `/api/v1/users/ideas/overviews?${queryParams.toString()}`;
+
+  const response = await instance.get(requestUrl);
+  return response.data;
+};
+
+// 아이디어 북마크 추가 API
+export const addIdeaBookmark = async (idea_id: number) => {
+  const response = await instance.post(`/api/v1/users/ideas/${idea_id}/bookmarks`);
   return response.data;
 };

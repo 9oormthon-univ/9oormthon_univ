@@ -1,18 +1,29 @@
 import { Button } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
-import { BookmarkIcon } from '@goorm-dev/vapor-icons';
+import { BookmarkIcon, BookmarkOutlineIcon } from '@goorm-dev/vapor-icons';
 
 interface IdeaListItemProps {
   topic: string; // 해커톤 주제
   title: string; // 아이디어 제목
   description: string; // 아이디어 소개
-  status: string; // 모집 상태
+  is_active: boolean; // 모집 상태
+  is_bookmarked: boolean; // 북마크 상태
+  onClick: () => void; // 클릭 이벤트 핸들러
+  onBookmarkToggle: () => void; // 북마크 토글 이벤트 핸들러
 }
 
-export default function IdeaListItem({ topic, title, description, status }: IdeaListItemProps) {
+export default function IdeaListItem({
+  topic,
+  title,
+  description,
+  is_active,
+  is_bookmarked,
+  onClick,
+  onBookmarkToggle,
+}: IdeaListItemProps) {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={onClick}>
       <div className={styles.leftContainer}>
         <div className={styles.titleWrap}>
           <Text typography="body3" color="text-hint" fontWeight="medium">
@@ -29,12 +40,17 @@ export default function IdeaListItem({ topic, title, description, status }: Idea
       <div className={styles.rightContainer}>
         <Text
           typography="heading4"
-          color={status === '모집 완료' ? 'text-hint' : 'text-primary'}
+          color={is_active ? 'text-primary' : 'text-hint'}
           fontWeight="bold"
           className={styles.fixedText}>
-          {status}
+          {is_active ? '모집 중' : '모집 완료'}
         </Text>
-        <Button color="secondary" size="md" icon={BookmarkIcon} />
+        <Button
+          color="secondary"
+          size="md"
+          icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
+          onClick={onBookmarkToggle}
+        />
       </div>
     </div>
   );
