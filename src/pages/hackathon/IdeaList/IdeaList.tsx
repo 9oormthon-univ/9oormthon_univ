@@ -56,8 +56,9 @@ export default function IdeaList() {
       setLoading(true);
       try {
         const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
-        const isActive = selectedStatus === true ? undefined : selectedStatus === false;
+        const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
 
+        console.log(subjectId, isActive);
         const response = await fetchIdeas(currentPage, projectsPerPage, 4, subjectId, isActive);
         setIdeaList(response.data);
       } catch (error) {
@@ -93,7 +94,7 @@ export default function IdeaList() {
           <div className={styles.listHeader}>
             <div className={styles.dropdownWrap}>
               <SubjectFilterDropdown
-                options={hackathonTopics}
+                options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
                 selectedValue={selectedTopic}
                 onChange={setSelectedTopic}
                 disabled={!isTeamBuilding}
@@ -118,7 +119,8 @@ export default function IdeaList() {
                   topic={idea.subject}
                   title={idea.title}
                   description={idea.summary}
-                  status={idea.is_active}
+                  is_active={idea.is_active}
+                  is_bookmarked={idea.is_bookmarked}
                 />
               ))}
 
