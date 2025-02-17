@@ -63,3 +63,9 @@ export const fetchIdeas = async (
   const response = await instance.get(requestUrl);
   return response.data;
 };
+
+// 아이디어 북마크 추가 API
+export const addIdeaBookmark = async (idea_id: number) => {
+  const response = await instance.post(`/api/v1/users/ideas/${idea_id}/bookmarks`);
+  return response.data;
+};

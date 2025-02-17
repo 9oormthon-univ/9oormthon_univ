@@ -10,6 +10,7 @@ interface IdeaListItemProps {
   is_active: boolean; // 모집 상태
   is_bookmarked: boolean; // 북마크 상태
   onClick: () => void; // 클릭 이벤트 핸들러
+  onBookmarkToggle: () => void; // 북마크 토글 이벤트 핸들러
 }
 
 export default function IdeaListItem({
@@ -19,6 +20,7 @@ export default function IdeaListItem({
   is_active,
   is_bookmarked,
   onClick,
+  onBookmarkToggle,
 }: IdeaListItemProps) {
   return (
     <div className={styles.container} onClick={onClick}>
@@ -43,7 +45,12 @@ export default function IdeaListItem({
           className={styles.fixedText}>
           {is_active ? '모집 중' : '모집 완료'}
         </Text>
-        <Button color="secondary" size="md" icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon} />
+        <Button
+          color="secondary"
+          size="md"
+          icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
+          onClick={onBookmarkToggle}
+        />
       </div>
     </div>
   );

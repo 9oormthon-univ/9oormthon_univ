@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { EditIcon } from '@goorm-dev/gds-icons';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
 import { useEffect, useState } from 'react';
-import { fetchIdeas, fetchIdeaSubjects } from '../../../api/idea';
+import { fetchIdeas, fetchIdeaSubjects, addIdeaBookmark } from '../../../api/idea';
 import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/ActiveFilterDropdown';
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate } from 'react-router-dom';
@@ -77,12 +77,29 @@ export default function IdeaList() {
   // 한 페이지당 보여질 페이지 수
   const projectsPerPage = 8;
 
+  // 페이지네이션 페이지 이동
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
+  // 아이디어 클릭 이벤트
   const handleIdeaClick = (ideaId: number) => {
     navigate(`/hackathon/detail/${ideaId}`);
+  };
+
+  // 북마크 토글 이벤트
+  const handleBookmarkToggle = async (ideaId: number) => {
+    try {
+      await addIdeaBookmark(ideaId);
+      setIdeaList((prevState: any) => ({
+        ...prevState,
+        ideas: prevState.ideas.map((idea: any) =>
+          idea.id === ideaId ? { ...idea, is_bookmarked: !idea.is_bookmarked } : idea,
+        ),
+      }));
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
   };
 
   return (
@@ -127,6 +144,7 @@ export default function IdeaList() {
                   is_active={idea.is_active}
                   is_bookmarked={idea.is_bookmarked}
                   onClick={() => handleIdeaClick(idea.id)}
+                  onBookmarkToggle={() => handleBookmarkToggle(idea.id)}
                 />
               ))}
 
