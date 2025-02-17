@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 35.5rem;
+  padding: var(--space-400) 0 12.5rem 0;
+  margin: 4rem 0 0 0;
+  gap: var(--space-400);
+}
+
+.buttonAlign {
+  display: flex;
+  justify-content: flex-end;
+}

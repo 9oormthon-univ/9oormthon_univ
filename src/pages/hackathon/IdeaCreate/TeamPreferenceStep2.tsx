@@ -1,10 +1,10 @@
 import styles from './styles.module.scss';
-import { ChevronLeftOutlineIcon } from '@goorm-dev/vapor-icons';
 import { Button, Form, Text } from '@goorm-dev/vapor-components';
 import { useNavigate } from 'react-router-dom';
-import PositionForm from '../../../components/hackathon/ideaCreate/PositionForm';
+import PositionForm from '../../../components/hackathon/ideaForm/PositionForm';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import { createIdeaAPI } from '../../../api/idea';
+import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 export default function TeamPreferenceStep2() {
   const { idea_info, requirements, resetIdeaForm } = useIdeaFormStore();
   const navigate = useNavigate();
@@ -41,15 +41,7 @@ export default function TeamPreferenceStep2() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.backLink}>
-        <Button
-          color="secondary"
-          size="lg"
-          icon={ChevronLeftOutlineIcon}
-          onClick={() => navigate('/hackathon/create/step1')}>
-          뒤로가기
-        </Button>
-      </div>
+      <BackLinkNavigation backLink="/hackathon/create/step1" />
       <Text typography="heading4" as="h4" color="text-normal" className={styles.headerText}>
         어떤 팀원과 함께하고 싶나요?
       </Text>

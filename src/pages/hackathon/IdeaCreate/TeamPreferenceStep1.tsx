@@ -1,16 +1,17 @@
-import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@goorm-dev/vapor-icons';
+import { ChevronRightOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
 import { Button, Form, Text } from '@goorm-dev/vapor-components';
-import FormDropdown from '../../../components/hackathon/ideaCreate/FormDropdown';
+import FormDropdown from '../../../components/hackathon/ideaForm/FormDropdown';
 import { useNavigate } from 'react-router-dom';
-import FormInput from '../../../components/hackathon/ideaCreate/FormInput';
-import FormTextarea from '../../../components/hackathon/ideaCreate/FormTextarea';
-import FormEditor from '../../../components/hackathon/ideaCreate/FormEditor';
-import FormRadio from '../../../components/hackathon/ideaCreate/FormRadio';
+import FormInput from '../../../components/hackathon/ideaForm/FormInput';
+import FormTextarea from '../../../components/hackathon/ideaForm/FormTextarea';
+import FormEditor from '../../../components/hackathon/ideaForm/FormEditor';
+import FormRadio from '../../../components/hackathon/ideaForm/FormRadio';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import { useEffect } from 'react';
 import { fetchIdeaSubjects } from '../../../api/idea';
 import { useState } from 'react';
+import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 export default function TeamPreferenceStep1() {
   const navigate = useNavigate();
   const { idea_info, updateIdeaInfo } = useIdeaFormStore();
@@ -63,11 +64,7 @@ export default function TeamPreferenceStep1() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.backLink}>
-        <Button color="secondary" size="lg" icon={ChevronLeftOutlineIcon} onClick={() => navigate('/hackathon')}>
-          뒤로가기
-        </Button>
-      </div>
+      <BackLinkNavigation backLink="/hackathon" />
       <Text typography="heading4" as="h4" color="text-normal" className={styles.headerText}>
         상상 속에만 있던 <br /> 여러분의 아이디어를 펼쳐주세요!
       </Text>
