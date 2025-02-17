@@ -8,7 +8,7 @@ interface FormDropdownProps {
   nullable: boolean; // null 허용
   selectedValue: string;
   placeholder: string;
-  options: { id: number; name: string }[]; // 옵션
+  options: { id: number; name: string; disabled?: boolean }[]; // 옵션
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   disabled?: boolean;
 }
@@ -40,7 +40,8 @@ export default function FormDropdown({
               key={index}
               onClick={() =>
                 onChange({ target: { value: option.id } } as unknown as React.ChangeEvent<HTMLSelectElement>)
-              }>
+              }
+              disabled={option.disabled}>
               {option.name}
             </DropdownItem>
           ))}

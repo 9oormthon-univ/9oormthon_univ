@@ -9,6 +9,17 @@ import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNav
 import { applyIdea, fetchMyRemainingRanks } from '../../../api/idea';
 import { useParams } from 'react-router-dom';
 
+// 에러 메시지 매핑
+const ERROR_MESSAGES: Record<number, string> = {
+  40406: '해당 사용자를 찾을 수 없습니다. 다시 확인해주세요.',
+  40408: '해당 아이디어를 찾을 수 없습니다.',
+  40015: '귀하는 이미 팀이 존재합니다. 팀 구성을 확인해주세요.',
+  40021: '해당 파트의 모집이 마감되었습니다.',
+  40022: '해당 아이디어는 이미 지원한 아이디어입니다.',
+  40023: '현재 아이디어 지원 기간이 아닙니다.',
+  40410: '시스템 설정을 찾을 수 없습니다. 관리자에게 문의하세요.',
+};
+
 export default function IdeaApply() {
   const { idea_id } = useParams();
   const [reason, setReason] = useState('');
@@ -36,7 +47,7 @@ export default function IdeaApply() {
         setPreferences(response.data.preferences);
       } catch (error: any) {
         if (error.response) {
-          const serverMessage = error.response.data.message;
+          const serverMessage = error.response.data.error?.code;
           setErrorMessage(serverMessage || '알 수 없는 오류가 발생했습니다.');
         } else {
           console.error('Error fetching preferences:', error);
@@ -55,8 +66,9 @@ export default function IdeaApply() {
       }
     } catch (error: any) {
       if (error.response) {
-        const serverMessage = error.response.error.message;
-        setErrorMessage(serverMessage || '알 수 없는 오류가 발생했습니다.');
+        const errorCode = error.response.data?.error?.code;
+        console.log(error.response);
+        setErrorMessage(ERROR_MESSAGES[errorCode] || '알 수 없는 오류가 발생했습니다.');
       } else {
         console.error('Error applying idea:', error);
       }
@@ -75,7 +87,7 @@ export default function IdeaApply() {
           <FormDropdown
             label="해당 아이디어는 몇 지망인가요?"
             nullable={false}
-            selectedValue={selectedRank ? selectedRank.toString() : ''}
+            selectedValue={selectedRank ? `${selectedRank}지망` : ''}
             placeholder="지망을 선택해주세요"
             options={preferences.map((pref) => ({
               id: pref.number,
