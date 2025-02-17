@@ -1,6 +1,6 @@
-import { ChevronRightOutlineIcon } from '@goorm-dev/vapor-icons';
+import { ChevronRightOutlineIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import { Button, Form, Text } from '@goorm-dev/vapor-components';
+import { Alert, Button, Form, Text } from '@goorm-dev/vapor-components';
 import FormDropdown from '../../../components/hackathon/ideaForm/FormDropdown';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../../components/hackathon/ideaForm/FormInput';
@@ -14,9 +14,10 @@ import { useState } from 'react';
 import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 export default function TeamPreferenceStep1() {
   const navigate = useNavigate();
-  const { idea_info, updateIdeaInfo } = useIdeaFormStore();
+  const { idea_info, updateIdeaInfo, requirements } = useIdeaFormStore();
   const [topics, setTopics] = useState<{ id: number; name: string }[]>([]);
 
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
   // 아이디어 주제 조회
   useEffect(() => {
     const loadTopics = async () => {
@@ -34,22 +35,16 @@ export default function TeamPreferenceStep1() {
     loadTopics();
   }, []);
 
-  // const getImageUrl = async (file: File): Promise<string> => {
-  //   // 실제 파일을 Base64로 변환하여 임시 URL 생성
-  //   return new Promise((resolve) => {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       resolve(reader.result as string);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   });
-  // };
-
-  // 이미지 업로드 핸들러
-  // const handleImage = async (file: File, callback: typeof Function) => {
-  //   const imageUrl = await getImageUrl(file);
-  //   callback(imageUrl);
-  // };
+  const handleRoleChange = (role: 'pm' | 'pd' | 'fe' | 'be') => {
+    if (role === 'pm' || role === 'pd') {
+      if (requirements[role]?.capacity === 1) {
+        setIsAlertVisible(true);
+        return;
+      }
+    }
+    setIsAlertVisible(false);
+    updateIdeaInfo('provider_role', role);
+  };
 
   const isFormValid = () => {
     const formStatus = {
@@ -105,8 +100,15 @@ export default function TeamPreferenceStep1() {
             label="본인 파트를 선택해 주세요"
             nullable={false}
             value={idea_info.provider_role}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateIdeaInfo('provider_role', e.target.id)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleRoleChange(e.target.id as 'pm' | 'pd' | 'fe' | 'be')
+            }
           />
+          {isAlertVisible && (
+            <Alert color="danger" leftIcon={InfoCircleIcon} fade>
+              이미 해당 역할이 1명 설정되어 있어 변경할 수 없습니다.
+            </Alert>
+          )}
         </div>
         <div className={styles.buttonAlign}>
           <Button
