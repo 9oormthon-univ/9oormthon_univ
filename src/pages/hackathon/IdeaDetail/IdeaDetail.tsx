@@ -5,7 +5,7 @@ import IdeaDetailTab from '../../../components/hackathon/ideaDetail/IdeaDetailTa
 import styles from './styles.module.scss';
 import IdeaInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/IdeaInfo';
 import TeamInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/TeamInfo';
-import { fetchIdeaDetailById, fetchMyIdeaDetail } from '../../../api/idea';
+import { addIdeaBookmark, fetchIdeaDetailById, fetchMyIdeaDetail } from '../../../api/idea';
 import { useParams } from 'react-router-dom';
 export default function IdeaDetail() {
   const { idea_id } = useParams();
@@ -31,6 +31,13 @@ export default function IdeaDetail() {
     fetchIdeaDetail();
   }, [idea_id]);
 
+  const handleBookmarkToggle = async (ideaId: number) => {
+    try {
+      await addIdeaBookmark(ideaId);
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
+  };
   return (
     <div className={styles.container}>
       <IdeaDetailNavigation />
@@ -42,6 +49,8 @@ export default function IdeaDetail() {
         name={provider_info?.name}
         university={provider_info?.univ}
         is_provider={is_provider}
+        is_bookmarked={idea_info?.is_bookmarked}
+        onBookmarkToggle={() => handleBookmarkToggle(idea_info?.id)}
       />
       <div className={styles.contentContainer}>
         <IdeaDetailTab activeTab={activeTab} setActiveTab={setActiveTab} />

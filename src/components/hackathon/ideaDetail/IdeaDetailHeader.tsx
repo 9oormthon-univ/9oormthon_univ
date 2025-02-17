@@ -1,6 +1,6 @@
 import { Text, Badge, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
-import { BookmarkOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
+import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 
 interface IdeaDetailHeaderProps {
@@ -11,6 +11,8 @@ interface IdeaDetailHeaderProps {
   name: string;
   university: string;
   is_provider: boolean;
+  is_bookmarked: boolean;
+  onBookmarkToggle: () => void;
 }
 
 export default function IdeaDetailHeader({
@@ -21,6 +23,8 @@ export default function IdeaDetailHeader({
   name,
   university,
   is_provider,
+  is_bookmarked,
+  onBookmarkToggle,
 }: IdeaDetailHeaderProps) {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((prev) => !prev);
@@ -57,7 +61,12 @@ export default function IdeaDetailHeader({
             </Dropdown>
           ) : (
             <div className={styles.notProvider}>
-              <Button color="secondary" size="lg" icon={BookmarkOutlineIcon} />
+              <Button
+                color="secondary"
+                size="lg"
+                icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
+                onClick={onBookmarkToggle}
+              />
               <Button color="primary" size="lg">
                 지원하기
               </Button>
