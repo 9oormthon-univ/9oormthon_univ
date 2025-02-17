@@ -13,6 +13,7 @@ export default function IdeaDetail() {
   const [ideaDetail, setIdeaDetail] = useState<any>(null);
   const { idea_info, provider_info, requirements, is_provider } = ideaDetail || {};
 
+  // 아이디어 fetch
   useEffect(() => {
     const fetchIdeaDetail = async () => {
       try {
@@ -31,13 +32,33 @@ export default function IdeaDetail() {
     fetchIdeaDetail();
   }, [idea_id]);
 
-  const handleBookmarkToggle = async (ideaId: number) => {
+  // 북마크 토글
+  const handleBookmarkToggle = async () => {
+    if (!idea_info) return;
+
+    setIdeaDetail((prevState: any) => ({
+      ...prevState,
+      idea_info: {
+        ...prevState.idea_info,
+        is_bookmarked: !prevState.idea_info.is_bookmarked,
+      },
+    }));
+
     try {
-      await addIdeaBookmark(ideaId);
+      await addIdeaBookmark(idea_info.id);
     } catch (error) {
       console.error('Error toggling bookmark:', error);
+
+      setIdeaDetail((prevState: any) => ({
+        ...prevState,
+        idea_info: {
+          ...prevState.idea_info,
+          is_bookmarked: !prevState.idea_info.is_bookmarked,
+        },
+      }));
     }
   };
+
   return (
     <div className={styles.container}>
       <IdeaDetailNavigation />
@@ -50,7 +71,7 @@ export default function IdeaDetail() {
         university={provider_info?.univ}
         is_provider={is_provider}
         is_bookmarked={idea_info?.is_bookmarked}
-        onBookmarkToggle={() => handleBookmarkToggle(idea_info?.id)}
+        onBookmarkToggle={handleBookmarkToggle}
       />
       <div className={styles.contentContainer}>
         <IdeaDetailTab activeTab={activeTab} setActiveTab={setActiveTab} />

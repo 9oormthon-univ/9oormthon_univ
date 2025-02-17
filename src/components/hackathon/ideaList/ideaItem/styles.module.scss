@@ -69,3 +69,10 @@
 .buttonColor {
   background: #e1e1e8;
 }
+
+.title {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

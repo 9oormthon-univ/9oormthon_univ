@@ -89,16 +89,23 @@ export default function IdeaList() {
 
   // 북마크 토글 이벤트
   const handleBookmarkToggle = async (ideaId: number) => {
+    setIdeaList((prevState: any) => ({
+      ...prevState,
+      ideas: prevState.ideas.map((idea: any) =>
+        idea.id === ideaId ? { ...idea, is_bookmarked: !idea.is_bookmarked } : idea,
+      ),
+    }));
+
     try {
       await addIdeaBookmark(ideaId);
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
       setIdeaList((prevState: any) => ({
         ...prevState,
         ideas: prevState.ideas.map((idea: any) =>
           idea.id === ideaId ? { ...idea, is_bookmarked: !idea.is_bookmarked } : idea,
         ),
       }));
-    } catch (error) {
-      console.error('Error toggling bookmark:', error);
     }
   };
 
