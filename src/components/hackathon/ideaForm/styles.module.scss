@@ -110,3 +110,8 @@
   gap: 0.375rem;
   flex-wrap: wrap;
 }
+
+.positionFormContainerDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
