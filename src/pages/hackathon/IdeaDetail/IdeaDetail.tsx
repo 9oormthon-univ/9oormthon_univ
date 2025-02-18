@@ -63,6 +63,7 @@ export default function IdeaDetail() {
     <div className={styles.container}>
       <BackLinkNavigation backLink="/hackathon" />
       <IdeaDetailHeader
+        id={idea_info?.id}
         subject={idea_info?.subject}
         title={idea_info?.title}
         is_active={idea_info?.is_active}
