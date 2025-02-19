@@ -18,3 +18,6 @@ export const allProjects = [...DanpoongProject2023Data, ...BeotkkotProject2024Da
 );
 
 export const PROJECTS = [allProjects, DanpoongProject2023Data, BeotkkotProject2024Data, DanpungProject2024Data];
+
+// 기수 (추후 변경 필요)
+export const GENERATION = 4;
