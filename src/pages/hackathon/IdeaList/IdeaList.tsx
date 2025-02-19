@@ -8,6 +8,8 @@ import { fetchIdeas, fetchIdeaSubjects, addIdeaBookmark } from '../../../api/ide
 import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/ActiveFilterDropdown';
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate } from 'react-router-dom';
+import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
+
 export default function IdeaList() {
   const navigate = useNavigate();
   // 주제 가져오기
@@ -25,12 +27,20 @@ export default function IdeaList() {
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
   const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(undefined);
+  const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
 
+  // 상태 옵션
   const statusOptions = [
     { label: '전체', value: undefined },
     { label: '모집 중', value: true },
     { label: '모집 완료', value: false },
+  ];
+
+  // 북마크 옵션
+  const bookmarkOptions = [
+    { label: '전체', value: false },
+    { label: '찜한 아이디어', value: true },
   ];
 
   // 주제 가져오는 api
@@ -59,8 +69,8 @@ export default function IdeaList() {
         const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
         const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
 
-        console.log(subjectId, isActive);
-        const response = await fetchIdeas(currentPage, projectsPerPage, 4, subjectId, isActive);
+        const isBookmarked = selectedBookmark === true ? true : selectedBookmark === false ? false : undefined;
+        const response = await fetchIdeas(currentPage, projectsPerPage, 4, subjectId, isActive, isBookmarked);
         setIdeaList(response.data);
       } catch (error) {
         console.error('Error fetching ideas:', error);
@@ -70,7 +80,7 @@ export default function IdeaList() {
     };
 
     loadIdeas();
-  }, [selectedTopic, selectedStatus, currentPage]);
+  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark]);
 
   // 팀빌딩 기간인지
   const isTeamBuilding = true;
@@ -132,6 +142,12 @@ export default function IdeaList() {
                 options={statusOptions}
                 selectedValue={selectedStatus}
                 onChange={(value) => setSelectedStatus(value)}
+                disabled={!isTeamBuilding}
+              />
+              <BookmarkedFilterDropdown
+                options={bookmarkOptions}
+                selectedValue={selectedBookmark}
+                onChange={(value) => setSelectedBookmark(value)}
                 disabled={!isTeamBuilding}
               />
             </div>
