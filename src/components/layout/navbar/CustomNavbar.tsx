@@ -1,18 +1,30 @@
-import { Button, GoormNavbar } from '@goorm-dev/gds-components';
+import { GoormNavbar } from '@goorm-dev/gds-components';
 import { ChevronRightOutlineIcon, OutOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';
 import styles from './customNavbar.module.scss';
-import { Nav, NavItem, NavLink } from '@goorm-dev/vapor-components';
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Nav,
+  NavItem,
+  NavLink,
+} from '@goorm-dev/vapor-components';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../../store/useAuthStore';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
+  const [isHackathonOpened, setIsHackathonOpened] = useState(false);
   const isAbout = useIsAbout();
+  const navigate = useNavigate();
 
-  // TODO: 로그인 여부 확인 로직 추가
-  const isLoggedIn = false;
-
+  const isLoggedIn = useAuthStore((state) => state.role !== 'GUEST');
+  const profileImg = useAuthStore((state) => state.profile_img);
   const NAV_ITEMS = [
     {
       title: 'Project',
@@ -21,18 +33,6 @@ function CustomNavbar() {
     {
       title: 'Recruit',
       to: '/recruit',
-    },
-    // {
-    //   title: 'Hackathon',
-    //   to: '/hackathon',
-    // },
-    {
-      title: (
-        <>
-          UNIV-LOG <OutOutlineIcon className="mx-1" />
-        </>
-      ),
-      to: 'https://9oormthonuniv.tistory.com/',
     },
   ];
 
@@ -55,7 +55,35 @@ function CustomNavbar() {
               </NavLink>
             </NavItem>
           ))}
+
+          {isLoggedIn && (
+            <Dropdown
+              direction="down"
+              nav={true}
+              size="lg"
+              isOpen={isHackathonOpened}
+              toggle={() => setIsHackathonOpened((prev) => !prev)}
+              inNavbar={true}>
+              <DropdownToggle caret color="select" className={styles.dropdownToggle}>
+                Hackathon
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem onClick={() => navigate('/hackathon')}>아이디어</DropdownItem>
+                <DropdownItem onClick={() => alert('준비중인 기능입니다.')}>나의 팀</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
+          <NavItem>
+            <NavLink
+              className={isAbout ? styles.whiteFont : ''}
+              href="https://9oormthonuniv.tistory.com/"
+              target="_blank"
+              rel="noopener noreferrer">
+              UNIV-LOG <OutOutlineIcon className="mx-1" />
+            </NavLink>
+          </NavItem>
         </Nav>
+
         <Nav navbar className={styles.navbar}>
           <NavLink
             className={isAbout ? styles.whiteFont : ''}
@@ -65,7 +93,9 @@ function CustomNavbar() {
           </NavLink>
 
           {isLoggedIn ? (
-            <NavLink className={styles.grayCircle} href="/my-page"></NavLink>
+            <NavLink className={styles.grayCircle} href="/my-page">
+              {profileImg && <img src={profileImg} alt="profile" className={styles.profileImg} />}
+            </NavLink>
           ) : (
             <>
               {/* <Button className={styles.loginButton} size="lg" href="/login"> */}

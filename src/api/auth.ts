@@ -1,5 +1,6 @@
 // 회원 관련 api
 
+import { GENERATION } from '../constants/common';
 import instance from './instance';
 
 // JWT 토큰 재발급
@@ -42,7 +43,7 @@ export const resetPasswordAPI = async (current_password: string, new_password: s
 
 // 유저 정보 가져오기
 export const getUserBriefAPI = async () => {
-  const response = await instance.get('/api/v1/auth/briefs');
+  const response = await instance.get(`/api/v1/auth/briefs?generation=${GENERATION}`);
 
   return response.data;
 };
