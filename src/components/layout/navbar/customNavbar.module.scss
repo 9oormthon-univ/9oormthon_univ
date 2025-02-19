@@ -18,10 +18,10 @@
 
 .loginText {
   color: var(--gray-900);
-  @include container-xs {
+  @include container-md {
     display: inline-flex;
   }
-  @include container-md {
+  @include container-lg {
     display: none;
   }
 }
@@ -29,6 +29,7 @@
 .collapse {
   width: 100%;
   display: flex;
+  overflow: visible !important;
   @include container-xs {
     flex-direction: column;
     align-items: start;
@@ -80,4 +81,34 @@
   background-color: var(--gray-200);
   border-radius: 1.25rem;
   margin-left: -0.1rem;
+
+  &:hover {
+    background-color: var(--gray-200) !important;
+  }
+
+  &:focus {
+    background-color: var(--gray-200) !important;
+  }
+}
+
+.dropdownToggle {
+  border: none !important;
+  padding: 0.5625rem 0.5rem !important;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  color: var(--text-alternative);
+  height: var(--dimension-400) !important;
+  font-weight: 500;
+
+  &:hover {
+    background: var(--gray-400-transparent-16);
+    outline: 0;
+  }
+}
+
+.profileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }

@@ -10,7 +10,7 @@ import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate } from 'react-router-dom';
 import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
-import useAuthStore from '../../../store/useAuthStore';
+import { getUserBriefAPI } from '../../../api/auth';
 
 export default function IdeaList() {
   const navigate = useNavigate();
@@ -25,14 +25,13 @@ export default function IdeaList() {
   });
   const { ideas, page_info } = ideaList;
   const [loading, setLoading] = useState(false);
-  const { is_provider } = useAuthStore();
 
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
   const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(undefined);
   const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [isProvider, setIsProvider] = useState<boolean | null>(null);
   // 상태 옵션
   const statusOptions = [
     { label: '전체', value: undefined },
@@ -45,6 +44,21 @@ export default function IdeaList() {
     { label: '전체', value: false },
     { label: '찜한 아이디어', value: true },
   ];
+
+  // 아이디어 제공자인지 확인
+  useEffect(() => {
+    const loadIsProvider = async () => {
+      try {
+        const response = await getUserBriefAPI();
+        const { is_provider } = response.data;
+        setIsProvider(is_provider);
+      } catch (error) {
+        console.error('Error fetching is_provider:', error);
+      }
+    };
+
+    loadIsProvider();
+  }, []);
 
   // 주제 가져오는 api
   useEffect(() => {
@@ -127,7 +141,7 @@ export default function IdeaList() {
 
   //아이디어 등록 버튼 누를 때 is_provider가 true이면 alert띄우기
   const handleCreateIdea = () => {
-    if (is_provider) {
+    if (isProvider) {
       toast(message, {
         type: 'danger',
       });
