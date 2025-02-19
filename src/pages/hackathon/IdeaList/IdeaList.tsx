@@ -1,4 +1,5 @@
-import { BasicPagination, Button, Spinner } from '@goorm-dev/vapor-components';
+import { BasicPagination, Button, Slide, Spinner, toast, ToastContainer } from '@goorm-dev/vapor-components';
+import 'react-toastify/dist/ReactToastify.min.css';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
 import { EditIcon } from '@goorm-dev/gds-icons';
@@ -9,6 +10,7 @@ import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate } from 'react-router-dom';
 import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
+import useAuthStore from '../../../store/useAuthStore';
 
 export default function IdeaList() {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ export default function IdeaList() {
   });
   const { ideas, page_info } = ideaList;
   const [loading, setLoading] = useState(false);
+  const { is_provider } = useAuthStore();
 
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
@@ -119,6 +122,20 @@ export default function IdeaList() {
     }
   };
 
+  // 예외처리
+  const message = '이미 제출된 아이디어가 있어 등록이 불가합니다.';
+
+  //아이디어 등록 버튼 누를 때 is_provider가 true이면 alert띄우기
+  const handleCreateIdea = () => {
+    if (is_provider) {
+      toast(message, {
+        type: 'danger',
+      });
+    } else {
+      navigate('/hackathon/create/step1');
+    }
+  };
+
   return (
     <div className={styles.mainContainer}>
       {/* 추후 이미지 */}
@@ -151,7 +168,7 @@ export default function IdeaList() {
                 disabled={!isTeamBuilding}
               />
             </div>
-            <Button icon={EditIcon} active={false} size="lg" href="/hackathon/create/step1" className={styles.noneBtn}>
+            <Button icon={EditIcon} active={false} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
               아이디어 등록
             </Button>
           </div>
@@ -184,6 +201,7 @@ export default function IdeaList() {
           )}
         </div>
       )}
+      <ToastContainer autoClose={3000} transition={Slide} closeButton={false} newestOnTop hideProgressBar />
     </div>
   );
 }
