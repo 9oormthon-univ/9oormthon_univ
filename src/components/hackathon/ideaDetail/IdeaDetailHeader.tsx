@@ -2,8 +2,9 @@ import { Text, Badge, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Butt
 import styles from './styles.module.scss';
 import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 interface IdeaDetailHeaderProps {
+  id: number;
   subject: string;
   title: string;
   is_active: boolean;
@@ -16,6 +17,7 @@ interface IdeaDetailHeaderProps {
 }
 
 export default function IdeaDetailHeader({
+  id,
   subject,
   title,
   is_active,
@@ -28,7 +30,7 @@ export default function IdeaDetailHeader({
 }: IdeaDetailHeaderProps) {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((prev) => !prev);
-
+  const navigate = useNavigate();
   return (
     <div className={styles.headerContainer}>
       <div className={styles.titleContainer}>
@@ -67,7 +69,12 @@ export default function IdeaDetailHeader({
                 icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
                 onClick={onBookmarkToggle}
               />
-              <Button color="primary" size="lg">
+              <Button
+                color="primary"
+                size="lg"
+                onClick={() => {
+                  navigate(`/hackathon/apply/${id}`);
+                }}>
                 지원하기
               </Button>
             </div>

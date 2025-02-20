@@ -24,7 +24,7 @@ function CustomNavbar() {
   const navigate = useNavigate();
 
   const isLoggedIn = useAuthStore((state) => state.role !== 'GUEST');
-  const profileImg = useAuthStore((state) => state.profile_img);
+  const profileImg = useAuthStore((state) => state.img_url);
   const NAV_ITEMS = [
     {
       title: 'Project',
@@ -64,7 +64,10 @@ function CustomNavbar() {
               isOpen={isHackathonOpened}
               toggle={() => setIsHackathonOpened((prev) => !prev)}
               inNavbar={true}>
-              <DropdownToggle caret color="select" className={styles.dropdownToggle}>
+              <DropdownToggle
+                caret
+                color="select"
+                className={isAbout ? styles.dropdownToggleWhite : styles.dropdownToggle}>
                 Hackathon
               </DropdownToggle>
               <DropdownMenu right>
