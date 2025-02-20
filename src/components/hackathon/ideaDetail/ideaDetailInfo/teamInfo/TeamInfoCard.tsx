@@ -47,14 +47,18 @@ export default function TeamInfoCard({
         </div>
       </div>
       <div className={styles.teamInfoRightItem}>
-        <Text as="p" typography="subtitle2" color="text-alternative">
-          필요 스택
-        </Text>
-        <div className={styles.teamInfoStackContainer}>
-          {skills.map((skill, index) => (
-            <StackItem key={index} skill={skill} />
-          ))}
-        </div>
+        {skills.length > 0 && (
+          <>
+            <Text as="p" typography="subtitle2" color="text-alternative">
+              필요 스택
+            </Text>
+            <div className={styles.teamInfoStackContainer}>
+              {skills.map((skill, index) => (
+                <StackItem key={index} skill={skill} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
