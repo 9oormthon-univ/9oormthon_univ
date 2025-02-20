@@ -1,10 +1,20 @@
+@import '../../../style/mixin.scss';
+
 .container {
-  width: 35rem;
+  width: 36rem;
   display: flex;
   flex-direction: column;
   margin-top: 4rem;
   padding: var(--space-400) 0 12.5rem 0;
   gap: var(--space-400);
+
+  @include container-xs {
+    width: 23.4375rem;
+  }
+
+  @include container-sm {
+    width: 36rem;
+  }
 }
 
 .headerText {
