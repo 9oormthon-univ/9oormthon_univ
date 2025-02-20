@@ -5,32 +5,24 @@ import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import FormTextarea from './FormTextarea';
 import FormDropdown from './FormDropdown';
 import StackSelector from './StackSelector';
-
-type Position = 'pm' | 'pd' | 'fe' | 'be';
+import { POSITIONS } from '../../../constants/position';
 
 interface PositionFormProps {
   position: {
-    key: Position;
+    key: keyof typeof POSITIONS;
     name: string;
     index: number;
   };
   isDisabled: boolean;
 }
 
-const POSITION_NAME = {
-  pm: '기획',
-  pd: '디자인',
-  fe: '프론트엔드',
-  be: '백엔드',
-};
-
 export default function PositionForm({ position, isDisabled }: PositionFormProps) {
   const { requirements, updateRequirements } = useIdeaFormStore();
 
   // const isDisabled = position.key === idea_info.provider_role;
-  const currentValue = requirements[position.key as Position] || {
+  const currentValue = requirements[position.key as keyof typeof POSITIONS] || {
     requirement: '',
-    capacity: requirements[position.key as Position]?.capacity || 0,
+    capacity: requirements[position.key as keyof typeof POSITIONS]?.capacity || 0,
     required_tech_stacks: [],
   };
 
@@ -42,16 +34,16 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
   };
 
   const handleChange = (value: any) => {
-    updateRequirements(position.key as Position, {
+    updateRequirements(position.key as keyof typeof POSITIONS, {
       ...currentValue,
       ...value,
     });
   };
 
   return (
-    <div className={styles.positionFormContainer}>
+    <div className={isDisabled ? styles.positionFormContainerDisabled : styles.positionFormContainer}>
       <Text as="h6" typography="heading6" color="text-normal" style={{ marginBottom: 'var(--space-200)' }}>
-        {`${position.index + 1}. ${POSITION_NAME[position.key as keyof typeof POSITION_NAME]}`}
+        {`${position.index + 1}. ${POSITIONS[position.key as keyof typeof POSITIONS]}`}
       </Text>
       <FormTextarea
         label="원하는 팀원상"

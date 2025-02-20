@@ -150,3 +150,8 @@
 :global(.w-md-editor-toolbar li > button:disabled) {
   opacity: 0.5 !important;
 }
+
+.positionFormContainerDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

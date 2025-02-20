@@ -1,4 +1,5 @@
-import { BasicPagination, Button, Spinner } from '@goorm-dev/vapor-components';
+import { BasicPagination, Button, Slide, Spinner, toast, ToastContainer } from '@goorm-dev/vapor-components';
+import 'react-toastify/dist/ReactToastify.min.css';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
 import { EditIcon } from '@goorm-dev/gds-icons';
@@ -8,6 +9,9 @@ import { fetchIdeas, fetchIdeaSubjects, addIdeaBookmark } from '../../../api/ide
 import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/ActiveFilterDropdown';
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate } from 'react-router-dom';
+import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
+import { getUserBriefAPI } from '../../../api/auth';
+
 export default function IdeaList() {
   const navigate = useNavigate();
   // 주제 가져오기
@@ -25,13 +29,36 @@ export default function IdeaList() {
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
   const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(undefined);
+  const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [isProvider, setIsProvider] = useState<boolean | null>(null);
+  // 상태 옵션
   const statusOptions = [
     { label: '전체', value: undefined },
     { label: '모집 중', value: true },
     { label: '모집 완료', value: false },
   ];
+
+  // 북마크 옵션
+  const bookmarkOptions = [
+    { label: '전체', value: false },
+    { label: '찜한 아이디어', value: true },
+  ];
+
+  // 아이디어 제공자인지 확인
+  useEffect(() => {
+    const loadIsProvider = async () => {
+      try {
+        const response = await getUserBriefAPI();
+        const { is_provider } = response.data;
+        setIsProvider(is_provider);
+      } catch (error) {
+        console.error('Error fetching is_provider:', error);
+      }
+    };
+
+    loadIsProvider();
+  }, []);
 
   // 주제 가져오는 api
   useEffect(() => {
@@ -59,8 +86,8 @@ export default function IdeaList() {
         const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
         const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
 
-        console.log(subjectId, isActive);
-        const response = await fetchIdeas(currentPage, projectsPerPage, 4, subjectId, isActive);
+        const isBookmarked = selectedBookmark === true ? true : selectedBookmark === false ? false : undefined;
+        const response = await fetchIdeas(currentPage, projectsPerPage, 4, subjectId, isActive, isBookmarked);
         setIdeaList(response.data);
       } catch (error) {
         console.error('Error fetching ideas:', error);
@@ -70,7 +97,7 @@ export default function IdeaList() {
     };
 
     loadIdeas();
-  }, [selectedTopic, selectedStatus, currentPage]);
+  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark]);
 
   // 팀빌딩 기간인지
   const isTeamBuilding = true;
@@ -109,6 +136,20 @@ export default function IdeaList() {
     }
   };
 
+  // 예외처리
+  const message = '이미 제출된 아이디어가 있어 등록이 불가합니다.';
+
+  //아이디어 등록 버튼 누를 때 is_provider가 true이면 alert띄우기
+  const handleCreateIdea = () => {
+    if (isProvider) {
+      toast(message, {
+        type: 'danger',
+      });
+    } else {
+      navigate('/hackathon/create/step1');
+    }
+  };
+
   return (
     <div className={styles.mainContainer}>
       {/* 추후 이미지 */}
@@ -134,8 +175,14 @@ export default function IdeaList() {
                 onChange={(value) => setSelectedStatus(value)}
                 disabled={!isTeamBuilding}
               />
+              <BookmarkedFilterDropdown
+                options={bookmarkOptions}
+                selectedValue={selectedBookmark}
+                onChange={(value) => setSelectedBookmark(value)}
+                disabled={!isTeamBuilding}
+              />
             </div>
-            <Button icon={EditIcon} active={false} size="lg" href="/hackathon/create/step1" className={styles.noneBtn}>
+            <Button icon={EditIcon} active={false} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
               아이디어 등록
             </Button>
           </div>
@@ -168,6 +215,7 @@ export default function IdeaList() {
           )}
         </div>
       )}
+      <ToastContainer autoClose={3000} transition={Slide} closeButton={false} newestOnTop hideProgressBar />
     </div>
   );
 }
