@@ -75,7 +75,7 @@ export default function IdeaList() {
         const activeTopics = response.data.idea_subjects
           .filter((topic: { is_active: boolean }) => topic.is_active)
           .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
-
+        console.log(activeTopics); // 테스트
         setHackathonTopics([{ id: null, name: '전체' }, ...activeTopics]); // "전체" 옵션 추가
       } catch (error) {
         console.error('Error fetching idea subjects:', error);
