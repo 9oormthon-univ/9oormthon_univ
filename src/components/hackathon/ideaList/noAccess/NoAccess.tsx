@@ -1,7 +1,12 @@
 import styles from './styles.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
 
-export default function NoAccess() {
+interface NoAccessProps {
+  heading1: string;
+  heading2?: string;
+}
+
+export default function NoAccess({ heading1, heading2 }: NoAccessProps) {
   return (
     <div className={styles.container}>
       <img
@@ -11,10 +16,10 @@ export default function NoAccess() {
       />
       <div className={styles.textWrap}>
         <Text as="h2" typography="heading5" color="text-hint">
-          아직 볼 수 없어요 :(
+          {heading1}
         </Text>
         <Text as="h2" typography="body2" color="text-hint">
-          팀빌딩 기간 시작 후 오픈됩니다.
+          {heading2}
         </Text>
       </div>
     </div>

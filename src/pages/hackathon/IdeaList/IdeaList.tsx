@@ -2,7 +2,6 @@ import { BasicPagination, Button, Slide, Spinner, toast, ToastContainer } from '
 import 'react-toastify/dist/ReactToastify.min.css';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
-import { EditIcon } from '@goorm-dev/gds-icons';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
 import { useEffect, useState } from 'react';
 import { fetchIdeas, fetchIdeaSubjects, addIdeaBookmark } from '../../../api/idea';
@@ -11,7 +10,8 @@ import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter
 import { useNavigate } from 'react-router-dom';
 import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
 import { getUserBriefAPI } from '../../../api/auth';
-
+import { EditIcon } from '@goorm-dev/vapor-icons';
+import usePeriodStore from '../../../store/usePeriodStore';
 export default function IdeaList() {
   const navigate = useNavigate();
   // 주제 가져오기
@@ -25,6 +25,7 @@ export default function IdeaList() {
   });
   const { ideas, page_info } = ideaList;
   const [loading, setLoading] = useState(false);
+  const { period, fetchPeriodData } = usePeriodStore(); // 기간 정보
 
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
@@ -32,6 +33,7 @@ export default function IdeaList() {
   const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
   const [isProvider, setIsProvider] = useState<boolean | null>(null);
+
   // 상태 옵션
   const statusOptions = [
     { label: '전체', value: undefined },
@@ -44,6 +46,11 @@ export default function IdeaList() {
     { label: '전체', value: false },
     { label: '찜한 아이디어', value: true },
   ];
+
+  // 기간 정보 갱신
+  useEffect(() => {
+    fetchPeriodData();
+  }, []);
 
   // 아이디어 제공자인지 확인
   useEffect(() => {
@@ -68,7 +75,7 @@ export default function IdeaList() {
         const activeTopics = response.data.idea_subjects
           .filter((topic: { is_active: boolean }) => topic.is_active)
           .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
-
+        console.log(activeTopics); // 테스트
         setHackathonTopics([{ id: null, name: '전체' }, ...activeTopics]); // "전체" 옵션 추가
       } catch (error) {
         console.error('Error fetching idea subjects:', error);
@@ -100,7 +107,14 @@ export default function IdeaList() {
   }, [selectedTopic, selectedStatus, currentPage, selectedBookmark]);
 
   // 팀빌딩 기간인지
-  const isTeamBuilding = true;
+  const isTeamBuilding =
+    period === 'PHASE1_TEAM_BUILDING' ||
+    period === 'PHASE2_TEAM_BUILDING' ||
+    period === 'PHASE3_TEAM_BUILDING' ||
+    period === 'PHASE1_CONFIRMATION' ||
+    period === 'PHASE2_CONFIRMATION' ||
+    period === 'PHASE3_CONFIRMATION';
+
   // 한 페이지당 보여질 페이지 수
   const projectsPerPage = 8;
 
@@ -188,30 +202,34 @@ export default function IdeaList() {
           </div>
           {/* 팀 빌딩 기간인지에 따라 달라지는 모습 */}
           {isTeamBuilding ? (
-            <div className={styles.ideaListWrap}>
-              {ideas?.map((idea: any) => (
-                <IdeaListItem
-                  key={idea.id}
-                  topic={idea.subject}
-                  title={idea.title}
-                  description={idea.summary}
-                  is_active={idea.is_active}
-                  is_bookmarked={idea.is_bookmarked}
-                  onClick={() => handleIdeaClick(idea.id)}
-                  onBookmarkToggle={() => handleBookmarkToggle(idea.id)}
-                />
-              ))}
+            ideaList.ideas.length === 0 ? (
+              <NoAccess heading1="아이디어가 없어요 :(" />
+            ) : (
+              <div className={styles.ideaListWrap}>
+                {ideas?.map((idea: any) => (
+                  <IdeaListItem
+                    key={idea.id}
+                    topic={idea.subject}
+                    title={idea.title}
+                    description={idea.summary}
+                    is_active={idea.is_active}
+                    is_bookmarked={idea.is_bookmarked}
+                    onClick={() => handleIdeaClick(idea.id)}
+                    onBookmarkToggle={() => handleBookmarkToggle(idea.id)}
+                  />
+                ))}
 
-              <BasicPagination
-                page={page_info?.current_page}
-                limitCount={projectsPerPage}
-                pageCount={page_info?.total_pages}
-                onPageChangeHandler={(currentPage: number) => handlePageChange(currentPage)}
-                className={styles.basicPagination}
-              />
-            </div>
+                <BasicPagination
+                  page={page_info?.current_page}
+                  limitCount={projectsPerPage}
+                  pageCount={page_info?.total_pages}
+                  onPageChangeHandler={(currentPage: number) => handlePageChange(currentPage)}
+                  className={styles.basicPagination}
+                />
+              </div>
+            )
           ) : (
-            <NoAccess />
+            <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />
           )}
         </div>
       )}

@@ -38,13 +38,19 @@ export default function IdeaListItem({
         </Text>
       </div>
       <div className={styles.rightContainer}>
-        <Text
-          typography="heading4"
-          color={is_active ? 'text-primary' : 'text-hint'}
-          fontWeight="bold"
-          className={styles.fixedText}>
-          {is_active ? '모집 중' : '모집 완료'}
-        </Text>
+        <div className={styles.statusWrap}>
+          <Text
+            typography="heading4"
+            color={is_active ? 'text-primary' : 'text-hint'}
+            fontWeight="bold"
+            className={styles.fixedText}>
+            {is_active ? '모집 중' : '모집 완료'}
+          </Text>
+          <Text typography="subtitle2" color="text-hint">
+            경쟁률 2:1
+          </Text>
+        </div>
+
         <Button
           color="secondary"
           size="md"
