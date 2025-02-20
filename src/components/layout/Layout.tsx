@@ -1,4 +1,4 @@
-import { Footer } from '@goorm-dev/gds-components';
+import { Footer } from '@goorm-dev/vapor-components';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import CustomFooter from './footer/CustomFooter';
