@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.750.0",
     "@goorm-dev/gds-components": "^1.45.1",
     "@goorm-dev/gds-icons": "^1.45.1",
     "@goorm-dev/vapor-components": "^0.24.3",
