@@ -1,3 +1,4 @@
+import useBreakPoint from '../../../../../hooks/useBreakPoint';
 import styles from './styles.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
 
@@ -7,8 +8,10 @@ interface MemberInfoItemProps {
 }
 
 export default function MemberInfoItem({ name, imgUrl }: MemberInfoItemProps) {
+  const breakpoint = useBreakPoint();
+
   return (
-    <div className={styles.memberInfoItem}>
+    <div className={['xs'].includes(breakpoint) ? styles.memberInfoItemMobile : styles.memberInfoItem}>
       <div className={styles.memberInfoImg}>
         <img src={imgUrl} alt="memberImg" />
       </div>

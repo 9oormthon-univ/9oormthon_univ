@@ -21,6 +21,14 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-400) var(--space-250);
+  gap: var(--space-500);
+}
+
+.teamInfoContentMobile {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-400) var(--space-250);
+  gap: var(--space-250);
 }
 
 .teamInfoPosition {
@@ -36,13 +44,28 @@
   gap: var(--space-100);
 }
 
+.teamInfoLeftItem {
+  width: 100%;
+}
+
 .teamInfoRightItem {
   width: 5.5rem;
+}
+
+.teamInfoRightItemMobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
 }
 
 .teamInfoStackContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-100);
+}
+
+.teamInfoStackContainerMobile {
+  display: flex;
   gap: var(--space-100);
 }
 
@@ -54,6 +77,26 @@
   padding: var(--space-100) var(--space-150);
   border-radius: var(--border-radius-300);
   background-color: var(--gray-600-transparent-8);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--gray-600-transparent-16);
+  }
+}
+
+.memberInfoItemMobile {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: var(--space-075);
+  padding: var(--space-100) var(--space-150);
+  border-radius: var(--border-radius-300);
+  background-color: var(--gray-600-transparent-8);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--gray-600-transparent-16);
+  }
 }
 
 .memberInfoImg {
@@ -71,5 +114,11 @@
 
 .teamMemberInfoContainer {
   display: flex;
+  gap: var(--space-100);
+}
+
+.teamMemberInfoContainerMobile {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: var(--space-100);
 }

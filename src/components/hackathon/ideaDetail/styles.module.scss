@@ -71,3 +71,31 @@
 .deleteItem {
   color: var(--text-danger);
 }
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-050);
+  padding: var(--space-050) 0;
+  cursor: pointer;
+
+  &:hover {
+    svg {
+      color: var(--text-hint-alternative);
+      fill: var(--text-hint-alternative);
+    }
+
+    span {
+      color: var(--text-hint-alternative) !important;
+    }
+  }
+}
+
+.authorInfoIcon {
+  fill: var(--text-hint);
+}
+
+.applyButtonMobile {
+  display: flex;
+  gap: 0.5rem;
+}

@@ -1,8 +1,9 @@
 import { Text, Badge, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
-import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
+import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon, OutOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useBreakPoint from '../../../hooks/useBreakPoint';
 interface IdeaDetailHeaderProps {
   id: number;
   subject: string;
@@ -31,6 +32,8 @@ export default function IdeaDetailHeader({
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((prev) => !prev);
   const navigate = useNavigate();
+  const breakpoint = useBreakPoint();
+
   return (
     <div className={styles.headerContainer}>
       <div className={styles.titleContainer}>
@@ -50,42 +53,67 @@ export default function IdeaDetailHeader({
               </Badge>
             </div>
           </div>
+
           {is_provider ? (
             <Dropdown isOpen={open} toggle={toggle}>
               <DropdownToggle color="secondary" size="lg" className={styles.dropdownToggle}>
                 <MoreCommonOutlineIcon className={styles.dropdownIcon} />
               </DropdownToggle>
-              <DropdownMenu right>
+              <DropdownMenu>
                 <DropdownItem>기본 정보 수정</DropdownItem>
                 <DropdownItem>팀원 정보 수정</DropdownItem>
                 <DropdownItem className={styles.deleteItem}>삭제하기</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           ) : (
-            <div className={styles.notProvider}>
-              <Button
-                color="secondary"
-                size="lg"
-                icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
-                onClick={onBookmarkToggle}
-              />
-              <Button
-                color="primary"
-                size="lg"
-                onClick={() => {
-                  navigate(`/hackathon/apply/${id}`);
-                }}>
-                지원하기
-              </Button>
-            </div>
+            ['xxl', 'xl', 'lg', 'md'].includes(breakpoint) && (
+              <div className={styles.notProvider}>
+                <Button
+                  color="secondary"
+                  size="lg"
+                  icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
+                  onClick={onBookmarkToggle}
+                />
+                <Button
+                  color="primary"
+                  size="lg"
+                  onClick={() => {
+                    navigate(`/hackathon/apply/${id}`);
+                  }}>
+                  지원하기
+                </Button>
+              </div>
+            )
           )}
         </div>
         <Text as="p" typography="body2" color="text-alternative">
           {summary}
         </Text>
-        <Text as="span" typography="body3" color="text-hint">
-          작성자 : {name}/{university}
-        </Text>
+        <div className={styles.authorInfo}>
+          <Text as="span" typography="body3" color="text-hint">
+            작성자 : {name}/{university}
+          </Text>
+          <OutOutlineIcon className={styles.authorInfoIcon} />
+        </div>
+        {!is_provider && ['sm', 'xs'].includes(breakpoint) && (
+          <div className={styles.applyButtonMobile}>
+            <Button
+              color="primary"
+              size="lg"
+              block
+              onClick={() => {
+                navigate(`/hackathon/apply/${id}`);
+              }}>
+              지원하기
+            </Button>
+            <Button
+              color="secondary"
+              size="lg"
+              icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
+              onClick={onBookmarkToggle}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

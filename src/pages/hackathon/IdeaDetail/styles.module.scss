@@ -1,3 +1,5 @@
+@import '../../../style/mixin.scss';
+
 .container {
   width: 59.5rem;
   display: flex;
@@ -5,6 +7,22 @@
   gap: var(--space-250);
   padding: var(--space-400) 0 12.5rem 0;
   margin-top: 4rem;
+
+  @include container-xs {
+    width: 23.4375rem;
+  }
+
+  @include container-sm {
+    width: 36rem;
+  }
+
+  @include container-md {
+    width: 48rem;
+  }
+
+  @include container-lg {
+    width: 59.5rem;
+  }
 }
 
 .contentContainer {
