@@ -22,7 +22,6 @@ instance.interceptors.response.use(
     }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      console.log('401 오류 발생', error.response?.status);
       if (isRefreshing) {
         // 토큰 재발급 시, 새 토큰 받을 때까지 대기
         return new Promise((resolve) => {
