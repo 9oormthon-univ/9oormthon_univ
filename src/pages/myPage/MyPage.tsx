@@ -13,9 +13,9 @@ interface UserInfo {
   email: string;
   univ: string;
   img_url: string;
-  introduction: string;
-  stacks: string[];
-  links: {
+  introduction?: string;
+  stacks?: string[];
+  links?: {
     type: LinkType;
     url: string;
   }[];
@@ -70,7 +70,7 @@ export default function MyPage() {
                 기술 스택
               </Text>
               <div className={styles.contentStackContainer}>
-                {userInfo?.stacks.map((skill: string, index: number) => (
+                {userInfo?.stacks?.map((skill: string, index: number) => (
                   <StackItem key={index} skill={skill} />
                 ))}
               </div>
