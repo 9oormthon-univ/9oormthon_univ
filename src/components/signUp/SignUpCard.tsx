@@ -6,6 +6,10 @@ import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
 
+const ERROR_MESSAGES: Record<number, string> = {
+  40100: '잘못된 아이디 또는 비밀번호입니다.',
+};
+
 export default function SignUpCard() {
   const navigate = useNavigate();
 
@@ -32,8 +36,9 @@ export default function SignUpCard() {
       await login(email, password);
 
       navigate('/');
-    } catch (error) {
+    } catch (error: any) {
       console.error('로그인 실패', error);
+      setErrorMessage(ERROR_MESSAGES[error.response.data.error.code] || '알 수 없는 오류가 발생했습니다.');
     }
 
     if (!email && !password) {
@@ -51,9 +56,6 @@ export default function SignUpCard() {
     }
     // 에러 메시지 초기화
     setErrorMessage(null);
-
-    // 나중에 로그인 로직 추가
-    console.log('로그인!', { email, password });
   };
 
   return (
