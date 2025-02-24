@@ -6,3 +6,38 @@
   flex-direction: column;
   gap: var(--space-400);
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+}
+
+.contentIntroduce {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+  border-radius: var(--space-100);
+  border: 1px solid var(--border-color);
+  padding: var(--space-200);
+}
+
+.contentStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+  border-radius: var(--space-100);
+  border: 1px solid var(--border-color);
+  padding: var(--space-200);
+}
+
+.contentProject {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+}
+
+.contentStackContainer {
+  display: flex;
+  gap: var(--space-100);
+}
