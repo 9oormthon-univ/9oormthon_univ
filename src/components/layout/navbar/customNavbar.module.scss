@@ -90,6 +90,7 @@
   &:focus {
     background-color: var(--gray-200) !important;
   }
+  padding: 0 !important;
 }
 
 .dropdownToggle {
@@ -130,4 +131,22 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+}
+
+.iconAddLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
+  &:hover {
+    svg {
+      fill: '#1959B8';
+    }
+  }
+}
+
+.dropdownItem {
+  &:hover {
+    background: var(--primary-transparent-24);
+    color: var(--text-primary-alternative);
+  }
 }
