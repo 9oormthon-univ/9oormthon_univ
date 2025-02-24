@@ -9,46 +9,80 @@ import {
   NotionIcon,
 } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import notfound from '../../assets/images/notfound.png';
+import { LinkType } from '../../constants/linkType';
 
-export const MyPageHeader = () => {
+export interface Link {
+  type: LinkType;
+  url: string;
+}
+
+interface MyPageHeaderProps {
+  name: string;
+  email: string;
+  univ: string;
+  img_url: string;
+  stack: string[];
+  links: Link[];
+  is_me: boolean;
+}
+
+const getLinkIcon = (type: LinkType) => {
+  switch (type) {
+    case LinkType.NOTION:
+      return NotionIcon;
+    case LinkType.GITHUB:
+      return GithubIcon;
+    case LinkType.LINKEDIN:
+      return LinkedinIcon;
+    case LinkType.BLOG:
+      return BlogIcon;
+    case LinkType.ETC:
+      return LinkOutlineIcon;
+  }
+};
+
+export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPageHeaderProps) => {
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}>
-        <img src={notfound} alt="notfound" />
+        <img src={img_url} alt="profile" />
       </div>
       <div className={styles.headerRight}>
         <div className={styles.headerRightTop}>
           <div className={styles.headerInfo}>
             <Text as="h6" typography="heading6" color="text-normal">
-              김구름
+              {name}
             </Text>
             <div className={styles.headerInfoEmailUniv}>
               <div className={styles.headerInfoEmailUnivItem}>
                 <MailIcon />
                 <Text as="p" typography="body2" color="text-alternative">
-                  goormthonuniv.official@gmail.com
+                  {email}
                 </Text>
               </div>
               <div className={styles.headerInfoEmailUnivItem}>
                 <SchoolIcon />
                 <Text as="p" typography="body2" color="text-alternative">
-                  구름대학교
+                  {univ}
                 </Text>
               </div>
             </div>
           </div>
-          <Button color="secondary" size="sm">
-            내 정보 수정
-          </Button>
+          {is_me && (
+            <Button color="secondary" size="sm">
+              내 정보 수정
+            </Button>
+          )}
         </div>
         <div className={styles.headerRightBottom}>
-          <Button color="secondary" size="md" icon={NotionIcon} />
-          <Button color="secondary" size="md" icon={GithubIcon} />
-          <Button color="secondary" size="md" icon={LinkedinIcon} />
-          <Button color="secondary" size="md" icon={BlogIcon} />
-          <Button color="secondary" size="md" icon={LinkOutlineIcon} />
-          <Button color="secondary" size="md" icon={LinkOutlineIcon} />
+          {links.map((link) => (
+            <Button
+              color="secondary"
+              size="md"
+              icon={getLinkIcon(link.type)}
+              onClick={() => window.open(link.url, '_blank')}
+            />
+          ))}
         </div>
       </div>
     </div>
