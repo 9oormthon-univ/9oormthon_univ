@@ -19,6 +19,7 @@ const ERROR_MESSAGES: Record<number, string> = {
   40018: '디자이너는 1명을 초과할 수 없습니다. 다시 확인해주세요.',
   40019: '프론트엔드는 3명을 초과할 수 없습니다. 다시 확인해주세요.',
   40020: '백엔드는 3명을 초과할 수 없습니다. 다시 확인해주세요.',
+  40025: '팀원 수는 최소 3명 이상이어야 합니다. 다시 확인해주세요.',
 };
 
 export default function TeamPreferenceStep2() {
