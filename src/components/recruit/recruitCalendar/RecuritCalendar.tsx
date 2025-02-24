@@ -74,7 +74,7 @@ function RecuritCalendar() {
                   3. 미르미 모집 :
                 </Text>
                 <Text color="text-hint" typography="subtitle2" fontWeight="medium">
-                  2월 24일 ~ 3월 23일
+                  2월 26일 ~ 3월 23일
                 </Text>
               </div>
               <div className={styles.scheduleDiv}>
