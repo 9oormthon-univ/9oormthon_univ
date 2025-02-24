@@ -1,42 +1,43 @@
-@import '../../style/mixin.scss';
-
-.MyPageContainer {
+.container {
+  width: 35rem;
+  padding: var(--space-400) 0 12.5rem 0;
+  margin-top: 4rem;
   display: flex;
   flex-direction: column;
-  width: 35rem;
-  margin-top: 5rem;
-  margin-bottom: 20rem;
-
-  @include container-xs {
-    width: 21rem;
-  }
-
-  @include container-sm {
-    width: 31rem;
-  }
-  @include container-md {
-    width: 35rem;
-  }
-
-  @include container-lg {
-    width: 35rem;
-  }
+  gap: var(--space-400);
 }
 
-.myPageHeader {
+.content {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: var(--space-200);
 }
 
-.divider {
-  width: 100%;
-  border-bottom: 1px solid var(--gray-300);
-  margin-top: var(--space-300);
+.contentIntroduce {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+  border-radius: var(--space-100);
+  border: 1px solid var(--border-color);
+  padding: var(--space-200);
 }
 
-.confirmBtn {
-  margin-top: var(--space-300);
-  align-self: flex-end;
+.contentStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+  border-radius: var(--space-100);
+  border: 1px solid var(--border-color);
+  padding: var(--space-200);
+}
+
+.contentProject {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+}
+
+.contentStackContainer {
+  display: flex;
+  gap: var(--space-100);
 }

@@ -1,110 +1,89 @@
-import { Button, Text } from '@goorm-dev/vapor-components';
-import { useEffect, useState } from 'react';
-import exampleImg from '../../assets/images/activity_9oorm.png';
-import MyPageBasicInfo from '../../components/myPage/myPageBasicInfo/MyPageBasicInfo';
-import MyPageDetailedInfo from '../../components/myPage/myPageDetailedInfo/MyPageDetailedInfo';
-import MyPageProject from '../../components/myPage/myPageProject/MyPageProject';
 import styles from './styles.module.scss';
+import MDEditor from '@uiw/react-md-editor';
+import StackItem from '../../components/hackathon/ideaDetail/ideaDetailInfo/teamInfo/StackItem';
+import { MyPageHeader } from '../../components/myPage/MyPageHeader';
+import { MyPageProject } from '../../components/myPage/MyPageProject';
+import { Spinner, Text } from '@goorm-dev/vapor-components';
+import { LinkType } from '../../constants/linkType';
+import { getMyInfo } from '../../api/users';
+import { useState, useEffect } from 'react';
 
-interface Project {
-  title: string;
-  season: string;
-  hackathon: string;
-  image: string;
-}
-
-interface UserData {
+interface UserInfo {
   name: string;
   email: string;
-  university: string;
-  selections: { selectedSeason: string; selectedPart: string }[];
+  univ: string;
+  img_url: string;
+  introduction: string;
+  stacks: string[];
+  links: {
+    type: LinkType;
+    url: string;
+  }[];
+  is_me: boolean;
 }
 
 export default function MyPage() {
-  const [isBasicInfoChanged, setIsBasicInfoChanged] = useState(false);
-  const [isDetailedInfoChanged, setIsDetailedInfoChanged] = useState(false);
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [projects, setProjects] = useState<Project[]>([]);
-
-  // API 호출
-  // const fetchProjects = async () => {
-  //   try {
-  //     const response = await fetch('/api/projects'); // 예시 API 엔드포인트
-  //     const data = await response.json();
-  //     setProjects(data.projects);
-  //   } catch (error) {
-  //     console.error('Failed to fetch projects:', error);
-  //   }
-  // };
-
-  const dummyUserData: UserData = {
-    name: '이자민',
-    email: 'jamin@example.com',
-    university: '한성대학교',
-    selections: [{ selectedSeason: '3기', selectedPart: '프론트엔드' }],
-  };
-
-  const dummyProjects: Project[] = [
-    {
-      title: '프로젝트 A',
-      season: '3기',
-      hackathon: '단풍톤',
-      image: exampleImg,
-    },
-    {
-      title: '프로젝트 B',
-      season: '2기',
-      hackathon: '벚꽃톤',
-      image: exampleImg,
-    },
-    {
-      title: '프로젝트 C',
-      season: '1기',
-      hackathon: '단풍톤',
-      image: exampleImg,
-    },
-  ];
-
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    setUserData(dummyUserData);
-    setProjects(dummyProjects);
-    // fetchProjects();
+    const fetchUserInfo = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getMyInfo();
+        setUserInfo(response.data);
+      } catch (err) {
+        console.error('Error fetching user info:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserInfo();
   }, []);
 
-  const handleSave = () => {
-    // 변경사항 저장
-    console.log('변경사항 저장');
-  };
-  const isSaveEnabled = isBasicInfoChanged || isDetailedInfoChanged;
   return (
-    <div className={styles.MyPageContainer}>
-      <div className={styles.myPageHeader}>
-        <Text typography="heading3" color="gray-900">
-          마이 페이지
-        </Text>
-        <Button color="secondary" size="sm">
-          로그아웃
-        </Button>
-      </div>
-      <hr className={styles.divider} />
-      {userData && (
+    <div className={styles.container}>
+      {isLoading ? (
+        <div className={styles.loading}>
+          <Spinner />
+        </div>
+      ) : (
         <>
-          <MyPageBasicInfo
-            onInfoChange={setIsBasicInfoChanged}
-            initialName={userData.name}
-            initialEmail={userData.email}
+          <MyPageHeader
+            name={userInfo?.name ?? ''}
+            email={userInfo?.email ?? ''}
+            univ={userInfo?.univ ?? ''}
+            img_url={userInfo?.img_url ?? ''}
+            links={userInfo?.links ?? []}
+            stack={userInfo?.stacks ?? []}
+            is_me={userInfo?.is_me ?? false}
           />
-          <MyPageDetailedInfo
-            onInfoChange={setIsDetailedInfoChanged}
-            initialUniv={userData.university}
-            initialSelections={userData.selections}
-          />
+          <div className={styles.content} data-color-mode="light">
+            <div className={styles.contentIntroduce}>
+              <Text typography="subtitle1" color="text-hint">
+                자기소개
+              </Text>
+              <MDEditor.Markdown source={userInfo?.introduction ?? ''} />
+            </div>
+            <div className={styles.contentStack}>
+              <Text typography="subtitle1" color="text-hint">
+                기술 스택
+              </Text>
+              <div className={styles.contentStackContainer}>
+                {userInfo?.stacks.map((skill: string, index: number) => (
+                  <StackItem key={index} skill={skill} />
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className={styles.contentProject}>
+            <Text as="h6" typography="heading6" color="text-normal">
+              나의 프로젝트
+            </Text>
+            <MyPageProject />
+          </div>
         </>
       )}
-      <MyPageProject projects={projects} />
-      <Button className={styles.confirmBtn} size="lg" onClick={handleSave} disabled={!isSaveEnabled}>
-        변경사항 저장
-      </Button>
     </div>
   );
 }

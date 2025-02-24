@@ -1,0 +1,90 @@
+import { Text, Button } from '@goorm-dev/vapor-components';
+import {
+  MailIcon,
+  SchoolIcon,
+  BlogIcon,
+  GithubIcon,
+  LinkedinIcon,
+  LinkOutlineIcon,
+  NotionIcon,
+} from '@goorm-dev/vapor-icons';
+import styles from './styles.module.scss';
+import { LinkType } from '../../constants/linkType';
+
+export interface Link {
+  type: LinkType;
+  url: string;
+}
+
+interface MyPageHeaderProps {
+  name: string;
+  email: string;
+  univ: string;
+  img_url: string;
+  stack: string[];
+  links: Link[];
+  is_me: boolean;
+}
+
+const getLinkIcon = (type: LinkType) => {
+  switch (type) {
+    case LinkType.NOTION:
+      return NotionIcon;
+    case LinkType.GITHUB:
+      return GithubIcon;
+    case LinkType.LINKEDIN:
+      return LinkedinIcon;
+    case LinkType.BLOG:
+      return BlogIcon;
+    case LinkType.ETC:
+      return LinkOutlineIcon;
+  }
+};
+
+export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPageHeaderProps) => {
+  return (
+    <div className={styles.header}>
+      <div className={styles.headerLeft}>
+        <img src={img_url} alt="profile" />
+      </div>
+      <div className={styles.headerRight}>
+        <div className={styles.headerRightTop}>
+          <div className={styles.headerInfo}>
+            <Text as="h6" typography="heading6" color="text-normal">
+              {name}
+            </Text>
+            <div className={styles.headerInfoEmailUniv}>
+              <div className={styles.headerInfoEmailUnivItem}>
+                <MailIcon />
+                <Text as="p" typography="body2" color="text-alternative">
+                  {email}
+                </Text>
+              </div>
+              <div className={styles.headerInfoEmailUnivItem}>
+                <SchoolIcon />
+                <Text as="p" typography="body2" color="text-alternative">
+                  {univ}
+                </Text>
+              </div>
+            </div>
+          </div>
+          {is_me && (
+            <Button color="secondary" size="sm">
+              내 정보 수정
+            </Button>
+          )}
+        </div>
+        <div className={styles.headerRightBottom}>
+          {links.map((link) => (
+            <Button
+              color="secondary"
+              size="md"
+              icon={getLinkIcon(link.type)}
+              onClick={() => window.open(link.url, '_blank')}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -1,5 +1,5 @@
 import { GoormNavbar } from '@goorm-dev/gds-components';
-import { ChevronRightOutlineIcon, OutOutlineIcon } from '@goorm-dev/vapor-icons';
+import { ChevronRightOutlineIcon, LockIcon, OutOutlineIcon, UserIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';
@@ -20,6 +20,7 @@ import useAuthStore from '../../../store/useAuthStore';
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
   const [isHackathonOpened, setIsHackathonOpened] = useState(false);
+  const [isMyPageOpened, setIsMyPageOpened] = useState(false);
   const isAbout = useIsAbout();
   const navigate = useNavigate();
 
@@ -35,6 +36,11 @@ function CustomNavbar() {
       to: '/recruit',
     },
   ];
+
+  const handleLogout = () => {
+    useAuthStore.getState().logout();
+    navigate('/');
+  };
 
   return (
     <GoormNavbar className={isAbout ? styles.navBarStyle : ''} isOpened={isOpened} setIsOpened={setIsOpened}>
@@ -96,9 +102,31 @@ function CustomNavbar() {
           </NavLink>
 
           {isLoggedIn ? (
-            <NavLink className={styles.grayCircle} href="/my-page">
-              {profileImg && <img src={profileImg} alt="profile" className={styles.profileImg} />}
-            </NavLink>
+            <Dropdown nav isOpen={isMyPageOpened} toggle={() => setIsMyPageOpened((prev) => !prev)}>
+              <DropdownToggle nav className={styles.grayCircle}>
+                {profileImg && <img src={profileImg} alt="profile" className={styles.profileImg} />}
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem className={styles.dropdownItem} onClick={() => navigate('/my-page')}>
+                  <div className={styles.iconAddLink}>
+                    <UserIcon width={16} height={16} />
+                    마이페이지
+                  </div>
+                </DropdownItem>
+                <DropdownItem className={styles.dropdownItem} onClick={() => navigate('/update-password')}>
+                  <div className={styles.iconAddLink}>
+                    <LockIcon width={16} height={16} />
+                    비밀번호 변경
+                  </div>
+                </DropdownItem>
+                <DropdownItem className={styles.dropdownItem} onClick={handleLogout}>
+                  <div className={styles.iconAddLink}>
+                    <OutOutlineIcon width={16} height={16} />
+                    로그아웃
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           ) : (
             <>
               {/* <Button className={styles.loginButton} size="lg" href="/login"> */}
