@@ -50,12 +50,14 @@ const useAuthStore = create<AuthStore>((set) => ({
     }
     localStorage.setItem('role', 'GUEST');
     localStorage.removeItem('img_url');
+    localStorage.removeItem('idea_form');
     set({ role: 'GUEST', img_url: null });
   },
 
   resetToGuest: () => {
     localStorage.setItem('role', 'GUEST');
     localStorage.removeItem('img_url');
+    localStorage.removeItem('idea_form');
     set({ role: 'GUEST', img_url: null });
   },
 }));

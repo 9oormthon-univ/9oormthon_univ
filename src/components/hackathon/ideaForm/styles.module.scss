@@ -168,6 +168,9 @@
   gap: var(--space-050);
   border-radius: var(--space-100);
   border: 1px solid var(--border-color);
-  background: var(--background-alternative);
+  background: var(--background-alternative-01);
   cursor: pointer;
+  &:hover {
+    background: var(--secondary-hover);
+  }
 }
