@@ -26,36 +26,35 @@ export default function SignUpCard() {
     setPassword(e.target.value);
   };
 
+  // 이메일 유효성 검사
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  // 로그인
   const handleLogin = async () => {
-    try {
-      await login(email, password);
-
-      navigate('/');
-    } catch (error: any) {
-      console.error('로그인 실패', error);
-      setErrorMessage(ERROR_MESSAGES[error.response.data.error.code] || '알 수 없는 오류가 발생했습니다.');
+    if (!email) {
+      setErrorMessage('이메일을 입력해주세요');
+      return;
     }
-
-    if (!email && !password) {
-      setErrorMessage('이메일을 입력해주세요');
-      return;
-    } else if (!email) {
-      setErrorMessage('이메일을 입력해주세요');
-      return;
-    } else if (!isValidEmail(email)) {
+    if (!isValidEmail(email)) {
       setErrorMessage('올바르지 않은 이메일 형식입니다');
       return;
-    } else if (!password) {
+    }
+    if (!password) {
       setErrorMessage('비밀번호를 입력해주세요');
       return;
     }
-    // 에러 메시지 초기화
-    setErrorMessage(null);
+
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (error: any) {
+      const errorCode = error.response.data.error?.code;
+      console.log(errorCode); // 에러코드 테스트
+      setErrorMessage(ERROR_MESSAGES[errorCode] || '알 수 없는 오류가 발생했습니다.');
+    }
   };
 
   return (
