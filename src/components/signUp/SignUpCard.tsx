@@ -1,7 +1,7 @@
 import styles from './signUpCard.module.scss';
 import { WarningIcon } from '@goorm-dev/vapor-icons';
 import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
@@ -33,7 +33,7 @@ export default function SignUpCard() {
   };
 
   // 로그인
-  const handleLogin = async () => {
+  const handleLogin = useCallback(async () => {
     if (!email) {
       setErrorMessage('이메일을 입력해주세요');
       return;
@@ -52,8 +52,14 @@ export default function SignUpCard() {
       navigate('/');
     } catch (error: any) {
       const errorCode = error.response.data.error?.code;
-      console.log(errorCode); // 에러코드 테스트
+      console.log(errorCode);
       setErrorMessage(ERROR_MESSAGES[errorCode] || '알 수 없는 오류가 발생했습니다.');
+    }
+  }, [email, password, login, navigate]);
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleLogin();
     }
   };
 
@@ -61,8 +67,15 @@ export default function SignUpCard() {
     <div className={styles.signUpCardContainer}>
       <img src={Logo} className={styles.logo} alt="구름톤 유니브 로고" />
       <div className={styles.loginContainer}>
-        <Input value={email} bsSize="xl" placeholder="이메일" onChange={handleEmailChange} />
-        <Input type="password" value={password} bsSize="xl" placeholder="비밀번호" onChange={handlePasswordChange} />
+        <Input value={email} bsSize="xl" placeholder="이메일" onChange={handleEmailChange} onKeyDown={handleKeyDown} />
+        <Input
+          type="password"
+          value={password}
+          bsSize="xl"
+          placeholder="비밀번호"
+          onChange={handlePasswordChange}
+          onKeyDown={handleKeyDown}
+        />
         <Button size="xl" onClick={handleLogin}>
           로그인
         </Button>
