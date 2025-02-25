@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
-import TeamInformation from '../../../../components/hackathon/teamBuliding/TeamInformation';
-import ApplyStatusTable from '../../../../components/hackathon/teamBuliding/applyStatusTable/ApplyStatusTable';
+import TeamInformation from '../../../../components/hackathon/teamBuilding/TeamInformation';
+import ApplyStatusTable from '../../../../components/hackathon/teamBuilding/applyStatusTable/ApplyStatusTable';
 export default function ProviderPage() {
   return (
     <div className={styles.container}>
