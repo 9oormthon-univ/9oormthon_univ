@@ -5,8 +5,9 @@ import { MyPageHeader } from '../../components/myPage/MyPageHeader';
 import { MyPageProject } from '../../components/myPage/MyPageProject';
 import { Spinner, Text } from '@goorm-dev/vapor-components';
 import { LinkType } from '../../constants/linkType';
-import { getMyInfo } from '../../api/users';
+import { getMyInfo, getUserInfo } from '../../api/users';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 interface UserInfo {
   name: string;
@@ -23,13 +24,16 @@ interface UserInfo {
 }
 
 export default function MyPage() {
+  const { user_id } = useParams();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // 유저 / 내 정보 조회 구분
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         setIsLoading(true);
-        const response = await getMyInfo();
+        const response = user_id ? await getUserInfo(user_id) : await getMyInfo();
         setUserInfo(response.data);
       } catch (err) {
         console.error('Error fetching user info:', err);
@@ -39,7 +43,7 @@ export default function MyPage() {
     };
 
     fetchUserInfo();
-  }, []);
+  }, [user_id]);
 
   return (
     <div className={styles.container}>

@@ -19,6 +19,7 @@ const MOCK_IDEA_DETAIL = {
     is_bookmarked: false,
   },
   provider_info: {
+    id: 1,
     name: '홍길동',
     univ: '서울대학교',
   },
@@ -165,6 +166,7 @@ export default function IdeaDetail() {
         university={provider_info?.univ}
         is_provider={is_provider}
         is_bookmarked={idea_info?.is_bookmarked}
+        provider_id={provider_info?.id}
         onBookmarkToggle={handleBookmarkToggle}
       />
       <div className={styles.contentContainer}>
