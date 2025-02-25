@@ -20,6 +20,8 @@ const TeamPreferenceStep2 = lazy(() => import('./pages/hackathon/IdeaCreate/Team
 const IdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
 const MyIdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
 const IdeaApply = lazy(() => import('./pages/hackathon/IdeaApply/IdeaApply'));
+const TeamBuildProvider = lazy(() => import('./pages/hackathon/teamBuilding/provider/ProviderPage'));
+const TeamBuildApplicant = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantPage'));
 
 const loaderProps = {
   color: 'black',
@@ -116,6 +118,34 @@ const router = createBrowserRouter([
             <NotFound />
           </Suspense>
         ),
+      },
+      {
+        path: 'team/provider',
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamBuildProvider />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'team/applicant',
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamBuildApplicant />
+              </Suspense>
+            ),
+          },
+        ],
       },
 
       {
