@@ -64,6 +64,7 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
         disabled={isDisabled}
       />
       <StackSelector
+        label="필요 스택 (최대 5개)"
         disabled={isDisabled}
         selectedStacks={currentValue.required_tech_stacks || []}
         setSelectedStacks={(stacks) => handleChange({ required_tech_stacks: stacks })}
