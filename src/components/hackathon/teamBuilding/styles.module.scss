@@ -81,3 +81,14 @@
   gap: var(--space-050);
   align-items: center;
 }
+
+.teamInformHeaderDropdownToggle {
+  width: var(--dimension-400);
+  height: var(--dimension-400);
+  padding: 0 var(--space-100);
+
+  svg {
+    width: var(--dimension-200);
+    height: var(--dimension-200);
+  }
+}
