@@ -11,6 +11,7 @@ const NotFound = lazy(() => import('./pages/errors/NotFound'));
 const SearchUniv = lazy(() => import('./pages/searchUniv/SearchUniv'));
 const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
+const MyPageEdit = lazy(() => import('./pages/myPage/MyPageEdit'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 const SignUp = lazy(() => import('./pages/signUp/SignUp'));
 const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
@@ -89,6 +90,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <MyPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'my-page/edit',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <MyPageEdit />
           </Suspense>
         ),
       },

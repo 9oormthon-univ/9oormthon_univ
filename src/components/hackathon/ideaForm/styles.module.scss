@@ -129,6 +129,8 @@
 .editPreviewButton {
   border-radius: var(--border-radius-300) !important;
   background-color: var(--secondary-hover) !important;
+  height: var(--dimension-300) !important;
+  padding: 0rem var(--space-100) !important;
 }
 
 :global(.w-md-editor) {
@@ -173,4 +175,11 @@
   &:hover {
     background: var(--secondary-hover);
   }
+}
+
+// FormLinkInput
+.linkInputItemLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
 }
