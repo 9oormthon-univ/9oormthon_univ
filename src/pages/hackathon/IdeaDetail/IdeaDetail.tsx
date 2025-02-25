@@ -29,7 +29,7 @@ const MOCK_IDEA_DETAIL = {
         '이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요!',
       current_count: 1,
       max_count: 2,
-      required_tech_stacks: ['기획 툴', '커뮤니케이션'],
+      required_tech_stacks: ['figma', 'bootstrap', 'cpp', 'cs', 'clion'],
       current_members: [
         {
           id: 1,
@@ -61,7 +61,7 @@ const MOCK_IDEA_DETAIL = {
       requirement: 'React 숙련자',
       current_count: 1,
       max_count: 2,
-      required_tech_stacks: ['React', 'TypeScript'],
+      required_tech_stacks: ['react', 'typescript', 'nextjs', 'nodejs', 'mongodb'],
       current_members: [
         {
           id: 2,
@@ -75,14 +75,14 @@ const MOCK_IDEA_DETAIL = {
       requirement: 'Node.js 경험자',
       current_count: 0,
       max_count: 2,
-      required_tech_stacks: ['Node.js', 'MongoDB'],
+      required_tech_stacks: ['nodejs', 'mongodb'],
       current_members: [],
     },
     pd: {
       requirement: 'UI/UX 디자인 경험자',
       current_count: 1,
       max_count: 1,
-      required_tech_stacks: ['Figma', 'Sketch'],
+      required_tech_stacks: ['figma', 'aws'],
       current_members: [
         {
           id: 3,

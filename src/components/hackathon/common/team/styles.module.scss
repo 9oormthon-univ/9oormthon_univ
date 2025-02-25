@@ -15,7 +15,7 @@
 
 .memberInfoItemMobile {
   display: flex;
-  width: 100%;
+  width: fit-content;
   align-items: center;
   gap: var(--space-075);
   padding: var(--space-100) var(--space-150);

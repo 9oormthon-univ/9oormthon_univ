@@ -27,7 +27,7 @@
 }
 
 .teamInfoLeftItem {
-  width: 100%;
+  width: calc(100% - var(--space-500) - 5.5rem);
 }
 
 .teamInfoRightItem {
