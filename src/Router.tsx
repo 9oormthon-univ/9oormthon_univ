@@ -22,7 +22,7 @@ const MyIdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'
 const IdeaApply = lazy(() => import('./pages/hackathon/IdeaApply/IdeaApply'));
 const TeamBuildProvider = lazy(() => import('./pages/hackathon/teamBuilding/provider/ProviderPage'));
 const TeamBuildApplicant = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantPage'));
-
+const ApplicantTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantTeamPage'));
 const loaderProps = {
   color: 'black',
   lottieProps: {
@@ -142,6 +142,20 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<GoormLoader {...loaderProps} />}>
                 <TeamBuildApplicant />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'team/:team_id',
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <ApplicantTeamPage />
               </Suspense>
             ),
           },

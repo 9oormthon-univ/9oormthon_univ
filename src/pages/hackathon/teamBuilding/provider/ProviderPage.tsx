@@ -9,7 +9,7 @@ export default function ProviderPage() {
         <Text as="h3" typography="heading3" color="text-normal">
           팀 정보
         </Text>
-        <TeamInformation />
+        <TeamInformation viewer={false} />
       </div>
       <div className={styles.applyStatus}>
         <Text as="h3" typography="heading3" color="text-normal">

@@ -2,7 +2,12 @@ import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
 import { Badge, Button, Text } from '@goorm-dev/vapor-components';
 import MemberInfoItem from '../common/team/MemberInfoItem';
-export default function TeamInformation() {
+
+interface TeamInformationProps {
+  viewer?: boolean; // 보기 전용인지
+}
+
+export default function TeamInformation({ viewer }: TeamInformationProps) {
   return (
     <div className={styles.container}>
       <div className={styles.teamInformHeader}>
@@ -14,7 +19,7 @@ export default function TeamInformation() {
             팀 이름
           </Text>
         </div>
-        <Button color="secondary" size="md" icon={MoreCommonOutlineIcon} />
+        {!viewer && <Button color="secondary" size="md" icon={MoreCommonOutlineIcon} />}
       </div>
       <div className={styles.teamInformContent}>
         <div className={styles.teamInformContentText}>
