@@ -1,25 +1,37 @@
 import FormLabel from './FormLabel';
 import { FormGroup, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from '@goorm-dev/vapor-components';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { STACKS_WITH_NAMES } from '../../../constants/Stacks';
 import StackBadge from './stackInput/StackBadge';
 import { SearchOutlineIcon, ErrorCircleIcon } from '@goorm-dev/vapor-icons';
 
 interface StackSelectorProps {
+  label: string;
   selectedStacks: string[];
   setSelectedStacks: (stacks: string[]) => void;
   disabled?: boolean;
 }
 
-export default function StackSelector({ selectedStacks, setSelectedStacks, disabled }: StackSelectorProps) {
+export default function StackSelector({ label, selectedStacks, setSelectedStacks, disabled }: StackSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [searchTerm, setSearchTerm] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // 드롭다운이 열리면 입력 필드로 포커스
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
 
   // 입력 필드 초기화
   const handleClearInput = () => {
     setSearchTerm('');
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const filteredStacks = STACKS_WITH_NAMES.filter((stack) =>
@@ -38,7 +50,7 @@ export default function StackSelector({ selectedStacks, setSelectedStacks, disab
 
   return (
     <FormGroup>
-      <FormLabel label="필요 스택 (최대 5개)" nullable={true} />
+      <FormLabel label={label} nullable={true} />
       <Dropdown size="lg" isOpen={isOpen} toggle={toggle} disabled={disabled}>
         <DropdownToggle caret color="select" className={styles.dropdown}>
           {selectedStacks.length > 0 ? (
@@ -61,6 +73,7 @@ export default function StackSelector({ selectedStacks, setSelectedStacks, disab
           <div className={styles.searchInputContainer}>
             {searchTerm.length === 0 && <SearchOutlineIcon className={styles.searchIcon} />}
             <input
+              ref={inputRef}
               type="text"
               placeholder="스택명을 입력해 주세요"
               className={styles.searchInput}

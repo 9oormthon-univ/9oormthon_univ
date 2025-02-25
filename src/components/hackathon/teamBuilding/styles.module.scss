@@ -1,0 +1,94 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-250);
+  align-items: flex-start;
+  gap: var(--space-250);
+  align-self: stretch;
+  border-radius: var(--border-radius-300);
+  border: 1px solid var(--border-color);
+  background: var(--background-normal);
+}
+
+.teamInformHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.teamInformHeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+}
+
+.teamInformContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+.teamInformContentText {
+  display: flex;
+  align-items: center;
+  gap: var(--space-050);
+}
+
+.teamInformContentItem {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: var(--space-100);
+  flex-wrap: wrap;
+}
+
+.ideaApplyListItemContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.ideaApplyListItemLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-175);
+  width: 43.4375rem;
+}
+
+.ideaApplyListItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+}
+
+.ideaApplyListItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-175);
+}
+
+.ideaApplyListItemRight {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 11.625rem;
+}
+
+.ideaApplyListItemRightContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+  align-items: center;
+}
+
+.teamInformHeaderDropdownToggle {
+  width: var(--dimension-400);
+  height: var(--dimension-400);
+  padding: 0 var(--space-100);
+
+  svg {
+    width: var(--dimension-200);
+    height: var(--dimension-200);
+  }
+}

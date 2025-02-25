@@ -1,8 +1,8 @@
-import StackItem from './StackItem';
+import StackItem from '../../../common/team/StackItem';
 import styles from './styles.module.scss';
 import { Badge, Text } from '@goorm-dev/vapor-components';
 import { POSITIONS } from '../../../../../constants/position';
-import MemberInfoItem from './MemberInfoItem';
+import MemberInfoItem from '../../../common/team/MemberInfoItem';
 import useBreakPoint from '../../../../../hooks/useBreakPoint';
 interface TeamInfoCardProps {
   role: keyof typeof POSITIONS;

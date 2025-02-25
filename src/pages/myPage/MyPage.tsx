@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import MDEditor from '@uiw/react-md-editor';
-import StackItem from '../../components/hackathon/ideaDetail/ideaDetailInfo/teamInfo/StackItem';
+import StackItem from '../../components/hackathon/common/team/StackItem';
 import { MyPageHeader } from '../../components/myPage/MyPageHeader';
 import { MyPageProject } from '../../components/myPage/MyPageProject';
 import { Spinner, Text } from '@goorm-dev/vapor-components';
