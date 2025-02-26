@@ -22,6 +22,7 @@ const MOCK_IDEA_DETAIL = {
     id: 1,
     name: '홍길동',
     univ: '서울대학교',
+    is_provider: false,
   },
   requirements: {
     pm: {
@@ -93,14 +94,13 @@ const MOCK_IDEA_DETAIL = {
       ],
     },
   },
-  is_provider: false,
 };
 
 export default function IdeaDetail() {
   const { idea_id } = useParams();
   const [activeTab, setActiveTab] = useState<'basic' | 'team'>('basic');
   const [ideaDetail, setIdeaDetail] = useState<any>(null);
-  const { idea_info, provider_info, requirements, is_provider } = ideaDetail || {};
+  const { idea_info, provider_info, requirements } = ideaDetail || {};
 
   // 아이디어 조회
   useEffect(() => {
@@ -164,7 +164,7 @@ export default function IdeaDetail() {
         summary={idea_info?.summary}
         name={provider_info?.name}
         university={provider_info?.univ}
-        is_provider={is_provider}
+        is_provider={provider_info?.is_provider}
         is_bookmarked={idea_info?.is_bookmarked}
         provider_id={provider_info?.id}
         onBookmarkToggle={handleBookmarkToggle}

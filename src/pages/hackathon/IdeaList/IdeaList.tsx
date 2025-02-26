@@ -12,6 +12,7 @@ import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/fil
 import { getUserBriefAPI } from '../../../api/auth';
 import { EditIcon } from '@goorm-dev/vapor-icons';
 import usePeriodStore from '../../../store/usePeriodStore';
+import { UserStatus } from '../../../constants/role';
 export default function IdeaList() {
   const navigate = useNavigate();
   // 주제 가져오기
@@ -32,7 +33,7 @@ export default function IdeaList() {
   const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(undefined);
   const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isProvider, setIsProvider] = useState<boolean | null>(null);
+  const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
 
   // 상태 옵션
   const statusOptions = [
@@ -57,8 +58,8 @@ export default function IdeaList() {
     const loadIsProvider = async () => {
       try {
         const response = await getUserBriefAPI();
-        const { is_provider } = response.data;
-        setIsProvider(is_provider);
+        const { status } = response.data;
+        setUserStatus(status);
       } catch (error) {
         console.error('Error fetching is_provider:', error);
       }
@@ -151,16 +152,24 @@ export default function IdeaList() {
   };
 
   // 예외처리
-  const message = '이미 제출된 아이디어가 있어 등록이 불가합니다.';
+  const providerMessage = '이미 제출된 아이디어가 있어 등록이 불가합니다.';
+  const memberMessage = '이미 팀이 있어 아이디어 등록이 불가합니다.';
+  const applicantMessage = '지원한 아이디어가 있어 등록이 불가합니다.';
 
-  //아이디어 등록 버튼 누를 때 is_provider가 true이면 alert띄우기
+  // 아이디어 등록 버튼 클릭 시 예외처리
   const handleCreateIdea = () => {
-    if (isProvider) {
-      toast(message, {
+    if (userStatus === UserStatus.PROVIDER) {
+      toast(providerMessage, {
         type: 'danger',
       });
-    } else {
-      navigate('/hackathon/create/step1');
+    } else if (userStatus === UserStatus.MEMBER) {
+      toast(memberMessage, {
+        type: 'danger',
+      });
+    } else if (userStatus === UserStatus.APPLICANT) {
+      toast(applicantMessage, {
+        type: 'danger',
+      });
     }
   };
 

@@ -7,6 +7,8 @@ import { createIdeaAPI } from '../../../api/idea';
 import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
+import { getUserBriefAPI } from '../../../api/auth';
+import useAuthStore from '../../../store/useAuthStore';
 
 // 에러 메시지 매핑
 const ERROR_MESSAGES: Record<number, string> = {
@@ -43,12 +45,17 @@ export default function TeamPreferenceStep2() {
     };
 
     try {
-      const response = await createIdeaAPI(formData);
+      await createIdeaAPI(formData);
       // 제출이 되면, 전역에 있는 데이터 초기화
       resetIdeaForm();
-      // 추후에 api 호출 추가
-      console.log(response);
-      navigate('/hackathon');
+
+      // 유저 정보 업데이트 후 홈으로 이동
+      const userBrief = await getUserBriefAPI();
+      if (userBrief.status === 200) {
+        const { status } = userBrief.data;
+        useAuthStore.getState().status = status;
+        navigate('/hackathon');
+      }
     } catch (error: any) {
       if (error.response) {
         const serverMessage = error.response.data.error?.code;
