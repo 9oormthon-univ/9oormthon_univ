@@ -19,8 +19,10 @@ const MOCK_IDEA_DETAIL = {
     is_bookmarked: false,
   },
   provider_info: {
+    id: 1,
     name: '홍길동',
     univ: '서울대학교',
+    is_provider: false,
   },
   requirements: {
     pm: {
@@ -28,7 +30,7 @@ const MOCK_IDEA_DETAIL = {
         '이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요! 이런 팀원과 함께 하고 싶어요!',
       current_count: 1,
       max_count: 2,
-      required_tech_stacks: ['기획 툴', '커뮤니케이션'],
+      required_tech_stacks: ['figma', 'bootstrap', 'cpp', 'cs', 'clion'],
       current_members: [
         {
           id: 1,
@@ -60,7 +62,7 @@ const MOCK_IDEA_DETAIL = {
       requirement: 'React 숙련자',
       current_count: 1,
       max_count: 2,
-      required_tech_stacks: ['React', 'TypeScript'],
+      required_tech_stacks: ['react', 'typescript', 'nextjs', 'nodejs', 'mongodb'],
       current_members: [
         {
           id: 2,
@@ -74,14 +76,14 @@ const MOCK_IDEA_DETAIL = {
       requirement: 'Node.js 경험자',
       current_count: 0,
       max_count: 2,
-      required_tech_stacks: ['Node.js', 'MongoDB'],
+      required_tech_stacks: ['nodejs', 'mongodb'],
       current_members: [],
     },
     pd: {
       requirement: 'UI/UX 디자인 경험자',
       current_count: 1,
       max_count: 1,
-      required_tech_stacks: ['Figma', 'Sketch'],
+      required_tech_stacks: ['figma', 'aws'],
       current_members: [
         {
           id: 3,
@@ -92,14 +94,13 @@ const MOCK_IDEA_DETAIL = {
       ],
     },
   },
-  is_provider: false,
 };
 
 export default function IdeaDetail() {
   const { idea_id } = useParams();
   const [activeTab, setActiveTab] = useState<'basic' | 'team'>('basic');
   const [ideaDetail, setIdeaDetail] = useState<any>(null);
-  const { idea_info, provider_info, requirements, is_provider } = ideaDetail || {};
+  const { idea_info, provider_info, requirements } = ideaDetail || {};
 
   // 아이디어 조회
   useEffect(() => {
@@ -163,8 +164,9 @@ export default function IdeaDetail() {
         summary={idea_info?.summary}
         name={provider_info?.name}
         university={provider_info?.univ}
-        is_provider={is_provider}
+        is_provider={provider_info?.is_provider}
         is_bookmarked={idea_info?.is_bookmarked}
+        provider_id={provider_info?.id}
         onBookmarkToggle={handleBookmarkToggle}
       />
       <div className={styles.contentContainer}>

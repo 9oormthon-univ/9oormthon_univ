@@ -16,7 +16,7 @@ import {
 } from '@goorm-dev/vapor-components';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
-
+import { Role } from '../../../constants/role';
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
   const [isHackathonOpened, setIsHackathonOpened] = useState(false);
@@ -24,7 +24,7 @@ function CustomNavbar() {
   const isAbout = useIsAbout();
   const navigate = useNavigate();
 
-  const isLoggedIn = useAuthStore((state) => state.role !== 'GUEST');
+  const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
   const profileImg = useAuthStore((state) => state.img_url);
   const NAV_ITEMS = [
     {

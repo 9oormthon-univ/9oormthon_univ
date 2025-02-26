@@ -41,7 +41,7 @@ export const resetPasswordAPI = async (current_password: string, new_password: s
   return response.data;
 };
 
-// 유저 정보 가져오기
+// 인증 정보 간단 조회
 export const getUserBriefAPI = async () => {
   const response = await instance.get(`/api/v1/auth/briefs?generation=${GENERATION}`);
 

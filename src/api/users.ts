@@ -7,7 +7,7 @@ export const getMyInfo = async () => {
 };
 
 // 유저 정보 조회
-export const getUserInfo = async (userId: number) => {
+export const getUserInfo = async (userId: string) => {
   const response = await instance.get(`/api/v1/users/${userId}/details`);
   return response.data;
 };

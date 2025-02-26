@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import useBreakPoint from '../../../hooks/useBreakPoint';
 interface IdeaDetailHeaderProps {
   id: number;
+  provider_id: number;
   subject: string;
   title: string;
   is_active: boolean;
@@ -19,6 +20,7 @@ interface IdeaDetailHeaderProps {
 
 export default function IdeaDetailHeader({
   id,
+  provider_id,
   subject,
   title,
   is_active,
@@ -90,7 +92,13 @@ export default function IdeaDetailHeader({
           {summary}
         </Text>
         <div className={styles.authorInfo}>
-          <Text as="span" typography="body3" color="text-hint">
+          <Text
+            as="span"
+            typography="body3"
+            color="text-hint"
+            onClick={() => {
+              navigate(`/user/${provider_id}`);
+            }}>
             작성자 : {name}/{university}
           </Text>
           <OutOutlineIcon className={styles.authorInfoIcon} />

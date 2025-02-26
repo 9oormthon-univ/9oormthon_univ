@@ -11,6 +11,8 @@ const NotFound = lazy(() => import('./pages/errors/NotFound'));
 const SearchUniv = lazy(() => import('./pages/searchUniv/SearchUniv'));
 const Information = lazy(() => import('./pages/information/Information'));
 const MyPage = lazy(() => import('./pages/myPage/MyPage'));
+const UserPage = lazy(() => import('./pages/myPage/MyPage'));
+const MyPageEdit = lazy(() => import('./pages/myPage/MyPageEdit'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 const SignUp = lazy(() => import('./pages/signUp/SignUp'));
 const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
@@ -19,7 +21,9 @@ const TeamPreferenceStep2 = lazy(() => import('./pages/hackathon/IdeaCreate/Team
 const IdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
 const MyIdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
 const IdeaApply = lazy(() => import('./pages/hackathon/IdeaApply/IdeaApply'));
-
+const TeamBuildProvider = lazy(() => import('./pages/hackathon/teamBuilding/provider/ProviderPage'));
+const TeamBuildApplicant = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantPage'));
+const ApplicantTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantTeamPage'));
 const loaderProps = {
   color: 'black',
   lottieProps: {
@@ -93,6 +97,22 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: 'user/:user_id',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <UserPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'my-page/edit',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <MyPageEdit />
+          </Suspense>
+        ),
+      },
+      {
         path: 'update-password',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
@@ -107,6 +127,48 @@ const router = createBrowserRouter([
             <NotFound />
           </Suspense>
         ),
+      },
+      {
+        path: 'team/provider',
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamBuildProvider />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'team/applicant',
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamBuildApplicant />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'team/:team_id',
+        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <ApplicantTeamPage />
+              </Suspense>
+            ),
+          },
+        ],
       },
 
       {

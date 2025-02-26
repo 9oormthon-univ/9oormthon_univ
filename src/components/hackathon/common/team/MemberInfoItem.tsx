@@ -1,4 +1,4 @@
-import useBreakPoint from '../../../../../hooks/useBreakPoint';
+import useBreakPoint from '../../../../hooks/useBreakPoint';
 import styles from './styles.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
 

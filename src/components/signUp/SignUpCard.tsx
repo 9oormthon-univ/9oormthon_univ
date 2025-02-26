@@ -1,7 +1,7 @@
 import styles from './signUpCard.module.scss';
 import { WarningIcon } from '@goorm-dev/vapor-icons';
 import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
@@ -26,44 +26,56 @@ export default function SignUpCard() {
     setPassword(e.target.value);
   };
 
+  // 이메일 유효성 검사
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const handleLogin = async () => {
-    try {
-      await login(email, password);
-
-      navigate('/');
-    } catch (error: any) {
-      console.error('로그인 실패', error);
-      setErrorMessage(ERROR_MESSAGES[error.response.data.error.code] || '알 수 없는 오류가 발생했습니다.');
+  // 로그인
+  const handleLogin = useCallback(async () => {
+    if (!email) {
+      setErrorMessage('이메일을 입력해주세요');
+      return;
     }
-
-    if (!email && !password) {
-      setErrorMessage('이메일을 입력해주세요');
-      return;
-    } else if (!email) {
-      setErrorMessage('이메일을 입력해주세요');
-      return;
-    } else if (!isValidEmail(email)) {
+    if (!isValidEmail(email)) {
       setErrorMessage('올바르지 않은 이메일 형식입니다');
       return;
-    } else if (!password) {
+    }
+    if (!password) {
       setErrorMessage('비밀번호를 입력해주세요');
       return;
     }
-    // 에러 메시지 초기화
-    setErrorMessage(null);
+
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (error: any) {
+      const errorCode = error.response.data.error?.code;
+      console.log(errorCode);
+      setErrorMessage(ERROR_MESSAGES[errorCode] || '알 수 없는 오류가 발생했습니다.');
+    }
+  }, [email, password, login, navigate]);
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
   };
 
   return (
     <div className={styles.signUpCardContainer}>
       <img src={Logo} className={styles.logo} alt="구름톤 유니브 로고" />
       <div className={styles.loginContainer}>
-        <Input value={email} bsSize="xl" placeholder="이메일" onChange={handleEmailChange} />
-        <Input type="password" value={password} bsSize="xl" placeholder="비밀번호" onChange={handlePasswordChange} />
+        <Input value={email} bsSize="xl" placeholder="이메일" onChange={handleEmailChange} onKeyDown={handleKeyDown} />
+        <Input
+          type="password"
+          value={password}
+          bsSize="xl"
+          placeholder="비밀번호"
+          onChange={handlePasswordChange}
+          onKeyDown={handleKeyDown}
+        />
         <Button size="xl" onClick={handleLogin}>
           로그인
         </Button>

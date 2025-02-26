@@ -59,7 +59,6 @@ export const fetchIdeas = async (
   if (isBookmarked !== undefined) queryParams.append('is-bookmarked', isBookmarked.toString());
 
   const requestUrl = `/api/v1/users/ideas/overviews?${queryParams.toString()}`;
-
   const response = await instance.get(requestUrl);
   return response.data;
 };
