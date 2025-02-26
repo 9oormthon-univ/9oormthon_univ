@@ -84,8 +84,8 @@ export default function TeamInformation({ viewer }: TeamInformationProps) {
           </Badge>
         </div>
         <div className={styles.teamInformContentItem}>
-          <MemberInfoItem name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-          <MemberInfoItem name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
+          <MemberInfoItem id={2} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
+          <MemberInfoItem id={3} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
         </div>
       </div>
       <div className={styles.teamInformContent}>
@@ -98,8 +98,8 @@ export default function TeamInformation({ viewer }: TeamInformationProps) {
           </Badge>
         </div>
         <div className={styles.teamInformContentItem}>
-          <MemberInfoItem name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-          <MemberInfoItem name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
+          <MemberInfoItem id={4} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
+          <MemberInfoItem id={5} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
         </div>
       </div>
       <div className={styles.teamInformContent}>
@@ -112,8 +112,8 @@ export default function TeamInformation({ viewer }: TeamInformationProps) {
           </Badge>
         </div>
         <div className={styles.teamInformContentItem}>
-          <MemberInfoItem name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-          <MemberInfoItem name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
+          <MemberInfoItem id={6} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
+          <MemberInfoItem id={7} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
         </div>
       </div>
     </div>

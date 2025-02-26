@@ -11,9 +11,16 @@ interface StackSelectorProps {
   selectedStacks: string[];
   setSelectedStacks: (stacks: string[]) => void;
   disabled?: boolean;
+  maxStacks?: number; // 최대 개수
 }
 
-export default function StackSelector({ label, selectedStacks, setSelectedStacks, disabled }: StackSelectorProps) {
+export default function StackSelector({
+  label,
+  selectedStacks,
+  setSelectedStacks,
+  disabled,
+  maxStacks = Infinity,
+}: StackSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,7 +46,7 @@ export default function StackSelector({ label, selectedStacks, setSelectedStacks
   );
 
   const handleStackClick = (stackId: string) => {
-    if (selectedStacks.length < 5 && !selectedStacks.includes(stackId)) {
+    if (selectedStacks.length < maxStacks && !selectedStacks.includes(stackId)) {
       setSelectedStacks([...selectedStacks, stackId]);
     }
   };
