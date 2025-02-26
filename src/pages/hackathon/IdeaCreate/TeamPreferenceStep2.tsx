@@ -54,8 +54,8 @@ export default function TeamPreferenceStep2() {
       if (userBrief.status === 200) {
         const { status } = userBrief.data;
         useAuthStore.getState().status = status;
-        navigate('/hackathon');
       }
+      navigate('/hackathon');
     } catch (error: any) {
       if (error.response) {
         const serverMessage = error.response.data.error?.code;

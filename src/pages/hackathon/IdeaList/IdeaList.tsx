@@ -170,6 +170,8 @@ export default function IdeaList() {
       toast(applicantMessage, {
         type: 'danger',
       });
+    } else if (userStatus === UserStatus.NONE) {
+      navigate('/hackathon/create/step1');
     }
   };
 
