@@ -1,10 +1,10 @@
 import styles from './styles.module.scss';
 import { Button, Text } from '@goorm-dev/vapor-components';
-import notFound from '../../assets/images/notFound.png';
 import { ImageIcon, MailIcon, SchoolIcon } from '@goorm-dev/vapor-icons';
 import FormEditor from '../../components/hackathon/ideaForm/FormEditor';
 import StackSelector from '../../components/hackathon/ideaForm/StackSelector';
 import FormLinkInput from '../../components/hackathon/ideaForm/FormLinkInput';
+import notFound from '../../assets/images/notfound.png';
 
 export default function MyPageEdit() {
   return (
