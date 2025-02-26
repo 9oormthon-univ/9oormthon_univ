@@ -48,7 +48,7 @@ export default function TeamInfoCard({
         {['sm', 'md', 'lg', 'xl', 'xxl'].includes(breakpoint) && (
           <div className={styles.teamMemberInfoContainer}>
             {currentMembers.map((member) => (
-              <MemberInfoItem key={member.id} name={member.name} imgUrl={member.imgUrl} />
+              <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.imgUrl} />
             ))}
           </div>
         )}
@@ -67,7 +67,7 @@ export default function TeamInfoCard({
           </div>
           <div className={styles.teamMemberInfoContainerMobile}>
             {currentMembers.map((member) => (
-              <MemberInfoItem key={member.id} name={member.name} imgUrl={member.imgUrl} />
+              <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.imgUrl} />
             ))}
           </div>
         </>
