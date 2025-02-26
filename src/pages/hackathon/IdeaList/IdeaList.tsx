@@ -26,7 +26,7 @@ export default function IdeaList() {
   });
   const { ideas, page_info } = ideaList;
   const [loading, setLoading] = useState(false);
-  const { period, fetchPeriodData } = usePeriodStore(); // 기간 정보
+  const { current_period, fetchPeriodData } = usePeriodStore(); // 기간 정보
 
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
@@ -109,12 +109,12 @@ export default function IdeaList() {
 
   // 팀빌딩 기간인지
   const isTeamBuilding =
-    period === 'PHASE1_TEAM_BUILDING' ||
-    period === 'PHASE2_TEAM_BUILDING' ||
-    period === 'PHASE3_TEAM_BUILDING' ||
-    period === 'PHASE1_CONFIRMATION' ||
-    period === 'PHASE2_CONFIRMATION' ||
-    period === 'PHASE3_CONFIRMATION';
+    current_period === 'PHASE1_TEAM_BUILDING' ||
+    current_period === 'PHASE2_TEAM_BUILDING' ||
+    current_period === 'PHASE3_TEAM_BUILDING' ||
+    current_period === 'PHASE1_CONFIRMATION' ||
+    current_period === 'PHASE2_CONFIRMATION' ||
+    current_period === 'PHASE3_CONFIRMATION';
 
   // 한 페이지당 보여질 페이지 수
   const projectsPerPage = 8;
