@@ -43,7 +43,7 @@ export default function IdeaList() {
 
   // 북마크 옵션
   const bookmarkOptions = [
-    { label: '전체', value: false },
+    { label: '전체', value: undefined },
     { label: '찜한 아이디어', value: true },
   ];
 
@@ -76,7 +76,7 @@ export default function IdeaList() {
           .filter((topic: { is_active: boolean }) => topic.is_active)
           .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
         console.log(activeTopics); // 테스트
-        setHackathonTopics([{ id: null, name: '전체' }, ...activeTopics]); // "전체" 옵션 추가
+        setHackathonTopics([{ id: 0, name: '전체' }, ...activeTopics]); // "전체" 옵션 추가
       } catch (error) {
         console.error('Error fetching idea subjects:', error);
       }
@@ -92,8 +92,8 @@ export default function IdeaList() {
       try {
         const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
         const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
+        const isBookmarked = selectedBookmark === true ? true : undefined;
 
-        const isBookmarked = selectedBookmark === true ? true : selectedBookmark === false ? false : undefined;
         const response = await fetchIdeas(currentPage, projectsPerPage, 4, subjectId, isActive, isBookmarked);
         setIdeaList(response.data);
       } catch (error) {

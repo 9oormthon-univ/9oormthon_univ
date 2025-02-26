@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styles from './styles.module.scss';
 
 interface BookmarkedFilterDropdownProps {
-  options: { label: string; value: boolean }[];
+  options: { label: string; value: boolean | undefined }[];
   selectedValue: boolean | undefined;
   onChange: (value: boolean | undefined) => void;
   disabled?: boolean;
