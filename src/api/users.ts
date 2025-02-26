@@ -17,3 +17,9 @@ export const updateUserInfo = async (data: any) => {
   const response = await instance.put(`/api/v1/users`, data);
   return response.data;
 };
+
+// 내 지원정보 요약 리스트 조회
+export const getMyApplySummary = async (generation: number, phase: number) => {
+  const response = await instance.get(`/api/v1/users/applies/overviews?generation=${generation}&phase=${phase}`);
+  return response.data;
+};
