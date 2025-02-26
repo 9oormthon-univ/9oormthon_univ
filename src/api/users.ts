@@ -14,6 +14,6 @@ export const getUserInfo = async (userId: string) => {
 
 // 유저정보 수정
 export const updateUserInfo = async (data: any) => {
-  const response = await instance.patch(`/api/v1/users`, data);
+  const response = await instance.put(`/api/v1/users`, data);
   return response.data;
 };

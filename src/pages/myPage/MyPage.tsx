@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import MDEditor from '@uiw/react-md-editor';
 import StackItem from '../../components/hackathon/common/team/StackItem';
 import { MyPageHeader } from '../../components/myPage/MyPageHeader';
-import { MyPageProject } from '../../components/myPage/MyPageProject';
+// import { MyPageProject } from '../../components/myPage/MyPageProject';
 import { Spinner, Text } from '@goorm-dev/vapor-components';
 import { LinkType } from '../../constants/linkType';
 import { getMyInfo, getUserInfo } from '../../api/users';
@@ -90,12 +90,12 @@ export default function MyPage() {
               </>
             )}
           </div>
-          <div className={styles.contentProject}>
+          {/* <div className={styles.contentProject}>
             <Text as="h6" typography="heading6" color="text-normal">
               나의 프로젝트
             </Text>
             <MyPageProject />
-          </div>
+          </div> */}
         </>
       )}
     </div>
