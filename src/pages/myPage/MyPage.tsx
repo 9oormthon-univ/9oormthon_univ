@@ -63,22 +63,32 @@ export default function MyPage() {
             is_me={userInfo?.is_me ?? false}
           />
           <div className={styles.content} data-color-mode="light">
-            <div className={styles.contentIntroduce}>
-              <Text typography="subtitle1" color="text-hint">
-                자기소개
-              </Text>
-              <MDEditor.Markdown source={userInfo?.introduction ?? ''} />
-            </div>
-            <div className={styles.contentStack}>
-              <Text typography="subtitle1" color="text-hint">
-                기술 스택
-              </Text>
-              <div className={styles.contentStackContainer}>
-                {userInfo?.stacks?.map((skill: string, index: number) => (
-                  <StackItem key={index} skill={skill} />
-                ))}
+            {!userInfo?.introduction && (!userInfo?.stacks || userInfo.stacks.length === 0) ? (
+              <div className={styles.emptyContent}>
+                <Text typography="body2" color="text-hint">
+                  소개가 없습니다.
+                </Text>
               </div>
-            </div>
+            ) : (
+              <>
+                <div className={styles.contentIntroduce}>
+                  <Text typography="subtitle1" color="text-hint">
+                    자기소개
+                  </Text>
+                  <MDEditor.Markdown source={userInfo?.introduction ?? ''} />
+                </div>
+                <div className={styles.contentStack}>
+                  <Text typography="subtitle1" color="text-hint">
+                    기술 스택
+                  </Text>
+                  <div className={styles.contentStackContainer}>
+                    {userInfo?.stacks?.map((skill: string, index: number) => (
+                      <StackItem key={index} skill={skill} />
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           <div className={styles.contentProject}>
             <Text as="h6" typography="heading6" color="text-normal">
