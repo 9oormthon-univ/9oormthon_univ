@@ -24,7 +24,7 @@ export default function ApplyDecisionModal({ id, isOpen, toggle, name, decision 
   return (
     <Modal type="center" isOpen={isOpen} toggle={toggle}>
       <ModalBody>
-        <div className={styles.modalBody}>
+        <div className={styles.modalDecisionBody}>
           {decision === 'accept' ? (
             <CheckCircleIcon className={styles.checkIcon} />
           ) : (

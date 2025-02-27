@@ -39,14 +39,14 @@ th {
   align-items: center;
 }
 
-.modalBody {
+.modalReasonBody {
   display: flex;
   flex-direction: column;
   gap: var(--space-100);
-  align-items: flex-start;
+  align-items: flex-start !important;
 }
 
-.modalBody {
+.modalDecisionBody {
   display: flex;
   flex-direction: column;
   gap: var(--space-100);
@@ -87,4 +87,8 @@ th {
     flex-grow: 0;
     margin: 0;
   }
+}
+
+.nameContainer {
+  cursor: pointer;
 }

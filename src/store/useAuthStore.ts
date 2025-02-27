@@ -19,6 +19,7 @@ interface AuthStore {
   logout: () => Promise<void>;
   resetToGuest: () => void;
   updateProfileImage: (imgUrl: string | null) => void;
+  fetchUserStatus: () => Promise<void>;
 }
 
 if (!localStorage.getItem('role')) {
@@ -97,6 +98,22 @@ const useAuthStore = create<AuthStore>((set) => ({
     localStorage.removeItem('idea_form');
 
     set({ role: Role.GUEST, status: null, img_url: null });
+  },
+
+  // 사용자 상태 조회
+  fetchUserStatus: async () => {
+    try {
+      const response = await getUserBriefAPI();
+      const { status } = response.data;
+
+      const parsedStatus = parseEnumValue(UserStatus, status, UserStatus.NONE);
+      localStorage.setItem('status', parsedStatus);
+
+      set({ status: parsedStatus });
+    } catch (error) {
+      console.error('Error fetching user status:', error);
+      throw error;
+    }
   },
 }));
 

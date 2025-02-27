@@ -19,7 +19,7 @@ export default function ApplyReasonModal({ applyInfo, toggle, isOpen }: ApplyInf
   return (
     <Modal type="center" isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle} />
-      <ModalBody className={styles.modalBody}>
+      <ModalBody className={styles.modalReasonBody}>
         <Text as="h5" typography="heading5">
           지원 사유
         </Text>

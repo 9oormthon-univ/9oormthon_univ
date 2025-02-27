@@ -43,7 +43,7 @@ export default function ApplicantRow({ applicant }: { applicant: Applicant }) {
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const navigate = useNavigate();
   const handleNameClick = () => {
-    navigate(`/users/${applicant.user.id}`);
+    navigate(`/user/${applicant.user.id}`);
   };
 
   const { isTeamBuildingPeriod } = usePeriodStore();
@@ -73,19 +73,11 @@ export default function ApplicantRow({ applicant }: { applicant: Applicant }) {
           {/* 대기 시 / 팀 빌딩 기간이면 수락 거절 불가 */}
           {applicant.status === 'WAITING' && (
             <>
-              <Button
-                size="sm"
-                color="secondary"
-                onClick={() => setIsAcceptOpen(true)}
-                disabled={isTeamBuildingPeriod()}>
-                수락
-              </Button>
-              <Button
-                size="sm"
-                color="secondary"
-                onClick={() => setIsRejectOpen(true)}
-                disabled={isTeamBuildingPeriod()}>
+              <Button size="sm" color="danger" onClick={() => setIsRejectOpen(true)} disabled={isTeamBuildingPeriod()}>
                 거절
+              </Button>
+              <Button size="sm" color="success" onClick={() => setIsAcceptOpen(true)} disabled={isTeamBuildingPeriod()}>
+                수락
               </Button>
             </>
           )}
