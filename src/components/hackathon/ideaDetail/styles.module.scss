@@ -78,6 +78,7 @@
   gap: var(--space-050);
   padding: var(--space-050) 0;
   cursor: pointer;
+  width: fit-content !important;
 
   &:hover {
     svg {
