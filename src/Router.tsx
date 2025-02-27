@@ -157,7 +157,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'team/:team_id',
+        path: 'team/detail',
         element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
         children: [
           {

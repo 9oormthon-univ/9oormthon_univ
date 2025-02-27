@@ -82,7 +82,7 @@ export default function IdeaApplyListItem({ applySummary, phase }: IdeaApplyList
           </Button>
         ) : apply_info.status === 'CONFIRMED' ? (
           // 이부분 id값 변경 필요
-          <Button size="sm" color="secondary" onClick={() => navigate(`/team/${apply_info.id}`)}>
+          <Button size="sm" color="secondary" onClick={() => navigate('/team/detail')}>
             팀 정보 보기
           </Button>
         ) : (
