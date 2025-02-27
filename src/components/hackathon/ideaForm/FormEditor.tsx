@@ -2,7 +2,7 @@ import MDEditor, { bold, commands, hr, italic, strikethrough } from '@uiw/react-
 import { Button, FormGroup, Spinner, Text } from '@goorm-dev/vapor-components';
 import FormLabel from './FormLabel';
 import styles from './styles.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EditIcon, ImageOutlineIcon, ViewOnIcon } from '@goorm-dev/vapor-icons';
 import { useS3Upload } from '../../../hooks/useS3Upload';
 import useUpload from '../../../hooks/useUpload';
@@ -93,6 +93,10 @@ export default function FormEditor({
       await handleFileUpload(file);
     });
   };
+
+  useEffect(() => {
+    setMarkdownContent(value);
+  }, [value]);
 
   return (
     <FormGroup data-color-mode="light" onDragOver={(e) => e.preventDefault()}>
