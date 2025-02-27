@@ -1,7 +1,8 @@
 import { Button, Text } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
-
+import { deleteApply } from '../../../api/users';
+import usePeriodStore from '../../../store/usePeriodStore';
 interface ApplyInfo {
   id: number;
   status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED';
@@ -45,6 +46,8 @@ export default function IdeaApplyListItem({ applySummary, phase }: IdeaApplyList
   const { apply_info, idea_info } = applySummary;
   const navigate = useNavigate();
 
+  const { isTeamBuildingPeriod } = usePeriodStore();
+
   return (
     <div className={styles.ideaApplyListItemContainer}>
       <div className={styles.ideaApplyListItemLeft}>
@@ -72,9 +75,21 @@ export default function IdeaApplyListItem({ applySummary, phase }: IdeaApplyList
             지원 비율 {apply_info.ratio}
           </Text>
         </div>
-        <Button size="sm" color="secondary">
-          지원 취소
-        </Button>
+        {/* 팀 빌딩 기간이라면 지원 취소 가능 */}
+        {isTeamBuildingPeriod() ? (
+          <Button size="sm" color="secondary" onClick={() => deleteApply(apply_info.id)}>
+            지원 취소
+          </Button>
+        ) : apply_info.status === 'CONFIRMED' ? (
+          // 이부분 id값 변경 필요
+          <Button size="sm" color="secondary" onClick={() => navigate(`/team/${apply_info.id}`)}>
+            팀 정보 보기
+          </Button>
+        ) : (
+          <Button size="sm" color="secondary" disabled>
+            지원 취소
+          </Button>
+        )}
       </div>
     </div>
   );
