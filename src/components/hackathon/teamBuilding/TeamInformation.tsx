@@ -71,7 +71,10 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
 
   // 역할 정렬
   const orderedRoles = ['pm', 'pd', 'fe', 'be']; // 기획 → 디자인 → 프론트엔드 → 백엔드
-  const sortedRoles = orderedRoles.map((key) => ({ key, roleInfo: role[key as keyof TeamRole] }));
+  const sortedRoles = orderedRoles.map((key) => ({
+    key,
+    roleInfo: role?.[key as keyof TeamRole] ?? { max_count: 0, current_count: 0 },
+  }));
 
   return (
     <div className={styles.container}>
@@ -108,7 +111,7 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
         )}
       </div>
       {sortedRoles.map(({ key, roleInfo }) => (
-        <div className={styles.teamInformContent}>
+        <div key={key} className={styles.teamInformContent}>
           <div className={styles.teamInformContentText}>
             <Text typography="body2" color="text-normal">
               {roleMap[key as keyof typeof roleMap]}

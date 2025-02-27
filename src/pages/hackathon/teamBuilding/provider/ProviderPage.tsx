@@ -48,7 +48,7 @@ export default function ProviderPage() {
         <Text as="h3" typography="heading3" color="text-normal">
           팀 정보
         </Text>
-        <TeamInformation viewer={false} role={teamInfo?.role} />
+        <TeamInformation viewer={false} role={teamInfo?.role ?? {}} />
       </div>
       <div className={styles.applyStatus}>
         <div className={styles.applyStatusHeader}>
