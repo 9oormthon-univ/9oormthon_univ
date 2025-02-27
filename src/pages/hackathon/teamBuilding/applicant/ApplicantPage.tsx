@@ -18,15 +18,16 @@ export default function ApplicantPage() {
   }, []);
 
   // 지원 내역 조회
+  const fetchApplySummary = async () => {
+    try {
+      const response = await getMyApplySummary(4, buttonIndex + 1);
+      setApplySummary(response.data);
+    } catch (error) {
+      console.error('Error fetching apply summary:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchApplySummary = async () => {
-      try {
-        const response = await getMyApplySummary(4, buttonIndex + 1);
-        setApplySummary(response.data);
-      } catch (error) {
-        console.error('Error fetching apply summary:', error);
-      }
-    };
     fetchApplySummary();
   }, [buttonIndex]);
 
@@ -38,7 +39,12 @@ export default function ApplicantPage() {
       <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
 
       {applySummary?.applies?.map((apply: any) => (
-        <IdeaApplyListItem key={apply.apply_info.id} applySummary={apply} phase={buttonIndex + 1} />
+        <IdeaApplyListItem
+          key={apply.apply_info.id}
+          applySummary={apply}
+          phase={buttonIndex + 1}
+          onDeleteSuccess={fetchApplySummary}
+        />
       ))}
     </div>
   );
