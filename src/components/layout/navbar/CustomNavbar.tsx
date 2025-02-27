@@ -16,7 +16,8 @@ import {
 } from '@goorm-dev/vapor-components';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
-import { Role } from '../../../constants/role';
+import { Role, UserStatus } from '../../../constants/role';
+
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
   const [isHackathonOpened, setIsHackathonOpened] = useState(false);
@@ -26,6 +27,8 @@ function CustomNavbar() {
 
   const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
   const profileImg = useAuthStore((state) => state.img_url);
+  const parsedStatus = useAuthStore((state) => state.status);
+
   const NAV_ITEMS = [
     {
       title: 'Project',
@@ -40,6 +43,18 @@ function CustomNavbar() {
   const handleLogout = () => {
     useAuthStore.getState().logout();
     navigate('/');
+  };
+
+  const handleClickHackathon = () => {
+    if (parsedStatus === UserStatus.NONE) {
+      alert('팀 빌딩 기간이 아닙니다.');
+    } else if (parsedStatus === UserStatus.PROVIDER) {
+      navigate('/team/provider');
+    } else if (parsedStatus === UserStatus.MEMBER || parsedStatus === UserStatus.APPLICANT) {
+      navigate('/team/member');
+    } else {
+      alert('알 수 없는 오류가 발생했습니다.');
+    }
   };
 
   return (
@@ -78,7 +93,7 @@ function CustomNavbar() {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem onClick={() => navigate('/hackathon')}>아이디어</DropdownItem>
-                <DropdownItem onClick={() => alert('준비중인 기능입니다.')}>나의 팀</DropdownItem>
+                <DropdownItem onClick={handleClickHackathon}>나의 팀</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}
