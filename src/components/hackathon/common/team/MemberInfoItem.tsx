@@ -12,12 +12,16 @@ interface MemberInfoItemProps {
 export default function MemberInfoItem({ name, imgUrl, id }: MemberInfoItemProps) {
   const breakpoint = useBreakPoint();
   const navigate = useNavigate();
+  const isNoMember = name === '팀원 없음';
 
   return (
     <div
-      className={['xs'].includes(breakpoint) ? styles.memberInfoItemMobile : styles.memberInfoItem}
+      className={[
+        ['xs'].includes(breakpoint) ? styles.memberInfoItemMobile : styles.memberInfoItem,
+        isNoMember ? styles.noMember : '',
+      ].join(' ')}
       onClick={() => {
-        if (id) {
+        if (id && !isNoMember) {
           navigate(`/user/${id}`);
         }
       }}>

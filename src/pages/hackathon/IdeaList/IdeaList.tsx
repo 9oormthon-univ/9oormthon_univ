@@ -9,10 +9,19 @@ import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate } from 'react-router-dom';
 import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
-import { getUserBriefAPI } from '../../../api/auth';
 import { EditIcon } from '@goorm-dev/vapor-icons';
 import usePeriodStore from '../../../store/usePeriodStore';
-import { UserStatus } from '../../../constants/role';
+import { UserStatus, Role } from '../../../constants/role';
+import useAuthStore from '../../../store/useAuthStore';
+
+// 상태별 메시지 매핑 객체 수정
+const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE'> | 'ADMIN', string> = {
+  [UserStatus.PROVIDER]: '이미 제출된 아이디어가 있어 등록이 불가합니다.',
+  [UserStatus.MEMBER]: '이미 팀이 있어 아이디어 등록이 불가합니다.',
+  [UserStatus.APPLICANT]: '지원한 아이디어가 있어 등록이 불가합니다.',
+  ADMIN: '관리자는 아이디어를 등록할 수 없습니다.',
+} as const;
+
 export default function IdeaList() {
   const navigate = useNavigate();
   // 주제 가져오기
@@ -27,13 +36,13 @@ export default function IdeaList() {
   const { ideas, page_info } = ideaList;
   const [loading, setLoading] = useState(false);
   const { current_period, fetchPeriodData } = usePeriodStore(); // 기간 정보
+  const { status, role, fetchUserStatus } = useAuthStore();
 
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
   const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(undefined);
   const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
-  const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
 
   // 상태 옵션
   const statusOptions = [
@@ -48,24 +57,10 @@ export default function IdeaList() {
     { label: '찜한 아이디어', value: true },
   ];
 
-  // 기간 정보 갱신
+  // 기간 정보 갱신 및 사용자 상태 조회
   useEffect(() => {
     fetchPeriodData();
-  }, []);
-
-  // 아이디어 제공자인지 확인
-  useEffect(() => {
-    const loadIsProvider = async () => {
-      try {
-        const response = await getUserBriefAPI();
-        const { status } = response.data;
-        setUserStatus(status);
-      } catch (error) {
-        console.error('Error fetching is_provider:', error);
-      }
-    };
-
-    loadIsProvider();
+    fetchUserStatus();
   }, []);
 
   // 주제 가져오는 api
@@ -160,28 +155,19 @@ export default function IdeaList() {
     }
   };
 
-  // 예외처리
-  const providerMessage = '이미 제출된 아이디어가 있어 등록이 불가합니다.';
-  const memberMessage = '이미 팀이 있어 아이디어 등록이 불가합니다.';
-  const applicantMessage = '지원한 아이디어가 있어 등록이 불가합니다.';
-
   // 아이디어 등록 버튼 클릭 시 예외처리
   const handleCreateIdea = () => {
-    if (userStatus === UserStatus.PROVIDER) {
-      toast(providerMessage, {
-        type: 'danger',
-      });
-    } else if (userStatus === UserStatus.MEMBER) {
-      toast(memberMessage, {
-        type: 'danger',
-      });
-    } else if (userStatus === UserStatus.APPLICANT) {
-      toast(applicantMessage, {
-        type: 'danger',
-      });
-    } else if (userStatus === UserStatus.NONE) {
-      navigate('/hackathon/create/step1');
+    if (role === Role.ADMIN) {
+      toast(STATUS_MESSAGES.ADMIN, { type: 'danger' });
+      return;
     }
+
+    if (status && status !== UserStatus.NONE) {
+      toast(STATUS_MESSAGES[status], { type: 'danger' });
+      return;
+    }
+
+    navigate('/hackathon/create/step1');
   };
 
   return (

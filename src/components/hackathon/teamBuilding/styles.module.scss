@@ -96,3 +96,10 @@
 .buttonToggleGroup {
   width: fit-content !important;
 }
+
+.ideaApplyListItemTitle {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}

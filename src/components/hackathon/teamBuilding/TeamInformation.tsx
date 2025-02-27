@@ -3,6 +3,8 @@ import styles from './styles.module.scss';
 import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Text } from '@goorm-dev/vapor-components';
 import MemberInfoItem from '../common/team/MemberInfoItem';
 import { useRef, useState } from 'react';
+import { GENERATION } from '../../../constants/common';
+import { updateTeamInfo } from '../../../api/teams';
 
 interface TeamMember {
   id: number;
@@ -55,11 +57,17 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
   };
 
   // 수정 완료 (Enter 또는 블러)
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!teamName.trim()) {
       setTeamName('팀 이름'); // 빈 값이면 기본값 유지
     }
-    setIsEditing(false);
+    try {
+      await updateTeamInfo(GENERATION, teamName);
+      setIsEditing(false);
+      setTeamName(teamName);
+    } catch (error) {
+      console.error('팀 이름 수정 실패:', error);
+    }
   };
 
   // Enter 키 이벤트 처리

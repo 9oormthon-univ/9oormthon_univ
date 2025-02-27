@@ -25,6 +25,7 @@ interface ApplySummary {
 interface IdeaApplyListItemProps {
   applySummary: ApplySummary;
   phase: number;
+  onDeleteSuccess: () => void;
 }
 
 const roleMap: Record<ApplyInfo['role'], string> = {
@@ -42,11 +43,20 @@ const statusMap = {
   ACCEPTED_NOT_JOINED: { text: '-', color: 'text-hint' },
 } as const;
 
-export default function IdeaApplyListItem({ applySummary, phase }: IdeaApplyListItemProps) {
+export default function IdeaApplyListItem({ applySummary, phase, onDeleteSuccess }: IdeaApplyListItemProps) {
   const { apply_info, idea_info } = applySummary;
   const navigate = useNavigate();
 
   const { isTeamBuildingPeriod } = usePeriodStore();
+
+  const handleDeleteApply = async () => {
+    try {
+      await deleteApply(apply_info.id);
+      onDeleteSuccess();
+    } catch (error) {
+      console.error('Error deleting apply:', error);
+    }
+  };
 
   return (
     <div className={styles.ideaApplyListItemContainer}>
@@ -59,7 +69,7 @@ export default function IdeaApplyListItem({ applySummary, phase }: IdeaApplyList
             as="h6"
             typography="heading6"
             color="text-normal"
-            style={{ cursor: 'pointer' }}
+            className={styles.ideaApplyListItemTitle}
             onClick={() => navigate(`/hackathon/detail/${idea_info.id}`)}>
             {idea_info.title}
           </Text>
@@ -82,7 +92,7 @@ export default function IdeaApplyListItem({ applySummary, phase }: IdeaApplyList
         </div>
         {/* 팀 빌딩 기간이라면 지원 취소 가능 */}
         {isTeamBuildingPeriod() ? (
-          <Button size="sm" color="secondary" onClick={() => deleteApply(apply_info.id)}>
+          <Button size="sm" color="secondary" onClick={handleDeleteApply}>
             지원 취소
           </Button>
         ) : apply_info.status === 'CONFIRMED' ? (

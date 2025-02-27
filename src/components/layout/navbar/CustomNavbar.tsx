@@ -27,7 +27,7 @@ function CustomNavbar() {
 
   const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
   const profileImg = useAuthStore((state) => state.img_url);
-  const parsedStatus = useAuthStore((state) => state.status);
+  const parsedStatus = useAuthStore((state) => state.status ?? UserStatus.NONE);
 
   const NAV_ITEMS = [
     {
@@ -46,14 +46,20 @@ function CustomNavbar() {
   };
 
   const handleClickHackathon = () => {
-    if (parsedStatus === UserStatus.NONE) {
-      alert('팀 빌딩 기간이 아닙니다.');
-    } else if (parsedStatus === UserStatus.PROVIDER) {
-      navigate('/team/provider');
-    } else if (parsedStatus === UserStatus.MEMBER || parsedStatus === UserStatus.APPLICANT) {
-      navigate('/team/member');
-    } else {
-      alert('알 수 없는 오류가 발생했습니다.');
+    switch (parsedStatus) {
+      case UserStatus.PROVIDER:
+        navigate('/team/provider');
+        break;
+      case UserStatus.MEMBER:
+      case UserStatus.APPLICANT:
+        navigate('/team/applicant');
+        break;
+      case UserStatus.NONE:
+        alert('팀 빌딩 기간이 아닙니다.');
+        break;
+      default:
+        console.error('Unknown status:', parsedStatus);
+        alert('알 수 없는 오류가 발생했습니다.');
     }
   };
 
