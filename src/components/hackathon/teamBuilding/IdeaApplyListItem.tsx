@@ -55,7 +55,12 @@ export default function IdeaApplyListItem({ applySummary, phase }: IdeaApplyList
           {phase}지망
         </Text>
         <div className={styles.ideaApplyListItemContent}>
-          <Text as="h6" typography="heading6" color="text-normal" onClick={() => navigate(`/idea/${idea_info.id}`)}>
+          <Text
+            as="h6"
+            typography="heading6"
+            color="text-normal"
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate(`/hackathon/detail/${idea_info.id}`)}>
             {idea_info.title}
           </Text>
           <Text typography="body3" color="text-hint">

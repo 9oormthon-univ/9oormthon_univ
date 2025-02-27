@@ -140,8 +140,17 @@ export default function IdeaList() {
 
     try {
       await addIdeaBookmark(ideaId);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error toggling bookmark:', error);
+      if (error.response) {
+        const errorCode = error.response.data.error?.code;
+        if (errorCode === 40013) {
+          toast('본인 아이디어는 북마크 할 수 없습니다.', {
+            type: 'danger',
+          });
+        }
+      }
+
       setIdeaList((prevState: any) => ({
         ...prevState,
         ideas: prevState.ideas.map((idea: any) =>

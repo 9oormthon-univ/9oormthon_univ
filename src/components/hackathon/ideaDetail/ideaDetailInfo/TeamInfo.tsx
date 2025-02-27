@@ -16,6 +16,7 @@ interface PositionRequirement {
   max_count: number;
   required_tech_stacks: string[];
   current_members: TeamMember[];
+  ratio: string;
 }
 
 interface TeamInfoProps {
@@ -47,6 +48,7 @@ export default function TeamInfo({ requirements }: TeamInfoProps) {
               name: member.name,
               imgUrl: member.img_url,
             }))}
+            ratio={info.ratio}
           />
         ))}
       </div>

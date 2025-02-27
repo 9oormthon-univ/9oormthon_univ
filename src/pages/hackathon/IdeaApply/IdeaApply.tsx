@@ -7,7 +7,7 @@ import FormRadio from '../../../components/hackathon/ideaForm/FormRadio';
 import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 import { applyIdea, fetchMyRemainingRanks } from '../../../api/idea';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // 에러 메시지 매핑
 const ERROR_MESSAGES: Record<number, string> = {
@@ -27,6 +27,7 @@ export default function IdeaApply() {
 
   const [preferences, setPreferences] = useState<{ number: number; is_active: boolean }[]>([]);
   const [selectedRank, setSelectedRank] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   // 임의로 기수와 차수 설정
   const generation = 4;
@@ -64,6 +65,7 @@ export default function IdeaApply() {
       if (selectedRank !== null) {
         await applyIdea(Number(idea_id), phase, selectedRank, reason, role.toUpperCase() as 'PM' | 'PD' | 'FE' | 'BE');
       }
+      navigate(`/hackathon`);
     } catch (error: any) {
       if (error.response) {
         const errorCode = error.response.data?.error?.code;

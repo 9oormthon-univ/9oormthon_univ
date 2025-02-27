@@ -1,5 +1,6 @@
 import { ButtonToggleGroup } from '@goorm-dev/vapor-components';
 import usePeriodStore from '../../../store/usePeriodStore';
+import styles from './styles.module.scss';
 
 interface TeamBuildingPhaseSelectorProps {
   onPhaseChange: (index: number) => void;
@@ -21,7 +22,11 @@ export default function TeamBuildingPhaseSelector({ onPhaseChange, activeIndex }
   const currentPhaseIndex = phases.findIndex((phase) => phase.keys.includes(current_period));
 
   return (
-    <ButtonToggleGroup size="lg" activeIndex={activeIndex} onToggle={onPhaseChange}>
+    <ButtonToggleGroup
+      size="lg"
+      activeIndex={activeIndex}
+      onToggle={onPhaseChange}
+      className={styles.buttonToggleGroup}>
       {phases.map((phase, index) => {
         const isUpcoming = index > currentPhaseIndex;
 
