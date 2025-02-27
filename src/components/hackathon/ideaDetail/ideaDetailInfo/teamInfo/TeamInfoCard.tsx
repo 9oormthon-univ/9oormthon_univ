@@ -15,6 +15,7 @@ interface TeamInfoCardProps {
     name: string;
     imgUrl: string;
   }[];
+  ratio: string;
 }
 
 export default function TeamInfoCard({
@@ -24,6 +25,7 @@ export default function TeamInfoCard({
   description,
   skills,
   currentMembers,
+  ratio,
 }: TeamInfoCardProps) {
   const isFull = currentCount >= maxCount;
   const breakpoint = useBreakPoint();
@@ -46,11 +48,16 @@ export default function TeamInfoCard({
           {description}
         </Text>
         {['sm', 'md', 'lg', 'xl', 'xxl'].includes(breakpoint) && (
-          <div className={styles.teamMemberInfoContainer}>
-            {currentMembers.map((member) => (
-              <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.imgUrl} />
-            ))}
-          </div>
+          <>
+            <div className={styles.teamMemberInfoContainer}>
+              {currentMembers.map((member) => (
+                <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.imgUrl} />
+              ))}
+            </div>
+            <Text as="span" typography="subtitle2" color="text-hint">
+              지원 비율 {ratio}
+            </Text>
+          </>
         )}
       </div>
       {['xs'].includes(breakpoint) && (
