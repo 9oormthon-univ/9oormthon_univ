@@ -22,8 +22,13 @@ export default function ProviderPage() {
   // 지원 현황 조회
   useEffect(() => {
     const fetchApplyStatus = async () => {
-      const response = await getIdeaApplyStatus(4, buttonIndex + 1);
-      setApplyStatus(response.data);
+      try {
+        const response = await getIdeaApplyStatus(4, buttonIndex + 1);
+        setApplyStatus(response.data);
+      } catch (error) {
+        console.error('지원 현황 불러오기 실패:', error);
+        setApplyStatus({ counts: 0, applies: [] });
+      }
     };
     fetchApplyStatus();
   }, [buttonIndex]);
@@ -57,7 +62,15 @@ export default function ProviderPage() {
 
         <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
 
-        <ApplyStatusTable applicants={applyStatus} />
+        {applyStatus?.applies?.length > 0 ? (
+          <ApplyStatusTable applicants={applyStatus} />
+        ) : (
+          <div className={styles.noApplyStatus}>
+            <Text as="p" typography="body2" color="text-hint">
+              지원자가 없습니다.
+            </Text>
+          </div>
+        )}
       </div>
     </div>
   );

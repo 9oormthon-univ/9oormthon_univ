@@ -17,10 +17,10 @@ interface RoleInfo {
 }
 
 interface TeamRole {
-  pm: RoleInfo;
-  pd: RoleInfo;
-  be: RoleInfo;
-  fe: RoleInfo;
+  pm?: RoleInfo;
+  pd?: RoleInfo;
+  be?: RoleInfo;
+  fe?: RoleInfo;
 }
 
 interface TeamInformationProps {
