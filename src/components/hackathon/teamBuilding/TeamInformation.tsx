@@ -33,8 +33,8 @@ interface TeamInformationProps {
 const roleMap = {
   pm: '기획',
   pd: '디자인',
-  be: '백엔드',
   fe: '프론트엔드',
+  be: '백엔드',
 };
 
 export default function TeamInformation({ viewer, number, name, role }: TeamInformationProps) {
@@ -68,6 +68,10 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
       handleSave();
     }
   };
+
+  // 역할 정렬
+  const orderedRoles = ['pm', 'pd', 'fe', 'be']; // 기획 → 디자인 → 프론트엔드 → 백엔드
+  const sortedRoles = orderedRoles.map((key) => ({ key, roleInfo: role[key as keyof TeamRole] }));
 
   return (
     <div className={styles.container}>
@@ -103,23 +107,22 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
           </Dropdown>
         )}
       </div>
-      {Object.entries(role).map(([role, roleInfo]) => (
+      {sortedRoles.map(({ key, roleInfo }) => (
         <div className={styles.teamInformContent}>
           <div className={styles.teamInformContentText}>
             <Text typography="body2" color="text-normal">
-              {roleMap[role as keyof typeof roleMap]}
+              {roleMap[key as keyof typeof roleMap]}
             </Text>
-            <Badge color="success" size="sm">
-              {roleInfo.current_count}/{roleInfo.max_count}
+            <Badge color={roleInfo?.current_count === roleInfo?.max_count ? 'success' : 'primary'} size="sm">
+              {roleInfo?.current_count}/{roleInfo?.max_count}
             </Badge>
           </div>
           <div className={styles.teamInformContentItem}>
-            {roleInfo.members && roleInfo.members.length > 0 ? (
-              roleInfo.members.map((member: TeamMember) => (
+            {roleInfo?.members && roleInfo.members.length > 0 ? (
+              roleInfo.members.map((member) => (
                 <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.img_url} />
               ))
             ) : (
-              // 팀원이 없다면 없다고 표시
               <MemberInfoItem name="팀원 없음" />
             )}
           </div>
