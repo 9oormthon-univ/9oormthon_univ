@@ -59,7 +59,7 @@ export default function IdeaApplyListItem({ applySummary, phase }: IdeaApplyList
             as="h6"
             typography="heading6"
             color="text-normal"
-            style={{ cursor: 'pointer' }}
+            className={styles.ideaApplyListItemTitle}
             onClick={() => navigate(`/hackathon/detail/${idea_info.id}`)}>
             {idea_info.title}
           </Text>
