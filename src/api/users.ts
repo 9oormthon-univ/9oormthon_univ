@@ -29,3 +29,15 @@ export const getIdeaApplyStatus = async (generation: number, phase: number) => {
   const response = await instance.get(`/api/v1/users/teams/applies/overviews?generation=${generation}&phase=${phase}`);
   return response.data;
 };
+
+// 지원 결정 (수락)
+export const acceptApply = async (applyId: number) => {
+  const response = await instance.post(`/api/v1/users/applies/${applyId}/accept`);
+  return response.data;
+};
+
+// 지원 결정 (거절)
+export const rejectApply = async (applyId: number) => {
+  const response = await instance.post(`/api/v1/users/applies/${applyId}/reject`);
+  return response.data;
+};

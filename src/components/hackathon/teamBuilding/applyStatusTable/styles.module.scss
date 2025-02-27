@@ -45,3 +45,46 @@ th {
   gap: var(--space-100);
   align-items: flex-start;
 }
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+  align-items: center;
+
+  svg {
+    width: 6.25rem;
+    height: 6.25rem;
+  }
+}
+
+.modalText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+  align-items: center;
+}
+
+.checkIcon {
+  color: var(--success);
+  fill: var(--success);
+}
+
+.warningIcon {
+  color: var(--danger);
+  fill: var(--danger);
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: 100%;
+  border-top: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+
+  button {
+    flex-grow: 0;
+    margin: 0;
+  }
+}

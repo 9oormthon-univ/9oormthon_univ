@@ -10,7 +10,7 @@ import {
 } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
 import { LinkType } from '../../constants/linkType';
-
+import { useNavigate } from 'react-router-dom';
 export interface Link {
   type: LinkType;
   url: string;
@@ -42,6 +42,7 @@ const getLinkIcon = (type: LinkType) => {
 };
 
 export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPageHeaderProps) => {
+  const navigate = useNavigate();
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}>
@@ -69,7 +70,7 @@ export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPag
             </div>
           </div>
           {is_me && (
-            <Button color="secondary" size="sm">
+            <Button color="secondary" size="sm" onClick={() => navigate('/my-page/edit')}>
               내 정보 수정
             </Button>
           )}

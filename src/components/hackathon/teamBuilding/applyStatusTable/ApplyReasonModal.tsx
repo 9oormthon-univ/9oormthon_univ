@@ -1,38 +1,33 @@
 import { Modal, ModalBody, ModalHeader, Text } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 
-interface ApplyReasonModalProps {
+interface ApplyReason {
   id: number;
-  preference: string;
-  reason: string;
+  motivation: string;
   name: string;
-  part: string;
-  university: string;
+  role: string;
+  univ: string;
+}
+
+interface ApplyInfoProps {
+  applyInfo: ApplyReason;
   toggle: () => void;
   isOpen: boolean;
 }
 
-export default function ApplyReasonModal({
-  preference,
-  reason,
-  name,
-  part,
-  university,
-  toggle,
-  isOpen,
-}: ApplyReasonModalProps) {
+export default function ApplyReasonModal({ applyInfo, toggle, isOpen }: ApplyInfoProps) {
   return (
     <Modal type="center" isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle} />
       <ModalBody className={styles.modalBody}>
         <Text as="h5" typography="heading5">
-          {preference}
+          지원 사유
         </Text>
         <Text as="p" typography="body2">
-          {reason}
+          {applyInfo.motivation}
         </Text>
         <Text as="span" typography="body3" color="text-alternative">
-          {name} / {part} / {university}
+          {applyInfo.name} / {applyInfo.role} / {applyInfo.univ}
         </Text>
       </ModalBody>
     </Modal>
