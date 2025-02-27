@@ -4,11 +4,40 @@ import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Tex
 import MemberInfoItem from '../common/team/MemberInfoItem';
 import { useRef, useState } from 'react';
 
-interface TeamInformationProps {
-  viewer?: boolean; // 보기 전용인지
+interface TeamMember {
+  id: number;
+  name: string;
+  img_url: string;
 }
 
-export default function TeamInformation({ viewer }: TeamInformationProps) {
+interface RoleInfo {
+  max_count: number;
+  current_count: number;
+  members?: TeamMember[]; // 팀 멤버가 없을 수도 있음.
+}
+
+interface TeamRole {
+  pm: RoleInfo;
+  pd: RoleInfo;
+  be: RoleInfo;
+  fe: RoleInfo;
+}
+
+interface TeamInformationProps {
+  viewer?: boolean; // 보기 전용인지
+  number?: number; // 팀 번호
+  name?: string; // 팀 이름
+  role: TeamRole; // 팀 역할
+}
+
+const roleMap = {
+  pm: '기획',
+  pd: '디자인',
+  be: '백엔드',
+  fe: '프론트엔드',
+};
+
+export default function TeamInformation({ viewer, number, name, role }: TeamInformationProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -45,7 +74,7 @@ export default function TeamInformation({ viewer }: TeamInformationProps) {
       <div className={styles.teamInformHeader}>
         <div className={styles.teamInformHeaderText}>
           <Text typography="subtitle1" color="text-hint">
-            1팀
+            {number}팀
           </Text>
           {isEditing ? (
             <Input
@@ -59,7 +88,7 @@ export default function TeamInformation({ viewer }: TeamInformationProps) {
             />
           ) : (
             <Text as="h4" typography="heading4" color="text-normal">
-              {teamName}
+              {name}
             </Text>
           )}
         </div>
@@ -74,48 +103,28 @@ export default function TeamInformation({ viewer }: TeamInformationProps) {
           </Dropdown>
         )}
       </div>
-      <div className={styles.teamInformContent}>
-        <div className={styles.teamInformContentText}>
-          <Text typography="body2" color="text-normal">
-            기획
-          </Text>
-          <Badge color="success" size="sm">
-            2/2
-          </Badge>
+      {Object.entries(role).map(([role, roleInfo]) => (
+        <div className={styles.teamInformContent}>
+          <div className={styles.teamInformContentText}>
+            <Text typography="body2" color="text-normal">
+              {roleMap[role as keyof typeof roleMap]}
+            </Text>
+            <Badge color="success" size="sm">
+              {roleInfo.current_count}/{roleInfo.max_count}
+            </Badge>
+          </div>
+          <div className={styles.teamInformContentItem}>
+            {roleInfo.members && roleInfo.members.length > 0 ? (
+              roleInfo.members.map((member: TeamMember) => (
+                <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.img_url} />
+              ))
+            ) : (
+              // 팀원이 없다면 없다고 표시
+              <MemberInfoItem name="팀원 없음" />
+            )}
+          </div>
         </div>
-        <div className={styles.teamInformContentItem}>
-          <MemberInfoItem id={2} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-          <MemberInfoItem id={3} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-        </div>
-      </div>
-      <div className={styles.teamInformContent}>
-        <div className={styles.teamInformContentText}>
-          <Text typography="body2" color="text-normal">
-            디자인
-          </Text>
-          <Badge color="success" size="sm">
-            2/2
-          </Badge>
-        </div>
-        <div className={styles.teamInformContentItem}>
-          <MemberInfoItem id={4} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-          <MemberInfoItem id={5} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-        </div>
-      </div>
-      <div className={styles.teamInformContent}>
-        <div className={styles.teamInformContentText}>
-          <Text typography="body2" color="text-normal">
-            프론트엔드
-          </Text>
-          <Badge color="success" size="sm">
-            2/2
-          </Badge>
-        </div>
-        <div className={styles.teamInformContentItem}>
-          <MemberInfoItem id={6} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-          <MemberInfoItem id={7} name="김팀장" imgUrl="https://avatars.githubusercontent.com/u/100000000?v=4" />
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

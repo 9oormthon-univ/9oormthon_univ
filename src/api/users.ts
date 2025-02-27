@@ -41,3 +41,9 @@ export const rejectApply = async (applyId: number) => {
   const response = await instance.post(`/api/v1/users/applies/${applyId}/reject`);
   return response.data;
 };
+
+// 지원 삭제(지원 취소)
+export const deleteApply = async (applyId: number) => {
+  const response = await instance.delete(`/api/v1/users/applies/${applyId}`);
+  return response.data;
+};
