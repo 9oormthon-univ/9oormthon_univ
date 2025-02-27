@@ -10,6 +10,7 @@ import { useS3Upload } from '../../hooks/useS3Upload';
 import { getMyInfo, updateUserInfo } from '../../api/users';
 import { useNavigate } from 'react-router-dom';
 import { LinkType } from '../../constants/linkType';
+import useAuthStore from '../../store/useAuthStore';
 
 export default function MyPageEdit() {
   const [userInfo, setUserInfo] = useState({
@@ -28,6 +29,7 @@ export default function MyPageEdit() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const { uploadToS3 } = useS3Upload();
   const navigate = useNavigate();
+  const { updateProfileImage } = useAuthStore();
 
   // 기존 유저 정보 불러오기
   useEffect(() => {
@@ -117,7 +119,7 @@ export default function MyPageEdit() {
       };
 
       await updateUserInfo(updatedData);
-      console.log('프로필 수정 성공');
+      updateProfileImage(uploadedImageUrl);
       navigate('/my-page');
     } catch (error) {
       console.error('프로필 업데이트 실패:', error);

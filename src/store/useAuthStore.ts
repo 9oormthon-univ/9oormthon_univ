@@ -18,6 +18,7 @@ interface AuthStore {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   resetToGuest: () => void;
+  updateProfileImage: (imgUrl: string | null) => void;
 }
 
 if (!localStorage.getItem('role')) {
@@ -60,6 +61,16 @@ const useAuthStore = create<AuthStore>((set) => ({
       console.error('Login failed', error);
       throw error;
     }
+  },
+
+  updateProfileImage: (imgUrl: string | null) => {
+    if (imgUrl) {
+      localStorage.setItem('img_url', imgUrl);
+    } else {
+      localStorage.removeItem('img_url');
+    }
+
+    set({ img_url: imgUrl || null });
   },
 
   // 로그아웃
