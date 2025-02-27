@@ -58,3 +58,10 @@
     object-fit: contain;
   }
 }
+
+.noMember {
+  cursor: default !important;
+  &:hover {
+    background: var(--gray-600-transparent-8) !important;
+  }
+}
