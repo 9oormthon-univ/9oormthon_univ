@@ -2,51 +2,29 @@ import { Text } from '@goorm-dev/vapor-components';
 import ApplicantRow from './ApplicantRow';
 import styles from './styles.module.scss';
 
-interface Applicant {
+// 지원자 개별 정보
+interface User {
   id: number;
-  preference: string;
   name: string;
-  part: string;
-  university: string;
-  reason: string;
+  univ: string;
 }
 
-const applicants: Applicant[] = [
-  {
-    id: 1,
-    preference: '1지망',
-    name: '김구름',
-    part: '디자인',
-    university: '구름대학교',
-    reason: '사유는 이러이러해요.',
-  },
-  {
-    id: 2,
-    preference: '1지망',
-    name: '김구름',
-    part: '디자인',
-    university: '구름대학교',
-    reason: '사유는 이러이러해요.',
-  },
-  {
-    id: 3,
-    preference: '2지망',
-    name: '김구름',
-    part: '프론트엔드',
-    university: '구름대학교',
-    reason: '프론트엔드가 되고 싶어요!',
-  },
-  {
-    id: 4,
-    preference: '2지망',
-    name: '김구름',
-    part: '백엔드',
-    university: '구름대학교',
-    reason: '서버 개발에 관심이 많아요!',
-  },
-];
+// 지원 신청 정보
+interface Applicant {
+  id: number;
+  preference: number; // 지망 순위
+  motivation: string; // 지원 동기
+  role: 'PM' | 'PD' | 'BE' | 'FE'; // 역할
+  status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED'; // 현재 상태
+  user: User; // 지원자의 유저 정보 포함
+}
 
-export default function ApplyStatusTable() {
+// 전체 지원자 데이터
+interface ApplicantData {
+  applies: Applicant[]; // 지원자 목록
+}
+
+export default function ApplyStatusTable({ applicants }: { applicants: ApplicantData }) {
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -81,7 +59,7 @@ export default function ApplyStatusTable() {
           </tr>
         </thead>
         <tbody>
-          {applicants.map((applicant) => (
+          {applicants?.applies?.map((applicant) => (
             <ApplicantRow key={applicant.id} applicant={applicant} />
           ))}
         </tbody>

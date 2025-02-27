@@ -19,3 +19,10 @@
   align-items: flex-start;
   gap: var(--space-200);
 }
+
+.applyStatusHeader {
+  display: flex;
+  gap: var(--space-100);
+  align-items: center;
+  width: 100%;
+}
