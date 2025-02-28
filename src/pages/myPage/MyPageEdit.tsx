@@ -49,7 +49,7 @@ export default function MyPageEdit() {
           links: data.links
             ? data.links.map((link: { type: LinkType; url: string }, index: number) => ({
                 id: index + 1,
-                linkType: link.type as LinkType,
+                linkType: link.type,
                 url: link.url,
               }))
             : [],
@@ -106,8 +106,9 @@ export default function MyPageEdit() {
         uploadedImageUrl = await uploadToS3(imgFile);
       }
 
+      // 아이디 값 제외
       const filteredLinks = userInfo.links.map(({ linkType, url }) => ({
-        linkType,
+        type: linkType,
         url,
       }));
 
