@@ -77,12 +77,21 @@ export default function FormEditor({
   };
 
   // 드래그 & 드랍, 클립보드 붙여넣기 처리
-  const handlePasteOrDrop = async (data: DataTransfer) => {
-    const files = data.files;
-    if (!files || !files.length) return;
+  const handlePasteOrDrop = async (data: DataTransfer | ClipboardEvent) => {
+    const files = data instanceof ClipboardEvent ? data.clipboardData?.files : data.files;
 
-    const image = files.item(0) as File;
-    await handleFileUpload(image);
+    if (files && files.length > 0) {
+      const image = files.item(0) as File;
+      await handleFileUpload(image);
+      return;
+    }
+
+    const textData = data instanceof ClipboardEvent ? data.clipboardData?.getData('text') : '';
+
+    if (textData) {
+      setMarkdownContent((prev) => prev + textData);
+      onChange(markdownContent + textData);
+    }
   };
 
   // 첨부파일 박스를 통해 업로드 처리

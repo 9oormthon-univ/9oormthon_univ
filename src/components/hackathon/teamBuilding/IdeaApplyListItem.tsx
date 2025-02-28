@@ -96,7 +96,6 @@ export default function IdeaApplyListItem({ applySummary, phase, onDeleteSuccess
             지원 취소
           </Button>
         ) : apply_info.status === 'CONFIRMED' ? (
-          // 이부분 id값 변경 필요
           <Button size="sm" color="secondary" onClick={() => navigate('/team/detail')}>
             팀 정보 보기
           </Button>

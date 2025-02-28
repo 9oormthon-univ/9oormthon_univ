@@ -2,7 +2,7 @@ import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
 import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Text } from '@goorm-dev/vapor-components';
 import MemberInfoItem from '../common/team/MemberInfoItem';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GENERATION } from '../../../constants/common';
 import { updateTeamInfo } from '../../../api/teams';
 
@@ -50,6 +50,11 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // name prop이 바뀔 때 teamName 상태 업데이트
+  useEffect(() => {
+    setTeamName(name ?? '팀 이름');
+  }, [name]);
+
   // 수정 모드 전환 및 input에 포커스
   const enableEditing = () => {
     setIsEditing(true);
@@ -60,13 +65,17 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
   const handleSave = async () => {
     if (!teamName.trim()) {
       setTeamName('팀 이름'); // 빈 값이면 기본값 유지
+      setIsEditing(false);
+      return;
     }
+
     try {
+      setTeamName(teamName.trim());
       await updateTeamInfo(GENERATION, teamName);
       setIsEditing(false);
-      setTeamName(teamName);
     } catch (error) {
       console.error('팀 이름 수정 실패:', error);
+      setTeamName(teamName);
     }
   };
 

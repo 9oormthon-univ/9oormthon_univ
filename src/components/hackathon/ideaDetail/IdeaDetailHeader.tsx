@@ -4,6 +4,7 @@ import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon, OutOutlineIco
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useBreakPoint from '../../../hooks/useBreakPoint';
+import usePeriodStore from '../../../store/usePeriodStore';
 interface IdeaDetailHeaderProps {
   id: number;
   provider_id: number;
@@ -35,6 +36,7 @@ export default function IdeaDetailHeader({
   const toggle = () => setOpen((prev) => !prev);
   const navigate = useNavigate();
   const breakpoint = useBreakPoint();
+  const { current_period } = usePeriodStore();
 
   return (
     <div className={styles.headerContainer}>
@@ -62,9 +64,10 @@ export default function IdeaDetailHeader({
                 <MoreCommonOutlineIcon className={styles.dropdownIcon} />
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem>기본 정보 수정</DropdownItem>
-                <DropdownItem>팀원 정보 수정</DropdownItem>
-                <DropdownItem className={styles.deleteItem}>삭제하기</DropdownItem>
+                <DropdownItem onClick={() => navigate(`/hackathon/edit/${id}/step1`)}>수정하기</DropdownItem>
+                <DropdownItem className={styles.deleteItem} disabled={current_period !== 'IDEA_SUBMISSION'}>
+                  삭제하기
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           ) : (
