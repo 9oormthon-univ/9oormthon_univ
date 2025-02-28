@@ -16,14 +16,14 @@ const MyPageEdit = lazy(() => import('./pages/myPage/MyPageEdit'));
 const UpdatePW = lazy(() => import('./pages/updatePW/UpdatePW'));
 const SignUp = lazy(() => import('./pages/signUp/SignUp'));
 const IdeaList = lazy(() => import('./pages/hackathon/IdeaList/IdeaList'));
-const TeamPreferenceStep1 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep1'));
-const TeamPreferenceStep2 = lazy(() => import('./pages/hackathon/IdeaCreate/TeamPreferenceStep2'));
 const IdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
 const MyIdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'));
 const IdeaApply = lazy(() => import('./pages/hackathon/IdeaApply/IdeaApply'));
 const TeamBuildProvider = lazy(() => import('./pages/hackathon/teamBuilding/provider/ProviderPage'));
 const TeamBuildApplicant = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantPage'));
 const ApplicantTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantTeamPage'));
+const TeamPreferenceForm = lazy(() => import('./pages/hackathon/IdeaCreateEdit/TeamPreferenceForm'));
+
 const loaderProps = {
   color: 'black',
   lottieProps: {
@@ -187,7 +187,7 @@ const router = createBrowserRouter([
             path: 'create/step1',
             element: (
               <Suspense fallback={<GoormLoader {...loaderProps} />}>
-                <TeamPreferenceStep1 />
+                <TeamPreferenceForm isEditMode={false} step={1} />
               </Suspense>
             ),
           },
@@ -195,7 +195,23 @@ const router = createBrowserRouter([
             path: 'create/step2',
             element: (
               <Suspense fallback={<GoormLoader {...loaderProps} />}>
-                <TeamPreferenceStep2 />
+                <TeamPreferenceForm isEditMode={false} step={2} />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'edit/:idea_id/step1',
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamPreferenceForm isEditMode={true} step={1} />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'edit/:idea_id/step2',
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <TeamPreferenceForm isEditMode={true} step={2} />
               </Suspense>
             ),
           },
