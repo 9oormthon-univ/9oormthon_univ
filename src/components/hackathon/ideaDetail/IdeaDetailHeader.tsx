@@ -64,7 +64,7 @@ export default function IdeaDetailHeader({
                 <MoreCommonOutlineIcon className={styles.dropdownIcon} />
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem>아이디어 수정</DropdownItem>
+                <DropdownItem onClick={() => navigate(`/hackathon/edit/${id}/step1`)}>수정하기</DropdownItem>
                 <DropdownItem className={styles.deleteItem} disabled={current_period !== 'IDEA_SUBMISSION'}>
                   삭제하기
                 </DropdownItem>

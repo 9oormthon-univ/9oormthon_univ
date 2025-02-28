@@ -59,6 +59,7 @@ export default function TeamPreferenceForm({ isEditMode = false, step }: TeamPre
     } catch (error: any) {
       if (error.response) {
         const serverMessage = error.response.data.error?.code;
+        console.log(serverMessage);
         setErrorMessage(ERROR_MESSAGES[serverMessage] || '알 수 없는 오류가 발생하였습니다.');
       } else {
         console.error('Error submitting form:', error);

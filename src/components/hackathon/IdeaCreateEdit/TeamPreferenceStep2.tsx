@@ -39,8 +39,8 @@ export default function TeamPreferenceStep2({
             key={position.key}
             position={position}
             isDisabled={
-              ['pm', 'pd'].includes(formData.idea_info.provider_role) &&
-              position.key === formData.idea_info.provider_role
+              ['pm', 'pd'].includes(formData.idea_info?.provider_role) &&
+              position.key === formData.idea_info?.provider_role
             }
           />
         ))}
