@@ -15,18 +15,17 @@ type RequirementKey = 'pm' | 'pd' | 'fe' | 'be';
 
 export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceFormProps) {
   const navigate = useNavigate();
-  const { ideaId } = useParams();
+  const { idea_id } = useParams();
   // create모드일 때 전역 관리 사용 / edit일 경우 step1 -> step2 이동시 사용
   const { idea_info, requirements, updateIdeaInfo, updateRequirements, resetIdeaForm } = useIdeaFormStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Edit 모드일 경우 API에서 데이터 불러오기
   useEffect(() => {
-    if (isEditMode && ideaId) {
-      console.log('에딧모드');
+    if (isEditMode && idea_id) {
+      console.log('에딧모드 데이터 불러오기');
       const fetchData = async () => {
         try {
-          const response = await fetchIdeaDetailById(ideaId);
+          const response = await fetchIdeaDetailById(idea_id);
 
           // Edit모드도 전역 관리
           Object.entries(response.data.idea_info).forEach(([key, value]) => {
@@ -41,13 +40,14 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
       };
       fetchData();
     }
-  }, [isEditMode, ideaId, updateIdeaInfo, updateRequirements]);
+  }, [isEditMode, idea_id]);
 
   // Form 제출 (Create → POST, Edit → PUT)
   const submitForm = async () => {
     try {
       if (isEditMode) {
-        await updateIdeaAPI({ idea_info, requirements }, Number(ideaId));
+        await updateIdeaAPI({ idea_info, requirements }, Number(idea_id));
+        resetIdeaForm();
       } else {
         await createIdeaAPI({ idea_info, requirements });
         resetIdeaForm();
@@ -67,7 +67,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   // Step 이동 시 URL 업데이트
   const goToNextStep = () => {
     if (isEditMode) {
-      navigate(`/hackathon/edit/${ideaId}/step2`);
+      navigate(`/hackathon/edit/${idea_id}/step2`);
     } else {
       navigate('/hackathon/create/step2');
     }
@@ -76,24 +76,14 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   // Step 이전으로 이동 시 URL 업데이트
   const goToPreviousStep = () => {
     if (isEditMode) {
-      return `/hackathon/edit/${ideaId}/step1`;
+      return `/hackathon/edit/${idea_id}/step1`;
     } else {
       return '/hackathon/create/step1';
     }
   };
 
   return step === 1 ? (
-    <TeamPreferenceStep1
-      formData={{ idea_info, requirements }}
-      updateFormData={(key, value) => {
-        if (key === 'provider_role') {
-          updateIdeaInfo(key as keyof typeof idea_info, value);
-        } else {
-          updateRequirements(key as RequirementKey, value);
-        }
-      }}
-      nextStep={goToNextStep}
-    />
+    <TeamPreferenceStep1 formData={{ idea_info, requirements }} nextStep={goToNextStep} />
   ) : (
     <TeamPreferenceStep2
       formData={requirements}

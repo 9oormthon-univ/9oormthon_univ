@@ -9,16 +9,17 @@ import FormRadio from '../ideaForm/FormRadio';
 import { useEffect, useState } from 'react';
 import BackLinkNavigation from '../common/BackLinkNavigation';
 import { fetchIdeaSubjects } from '../../../api/idea';
+import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 
 interface TeamPreferenceStep1Props {
   formData: any;
-  updateFormData: (key: string, value: any) => void;
   nextStep: () => void;
 }
 
-export default function TeamPreferenceStep1({ formData, updateFormData, nextStep }: TeamPreferenceStep1Props) {
+export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferenceStep1Props) {
   const [topics, setTopics] = useState<{ id: number; name: string }[]>([]);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const { updateIdeaInfo } = useIdeaFormStore();
 
   // 아이디어 주제 조회
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function TeamPreferenceStep1({ formData, updateFormData, nextStep
       }
     }
     setIsAlertVisible(false);
-    updateFormData('provider_role', role);
+    updateIdeaInfo('provider_role', role);
   };
 
   const isFormValid = () => {
@@ -76,28 +77,28 @@ export default function TeamPreferenceStep1({ formData, updateFormData, nextStep
               selectedValue={topics.find((topic) => topic.id === formData.idea_info.idea_subject_id)?.name || ''}
               placeholder="주제를 선택해주세요"
               options={topics}
-              onChange={(e) => updateFormData('idea_subject_id', parseInt(e.target.value))}
+              onChange={(e) => updateIdeaInfo('idea_subject_id', parseInt(e.target.value))}
             />
             <FormInput
               label="아이디어 제목"
               nullable={false}
               placeholder="제목을 입력해주세요"
               value={formData.idea_info.title}
-              onChange={(e) => updateFormData('title', e.target.value)}
+              onChange={(e) => updateIdeaInfo('title', e.target.value)}
             />
             <FormTextarea
               label="한 줄 소개"
               nullable={false}
               placeholder="아이디어를 잘 표현할 수 있는 소개 글을 입력해주세요"
               value={formData.idea_info.summary}
-              onChange={(e) => updateFormData('summary', e.target.value)}
+              onChange={(e) => updateIdeaInfo('summary', e.target.value)}
             />
             <FormEditor
               label="아이디어 설명"
               nullable={false}
               placeholder="아이디어에 대해 자유롭게 설명해주세요"
               value={formData.idea_info.content}
-              onChange={(val) => updateFormData('content', val)}
+              onChange={(val) => updateIdeaInfo('content', val)}
             />
           </div>
           <div className={styles.radioContainer}>

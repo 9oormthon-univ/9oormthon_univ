@@ -6,6 +6,7 @@ export const POSITIONS = {
 } as const;
 
 export enum Position {
+  NULL = '',
   PM = 'PM',
   PD = 'PD',
   FE = 'FE',
