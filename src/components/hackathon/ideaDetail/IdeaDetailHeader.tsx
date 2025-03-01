@@ -65,7 +65,10 @@ export default function IdeaDetailHeader({
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem onClick={() => navigate(`/hackathon/edit/${id}/step1`)}>수정하기</DropdownItem>
-                <DropdownItem className={styles.deleteItem} disabled={current_period !== 'IDEA_SUBMISSION'}>
+                <DropdownItem
+                  color="danger"
+                  className={styles.deleteItem}
+                  disabled={current_period !== 'IDEA_SUBMISSION'}>
                   삭제하기
                 </DropdownItem>
               </DropdownMenu>
