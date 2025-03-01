@@ -22,7 +22,6 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
 
   useEffect(() => {
     if (isEditMode && idea_id) {
-      console.log('에딧모드 데이터 불러오기');
       const fetchData = async () => {
         try {
           const response = await fetchIdeaDetailById(idea_id);
