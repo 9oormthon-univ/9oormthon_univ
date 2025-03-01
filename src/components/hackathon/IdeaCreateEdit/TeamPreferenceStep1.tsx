@@ -38,10 +38,17 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     loadTopics();
   }, []);
 
-  // 파트 선택 시 step2에 있는 capacity 값 변경
+  // 파트 선택시 제한 인원 체크
   const handleRoleChange = (role: 'PM' | 'PD' | 'FE' | 'BE') => {
     if (role === 'PM' || role === 'PD') {
       if (formData.requirements[role.toLowerCase()]?.capacity === 1) {
+        // 기획, 디자인은 1명일 경우 선택 불가
+        setIsAlertVisible(true);
+        return;
+      }
+    } else if (role === 'FE' || role === 'BE') {
+      if (formData.requirements[role.toLowerCase()]?.capacity === 3) {
+        // 프, 백도 3명일 경우 선택 불가
         setIsAlertVisible(true);
         return;
       }
@@ -111,7 +118,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
             />
             {isAlertVisible && (
               <Alert color="danger" leftIcon={InfoCircleIcon} fade>
-                이미 해당 역할이 1명 설정되어 있어 변경할 수 없습니다.
+                이미 해당 역할이 최대 인원으로 설정되어 있어 변경할 수 없습니다.
               </Alert>
             )}
           </div>

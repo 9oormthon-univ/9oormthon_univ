@@ -22,7 +22,6 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
 
   useEffect(() => {
     if (isEditMode && idea_id) {
-      console.log('에딧모드 데이터 불러오기');
       const fetchData = async () => {
         try {
           const response = await fetchIdeaDetailById(idea_id);
@@ -116,7 +115,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
     <TeamPreferenceStep1 formData={{ idea_info, requirements }} nextStep={goToNextStep} />
   ) : (
     <TeamPreferenceStep2
-      formData={requirements}
+      formData={{ idea_info, requirements }}
       submitForm={submitForm}
       errorMessage={errorMessage}
       setErrorMessage={setErrorMessage}
