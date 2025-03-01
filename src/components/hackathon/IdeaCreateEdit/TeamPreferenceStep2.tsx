@@ -8,7 +8,6 @@ interface TeamPreferenceStep2Props {
   formData: any;
   submitForm: () => void;
   errorMessage: string | null;
-
   setErrorMessage: (message: string | null) => void;
   goToPreviousStep: () => string;
 }

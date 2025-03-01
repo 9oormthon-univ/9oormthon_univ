@@ -35,7 +35,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
         summary: '',
         content: '',
         generation: 4,
-        provider_role: Position.PM,
+        provider_role: Position.NULL,
       },
       requirements: {
         pm: {
@@ -62,7 +62,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
       updateIdeaInfo: (key, value) =>
         set((state) => {
           if (key === 'provider_role') {
-            const previousRole = state.idea_info.provider_role; // PM
+            const previousRole = state.idea_info.provider_role;
             const newRole = value as Position;
             const updatedRequirements = { ...state.requirements };
 
@@ -104,7 +104,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
             summary: '',
             content: '',
             generation: 4,
-            provider_role: Position.PM,
+            provider_role: Position.NULL,
           },
           requirements: {
             pm: {
