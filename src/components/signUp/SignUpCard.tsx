@@ -6,10 +6,6 @@ import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
 
-const ERROR_MESSAGES: Record<number, string> = {
-  40100: '잘못된 아이디 또는 비밀번호입니다.',
-};
-
 export default function SignUpCard() {
   const navigate = useNavigate();
 
@@ -26,20 +22,10 @@ export default function SignUpCard() {
     setPassword(e.target.value);
   };
 
-  // 이메일 유효성 검사
-  const isValidEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   // 로그인
   const handleLogin = useCallback(async () => {
     if (!email) {
       setErrorMessage('이메일을 입력해주세요');
-      return;
-    }
-    if (!isValidEmail(email)) {
-      setErrorMessage('올바르지 않은 이메일 형식입니다');
       return;
     }
     if (!password) {
@@ -51,12 +37,12 @@ export default function SignUpCard() {
       await login(email, password);
       navigate('/');
     } catch (error: any) {
-      const errorCode = error.response.data.error?.code;
-      console.log(errorCode);
-      setErrorMessage(ERROR_MESSAGES[errorCode] || '알 수 없는 오류가 발생했습니다.');
+      setErrorMessage(error.response.data.error?.message || '알 수 없는 오류가 발생했습니다.');
+      console.log(error.response.data.error?.message);
     }
   }, [email, password, login, navigate]);
 
+  // 엔터 키 눌렀을 때 로그인
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleLogin();
