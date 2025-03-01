@@ -77,20 +77,35 @@ export default function FormEditor({
   };
 
   // 드래그 & 드랍, 클립보드 붙여넣기 처리
-  const handlePasteOrDrop = async (data: DataTransfer | ClipboardEvent) => {
-    const files = data instanceof ClipboardEvent ? data.clipboardData?.files : data.files;
+  const handlePasteOrDrop = async (data: DataTransfer | React.ClipboardEvent) => {
+    if ('clipboardData' in data) {
+      const items = Array.from(data.clipboardData?.items || []);
+      const imageItem = items.find((item) => item.type.startsWith('image/'));
 
-    if (files && files.length > 0) {
-      const image = files.item(0) as File;
-      await handleFileUpload(image);
-      return;
-    }
+      if (imageItem) {
+        const file = imageItem.getAsFile();
+        if (file) {
+          await handleFileUpload(file);
+          return;
+        }
+      }
 
-    const textData = data instanceof ClipboardEvent ? data.clipboardData?.getData('text') : '';
-
-    if (textData) {
-      setMarkdownContent((prev) => prev + textData);
-      onChange(markdownContent + textData);
+      // 이미지가 아닌 경우 텍스트 데이터 처리
+      const textData = data.clipboardData?.getData('text');
+      if (textData) {
+        const newContent = markdownContent + textData;
+        setMarkdownContent(newContent);
+        onChange(newContent);
+      }
+    } else {
+      // 드래그 & 드롭 처리
+      if (data.files && data.files.length > 0) {
+        const file = data.files.item(0);
+        if (file) {
+          await handleFileUpload(file);
+          return;
+        }
+      }
     }
   };
 
@@ -123,7 +138,7 @@ export default function FormEditor({
           }}
           onPaste={async (e) => {
             e.preventDefault();
-            await handlePasteOrDrop(e.clipboardData);
+            await handlePasteOrDrop(e);
           }}
           onDrop={async (e) => {
             e.preventDefault();
