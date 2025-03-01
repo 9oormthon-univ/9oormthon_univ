@@ -46,7 +46,7 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
     setIsOpen(!isOpen);
   };
 
-  const [teamName, setTeamName] = useState('팀 이름');
+  const [teamName, setTeamName] = useState(name ?? '팀 이름');
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -112,7 +112,7 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
             />
           ) : (
             <Text as="h4" typography="heading4" color="text-normal">
-              {name}
+              {teamName}
             </Text>
           )}
         </div>
