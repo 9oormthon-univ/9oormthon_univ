@@ -39,9 +39,9 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   }, []);
 
   // 파트 선택 시 step2에 있는 capacity 값 변경
-  const handleRoleChange = (role: 'pm' | 'pd' | 'fe' | 'be') => {
-    if (role === 'pm' || role === 'pd') {
-      if (formData.requirements[role]?.capacity === 1) {
+  const handleRoleChange = (role: 'PM' | 'PD' | 'FE' | 'BE') => {
+    if (role === 'PM' || role === 'PD') {
+      if (formData.requirements[role.toLowerCase()]?.capacity === 1) {
         setIsAlertVisible(true);
         return;
       }
@@ -58,7 +58,6 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
       content: formData.idea_info.content.trim() !== '',
       provider_role: formData.idea_info.provider_role !== '',
     };
-    console.log(formStatus);
     return Object.values(formStatus).every((value) => value === true);
   };
 
@@ -107,7 +106,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
               nullable={false}
               value={formData.idea_info.provider_role}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleRoleChange(e.target.id as 'pm' | 'pd' | 'fe' | 'be')
+                handleRoleChange(e.target.id as 'PM' | 'PD' | 'FE' | 'BE')
               }
             />
             {isAlertVisible && (

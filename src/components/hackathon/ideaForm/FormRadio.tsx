@@ -14,10 +14,10 @@ export default function FormRadio({ label, nullable, value, onChange }: FormRadi
     <FormGroup>
       <FormLabel label={label} nullable={nullable} />
       <div className={styles.radioContainer}>
-        <Radio label="기획" id="pm" name="role" checked={value === 'pm'} onChange={onChange} />
-        <Radio label="디자인" id="pd" name="role" checked={value === 'pd'} onChange={onChange} />
-        <Radio label="프론트엔드" id="fe" name="role" checked={value === 'fe'} onChange={onChange} />
-        <Radio label="백엔드" id="be" name="role" checked={value === 'be'} onChange={onChange} />
+        <Radio label="기획" id="PM" name="role" checked={value === 'PM'} onChange={onChange} />
+        <Radio label="디자인" id="PD" name="role" checked={value === 'PD'} onChange={onChange} />
+        <Radio label="프론트엔드" id="FE" name="role" checked={value === 'FE'} onChange={onChange} />
+        <Radio label="백엔드" id="BE" name="role" checked={value === 'BE'} onChange={onChange} />
       </div>
     </FormGroup>
   );

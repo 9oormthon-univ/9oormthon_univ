@@ -27,11 +27,41 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
         try {
           const response = await fetchIdeaDetailById(idea_id);
 
+          const mappedIdeaInfo = {
+            ...response.data.idea_info,
+            provider_role: response.data.provider_info.role,
+            idea_subject_id: response.data.idea_info.id,
+          };
+
+          // 현재 코드 매핑 필요
+          const mappedRequirements = {
+            pm: {
+              requirement: response.data.requirements.pm.requirement || '',
+              capacity: response.data.requirements.pm.max_count || 0,
+              required_tech_stacks: response.data.requirements.pm.required_tech_stacks || [],
+            },
+            pd: {
+              requirement: response.data.requirements.pd.requirement || '',
+              capacity: response.data.requirements.pd.max_count || 0,
+              required_tech_stacks: response.data.requirements.pd.required_tech_stacks || [],
+            },
+            fe: {
+              requirement: response.data.requirements.fe.requirement || '',
+              capacity: response.data.requirements.fe.max_count || 0,
+              required_tech_stacks: response.data.requirements.fe.required_tech_stacks || [],
+            },
+            be: {
+              requirement: response.data.requirements.be.requirement || '',
+              capacity: response.data.requirements.be.max_count || 0,
+              required_tech_stacks: response.data.requirements.be.required_tech_stacks || [],
+            },
+          };
+
           // Edit모드도 전역 관리
-          Object.entries(response.data.idea_info).forEach(([key, value]) => {
+          Object.entries(mappedIdeaInfo).forEach(([key, value]) => {
             updateIdeaInfo(key as keyof typeof idea_info, value);
           });
-          Object.entries(response.data.requirements).forEach(([key, value]) => {
+          Object.entries(mappedRequirements).forEach(([key, value]) => {
             updateRequirements(key as RequirementKey, value);
           });
         } catch (error) {
