@@ -7,36 +7,33 @@ import TeamPreferenceStep2 from '../../../components/hackathon/IdeaCreateEdit/Te
 import { ERROR_MESSAGES } from '../../../constants/errorMessage';
 
 interface TeamPreferenceFormProps {
-  isEditMode?: boolean;
+  isEditMode: boolean;
   step: number;
 }
 
-export default function TeamPreferenceForm({ isEditMode = false, step }: TeamPreferenceFormProps) {
+type RequirementKey = 'pm' | 'pd' | 'fe' | 'be';
+
+export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceFormProps) {
   const navigate = useNavigate();
   const { ideaId } = useParams();
-  const { idea_info, requirements, resetIdeaForm } = useIdeaFormStore();
-  const [formData, setFormData] = useState<any>(
-    isEditMode
-      ? { idea_info: {}, requirements: {} } // NULL 참조 오류 방지
-      : { idea_info, requirements },
-  );
+  // create모드일 때 전역 관리 사용 / edit일 경우 step1 -> step2 이동시 사용
+  const { idea_info, requirements, updateIdeaInfo, updateRequirements, resetIdeaForm } = useIdeaFormStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Edit 모드일 경우 API에서 데이터 불러오기
   useEffect(() => {
     if (isEditMode && ideaId) {
+      console.log('에딧모드');
       const fetchData = async () => {
         try {
           const response = await fetchIdeaDetailById(ideaId);
 
-          const formattedProviderRole = response.data.provider_info.role.toLowerCase();
-
-          setFormData({
-            idea_info: {
-              ...response.data.idea_info,
-              provider_role: formattedProviderRole,
-            },
-            requirements: response.data.requirements,
+          // Edit모드도 전역 관리
+          Object.entries(response.data.idea_info).forEach(([key, value]) => {
+            updateIdeaInfo(key as keyof typeof idea_info, value);
+          });
+          Object.entries(response.data.requirements).forEach(([key, value]) => {
+            updateRequirements(key as RequirementKey, value);
           });
         } catch (error) {
           console.error('Error fetching idea details:', error);
@@ -44,15 +41,15 @@ export default function TeamPreferenceForm({ isEditMode = false, step }: TeamPre
       };
       fetchData();
     }
-  }, [isEditMode, ideaId]);
+  }, [isEditMode, ideaId, updateIdeaInfo, updateRequirements]);
 
   // Form 제출 (Create → POST, Edit → PUT)
   const submitForm = async () => {
     try {
       if (isEditMode) {
-        await updateIdeaAPI(formData, Number(ideaId));
+        await updateIdeaAPI({ idea_info, requirements }, Number(ideaId));
       } else {
-        await createIdeaAPI(formData);
+        await createIdeaAPI({ idea_info, requirements });
         resetIdeaForm();
       }
       navigate('/hackathon');
@@ -85,26 +82,25 @@ export default function TeamPreferenceForm({ isEditMode = false, step }: TeamPre
     }
   };
 
-  return formData ? (
-    step === 1 ? (
-      <TeamPreferenceStep1
-        formData={formData.idea_info}
-        updateFormData={(key, value) =>
-          setFormData((prev: any) => ({
-            ...prev,
-            idea_info: { ...(prev?.idea_info || {}), [key]: value }, // prev가 없으면 빈 객체를 할당
-          }))
+  return step === 1 ? (
+    <TeamPreferenceStep1
+      formData={{ idea_info, requirements }}
+      updateFormData={(key, value) => {
+        if (key === 'provider_role') {
+          updateIdeaInfo(key as keyof typeof idea_info, value);
+        } else {
+          updateRequirements(key as RequirementKey, value);
         }
-        nextStep={goToNextStep}
-      />
-    ) : (
-      <TeamPreferenceStep2
-        formData={formData.requirements}
-        submitForm={submitForm}
-        errorMessage={errorMessage}
-        setErrorMessage={setErrorMessage}
-        goToPreviousStep={goToPreviousStep}
-      />
-    )
-  ) : null;
+      }}
+      nextStep={goToNextStep}
+    />
+  ) : (
+    <TeamPreferenceStep2
+      formData={requirements}
+      submitForm={submitForm}
+      errorMessage={errorMessage}
+      setErrorMessage={setErrorMessage}
+      goToPreviousStep={goToPreviousStep}
+    />
+  );
 }

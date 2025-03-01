@@ -1,13 +1,12 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { Position, RequirementKey } from '../constants/position';
 
 interface PositionRequirement {
   requirement: string;
   capacity: number;
   required_tech_stacks?: string[];
 }
-
-type Position = 'pm' | 'pd' | 'fe' | 'be';
 
 interface IdeaFormStore {
   idea_info: {
@@ -19,7 +18,7 @@ interface IdeaFormStore {
     provider_role: Position;
   };
   requirements: {
-    [key in Position]: PositionRequirement;
+    [key in RequirementKey]: PositionRequirement;
   };
 
   updateIdeaInfo: (key: keyof IdeaFormStore['idea_info'], value: any) => void;
@@ -36,7 +35,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
         summary: '',
         content: '',
         generation: 4,
-        provider_role: 'pm',
+        provider_role: Position.PM,
       },
       requirements: {
         pm: {
@@ -63,19 +62,22 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
       updateIdeaInfo: (key, value) =>
         set((state) => {
           if (key === 'provider_role') {
-            const previousRole = state.idea_info.provider_role;
+            const previousRole = state.idea_info.provider_role; // PM
             const newRole = value as Position;
             const updatedRequirements = { ...state.requirements };
 
-            if (previousRole && updatedRequirements[previousRole]) {
-              updatedRequirements[previousRole]!.capacity = Math.max(
-                updatedRequirements[previousRole]!.capacity - 1,
+            if (previousRole && updatedRequirements[previousRole.toLowerCase() as RequirementKey]) {
+              updatedRequirements[previousRole.toLowerCase() as RequirementKey]!.capacity = Math.max(
+                updatedRequirements[previousRole.toLowerCase() as RequirementKey]!.capacity - 1,
                 0,
               );
             }
 
-            if (newRole && updatedRequirements[newRole]) {
-              updatedRequirements[newRole]!.capacity = Math.max(updatedRequirements[newRole]!.capacity + 1, 1);
+            if (newRole && updatedRequirements[newRole.toLowerCase() as RequirementKey]) {
+              updatedRequirements[newRole.toLowerCase() as RequirementKey]!.capacity = Math.max(
+                updatedRequirements[newRole.toLowerCase() as RequirementKey]!.capacity + 1,
+                1,
+              );
             }
 
             return {
@@ -102,7 +104,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
             summary: '',
             content: '',
             generation: 4,
-            provider_role: 'pm',
+            provider_role: Position.PM,
           },
           requirements: {
             pm: {
