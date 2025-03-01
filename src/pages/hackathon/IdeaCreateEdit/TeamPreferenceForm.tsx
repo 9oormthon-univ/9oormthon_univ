@@ -115,7 +115,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
     <TeamPreferenceStep1 formData={{ idea_info, requirements }} nextStep={goToNextStep} />
   ) : (
     <TeamPreferenceStep2
-      formData={requirements}
+      formData={{ idea_info, requirements }}
       submitForm={submitForm}
       errorMessage={errorMessage}
       setErrorMessage={setErrorMessage}

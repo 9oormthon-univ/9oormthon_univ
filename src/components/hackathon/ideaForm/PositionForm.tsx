@@ -6,6 +6,7 @@ import FormTextarea from './FormTextarea';
 import FormDropdown from './FormDropdown';
 import StackSelector from './StackSelector';
 import { POSITIONS } from '../../../constants/position';
+import { useEffect } from 'react';
 
 interface PositionFormProps {
   position: {
@@ -19,13 +20,24 @@ interface PositionFormProps {
 export default function PositionForm({ position, isDisabled }: PositionFormProps) {
   const { requirements, updateRequirements } = useIdeaFormStore();
 
-  // const isDisabled = position.key === idea_info.provider_role;
   const currentValue = requirements[position.key as keyof typeof POSITIONS] || {
     requirement: '',
     capacity: requirements[position.key as keyof typeof POSITIONS]?.capacity || 0,
     required_tech_stacks: [],
   };
 
+  // capacity 값이 0이 되면 다른 필드 초기화 -> 빈 값이 보내질 수 있도록
+  useEffect(() => {
+    if (currentValue.capacity === 0) {
+      updateRequirements(position.key as keyof typeof POSITIONS, {
+        ...currentValue,
+        requirement: '',
+        required_tech_stacks: [],
+      });
+    }
+  }, [currentValue.capacity]);
+
+  // 포지션 별 최대 인원 수 (드롭다운)
   const getMaxCapacity = (positionKey: string) => {
     if (positionKey === 'pm' || positionKey === 'pd') {
       return 1;
@@ -33,6 +45,7 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
     return 3;
   };
 
+  // 포지션 별 폼 값 변경
   const handleChange = (value: any) => {
     updateRequirements(position.key as keyof typeof POSITIONS, {
       ...currentValue,
