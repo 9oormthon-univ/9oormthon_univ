@@ -4,3 +4,12 @@ export const POSITIONS = {
   fe: '프론트엔드',
   be: '백엔드',
 } as const;
+
+export enum Position {
+  PM = 'PM',
+  PD = 'PD',
+  FE = 'FE',
+  BE = 'BE',
+}
+
+export type RequirementKey = 'pm' | 'pd' | 'fe' | 'be';

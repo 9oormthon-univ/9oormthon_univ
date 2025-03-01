@@ -7,7 +7,6 @@ import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
 interface TeamPreferenceStep2Props {
   formData: any;
   submitForm: () => void;
-  isEditMode?: boolean;
   errorMessage: string | null;
 
   setErrorMessage: (message: string | null) => void;
