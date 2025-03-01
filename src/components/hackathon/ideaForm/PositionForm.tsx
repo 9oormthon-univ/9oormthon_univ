@@ -56,7 +56,7 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
       <FormDropdown
         label="필요 인원"
         nullable={false}
-        selectedValue={currentValue.capacity.toString()}
+        selectedValue={currentValue?.capacity?.toString() || '0'}
         placeholder="인원을 선택해주세요"
         // 직군에 따라 최대 팀원 수 다름
         options={Array.from({ length: getMaxCapacity(position.key) + 1 }, (_, i) => ({ id: i, name: i.toString() }))}
