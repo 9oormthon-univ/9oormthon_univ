@@ -74,6 +74,8 @@ function RecuritHeader() {
   const handleButtonClick = () => {
     if (currentStatus === 'afterTeamRecruiting') {
       navigate('/about'); // 추후 수정 필요
+    } else if (currentStatus === 'teamRecruiting') {
+      navigate('/search-univ');
     } else {
       window.open(
         'https://docs.google.com/forms/d/e/1FAIpQLSeg4pfokyfK0YXfOYI8GGk_ACsSdu_tcztfH_t-ODJ2cY0Sow/viewform?usp=sharing',
