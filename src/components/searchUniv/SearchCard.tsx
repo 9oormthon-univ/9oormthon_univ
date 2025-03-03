@@ -1,7 +1,6 @@
-import { ChevronRightIcon, WarningIcon } from '@goorm-dev/gds-icons';
-import { Alert, Button, ListGroup, ListGroupItem, SearchInput, Text } from '@goorm-dev/vapor-components';
+import { WarningIcon } from '@goorm-dev/vapor-icons';
+import { Alert, ListGroup, ListGroupItem, SearchInput, Text } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
-import { LINKS } from '../../constants/common';
 import { UniversityList } from '../../utilities/UnivData';
 
 import { TypographyValue } from '@goorm-dev/gds-components/dist/types/src/components/Text/Text.type';
@@ -64,10 +63,10 @@ export default function SearchCard() {
         <Divider />
       </div>
       <Text className="mb-3" typography={fontTypo[1]} fontWeight="regular">
-        학교가 없나요? 직접 대표가 되어 함께해요!
+        5기 사전 모집은 추후 업데이트 예정입니다.
       </Text>
       {/* 추후 업데이트 필요 */}
-      <Button
+      {/* <Button
         className="btn-block"
         size="xl"
         iconSide="right"
@@ -76,7 +75,7 @@ export default function SearchCard() {
           window.open(LINKS.PRE_REGISTRATION_LINK_4TH, '_blank');
         }}>
         4기 대표 및 미르미 사전 신청하기
-      </Button>
+      </Button> */}
     </div>
   );
 }
