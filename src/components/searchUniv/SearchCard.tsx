@@ -1,8 +1,7 @@
-import { ChevronRightIcon, WarningIcon } from '@goorm-dev/gds-icons';
-import { Alert, Button, ListGroup, ListGroupItem, SearchInput, Text } from '@goorm-dev/vapor-components';
+import { WarningIcon } from '@goorm-dev/vapor-icons';
+import { Alert, ListGroup, ListGroupItem, SearchInput, Text } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
-import { LINKS } from '../../constants/common';
-import Universities from '../../utilities/UnivData';
+import { UniversityList } from '../../utilities/UnivData';
 
 import { TypographyValue } from '@goorm-dev/gds-components/dist/types/src/components/Text/Text.type';
 import useBreakpoint from '../../hooks/useBreakPoint';
@@ -28,7 +27,7 @@ export default function SearchCard() {
     }
   }, [breakpoint]);
 
-  const UnivArray = Universities.map((item) => ({ name: item.name, link: item.link }));
+  const UnivArray = UniversityList.map((item) => ({ name: item.name, link: item.link }));
   const filteredUniv = UnivArray.filter((item) => item.name.includes(value));
 
   return (
@@ -42,11 +41,17 @@ export default function SearchCard() {
           <div style={{ marginTop: '0.3rem' }}>
             {filteredUniv.length > 0 ? (
               <ListGroup>
-                {filteredUniv.map((item) => (
-                  <ListGroupItem key={item.name} action tag="a" href={item.link} target="_blank">
-                    {item.name}
-                  </ListGroupItem>
-                ))}
+                {filteredUniv.map((item) =>
+                  item.link ? (
+                    <ListGroupItem key={item.name} action tag="a" href={item.link} target="_blank">
+                      {item.name}
+                    </ListGroupItem>
+                  ) : (
+                    <ListGroupItem key={item.name} action tag="a" disabled style={{ color: 'var(--gray-400)' }}>
+                      {item.name}
+                    </ListGroupItem>
+                  ),
+                )}
               </ListGroup>
             ) : (
               <Alert color="danger" leftIcon={WarningIcon}>
@@ -58,10 +63,10 @@ export default function SearchCard() {
         <Divider />
       </div>
       <Text className="mb-3" typography={fontTypo[1]} fontWeight="regular">
-        학교가 없나요? 직접 대표가 되어 함께해요!
+        5기 사전 모집은 추후 업데이트 예정입니다.
       </Text>
       {/* 추후 업데이트 필요 */}
-      <Button
+      {/* <Button
         className="btn-block"
         size="xl"
         iconSide="right"
@@ -70,7 +75,7 @@ export default function SearchCard() {
           window.open(LINKS.PRE_REGISTRATION_LINK_4TH, '_blank');
         }}>
         4기 대표 및 미르미 사전 신청하기
-      </Button>
+      </Button> */}
     </div>
   );
 }
