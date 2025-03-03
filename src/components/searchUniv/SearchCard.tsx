@@ -2,7 +2,7 @@ import { ChevronRightIcon, WarningIcon } from '@goorm-dev/gds-icons';
 import { Alert, Button, ListGroup, ListGroupItem, SearchInput, Text } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
 import { LINKS } from '../../constants/common';
-import Universities from '../../utilities/UnivData';
+import { UniversityList } from '../../utilities/UnivData';
 
 import { TypographyValue } from '@goorm-dev/gds-components/dist/types/src/components/Text/Text.type';
 import useBreakpoint from '../../hooks/useBreakPoint';
@@ -28,7 +28,7 @@ export default function SearchCard() {
     }
   }, [breakpoint]);
 
-  const UnivArray = Universities.map((item) => ({ name: item.name, link: item.link }));
+  const UnivArray = UniversityList.map((item) => ({ name: item.name, link: item.link }));
   const filteredUniv = UnivArray.filter((item) => item.name.includes(value));
 
   return (
@@ -42,11 +42,17 @@ export default function SearchCard() {
           <div style={{ marginTop: '0.3rem' }}>
             {filteredUniv.length > 0 ? (
               <ListGroup>
-                {filteredUniv.map((item) => (
-                  <ListGroupItem key={item.name} action tag="a" href={item.link} target="_blank">
-                    {item.name}
-                  </ListGroupItem>
-                ))}
+                {filteredUniv.map((item) =>
+                  item.link ? (
+                    <ListGroupItem key={item.name} action tag="a" href={item.link} target="_blank">
+                      {item.name}
+                    </ListGroupItem>
+                  ) : (
+                    <ListGroupItem key={item.name} action tag="a" disabled style={{ color: 'var(--gray-400)' }}>
+                      {item.name}
+                    </ListGroupItem>
+                  ),
+                )}
               </ListGroup>
             ) : (
               <Alert color="danger" leftIcon={WarningIcon}>
