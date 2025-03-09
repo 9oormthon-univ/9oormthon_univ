@@ -5,7 +5,7 @@ const Universities = [
   },
   {
     name: '가톨릭대학교(성심교정)',
-    instagram: '',
+    instagram: '9oormthonnuiv._cuk',
   },
   {
     name: '건국대학교(서울)',
@@ -24,11 +24,11 @@ const Universities = [
     instagram: '9roomthonuniv_knu',
   },
   {
-    name: '경희대학교(국제)',
+    name: '경희대학교',
     instagram: '9oormthon_univ_khu',
   },
   {
-    name: ' 고려대학교(안암)',
+    name: '고려대학교(안암)',
     instagram: '9oormthonuniv.ku',
   },
   {
@@ -53,7 +53,7 @@ const Universities = [
   },
   {
     name: '국민대학교',
-    instagram: '',
+    instagram: '9oormthonuniv.kmu',
   },
   {
     name: '단국대학교(죽전)',
@@ -85,11 +85,11 @@ const Universities = [
   },
   {
     name: ' 명지대학교(인문)',
-    instagram: '',
+    instagram: '9oormthonuniv.mju',
   },
   {
     name: '명지대학교(자연)',
-    instagram: '',
+    instagram: '9oormthonuniv.mju.yongin',
   },
   {
     name: '명지전문대학교',
@@ -105,7 +105,7 @@ const Universities = [
   },
   {
     name: ' 삼육대학교',
-    instagram: '',
+    instagram: '9oormthonuniv.syu',
   },
   {
     name: '상명대학교(서울)',
@@ -133,11 +133,11 @@ const Universities = [
   },
   {
     name: '성균관대학교(인문사회과학)',
-    instagram: '',
+    instagram: '9oormthonuniv.skku',
   },
   {
     name: '성균관대학교(자연과학)',
-    instagram: '',
+    instagram: '9oormthonuniv.skku',
   },
   {
     name: '세종대학교',
@@ -196,16 +196,12 @@ const Universities = [
     instagram: '9oormthonuniv.joongbu',
   },
   {
-    name: '충남대학교',
-    instagram: '',
-  },
-  {
     name: '충북대학교',
     instagram: '9oormthonuniv.cbnu',
   },
   {
     name: '한국공학대학교',
-    instagram: '',
+    instagram: '9oormthonuniv.tuk',
   },
   {
     name: '한국예술종합학교',
@@ -236,7 +232,7 @@ const Universities = [
     instagram: '9oormthonuniv.hyu',
   },
   {
-    name: '호서대학교(아산)',
+    name: '호서대학교',
     instagram: '9oormthonuniv.hoseo',
   },
 ];
