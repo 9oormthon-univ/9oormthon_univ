@@ -14,6 +14,13 @@ interface PeriodState {
   phase1_period: string;
   phase2_period: string;
   phase3_period: string;
+  idea_submission_period: string;
+  phase1_team_building_period: string;
+  phase1_confirmation_period: string;
+  phase2_team_building_period: string;
+  phase2_confirmation_period: string;
+  phase3_team_building_period: string;
+  phase3_confirmation_period: string;
   isTeamBuildingPeriod: () => boolean;
   isConfirmationPeriod: () => boolean;
   fetchPeriodData: () => Promise<void>;
@@ -24,6 +31,13 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
   phase1_period: '',
   phase2_period: '',
   phase3_period: '',
+  idea_submission_period: '',
+  phase1_team_building_period: '',
+  phase1_confirmation_period: '',
+  phase2_team_building_period: '',
+  phase2_confirmation_period: '',
+  phase3_team_building_period: '',
+  phase3_confirmation_period: '',
 
   // 팀 빌딩 기간인지 확인
   isTeamBuildingPeriod: () => {
@@ -45,6 +59,13 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
         phase1_period: `${response.data.phase1_period}`,
         phase2_period: `${response.data.phase2_period}`,
         phase3_period: `${response.data.phase3_period}`,
+        idea_submission_period: `${response.data.idea_submission_period}`,
+        phase1_team_building_period: `${response.data.phase1_team_building_period}`,
+        phase1_confirmation_period: `${response.data.phase1_confirmation_period}`,
+        phase2_team_building_period: `${response.data.phase2_team_building_period}`,
+        phase2_confirmation_period: `${response.data.phase2_confirmation_period}`,
+        phase3_team_building_period: `${response.data.phase3_team_building_period}`,
+        phase3_confirmation_period: `${response.data.phase3_confirmation_period}`,
       });
     } catch (error) {
       console.error('Error fetching period:', error);
