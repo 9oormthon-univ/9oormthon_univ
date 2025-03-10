@@ -1,4 +1,4 @@
-import { BasicPagination, Button, Slide, Spinner, toast, ToastContainer } from '@goorm-dev/vapor-components';
+import { Alert, BasicPagination, Button, Slide, Spinner, toast, ToastContainer } from '@goorm-dev/vapor-components';
 import 'react-toastify/dist/ReactToastify.min.css';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
@@ -9,7 +9,7 @@ import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate } from 'react-router-dom';
 import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
-import { EditIcon } from '@goorm-dev/vapor-icons';
+import { EditIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import usePeriodStore from '../../../store/usePeriodStore';
 import { UserStatus, Role } from '../../../constants/role';
 import useAuthStore from '../../../store/useAuthStore';
@@ -35,8 +35,29 @@ export default function IdeaList() {
   });
   const { ideas, page_info } = ideaList;
   const [loading, setLoading] = useState(false);
-  const { current_period, fetchPeriodData } = usePeriodStore(); // 기간 정보
+  const {
+    current_period,
+    idea_submission_period,
+    phase1_team_building_period,
+    phase1_confirmation_period,
+    phase2_team_building_period,
+    phase2_confirmation_period,
+    phase3_team_building_period,
+    phase3_confirmation_period,
+    fetchPeriodData,
+  } = usePeriodStore(); // 기간 정보
   const { status, role, fetchUserStatus } = useAuthStore();
+
+  // 기간 정보 문구
+  const PHASE_INFO = {
+    IDEA_SUBMISSION: `지금은 아이디어 제출 기간입니다. (${idea_submission_period})`,
+    PHASE1_TEAM_BUILDING: `지금은 1차 팀빌딩 지원 기간입니다. (${phase1_team_building_period})`,
+    PHASE1_CONFIRMATION: `지금은 1차 팀빌딩 합불 결정 기간입니다. (${phase1_confirmation_period})`,
+    PHASE2_TEAM_BUILDING: `지금은 2차 팀빌딩 지원 기간입니다. (${phase2_team_building_period})`,
+    PHASE2_CONFIRMATION: `지금은 2차 팀빌딩 합불 결정 기간입니다. (${phase2_confirmation_period})`,
+    PHASE3_TEAM_BUILDING: `지금은 3차 팀빌딩 지원 기간입니다. (${phase3_team_building_period})`,
+    PHASE3_CONFIRMATION: `지금은 3차 팀빌딩 합불 결정 기간입니다. (${phase3_confirmation_period})`,
+  };
 
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
@@ -180,6 +201,10 @@ export default function IdeaList() {
         </div>
       ) : (
         <div className={styles.listContainer}>
+          {/* 현재 기간이 어떤 기간인지 나타냄 */}
+          <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
+            {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
+          </Alert>
           {/* 필터링, 아이디어 등록 버튼 */}
           <div className={styles.listHeader}>
             <div className={styles.dropdownWrap}>
@@ -206,7 +231,7 @@ export default function IdeaList() {
               아이디어 등록
             </Button>
           </div>
-          {/* 팀 빌딩 기간인지에 따라 달라지는 모습 */}
+          {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
           {isTeamBuilding ? (
             ideaList.ideas.length === 0 ? (
               <NoAccess heading1="아이디어가 없어요 :(" />

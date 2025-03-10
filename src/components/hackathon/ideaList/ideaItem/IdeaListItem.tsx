@@ -46,9 +46,6 @@ export default function IdeaListItem({
             className={styles.fixedText}>
             {is_active ? '모집 중' : '모집 완료'}
           </Text>
-          <Text typography="subtitle2" color="text-hint">
-            경쟁률 2:1
-          </Text>
         </div>
 
         <Button
