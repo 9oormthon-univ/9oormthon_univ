@@ -32,7 +32,7 @@ export default function TeamBuildingPhaseSelector({ onPhaseChange, activeIndex }
 
         return (
           <ButtonToggleGroup.ButtonToggleItem key={phase.label} disabled={isUpcoming}>
-            {isUpcoming ? `${phase.label} 공개 예정` : `${phase.label} (${phase.periodText || '기간 미정'})`}
+            {currentPhaseIndex === index ? `${phase.label} (${phase.periodText})` : `${phase.label}`}
           </ButtonToggleGroup.ButtonToggleItem>
         );
       })}
