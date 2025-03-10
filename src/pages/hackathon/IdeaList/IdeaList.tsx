@@ -195,75 +195,75 @@ export default function IdeaList() {
     <div className={styles.mainContainer}>
       {/* 추후 이미지 */}
       <div className={styles.imgBox}></div>
-      {/* {loading ? (
+      {loading ? (
         <div className={styles.loadingContainer}>
           <Spinner />
         </div>
-      ) : ( */}
-      <div className={styles.listContainer}>
-        {/* 현재 기간이 어떤 기간인지 나타냄 */}
-        <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
-          {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
-        </Alert>
-        {/* 필터링, 아이디어 등록 버튼 */}
-        <div className={styles.listHeader}>
-          <div className={styles.dropdownWrap}>
-            <SubjectFilterDropdown
-              options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
-              selectedValue={selectedTopic}
-              onChange={setSelectedTopic}
-              disabled={!isTeamBuilding}
-            />
-            <ActiveFilterDropdown
-              options={statusOptions}
-              selectedValue={selectedStatus}
-              onChange={(value) => setSelectedStatus(value)}
-              disabled={!isTeamBuilding}
-            />
-            <BookmarkedFilterDropdown
-              options={bookmarkOptions}
-              selectedValue={selectedBookmark}
-              onChange={(value) => setSelectedBookmark(value)}
-              disabled={!isTeamBuilding}
-            />
-          </div>
-          <Button icon={EditIcon} active={false} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
-            아이디어 등록
-          </Button>
-        </div>
-        {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
-        {isTeamBuilding ? (
-          ideaList.ideas.length === 0 ? (
-            <NoAccess heading1="아이디어가 없어요 :(" />
-          ) : (
-            <div className={styles.ideaListWrap}>
-              {ideas?.map((idea: any) => (
-                <IdeaListItem
-                  key={idea.id}
-                  topic={idea.subject}
-                  title={idea.title}
-                  description={idea.summary}
-                  is_active={idea.is_active}
-                  is_bookmarked={idea.is_bookmarked}
-                  onClick={() => handleIdeaClick(idea.id)}
-                  onBookmarkToggle={() => handleBookmarkToggle(idea.id)}
-                />
-              ))}
-
-              <BasicPagination
-                page={page_info?.current_page}
-                limitCount={projectsPerPage}
-                pageCount={page_info?.total_pages}
-                onPageChangeHandler={(currentPage: number) => handlePageChange(currentPage)}
-                className={styles.basicPagination}
+      ) : (
+        <div className={styles.listContainer}>
+          {/* 현재 기간이 어떤 기간인지 나타냄 */}
+          <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
+            {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
+          </Alert>
+          {/* 필터링, 아이디어 등록 버튼 */}
+          <div className={styles.listHeader}>
+            <div className={styles.dropdownWrap}>
+              <SubjectFilterDropdown
+                options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
+                selectedValue={selectedTopic}
+                onChange={setSelectedTopic}
+                disabled={!isTeamBuilding}
+              />
+              <ActiveFilterDropdown
+                options={statusOptions}
+                selectedValue={selectedStatus}
+                onChange={(value) => setSelectedStatus(value)}
+                disabled={!isTeamBuilding}
+              />
+              <BookmarkedFilterDropdown
+                options={bookmarkOptions}
+                selectedValue={selectedBookmark}
+                onChange={(value) => setSelectedBookmark(value)}
+                disabled={!isTeamBuilding}
               />
             </div>
-          )
-        ) : (
-          <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />
-        )}
-      </div>
-      {/* )} */}
+            <Button icon={EditIcon} active={false} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
+              아이디어 등록
+            </Button>
+          </div>
+          {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
+          {isTeamBuilding ? (
+            ideaList.ideas.length === 0 ? (
+              <NoAccess heading1="아이디어가 없어요 :(" />
+            ) : (
+              <div className={styles.ideaListWrap}>
+                {ideas?.map((idea: any) => (
+                  <IdeaListItem
+                    key={idea.id}
+                    topic={idea.subject}
+                    title={idea.title}
+                    description={idea.summary}
+                    is_active={idea.is_active}
+                    is_bookmarked={idea.is_bookmarked}
+                    onClick={() => handleIdeaClick(idea.id)}
+                    onBookmarkToggle={() => handleBookmarkToggle(idea.id)}
+                  />
+                ))}
+
+                <BasicPagination
+                  page={page_info?.current_page}
+                  limitCount={projectsPerPage}
+                  pageCount={page_info?.total_pages}
+                  onPageChangeHandler={(currentPage: number) => handlePageChange(currentPage)}
+                  className={styles.basicPagination}
+                />
+              </div>
+            )
+          ) : (
+            <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />
+          )}
+        </div>
+      )}
       <ToastContainer autoClose={3000} transition={Slide} closeButton={false} newestOnTop hideProgressBar />
     </div>
   );
