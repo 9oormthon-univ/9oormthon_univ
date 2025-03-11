@@ -6,6 +6,7 @@ import styles from './styles.module.scss';
 import ApplyDecisionModal from './ApplyDecisionModal';
 import { useNavigate } from 'react-router-dom';
 import usePeriodStore from '../../../../store/usePeriodStore';
+import { PositionWithoutNull } from '../../../../constants/position';
 
 interface User {
   id: number;
@@ -18,12 +19,17 @@ interface Applicant {
   id: number;
   preference: number; // 지망 순위
   motivation: string; // 지원 동기
-  role: 'PM' | 'PD' | 'BE' | 'FE'; // 역할
+  role: PositionWithoutNull; // 역할
   status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED'; // 현재 상태
   user: User; // 지원자의 유저 정보 포함
 }
 
-const roleMap: Record<Applicant['role'], string> = {
+interface ApplicantRowProps {
+  applicant: Applicant;
+  refetchApplyStatus: () => Promise<void>;
+}
+
+const roleMap: Record<PositionWithoutNull, string> = {
   PM: '기획',
   PD: '디자인',
   BE: '백엔드',
@@ -37,7 +43,7 @@ const statusMap = {
   ACCEPTED_NOT_JOINED: { text: '도난 당함', color: 'text-hint' },
 } as const;
 
-export default function ApplicantRow({ applicant }: { applicant: Applicant }) {
+export default function ApplicantRow({ applicant, refetchApplyStatus }: ApplicantRowProps) {
   const [isMotivationOpen, setIsMotivationOpen] = useState(false);
   const [isAcceptOpen, setIsAcceptOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -52,7 +58,7 @@ export default function ApplicantRow({ applicant }: { applicant: Applicant }) {
     <>
       <tr className={styles.row}>
         <td>
-          <Text typography="body3">{applicant.preference}</Text>
+          <Text typography="body3">{applicant.preference}지망</Text>
         </td>
         <td>
           <Button size="sm" color="secondary" onClick={() => setIsMotivationOpen(true)}>
@@ -129,6 +135,7 @@ export default function ApplicantRow({ applicant }: { applicant: Applicant }) {
           toggle={() => setIsAcceptOpen(false)}
           name={applicant.user.name}
           decision="accept"
+          refetchApplyStatus={refetchApplyStatus}
         />
       )}
       {isRejectOpen && (
@@ -138,6 +145,7 @@ export default function ApplicantRow({ applicant }: { applicant: Applicant }) {
           toggle={() => setIsRejectOpen(false)}
           name={applicant.user.name}
           decision="reject"
+          refetchApplyStatus={refetchApplyStatus}
         />
       )}
     </>

@@ -19,17 +19,18 @@ export default function ProviderPage() {
     fetchPeriodData();
   }, []);
 
-  // 지원 현황 조회
+  // fetchApplyStatus를 컴포넌트 레벨로 올리고 재사용 가능하게 만듦
+  const fetchApplyStatus = async () => {
+    try {
+      const response = await getIdeaApplyStatus(4, buttonIndex + 1);
+      setApplyStatus(response.data);
+    } catch (error) {
+      console.error('지원 현황 불러오기 실패:', error);
+      setApplyStatus({ counts: 0, applies: [] });
+    }
+  };
+
   useEffect(() => {
-    const fetchApplyStatus = async () => {
-      try {
-        const response = await getIdeaApplyStatus(4, buttonIndex + 1);
-        setApplyStatus(response.data);
-      } catch (error) {
-        console.error('지원 현황 불러오기 실패:', error);
-        setApplyStatus({ counts: 0, applies: [] });
-      }
-    };
     fetchApplyStatus();
   }, [buttonIndex]);
 
@@ -68,7 +69,7 @@ export default function ProviderPage() {
         <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
 
         {applyStatus?.applies?.length > 0 ? (
-          <ApplyStatusTable applicants={applyStatus} />
+          <ApplyStatusTable applicants={applyStatus} refetchApplyStatus={fetchApplyStatus} />
         ) : (
           <div className={styles.noApplyStatus}>
             <Text as="p" typography="body2" color="text-hint">

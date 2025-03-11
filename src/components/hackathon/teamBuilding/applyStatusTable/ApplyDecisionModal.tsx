@@ -1,8 +1,7 @@
 import { Modal, ModalBody, Text, Button, ModalFooter } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { WarningIcon, CheckCircleIcon } from '@goorm-dev/vapor-icons';
-import { acceptApply } from '../../../../api/users';
-import { rejectApply } from '../../../../api/users';
+import { acceptApply, rejectApply } from '../../../../api/users';
 
 interface ApplyDecisionModalProps {
   id: number;
@@ -10,14 +9,34 @@ interface ApplyDecisionModalProps {
   toggle: () => void;
   name: string;
   decision: 'accept' | 'reject';
+  refetchApplyStatus: () => Promise<void>;
 }
 
-export default function ApplyDecisionModal({ id, isOpen, toggle, name, decision }: ApplyDecisionModalProps) {
+export default function ApplyDecisionModal({
+  id,
+  isOpen,
+  toggle,
+  name,
+  decision,
+  refetchApplyStatus,
+}: ApplyDecisionModalProps) {
   const handleDecision = async (decision: 'accept' | 'reject') => {
     if (decision === 'accept') {
-      await acceptApply(id);
+      try {
+        await acceptApply(id);
+        await refetchApplyStatus();
+        toggle();
+      } catch (error) {
+        console.error('Error accepting apply:', error);
+      }
     } else {
-      await rejectApply(id);
+      try {
+        await rejectApply(id);
+        await refetchApplyStatus();
+        toggle();
+      } catch (error) {
+        console.error('Error rejecting apply:', error);
+      }
     }
   };
 

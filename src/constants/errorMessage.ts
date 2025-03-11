@@ -1,4 +1,4 @@
-export const ERROR_MESSAGES: Record<number, string> = {
+export const IDEA_ADD_ERROR_MESSAGES: Record<number, string> = {
   40902: '이미 아이디어를 등록했으므로 등록이 불가합니다.',
   40903: '이미 팀이 존재하므로 아이디어 등록이 불가합니다.',
   40406: '해당 사용자를 찾을 수 없습니다.',

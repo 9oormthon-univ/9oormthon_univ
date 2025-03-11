@@ -1,11 +1,11 @@
 import StackItem from '../../../common/team/StackItem';
 import styles from './styles.module.scss';
 import { Badge, Text } from '@goorm-dev/vapor-components';
-import { POSITIONS } from '../../../../../constants/position';
+import { RequirementKey, POSITIONS } from '../../../../../constants/position';
 import MemberInfoItem from '../../../common/team/MemberInfoItem';
 import useBreakPoint from '../../../../../hooks/useBreakPoint';
 interface TeamInfoCardProps {
-  role: keyof typeof POSITIONS;
+  role: RequirementKey;
   currentCount: number;
   maxCount: number;
   description: string;
@@ -38,7 +38,7 @@ export default function TeamInfoCard({
       <div className={styles.teamInfoLeftItem}>
         <div className={styles.teamInfoPosition}>
           <Text as="h5" typography="heading5" color="text-normal">
-            {POSITIONS[role]}
+            {POSITIONS[role].name}
           </Text>
           <Badge color={isFull ? 'success' : 'primary'} pill>
             {currentCount}/{maxCount}
