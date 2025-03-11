@@ -1,6 +1,8 @@
 import { Text } from '@goorm-dev/vapor-components';
 import ApplicantRow from './ApplicantRow';
 import styles from './styles.module.scss';
+import { useState } from 'react';
+import { PositionWithoutNull } from '../../../../constants/position';
 
 // 지원자 개별 정보
 interface User {
@@ -14,17 +16,20 @@ interface Applicant {
   id: number;
   preference: number; // 지망 순위
   motivation: string; // 지원 동기
-  role: 'PM' | 'PD' | 'BE' | 'FE'; // 역할
+  role: PositionWithoutNull; // 역할
   status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED'; // 현재 상태
   user: User; // 지원자의 유저 정보 포함
 }
 
-// 전체 지원자 데이터
-interface ApplicantData {
-  applies: Applicant[]; // 지원자 목록
-}
+export default function ApplyStatusTable() {
+  const [applicants, setApplicants] = useState<Applicant[]>([]);
 
-export default function ApplyStatusTable({ applicants }: { applicants: ApplicantData }) {
+  const handleStatusUpdate = (id: number, newStatus: Applicant['status']) => {
+    setApplicants((prev) =>
+      prev.map((applicant) => (applicant.id === id ? { ...applicant, status: newStatus } : applicant)),
+    );
+  };
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -59,8 +64,8 @@ export default function ApplyStatusTable({ applicants }: { applicants: Applicant
           </tr>
         </thead>
         <tbody>
-          {applicants?.applies?.map((applicant) => (
-            <ApplicantRow key={applicant.id} applicant={applicant} />
+          {applicants.map((applicant) => (
+            <ApplicantRow key={applicant.id} applicant={applicant} onStatusUpdate={handleStatusUpdate} />
           ))}
         </tbody>
       </table>

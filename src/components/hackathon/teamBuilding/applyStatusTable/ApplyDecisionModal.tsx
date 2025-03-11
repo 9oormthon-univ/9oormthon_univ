@@ -10,14 +10,27 @@ interface ApplyDecisionModalProps {
   toggle: () => void;
   name: string;
   decision: 'accept' | 'reject';
+  onSuccess: () => void;
 }
 
-export default function ApplyDecisionModal({ id, isOpen, toggle, name, decision }: ApplyDecisionModalProps) {
+export default function ApplyDecisionModal({ id, isOpen, toggle, name, decision, onSuccess }: ApplyDecisionModalProps) {
   const handleDecision = async (decision: 'accept' | 'reject') => {
     if (decision === 'accept') {
-      await acceptApply(id);
+      try {
+        await acceptApply(id);
+        onSuccess();
+        toggle();
+      } catch (error) {
+        console.error('Error accepting apply:', error);
+      }
     } else {
-      await rejectApply(id);
+      try {
+        await rejectApply(id);
+        onSuccess();
+        toggle();
+      } catch (error) {
+        console.error('Error rejecting apply:', error);
+      }
     }
   };
 
