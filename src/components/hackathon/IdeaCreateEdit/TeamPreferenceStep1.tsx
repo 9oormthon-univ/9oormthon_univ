@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import BackLinkNavigation from '../common/BackLinkNavigation';
 import { fetchIdeaSubjects } from '../../../api/idea';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
-
+import { PositionWithoutNull } from '../../../constants/position';
 interface TeamPreferenceStep1Props {
   formData: any;
   nextStep: () => void;
@@ -39,7 +39,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   }, []);
 
   // 파트 선택시 제한 인원 체크
-  const handleRoleChange = (role: 'PM' | 'PD' | 'FE' | 'BE') => {
+  const handleRoleChange = (role: PositionWithoutNull) => {
     if (role === 'PM' || role === 'PD') {
       if (formData.requirements[role.toLowerCase()]?.capacity === 1) {
         // 기획, 디자인은 1명일 경우 선택 불가
@@ -57,6 +57,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     updateIdeaInfo('provider_role', role);
   };
 
+  // 폼 유효한지 확인(유효하지 않으면 넘어가지 않음)
   const isFormValid = () => {
     const formStatus = {
       subject: formData.idea_info.idea_subject_id !== 0,
@@ -113,7 +114,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
               nullable={false}
               value={formData.idea_info.provider_role}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleRoleChange(e.target.id as 'PM' | 'PD' | 'FE' | 'BE')
+                handleRoleChange(e.target.id as PositionWithoutNull)
               }
             />
             {isAlertVisible && (

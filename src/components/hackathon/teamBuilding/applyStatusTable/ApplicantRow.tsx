@@ -52,7 +52,7 @@ export default function ApplicantRow({ applicant }: { applicant: Applicant }) {
     <>
       <tr className={styles.row}>
         <td>
-          <Text typography="body3">{applicant.preference}</Text>
+          <Text typography="body3">{applicant.preference}지망</Text>
         </td>
         <td>
           <Button size="sm" color="secondary" onClick={() => setIsMotivationOpen(true)}>

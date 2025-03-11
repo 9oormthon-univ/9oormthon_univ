@@ -4,14 +4,13 @@ import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import { createIdeaAPI, fetchIdeaDetailById, updateIdeaAPI } from '../../../api/idea';
 import TeamPreferenceStep1 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep1';
 import TeamPreferenceStep2 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep2';
-import { ERROR_MESSAGES } from '../../../constants/errorMessage';
+import { IDEA_ADD_ERROR_MESSAGES } from '../../../constants/errorMessage';
+import { RequirementKey } from '../../../constants/position';
 
 interface TeamPreferenceFormProps {
   isEditMode: boolean;
   step: number;
 }
-
-type RequirementKey = 'pm' | 'pd' | 'fe' | 'be';
 
 export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceFormProps) {
   const navigate = useNavigate();
@@ -74,10 +73,12 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   // Form 제출 (Create → POST, Edit → PUT)
   const submitForm = async () => {
     try {
+      // 수정모드
       if (isEditMode) {
         await updateIdeaAPI({ idea_info, requirements }, Number(idea_id));
         resetIdeaForm();
       } else {
+        // 생성모드
         await createIdeaAPI({ idea_info, requirements });
         resetIdeaForm();
       }
@@ -86,7 +87,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
       if (error.response) {
         const serverMessage = error.response.data.error?.code;
         console.log(serverMessage);
-        setErrorMessage(ERROR_MESSAGES[serverMessage] || '알 수 없는 오류가 발생하였습니다.');
+        setErrorMessage(IDEA_ADD_ERROR_MESSAGES[serverMessage] || '알 수 없는 오류가 발생하였습니다.');
       } else {
         console.error('Error submitting form:', error);
       }

@@ -5,12 +5,12 @@ import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import FormTextarea from './FormTextarea';
 import FormDropdown from './FormDropdown';
 import StackSelector from './StackSelector';
-import { POSITIONS } from '../../../constants/position';
+import { POSITIONS, RequirementKey } from '../../../constants/position';
 import { useEffect } from 'react';
 
 interface PositionFormProps {
   position: {
-    key: keyof typeof POSITIONS;
+    key: RequirementKey;
     name: string;
     index: number;
   };
@@ -20,16 +20,16 @@ interface PositionFormProps {
 export default function PositionForm({ position, isDisabled }: PositionFormProps) {
   const { requirements, updateRequirements } = useIdeaFormStore();
 
-  const currentValue = requirements[position.key as keyof typeof POSITIONS] || {
+  const currentValue = requirements[position.key] || {
     requirement: '',
-    capacity: requirements[position.key as keyof typeof POSITIONS]?.capacity || 0,
+    capacity: requirements[position.key]?.capacity || 0,
     required_tech_stacks: [],
   };
 
   // capacity 값이 0이 되면 다른 필드 초기화 -> 빈 값이 보내질 수 있도록
   useEffect(() => {
     if (currentValue.capacity === 0) {
-      updateRequirements(position.key as keyof typeof POSITIONS, {
+      updateRequirements(position.key, {
         ...currentValue,
         requirement: '',
         required_tech_stacks: [],
@@ -47,7 +47,7 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
 
   // 포지션 별 폼 값 변경
   const handleChange = (value: any) => {
-    updateRequirements(position.key as keyof typeof POSITIONS, {
+    updateRequirements(position.key, {
       ...currentValue,
       ...value,
     });

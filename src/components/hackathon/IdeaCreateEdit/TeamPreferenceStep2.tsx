@@ -3,6 +3,7 @@ import { Alert, Button, Text } from '@goorm-dev/vapor-components';
 import PositionForm from '../ideaForm/PositionForm';
 import BackLinkNavigation from '../common/BackLinkNavigation';
 import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
+import { POSITIONS, RequirementKey } from '../../../constants/position';
 
 interface TeamPreferenceStep2Props {
   formData: any;
@@ -18,12 +19,11 @@ export default function TeamPreferenceStep2({
   errorMessage,
   goToPreviousStep,
 }: TeamPreferenceStep2Props) {
-  const positions = [
-    { key: 'pm', name: '기획', index: 0 },
-    { key: 'pd', name: '디자인', index: 1 },
-    { key: 'fe', name: '프론트엔드', index: 2 },
-    { key: 'be', name: '백엔드', index: 3 },
-  ] as const;
+  const positions = Object.entries(POSITIONS).map(([key, value]) => ({
+    key: key as RequirementKey,
+    name: value.name,
+    index: value.index,
+  }));
 
   return (
     <div className={styles.container}>
