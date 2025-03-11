@@ -17,6 +17,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
 import { Role, UserStatus } from '../../../constants/role';
+import usePeriodStore from '../../../store/usePeriodStore';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
@@ -28,6 +29,8 @@ function CustomNavbar() {
   const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
   const profileImg = useAuthStore((state) => state.img_url);
   const parsedStatus = useAuthStore((state) => state.status ?? UserStatus.NONE);
+
+  const { fetchPeriodData } = usePeriodStore();
 
   const NAV_ITEMS = [
     {
@@ -45,7 +48,9 @@ function CustomNavbar() {
     navigate('/');
   };
 
-  const handleClickHackathon = () => {
+  // 팀 빌딩 기간 데이터 업데이트 필요
+  const handleClickHackathon = async () => {
+    await fetchPeriodData();
     switch (parsedStatus) {
       case UserStatus.PROVIDER:
         navigate('/team/provider');
