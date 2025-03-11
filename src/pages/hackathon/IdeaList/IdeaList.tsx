@@ -22,6 +22,19 @@ const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE'> | 'ADMIN', string> = {
   ADMIN: '관리자는 아이디어를 등록할 수 없습니다.',
 } as const;
 
+// 상태 옵션
+const statusOptions = [
+  { label: '전체', value: undefined },
+  { label: '모집 중', value: true },
+  { label: '모집 완료', value: false },
+];
+
+// 북마크 옵션
+const bookmarkOptions = [
+  { label: '전체', value: undefined },
+  { label: '찜한 아이디어', value: true },
+];
+
 export default function IdeaList() {
   const navigate = useNavigate();
   // 주제 가져오기
@@ -64,19 +77,6 @@ export default function IdeaList() {
   const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(undefined);
   const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
-
-  // 상태 옵션
-  const statusOptions = [
-    { label: '전체', value: undefined },
-    { label: '모집 중', value: true },
-    { label: '모집 완료', value: false },
-  ];
-
-  // 북마크 옵션
-  const bookmarkOptions = [
-    { label: '전체', value: undefined },
-    { label: '찜한 아이디어', value: true },
-  ];
 
   // 기간 정보 갱신 및 사용자 상태 조회
   useEffect(() => {
