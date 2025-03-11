@@ -26,7 +26,7 @@ interface Applicant {
 
 interface ApplicantRowProps {
   applicant: Applicant;
-  onStatusUpdate: (id: number, newStatus: Applicant['status']) => void;
+  refetchApplyStatus: () => Promise<void>;
 }
 
 const roleMap: Record<PositionWithoutNull, string> = {
@@ -43,7 +43,7 @@ const statusMap = {
   ACCEPTED_NOT_JOINED: { text: '도난 당함', color: 'text-hint' },
 } as const;
 
-export default function ApplicantRow({ applicant, onStatusUpdate }: ApplicantRowProps) {
+export default function ApplicantRow({ applicant, refetchApplyStatus }: ApplicantRowProps) {
   const [isMotivationOpen, setIsMotivationOpen] = useState(false);
   const [isAcceptOpen, setIsAcceptOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -135,7 +135,7 @@ export default function ApplicantRow({ applicant, onStatusUpdate }: ApplicantRow
           toggle={() => setIsAcceptOpen(false)}
           name={applicant.user.name}
           decision="accept"
-          onSuccess={() => onStatusUpdate(applicant.id, 'ACCEPTED')}
+          refetchApplyStatus={refetchApplyStatus}
         />
       )}
       {isRejectOpen && (
@@ -145,7 +145,7 @@ export default function ApplicantRow({ applicant, onStatusUpdate }: ApplicantRow
           toggle={() => setIsRejectOpen(false)}
           name={applicant.user.name}
           decision="reject"
-          onSuccess={() => onStatusUpdate(applicant.id, 'REJECTED')}
+          refetchApplyStatus={refetchApplyStatus}
         />
       )}
     </>

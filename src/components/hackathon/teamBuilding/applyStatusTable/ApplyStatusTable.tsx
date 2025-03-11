@@ -1,7 +1,6 @@
 import { Text } from '@goorm-dev/vapor-components';
 import ApplicantRow from './ApplicantRow';
 import styles from './styles.module.scss';
-import { useState } from 'react';
 import { PositionWithoutNull } from '../../../../constants/position';
 
 // 지원자 개별 정보
@@ -21,15 +20,12 @@ interface Applicant {
   user: User; // 지원자의 유저 정보 포함
 }
 
-export default function ApplyStatusTable() {
-  const [applicants, setApplicants] = useState<Applicant[]>([]);
+interface ApplyStatusTableProps {
+  applicants: Applicant[];
+  refetchApplyStatus: () => Promise<void>;
+}
 
-  const handleStatusUpdate = (id: number, newStatus: Applicant['status']) => {
-    setApplicants((prev) =>
-      prev.map((applicant) => (applicant.id === id ? { ...applicant, status: newStatus } : applicant)),
-    );
-  };
-
+export default function ApplyStatusTable({ applicants, refetchApplyStatus }: ApplyStatusTableProps) {
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -65,7 +61,7 @@ export default function ApplyStatusTable() {
         </thead>
         <tbody>
           {applicants.map((applicant) => (
-            <ApplicantRow key={applicant.id} applicant={applicant} onStatusUpdate={handleStatusUpdate} />
+            <ApplicantRow key={applicant.id} applicant={applicant} refetchApplyStatus={refetchApplyStatus} />
           ))}
         </tbody>
       </table>
