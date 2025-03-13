@@ -5,7 +5,7 @@ import { Text } from '@goorm-dev/vapor-components';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
-function RecuritCalendar() {
+function RecruitCalendar() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -106,4 +106,4 @@ function RecuritCalendar() {
   );
 }
 
-export default RecuritCalendar;
+export default RecruitCalendar;

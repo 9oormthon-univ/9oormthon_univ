@@ -14,7 +14,7 @@ const TEAM_END_DATE = new Date('2025-03-23T10:00:00');
 // 대표 모집 1주 전
 const REP_START_ONE_WEEK_BEFORE = new Date(REP_START_DATE.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-function RecuritHeader() {
+function RecruitHeader() {
   const [currentStatus, setCurrentStatus] = useState('');
   const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const navigate = useNavigate();
@@ -206,4 +206,4 @@ function RecuritHeader() {
   return renderContent();
 }
 
-export default RecuritHeader;
+export default RecruitHeader;
