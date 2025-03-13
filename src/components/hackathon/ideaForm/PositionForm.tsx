@@ -56,7 +56,7 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
   return (
     <div className={isDisabled ? styles.positionFormContainerDisabled : styles.positionFormContainer}>
       <Text as="h6" typography="heading6" color="text-normal" style={{ marginBottom: 'var(--space-200)' }}>
-        {`${position.index + 1}. ${POSITIONS[position.key as keyof typeof POSITIONS]}`}
+        {`${position.index + 1}. ${POSITIONS[position.key as keyof typeof POSITIONS].name}`}
       </Text>
       <FormTextarea
         label="원하는 팀원상"

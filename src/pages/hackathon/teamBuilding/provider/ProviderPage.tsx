@@ -69,7 +69,7 @@ export default function ProviderPage() {
         <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
 
         {applyStatus?.applies?.length > 0 ? (
-          <ApplyStatusTable applicants={applyStatus} refetchApplyStatus={fetchApplyStatus} />
+          <ApplyStatusTable applicants={applyStatus.applies} refetchApplyStatus={fetchApplyStatus} />
         ) : (
           <div className={styles.noApplyStatus}>
             <Text as="p" typography="body2" color="text-hint">
