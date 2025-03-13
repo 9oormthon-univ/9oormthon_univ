@@ -120,7 +120,7 @@ function RecruitHeader() {
         rightSubtitle: '유니브 별로 일정 상이',
       },
       teamRecruiting: {
-        title: '미르미 모집 기간이예요!',
+        title: '미르미 모집 기간이에요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
         button: '우리 학교 찾아보기',
         rightTitle: '유니브 팀원 모집 마감',

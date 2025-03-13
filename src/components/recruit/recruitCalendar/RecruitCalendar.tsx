@@ -1,6 +1,5 @@
 import styles from './RecruitCalendar.module.scss';
-// import newCalendar from '../../../assets/images/newCalendar.png';
-import newCalendar from '../../../assets/images/4thCalendar.png';
+import fourthCalendar from '../../../assets/svgs/fourthCalender.svg';
 import { Text } from '@goorm-dev/vapor-components';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -37,7 +36,7 @@ function RecruitCalendar() {
 
   return (
     <div className={styles.container}>
-      <Text as="h3" color="gray-900" typography="heading3" fontWeight="bold">
+      <Text as="h3" color="gray-900" typography="heading3" fontWeight="bold" style={{ marginLeft: 'var(--space-150)' }}>
         4기 모집 일정
       </Text>
       <motion.div
@@ -46,7 +45,7 @@ function RecruitCalendar() {
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
         transition={{ duration: 0.5 }}>
         <div className={styles.rightSection}>
-          <img className={styles.calendarImg} src={newCalendar} alt="4기 달력" />
+          <img className={styles.calendarImg} src={fourthCalendar} alt="4기 달력" />
         </div>
         <div className={styles.leftSection}>
           <div className={styles.leftBottomSection}>
