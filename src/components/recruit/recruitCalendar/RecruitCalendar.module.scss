@@ -2,7 +2,7 @@
 
 .container {
   display: flex;
-  padding: 0 0 7.5rem 0;
+  padding: 7.5rem 0;
   flex-direction: column;
 
   margin: 0 auto;
@@ -22,7 +22,7 @@
   @include container-lg {
     width: 56.5rem;
     align-items: flex-start;
-    gap: var(--space-200);
+    gap: var(--space-300);
   }
 }
 
@@ -37,9 +37,13 @@
     gap: var(--space-250);
   }
 
+  @include container-sm {
+    gap: var(--space-400);
+  }
+
   @include container-lg {
     flex-direction: row;
-    gap: 0;
+    gap: 5rem;
   }
 }
 
@@ -50,22 +54,18 @@
 
   @include container-xs {
     width: 20.9375rem;
-    border-top: 0.0625rem solid var(--border-color);
     padding: var(--space-300) 0;
   }
 
   @include container-sm {
     width: 100%;
     height: auto;
-    border-left: 0;
-    padding: var(--space-250) 0;
+    padding: 0;
   }
 
   @include container-lg {
     width: auto;
     height: 15.5rem;
-    border-left: 0.0625rem solid var(--border-color);
-    border-top: 0;
     padding: var(--space-300) 0 var(--space-200) var(--space-250);
   }
 }
@@ -81,6 +81,7 @@
 
   @include container-xs {
     flex-direction: column;
+    gap: var(--space-200);
   }
 
   @include container-sm {
@@ -90,7 +91,7 @@
 
   @include container-lg {
     flex-direction: column;
-    gap: var(--space-100);
+    gap: var(--space-250);
   }
 }
 
@@ -103,17 +104,21 @@
 .calendarImg {
   @include container-xs {
     width: 20.9375rem;
-    height: 13.125rem;
+    height: 14.81806rem;
   }
 
   @include container-sm {
     width: 24.625rem;
-    height: 15.375rem;
+    height: 17.4375rem;
+  }
+  @include container-lg {
+    width: 31.0625rem;
+    height: 21.98388rem;
   }
 
-  @include container-lg {
-    width: 32.5rem;
-    height: 20rem;
+  @include container-xxl {
+    width: 34rem;
+    height: 24.0625rem;
   }
 }
 
@@ -122,7 +127,7 @@
   flex-direction: column;
 
   @include container-sm {
-    gap: var(--space-100);
+    gap: var(--space-075);
   }
 }
 
@@ -144,7 +149,6 @@
   @include container-sm {
     display: block;
     margin-top: var(--space-250);
-    text-align: center;
   }
   @include container-lg {
     display: none;

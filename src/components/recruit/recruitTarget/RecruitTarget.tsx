@@ -6,7 +6,7 @@ import SunIcon from '../../../assets/svgs/SunIcon.svg';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
-function RecuritTarget() {
+function RecruitTarget() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -112,4 +112,4 @@ function RecuritTarget() {
   );
 }
 
-export default RecuritTarget;
+export default RecruitTarget;

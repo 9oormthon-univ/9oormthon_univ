@@ -14,7 +14,7 @@ const TEAM_END_DATE = new Date('2025-03-23T10:00:00');
 // 대표 모집 1주 전
 const REP_START_ONE_WEEK_BEFORE = new Date(REP_START_DATE.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-function RecuritHeader() {
+function RecruitHeader() {
   const [currentStatus, setCurrentStatus] = useState('');
   const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const navigate = useNavigate();
@@ -120,7 +120,7 @@ function RecuritHeader() {
         rightSubtitle: '유니브 별로 일정 상이',
       },
       teamRecruiting: {
-        title: '미르미 모집 기간이예요!',
+        title: '미르미 모집 기간이에요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
         button: '우리 학교 찾아보기',
         rightTitle: '유니브 팀원 모집 마감',
@@ -206,4 +206,4 @@ function RecuritHeader() {
   return renderContent();
 }
 
-export default RecuritHeader;
+export default RecruitHeader;
