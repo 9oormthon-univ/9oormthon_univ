@@ -4,7 +4,7 @@ import DanpungProject2024Data from './DanpungProject2024Data';
 
 export const THIS_SEASON = {
   SEASON: '4',
-  AMOUNT_OF_UNIV: 48,
+  AMOUNT_OF_UNIV: 63,
 };
 
 // 추후 업데이트 필요

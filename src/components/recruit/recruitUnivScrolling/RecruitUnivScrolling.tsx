@@ -1,8 +1,8 @@
 import styles from './RecruitUnivScrolling.module.scss';
 
-import univList1 from '../../../assets/svgs/univList1.svg';
-import univList2 from '../../../assets/svgs/univList2.svg';
-import univList3 from '../../../assets/svgs/univList3.svg';
+import univList1 from '../../../assets/svgs/4thUnivList1.svg';
+import univList2 from '../../../assets/svgs/4thUnivList2.svg';
+import univList3 from '../../../assets/svgs/4thUnivList3.svg';
 
 interface itemsType {
   src: string;
