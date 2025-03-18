@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/file';
 import { MainBannerSlogan } from '../../../assets';
 import mainVideo from '../../../assets/etc/구름톤유니브_벚꽃톤_v8.mp4';
-import playerThumbnail from '../../../assets/images/playerThumbnail.png';
+import playerThumbnail from '../../../assets/images/about/danPungThon.png';
 
 import useIsMobile from '../../../hooks/useIsMobile';
 import styles from './MainBanner.module.scss';
