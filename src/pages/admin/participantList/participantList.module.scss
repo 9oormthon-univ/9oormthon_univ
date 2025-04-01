@@ -1,3 +1,26 @@
 .container {
-  height: 200%;
+  display: flex;
+  margin: 4rem 1.25rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.listContainer {
+  width: 61.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.listTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.listContent {
+  display: flex;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  background: var(--background-normal);
 }

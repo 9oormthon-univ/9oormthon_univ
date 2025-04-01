@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 19.5rem;
+  height: 62.5rem;
+  border-right: 1px solid var(--border-color);
+}
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-200) var(--space-300);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.listHeaderText {
+  display: flex;
+  align-items: center;
+  gap: var(--space-050);
+}
+
+.sideBar {
+  display: flex;
+  height: 55rem;
+  overflow: auto;
+  gap: var(--space-100);
+  padding: 1rem 0.5rem 0rem 0.5rem;
+}
+
+.sideBarList {
+  overflow: visible !important;
+}
+
+.addUnivButton {
+  height: 4rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.univItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.univDropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.univDropdownMenu {
+  min-width: 6.0625rem !important;
+}
+
+.univDropdownToggle {
+  width: var(--dimension-300) !important;
+  height: var(--dimension-300) !important;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.univDropdownIcon {
+  width: var(--dimension-200) !important;
+  height: var(--dimension-200) !important;
+}

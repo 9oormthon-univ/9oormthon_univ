@@ -1,12 +1,14 @@
 .container {
   display: flex;
   min-height: 100vh;
+  background: var(--background-normal);
 }
 
 .sideNav {
   width: 18.75rem;
   height: 100vh;
   position: fixed;
+  background: var(--background-alternative-01);
 }
 
 .main {
