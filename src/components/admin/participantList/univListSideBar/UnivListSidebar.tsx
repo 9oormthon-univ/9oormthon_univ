@@ -6,27 +6,57 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Input,
   SideNav,
   Text,
 } from '@goorm-dev/vapor-components';
 import { MoreCommonOutlineIcon, PlusOutlineIcon } from '@goorm-dev/vapor-icons';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const UnivListSidebar = () => {
   const [isUnivOptionOpened, setIsUnivOptionOpened] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
+        setIsSearching(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.listHeader}>
-        <div className={styles.listHeaderText}>
-          <Text typography="heading6" as="h6" color="text-normal">
-            유니브 리스트
-          </Text>
-          <Text typography="heading6" as="h6" color="text-primary">
-            30
-          </Text>
-        </div>
-        <SearchOutlineIcon size={24} />
+        {isSearching ? (
+          <Input
+            size="md"
+            ref={inputRef}
+            placeholder="유니브명 검색"
+            value={searchQuery}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+            onBlur={() => setIsSearching(false)}
+            autoFocus
+          />
+        ) : (
+          <>
+            <div className={styles.listHeaderText}>
+              <Text typography="heading6" as="h6" color="text-normal">
+                유니브 리스트
+              </Text>
+              <Text typography="heading6" as="h6" color="text-primary">
+                30
+              </Text>
+            </div>
+            <SearchOutlineIcon size={24} onClick={() => setIsSearching(true)} className={styles.searchIcon} />
+          </>
+        )}
       </div>
       <SideNav className={styles.sideBar}>
         <SideNav.List className={styles.sideBarList}>
