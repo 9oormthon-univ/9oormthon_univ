@@ -73,14 +73,15 @@ function RecruitHeader() {
 
   const handleButtonClick = () => {
     if (currentStatus === 'afterTeamRecruiting') {
-      navigate('/about'); // 추후 수정 필요
+      navigate('/search-univ');
     } else if (currentStatus === 'teamRecruiting') {
       navigate('/search-univ');
     } else {
-      window.open(
-        'https://docs.google.com/forms/d/e/1FAIpQLSeg4pfokyfK0YXfOYI8GGk_ACsSdu_tcztfH_t-ODJ2cY0Sow/viewform?usp=sharing',
-        '_blank',
-      );
+      navigate('/search-univ');
+      // window.open(
+      //   'https://docs.google.com/forms/d/e/1FAIpQLSeg4pfokyfK0YXfOYI8GGk_ACsSdu_tcztfH_t-ODJ2cY0Sow/viewform?usp=sharing',
+      //   '_blank',
+      // );
     }
   };
 
@@ -130,7 +131,7 @@ function RecruitHeader() {
       afterTeamRecruiting: {
         title: '4기 모집이 완료되었어요!',
         subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
-        button: '5기 사전 알림 받기',
+        button: '우리 학교 찾아보기',
         rightTitle: '5기 모집 시작',
         dDayText: '26년 1월',
         rightSubtitle: 'Coming soon!',

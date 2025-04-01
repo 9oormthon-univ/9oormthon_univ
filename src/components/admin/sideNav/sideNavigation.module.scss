@@ -1,0 +1,26 @@
+.sideNav {
+  width: 100%;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.header {
+  display: flex;
+  gap: 0.5rem;
+  padding-left: var(--space-150);
+  padding-bottom: var(--space-150);
+  align-items: center;
+}
+
+.headerContent {
+  display: flex;
+  gap: var(--space-100);
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.button {
+  margin-top: auto;
+}

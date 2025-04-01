@@ -22,6 +22,7 @@ const TeamBuildProvider = lazy(() => import('./pages/hackathon/teamBuilding/prov
 const TeamBuildApplicant = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantPage'));
 const ApplicantTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantTeamPage'));
 const TeamPreferenceForm = lazy(() => import('./pages/hackathon/IdeaCreateEdit/TeamPreferenceForm'));
+const Admin = lazy(() => import('./pages/admin/Admin'));
 
 const loaderProps = {
   color: 'black',
@@ -120,39 +121,27 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'team/provider',
+        path: 'team',
         element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
         children: [
           {
-            index: true,
+            path: 'provider',
             element: (
               <Suspense fallback={<GoormLoader {...loaderProps} />}>
                 <TeamBuildProvider />
               </Suspense>
             ),
           },
-        ],
-      },
-      {
-        path: 'team/applicant',
-        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
-        children: [
           {
-            index: true,
+            path: 'applicant',
             element: (
               <Suspense fallback={<GoormLoader {...loaderProps} />}>
                 <TeamBuildApplicant />
               </Suspense>
             ),
           },
-        ],
-      },
-      {
-        path: 'team/detail',
-        element: <ProtectedRoute allowedRoles={['ADMIN', 'USER']} />,
-        children: [
           {
-            index: true,
+            path: 'detail',
             element: (
               <Suspense fallback={<GoormLoader {...loaderProps} />}>
                 <ApplicantTeamPage />
@@ -237,6 +226,20 @@ const router = createBrowserRouter([
       }, // 해커톤
     ],
   },
+  {
+    path: 'admin',
+    element: <ProtectedRoute allowedRoles={['ADMIN']} />,
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <Admin />
+          </Suspense>
+        ),
+      },
+    ],
+  }, // 어드민
 ]);
 
 export default function Router() {

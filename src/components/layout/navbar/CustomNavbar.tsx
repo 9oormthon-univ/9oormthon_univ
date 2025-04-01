@@ -28,7 +28,6 @@ function CustomNavbar() {
 
   const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
   const profileImg = useAuthStore((state) => state.img_url);
-  const parsedStatus = useAuthStore((state) => state.status ?? UserStatus.NONE);
 
   const { fetchPeriodData } = usePeriodStore();
 
@@ -51,7 +50,10 @@ function CustomNavbar() {
   // 팀 빌딩 기간 데이터 업데이트 필요
   const handleClickHackathon = async () => {
     await fetchPeriodData();
-    switch (parsedStatus) {
+
+    const currentStatus = useAuthStore.getState().status ?? UserStatus.NONE;
+
+    switch (currentStatus) {
       case UserStatus.PROVIDER:
         navigate('/team/provider');
         break;
@@ -60,10 +62,10 @@ function CustomNavbar() {
         navigate('/team/applicant');
         break;
       case UserStatus.NONE:
-        alert('팀 빌딩 기간이 아닙니다.');
+        alert('아직 팀 빌딩을 진행하지 않았습니다.');
         break;
       default:
-        console.error('Unknown status:', parsedStatus);
+        console.error('Unknown status:', currentStatus);
         alert('알 수 없는 오류가 발생했습니다.');
     }
   };
