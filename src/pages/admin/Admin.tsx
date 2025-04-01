@@ -1,5 +1,5 @@
 import { SideNavigation } from '../../components/admin/sideNav/SideNavigation';
-import styles from './Admin.module.scss';
+import styles from './admin.module.scss';
 
 export default function Admin() {
   return (
