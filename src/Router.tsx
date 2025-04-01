@@ -3,6 +3,7 @@ import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './routes/ProtectedRoute';
+import AdminLayout from './components/layout/admin/AdminLayout';
 
 const About = lazy(() => import('./pages/about/About'));
 const Project = lazy(() => import('./pages/project/Project'));
@@ -22,7 +23,7 @@ const TeamBuildProvider = lazy(() => import('./pages/hackathon/teamBuilding/prov
 const TeamBuildApplicant = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantPage'));
 const ApplicantTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantTeamPage'));
 const TeamPreferenceForm = lazy(() => import('./pages/hackathon/IdeaCreateEdit/TeamPreferenceForm'));
-const Admin = lazy(() => import('./pages/admin/Admin'));
+const ParticipantList = lazy(() => import('./pages/admin/participantList/ParticipantList'));
 
 const loaderProps = {
   color: 'black',
@@ -228,13 +229,13 @@ const router = createBrowserRouter([
   },
   {
     path: 'admin',
-    element: <ProtectedRoute allowedRoles={['ADMIN']} />,
+    element: <AdminLayout />,
     children: [
       {
         index: true,
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
-            <Admin />
+            <ParticipantList />
           </Suspense>
         ),
       },

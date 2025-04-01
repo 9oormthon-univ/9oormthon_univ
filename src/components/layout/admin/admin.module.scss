@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sideNav {
+  width: 18.75rem;
+  height: 100vh;
+  position: fixed;
+}
+
+.main {
+  width: calc(100% - 18.75rem);
+  margin-left: 18.75rem;
+}
