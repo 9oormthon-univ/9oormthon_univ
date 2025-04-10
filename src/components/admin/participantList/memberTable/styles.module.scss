@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tableHeader {
+  display: flex;
+  padding: var(--space-150) var(--space-300);
+  gap: var(--space-100);
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tableHeaderLeft {
+  display: flex;
+  gap: var(--space-050);
+  align-items: center;
+}
+
+.tableHeaderRight {
+  display: flex;
+  gap: var(--space-100);
+  align-items: center;
+}
+
+thead {
+  padding: 0rem var(--space-200);
+  height: var(--dimension-500);
+  border-bottom: 1px solid var(--border-color);
+  background: var(--background-alternative-01);
+}
+
+td {
+  padding: 0rem var(--space-200);
+
+  &:first-child {
+    border-right: 1px solid var(--border-color);
+  }
+}
