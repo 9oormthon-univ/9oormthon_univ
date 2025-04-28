@@ -1,8 +1,13 @@
+import { BasicPagination } from '@goorm-dev/gds-components';
 import { MemberRow } from '../memberRow/MemberRow';
 import styles from './styles.module.scss';
 import { Button, Input, Text } from '@goorm-dev/vapor-components';
 
-export const MemberTable = ({ members }: { members: any[] }) => {
+interface MemberTableProps {
+  members: any[];
+}
+
+export const MemberTable = ({ members }: MemberTableProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
@@ -21,36 +26,44 @@ export const MemberTable = ({ members }: { members: any[] }) => {
           </Button>
         </div>
       </div>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <td>
-              <Text typography="subtitle1" color="text-normal">
-                이름
-              </Text>
-            </td>
-            <td>
-              <Text typography="subtitle1" color="text-normal">
-                권한
-              </Text>
-            </td>
-            <td>
-              <Text typography="subtitle1" color="text-normal">
-                이메일
-              </Text>
-            </td>
-            <td>
-              <Text typography="subtitle1" color="text-normal">
-                팀빌딩
-              </Text>
-            </td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          <MemberRow />
-        </tbody>
-      </table>
+      <div className={styles.tableContainer}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <td>
+                <Text typography="subtitle1" color="text-normal">
+                  이름
+                </Text>
+              </td>
+              <td>
+                <Text typography="subtitle1" color="text-normal">
+                  권한
+                </Text>
+              </td>
+              <td>
+                <Text typography="subtitle1" color="text-normal">
+                  이메일
+                </Text>
+              </td>
+              <td>
+                <Text typography="subtitle1" color="text-normal">
+                  팀빌딩
+                </Text>
+              </td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            {members.map((member) => (
+              <MemberRow key={member.id} member={member} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className={styles.pagination}>
+        <BasicPagination pageCount={10} />
+      </div>
     </div>
   );
 };

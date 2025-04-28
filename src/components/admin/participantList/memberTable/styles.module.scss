@@ -4,6 +4,16 @@
   width: 100%;
 }
 
+.tableContainer {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.table {
+  overflow-y: auto;
+  width: 100%;
+}
+
 .tableHeader {
   display: flex;
   padding: var(--space-150) var(--space-300);
@@ -35,8 +45,13 @@ thead {
 
 td {
   padding: 0rem var(--space-200);
+}
 
-  &:first-child {
-    border-right: 1px solid var(--border-color);
-  }
+.pagination {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  height: 4rem;
 }

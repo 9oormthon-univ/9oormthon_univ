@@ -1,6 +1,10 @@
 tbody {
   background: var(--background-normal) !important;
 
+  tr {
+    height: var(--dimension-700);
+  }
+
   td {
     height: var(--dimension-700);
     &:first-child {

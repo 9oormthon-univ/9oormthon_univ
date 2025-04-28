@@ -1,9 +1,9 @@
-import { DropdownItem, Dropdown, DropdownMenu, Text, DropdownToggle } from '@goorm-dev/vapor-components';
+import { DropdownItem, Dropdown, DropdownMenu, Text, DropdownToggle, Button } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
-import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
+import { MoreCommonOutlineIcon, ChevronRightOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 
-export const MemberRow = () => {
+export const MemberRow = ({ member }: { member: any }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRoleOpen, setIsRoleOpen] = useState(false);
   const toggleDropdown = () => setIsOpen((prev) => !prev);
@@ -13,7 +13,7 @@ export const MemberRow = () => {
     <tr>
       <td className={styles.memberName}>
         <Text typography="subtitle1" color="text-normal">
-          김구름
+          {member.name}
         </Text>
         <Dropdown direction="down" className={styles.memberDropdown} isOpen={isOpen} toggle={toggleDropdown}>
           <DropdownToggle size="sm" color="secondary" className={styles.memberDropdownToggle}>
@@ -36,13 +36,29 @@ export const MemberRow = () => {
       <td style={{ width: '7.5rem' }}>
         <Dropdown isOpen={isRoleOpen} toggle={toggleRoleDropdown} direction="down" size="sm">
           <DropdownToggle color="secondary" outline caret>
-            참가자
+            {member.role}
           </DropdownToggle>
           <DropdownMenu right className={styles.memberRoleDropdownMenu}>
             <DropdownItem>참가자</DropdownItem>
             <DropdownItem>중앙운영단</DropdownItem>
           </DropdownMenu>
         </Dropdown>
+      </td>
+      <td>
+        <Text typography="subtitle1" color="text-normal">
+          {member.email}
+        </Text>
+      </td>
+      <td>
+        <Text typography="subtitle1" color={member.teamBuilding ? 'text-success' : 'text-danger'}>
+          {member.teamBuilding ? '완료' : '미완료'}
+        </Text>
+      </td>
+      <td>
+        <Button size="sm" color="secondary">
+          정보 보기
+          <ChevronRightOutlineIcon className={styles.memberDropdownIcon} />
+        </Button>
       </td>
     </tr>
   );
