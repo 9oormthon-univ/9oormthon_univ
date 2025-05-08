@@ -24,6 +24,7 @@ export const UnivDeleteModal = ({ isOpen, toggle }: UnivDeleteModalProps) => {
         <Button color="secondary" size="lg" onClick={toggle}>
           취소
         </Button>
+        {/* TODO: 삭제 기능 추가 */}
         <Button color="danger" size="lg">
           삭제
         </Button>

@@ -12,7 +12,7 @@ import {
   Modal,
 } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
-import styles from './styles.module.scss';
+import styles from './univUpdateModal.module.scss';
 import { useState } from 'react';
 
 interface UnivUpdateModalProps {
