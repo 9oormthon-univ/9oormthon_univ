@@ -1,0 +1,14 @@
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dropdownToggle {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dropdownMenu {
+  width: 100%;
+}

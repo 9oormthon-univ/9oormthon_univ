@@ -12,13 +12,15 @@ import {
 } from '@goorm-dev/vapor-components';
 import { MoreCommonOutlineIcon, PlusOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useEffect, useRef, useState } from 'react';
-
+import { UnivUpdateModal } from '../modal/univUpdateModal';
 export const UnivListSidebar = () => {
   const [isUnivOptionOpened, setIsUnivOptionOpened] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isUnivUpdateModalOpen, setIsUnivUpdateModalOpen] = useState(false);
 
+  // 검색 창 바깥 클릭 시 검색 창 닫기
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
@@ -75,7 +77,7 @@ export const UnivListSidebar = () => {
                   <MoreCommonOutlineIcon className={styles.univDropdownIcon} />
                 </DropdownToggle>
                 <DropdownMenu right className={styles.univDropdownMenu}>
-                  <DropdownItem>
+                  <DropdownItem onClick={() => setIsUnivUpdateModalOpen(true)}>
                     <Text typography="body2" as="p" color="text-normal">
                       정보 수정
                     </Text>
@@ -96,6 +98,7 @@ export const UnivListSidebar = () => {
           유니브 추가하기
         </Button>
       </div>
+      <UnivUpdateModal isOpen={isUnivUpdateModalOpen} toggle={() => setIsUnivUpdateModalOpen((prev) => !prev)} />
     </div>
   );
 };
