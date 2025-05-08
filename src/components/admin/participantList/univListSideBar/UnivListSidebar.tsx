@@ -13,13 +13,14 @@ import {
 import { MoreCommonOutlineIcon, PlusOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useEffect, useRef, useState } from 'react';
 import { UnivUpdateModal } from '../modal/univUpdateModal';
+import { UnivDeleteModal } from '../modal/univDeleteModal';
 export const UnivListSidebar = () => {
   const [isUnivOptionOpened, setIsUnivOptionOpened] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUnivUpdateModalOpen, setIsUnivUpdateModalOpen] = useState(false);
-
+  const [isUnivDeleteModalOpen, setIsUnivDeleteModalOpen] = useState(false);
   // 검색 창 바깥 클릭 시 검색 창 닫기
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -82,7 +83,7 @@ export const UnivListSidebar = () => {
                       정보 수정
                     </Text>
                   </DropdownItem>
-                  <DropdownItem>
+                  <DropdownItem onClick={() => setIsUnivDeleteModalOpen(true)}>
                     <Text typography="body2" as="p" color="text-danger">
                       삭제하기
                     </Text>
@@ -99,6 +100,7 @@ export const UnivListSidebar = () => {
         </Button>
       </div>
       <UnivUpdateModal isOpen={isUnivUpdateModalOpen} toggle={() => setIsUnivUpdateModalOpen((prev) => !prev)} />
+      <UnivDeleteModal isOpen={isUnivDeleteModalOpen} toggle={() => setIsUnivDeleteModalOpen((prev) => !prev)} />
     </div>
   );
 };
