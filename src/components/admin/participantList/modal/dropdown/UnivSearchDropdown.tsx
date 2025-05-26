@@ -1,6 +1,7 @@
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Text } from '@goorm-dev/vapor-components';
 import { SearchOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
+import styles from './dropdown.module.scss';
 
 export default function UnivSearchDropdown() {
   const schoolList = ['구름대학교', '성공회대학교', '서울대학교', '고려대학교']; // 예시
@@ -17,13 +18,13 @@ export default function UnivSearchDropdown() {
   };
 
   return (
-    <Dropdown isOpen={isOpen} toggle={() => setIsOpen((prev) => !prev)} className="dropdown" size="lg">
+    <Dropdown isOpen={isOpen} toggle={() => setIsOpen((prev) => !prev)} className={styles.dropdown} size="lg">
       <DropdownToggle color="select" caret size="lg" className="w-full">
-        <Text typography="body2" as="p">
+        <Text typography="body2" as="p" color="text-hint">
           {selectedSchool || '대학교를 선택해주세요'}
         </Text>
       </DropdownToggle>
-      <DropdownMenu className="w-full">
+      <DropdownMenu className={styles.dropdownMenu}>
         <div style={{ padding: '0.5rem 1rem' }}>
           <Input
             size="md"

@@ -12,6 +12,7 @@ import {
 import styles from './memberCreateModal.module.scss';
 import FormField from '../../../common/formField/FormField';
 import UnivSearchDropdown from './dropdown/UnivSearchDropdown';
+import GenerationSelectDropdown from './dropdown/GenerationSelectDropdown';
 interface MemberCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
@@ -39,6 +40,9 @@ export const MemberCreateModal = ({ isOpen, toggle }: MemberCreateModalProps) =>
           </FormField>
           <FormField label="전화번호" required>
             <Input bsSize="lg" placeholder="000-0000-0000" />
+          </FormField>
+          <FormField label="참여 기수" required>
+            <GenerationSelectDropdown />
           </FormField>
           <FormField label="권한" required>
             <div className={styles.radioContainer}>
