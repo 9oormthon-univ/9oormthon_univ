@@ -1,0 +1,18 @@
+.modalBody {
+  display: flex;
+  gap: var(--space-200);
+  align-items: flex-start;
+}
+
+.memberContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.radioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

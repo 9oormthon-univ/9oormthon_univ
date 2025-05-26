@@ -2,12 +2,14 @@ import { BasicPagination } from '@goorm-dev/gds-components';
 import { MemberRow } from '../memberRow/MemberRow';
 import styles from './styles.module.scss';
 import { Button, Input, Text } from '@goorm-dev/vapor-components';
-
+import { useState } from 'react';
+import { MemberCreateModal } from '../modal/MemberCreateModal';
 interface MemberTableProps {
   members: any[];
 }
 
 export const MemberTable = ({ members }: MemberTableProps) => {
+  const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
@@ -21,7 +23,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
         </div>
         <div className={styles.tableHeaderRight}>
           <Input size="md" placeholder="검색" type="text" style={{ width: '11.875rem' }} />
-          <Button size="md" color="primary">
+          <Button size="md" color="primary" onClick={() => setIsMemberCreateModalOpen(true)}>
             인원 추가하기
           </Button>
         </div>
@@ -64,6 +66,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
       <div className={styles.pagination}>
         <BasicPagination pageCount={10} />
       </div>
+      <MemberCreateModal isOpen={isMemberCreateModalOpen} toggle={() => setIsMemberCreateModalOpen(false)} />
     </div>
   );
 };
