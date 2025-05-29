@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from 'react';
 import { UnivUpdateModal } from '../modal/UnivUpdateModal';
 import { UnivDeleteModal } from '../modal/UnivDeleteModal';
 import { UnivCreateModal } from '../modal/UnivCreateModal';
+import InformationModal from '../../../common/modal/InformationModal';
 export const UnivListSidebar = () => {
   const [isUnivOptionOpened, setIsUnivOptionOpened] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -102,7 +103,22 @@ export const UnivListSidebar = () => {
         </Button>
       </div>
       <UnivUpdateModal isOpen={isUnivUpdateModalOpen} toggle={() => setIsUnivUpdateModalOpen((prev) => !prev)} />
-      <UnivDeleteModal isOpen={isUnivDeleteModalOpen} toggle={() => setIsUnivDeleteModalOpen((prev) => !prev)} />
+      <InformationModal
+        isOpen={isUnivDeleteModalOpen}
+        toggle={() => setIsUnivDeleteModalOpen((prev) => !prev)}
+        title="해당 유니브를 삭제할까요?"
+        description={
+          <>
+            <Text typography="body2" color="text-normal" as="p">
+              구름대학교를 유니브 리스트에서 삭제합니다.
+            </Text>
+            <Text typography="body2" color="text-normal" as="p">
+              유니브 삭제가 완료되면 데이터를 되돌릴 수 없습니다.
+            </Text>
+          </>
+        }
+        confirmLabel="삭제"
+      />
       <UnivCreateModal isOpen={isUnivCreateModalOpen} toggle={() => setIsUnivCreateModalOpen((prev) => !prev)} />
     </div>
   );
