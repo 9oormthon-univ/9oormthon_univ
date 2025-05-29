@@ -1,0 +1,14 @@
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-100);
+  text-align: center;
+}
+
+.modalIcon {
+  width: 6.25rem;
+  height: 6.25rem;
+  color: #f5535e;
+}
