@@ -1,0 +1,28 @@
+.memberContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.radioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.modalBody {
+  display: flex;
+  gap: var(--space-200);
+  align-items: flex-start;
+}
+
+.iconButton {
+  width: fit-content;
+}
+
+.infoContainer {
+  display: flex;
+  gap: var(--space-200);
+  align-items: flex-start;
+}

@@ -3,14 +3,17 @@ import styles from './styles.module.scss';
 import { MoreCommonOutlineIcon, ChevronRightOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
+import { MemberUpdateModal } from '../modal/MemberUpdateModal';
 
 export const MemberRow = ({ member }: { member: any }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRoleOpen, setIsRoleOpen] = useState(false);
   const [isInformationModalOpen, setIsInformationModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
   const toggleRoleDropdown = () => setIsRoleOpen((prev) => !prev);
   const toggleInformationModal = () => setIsInformationModalOpen((prev) => !prev);
+  const toggleUpdateModal = () => setIsUpdateModalOpen((prev) => !prev);
 
   return (
     <>
@@ -24,7 +27,7 @@ export const MemberRow = ({ member }: { member: any }) => {
               <MoreCommonOutlineIcon className={styles.memberDropdownIcon} />
             </DropdownToggle>
             <DropdownMenu className={styles.memberDropdownMenu}>
-              <DropdownItem>
+              <DropdownItem onClick={toggleUpdateModal}>
                 <Text typography="body2" as="p" color="text-normal">
                   정보 보기
                 </Text>
@@ -59,7 +62,7 @@ export const MemberRow = ({ member }: { member: any }) => {
           </Text>
         </td>
         <td>
-          <Button size="sm" color="secondary">
+          <Button size="sm" color="secondary" onClick={toggleUpdateModal}>
             정보 보기
             <ChevronRightOutlineIcon className={styles.memberDropdownIcon} />
           </Button>
@@ -83,6 +86,8 @@ export const MemberRow = ({ member }: { member: any }) => {
         confirmLabel="퇴장"
         onConfirm={() => {}}
       />
+
+      <MemberUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
     </>
   );
 };

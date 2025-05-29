@@ -13,7 +13,6 @@ import {
 import { MoreCommonOutlineIcon, PlusOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useEffect, useRef, useState } from 'react';
 import { UnivUpdateModal } from '../modal/UnivUpdateModal';
-import { UnivDeleteModal } from '../modal/UnivDeleteModal';
 import { UnivCreateModal } from '../modal/UnivCreateModal';
 import InformationModal from '../../../common/modal/InformationModal';
 export const UnivListSidebar = () => {
