@@ -1,0 +1,10 @@
+.formField {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}

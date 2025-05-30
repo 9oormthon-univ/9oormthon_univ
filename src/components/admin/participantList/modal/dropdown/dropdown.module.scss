@@ -1,0 +1,24 @@
+.dropdown {
+  width: 100%;
+}
+
+.dropdown button {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dropdownMenu {
+  width: 100%;
+}
+
+.badgeContainer {
+  display: flex;
+  gap: var(--space-100);
+}
+
+.badge span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-050);
+  width: fit-content;
+}
