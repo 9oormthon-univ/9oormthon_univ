@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './teamList.module.scss';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Text } from '@goorm-dev/vapor-components';
+import { TeamTable } from '../../../components/admin/teamList/teamTable/TeamTable';
 
 export default function TeamList() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +40,7 @@ export default function TeamList() {
           </Button>
         </div>
       </div>
+      <TeamTable />
     </div>
   );
 }
