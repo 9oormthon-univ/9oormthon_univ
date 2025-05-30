@@ -12,8 +12,8 @@ import {
 } from '@goorm-dev/vapor-components';
 import { MoreCommonOutlineIcon, PlusOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useEffect, useRef, useState } from 'react';
-import { UnivUpdateModal } from '../modal/UnivUpdateModal';
-import { UnivCreateModal } from '../modal/UnivCreateModal';
+import UnivUpdateModal from '../modal/UnivUpdateModal';
+import UnivCreateModal from '../modal/UnivCreateModal';
 import InformationModal from '../../../common/modal/InformationModal';
 export const UnivListSidebar = () => {
   const [isUnivOptionOpened, setIsUnivOptionOpened] = useState(false);

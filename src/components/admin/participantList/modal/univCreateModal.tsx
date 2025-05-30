@@ -7,7 +7,7 @@ interface UnivCreateModalProps {
   toggle: () => void;
 }
 
-export const UnivCreateModal = ({ isOpen, toggle }: UnivCreateModalProps) => {
+export default function UnivCreateModal({ isOpen, toggle }: UnivCreateModalProps) {
   const [form, setForm] = useState({
     name: '',
     link: '',
@@ -48,4 +48,4 @@ export const UnivCreateModal = ({ isOpen, toggle }: UnivCreateModalProps) => {
       </ModalFooter>
     </Modal>
   );
-};
+}

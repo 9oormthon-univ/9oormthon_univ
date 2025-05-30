@@ -20,7 +20,7 @@ interface UnivUpdateModalProps {
   toggle: () => void;
 }
 
-export const UnivUpdateModal = ({ isOpen, toggle }: UnivUpdateModalProps) => {
+export default function UnivUpdateModal({ isOpen, toggle }: UnivUpdateModalProps) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     name: '',
@@ -84,4 +84,4 @@ export const UnivUpdateModal = ({ isOpen, toggle }: UnivUpdateModalProps) => {
       </ModalFooter>
     </Modal>
   );
-};
+}
