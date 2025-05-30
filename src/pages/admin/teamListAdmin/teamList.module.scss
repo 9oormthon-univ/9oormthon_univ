@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  width: 46.625rem;
+  padding: 4rem 0;
+  gap: 1rem;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.dropdown,
+.dropdownToggle {
+  width: 6.375rem;
+}
+
+.dropdownToggle {
+  justify-content: space-between;
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.searchInput {
+  width: 15.75rem;
+}
+
+.searchAddContainer {
+  display: flex;
+  gap: var(--space-100);
+}
