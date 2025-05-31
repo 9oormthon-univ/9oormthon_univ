@@ -15,6 +15,14 @@ import { useEffect, useRef, useState } from 'react';
 import UnivUpdateModal from '../modal/UnivUpdateModal';
 import UnivCreateModal from '../modal/UnivCreateModal';
 import InformationModal from '../../../common/modal/InformationModal';
+import { GENERATION } from '../../../../constants/common';
+import { fetchUnivListAPI } from '../../../../api/univ';
+
+interface Univ {
+  id: number;
+  name: string;
+}
+
 export const UnivListSidebar = () => {
   const [isUnivOptionOpened, setIsUnivOptionOpened] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -23,6 +31,11 @@ export const UnivListSidebar = () => {
   const [isUnivUpdateModalOpen, setIsUnivUpdateModalOpen] = useState(false);
   const [isUnivDeleteModalOpen, setIsUnivDeleteModalOpen] = useState(false);
   const [isUnivCreateModalOpen, setIsUnivCreateModalOpen] = useState(false);
+
+  // API 데이터
+  const [univList, setUnivList] = useState<Univ[]>([]);
+  const [univCount, setUnivCount] = useState(0);
+
   // 검색 창 바깥 클릭 시 검색 창 닫기
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -34,6 +47,21 @@ export const UnivListSidebar = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, []);
+
+  // API 연결 - 유니브 리스트 간단 조회
+  const fetchUnivList = async () => {
+    try {
+      const res = await fetchUnivListAPI(GENERATION);
+      setUnivList(res.univs);
+      setUnivCount(res.count);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUnivList();
   }, []);
 
   return (
@@ -56,7 +84,7 @@ export const UnivListSidebar = () => {
                 유니브 리스트
               </Text>
               <Text typography="heading6" as="h6" color="text-primary">
-                30
+                {univCount}
               </Text>
             </div>
             <SearchOutlineIcon size={24} onClick={() => setIsSearching(true)} className={styles.searchIcon} />
@@ -68,32 +96,35 @@ export const UnivListSidebar = () => {
           <SideNav.Item>
             <SideNav.Link>전체</SideNav.Link>
           </SideNav.Item>
-          <SideNav.Item className={styles.univItem}>
-            <SideNav.Link>구름대학교</SideNav.Link>
-            <SideNav.Item.RightArea>
-              <Dropdown
-                direction="down"
-                className={styles.univDropdown}
-                isOpen={isUnivOptionOpened}
-                toggle={() => setIsUnivOptionOpened((prev) => !prev)}>
-                <DropdownToggle size="sm" color="secondary" className={styles.univDropdownToggle}>
-                  <MoreCommonOutlineIcon className={styles.univDropdownIcon} />
-                </DropdownToggle>
-                <DropdownMenu right className={styles.univDropdownMenu}>
-                  <DropdownItem onClick={() => setIsUnivUpdateModalOpen(true)}>
-                    <Text typography="body2" as="p" color="text-normal">
-                      정보 수정
-                    </Text>
-                  </DropdownItem>
-                  <DropdownItem onClick={() => setIsUnivDeleteModalOpen(true)}>
-                    <Text typography="body2" as="p" color="text-danger">
-                      삭제하기
-                    </Text>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </SideNav.Item.RightArea>
-          </SideNav.Item>
+
+          {univList.map((univ) => (
+            <SideNav.Item className={styles.univItem} key={univ.id}>
+              <SideNav.Link>{univ.name}</SideNav.Link>
+              <SideNav.Item.RightArea>
+                <Dropdown
+                  direction="down"
+                  className={styles.univDropdown}
+                  isOpen={isUnivOptionOpened}
+                  toggle={() => setIsUnivOptionOpened((prev) => !prev)}>
+                  <DropdownToggle size="sm" color="secondary" className={styles.univDropdownToggle}>
+                    <MoreCommonOutlineIcon className={styles.univDropdownIcon} />
+                  </DropdownToggle>
+                  <DropdownMenu right className={styles.univDropdownMenu}>
+                    <DropdownItem onClick={() => setIsUnivUpdateModalOpen(true)}>
+                      <Text typography="body2" as="p" color="text-normal">
+                        정보 수정
+                      </Text>
+                    </DropdownItem>
+                    <DropdownItem onClick={() => setIsUnivDeleteModalOpen(true)}>
+                      <Text typography="body2" as="p" color="text-danger">
+                        삭제하기
+                      </Text>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </SideNav.Item.RightArea>
+            </SideNav.Item>
+          ))}
         </SideNav.List>
       </SideNav>
       <div className={styles.addUnivButton}>
