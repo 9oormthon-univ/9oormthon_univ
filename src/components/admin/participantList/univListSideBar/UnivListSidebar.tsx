@@ -8,10 +8,8 @@ import {
   DropdownToggle,
   Input,
   SideNav,
-  Slide,
   Text,
   toast,
-  ToastContainer,
 } from '@goorm-dev/vapor-components';
 import { MoreCommonOutlineIcon, PlusOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useEffect, useRef, useState } from 'react';
@@ -27,7 +25,6 @@ interface Univ {
 }
 
 export const UnivListSidebar = () => {
-  const [isUnivOptionOpened, setIsUnivOptionOpened] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,6 +32,12 @@ export const UnivListSidebar = () => {
   const [isUnivDeleteModalOpen, setIsUnivDeleteModalOpen] = useState(false);
   const [isUnivCreateModalOpen, setIsUnivCreateModalOpen] = useState(false);
   const [selectedUnivId, setSelectedUnivId] = useState<number | null>(null);
+
+  // 유니브별 드롭다운 구분
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const toggleDropdown = (id: number) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
 
   // API 데이터
   const [univList, setUnivList] = useState<Univ[]>([]);
@@ -77,9 +80,7 @@ export const UnivListSidebar = () => {
       fetchUnivList(); // 삭제 후 리스트 새로고침
       setIsUnivDeleteModalOpen(false);
 
-      const message = '유니브 삭제가 완료되었습니다.';
-
-      toast(message, {
+      toast('유니브 삭제가 완료되었습니다', {
         type: 'primary',
       });
     } catch (error) {
@@ -139,8 +140,8 @@ export const UnivListSidebar = () => {
                 <Dropdown
                   direction="down"
                   className={styles.univDropdown}
-                  isOpen={isUnivOptionOpened}
-                  toggle={() => setIsUnivOptionOpened((prev) => !prev)}>
+                  isOpen={openDropdownId === univ.id}
+                  toggle={() => toggleDropdown(univ.id)}>
                   <DropdownToggle size="sm" color="secondary" className={styles.univDropdownToggle}>
                     <MoreCommonOutlineIcon className={styles.univDropdownIcon} />
                   </DropdownToggle>
@@ -171,6 +172,9 @@ export const UnivListSidebar = () => {
         isOpen={isUnivUpdateModalOpen}
         toggle={() => setIsUnivUpdateModalOpen((prev) => !prev)}
         univId={selectedUnivId}
+        onSuccess={() => {
+          fetchUnivList();
+        }}
       />
       <InformationModal
         isOpen={isUnivDeleteModalOpen}
@@ -189,8 +193,13 @@ export const UnivListSidebar = () => {
         confirmLabel="삭제"
         onConfirm={() => selectedUnivId && handleDeleteUniv(selectedUnivId)}
       />
-      <UnivCreateModal isOpen={isUnivCreateModalOpen} toggle={() => setIsUnivCreateModalOpen((prev) => !prev)} />
-      <ToastContainer autoClose={3000} transition={Slide} closeButton={false} newestOnTop hideProgressBar />
+      <UnivCreateModal
+        isOpen={isUnivCreateModalOpen}
+        toggle={() => setIsUnivCreateModalOpen((prev) => !prev)}
+        onSuccess={() => {
+          fetchUnivList();
+        }}
+      />
     </div>
   );
 };
