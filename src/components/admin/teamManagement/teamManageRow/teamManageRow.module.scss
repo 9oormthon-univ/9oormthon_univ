@@ -41,5 +41,24 @@
 
 td {
   padding: 0 var(--space-200);
-  height: var(--dimension-500);
+  height: var(--dimension-700);
+}
+
+.roleCell {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.univName {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  flex: 1 0 0;
+}
+
+.emailCell {
+  display: -webkit-box;
+  width: 10.5rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }

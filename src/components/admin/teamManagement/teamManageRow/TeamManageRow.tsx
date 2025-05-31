@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text } from '@goorm-dev/vapor-components';
+import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text } from '@goorm-dev/vapor-components';
 import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './teamManageRow.module.scss';
 import { useState } from 'react';
@@ -32,19 +32,19 @@ export default function TeamManageRow() {
             </DropdownMenu>
           </Dropdown>
         </td>
+        <td className={styles.roleCell}>
+          <Badge color="primary" size="md" pill>
+            프론트엔드
+          </Badge>
+        </td>
         <td>
-          <Text typography="body2" color="text-normal">
-            기획자
+          <Text typography="body2" color="text-normal" className={styles.univName}>
+            구름대학교
           </Text>
         </td>
         <td>
-          <Text typography="body2" color="text-normal">
-            기획자
-          </Text>
-        </td>
-        <td>
-          <Text typography="body2" color="text-normal">
-            기획자
+          <Text typography="body2" color="text-normal" className={styles.email}>
+            univ1234@gmail.com
           </Text>
         </td>
       </tr>
