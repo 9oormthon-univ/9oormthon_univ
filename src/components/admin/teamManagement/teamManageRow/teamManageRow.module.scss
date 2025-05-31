@@ -1,0 +1,45 @@
+.nameCell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.memberDropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.memberDropdownMenu,
+.memberRoleDropdownMenu {
+  min-width: 6.0625rem !important;
+}
+
+.memberDropdownToggle {
+  width: var(--dimension-300) !important;
+  height: var(--dimension-300) !important;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.memberDropdownIcon {
+  width: var(--dimension-200) !important;
+  height: var(--dimension-200) !important;
+}
+
+.name {
+  width: 5.625rem;
+  max-width: 5.625rem;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+td {
+  padding: 0 var(--space-200);
+  height: var(--dimension-500);
+}

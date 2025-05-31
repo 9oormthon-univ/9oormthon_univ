@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 0 6.25rem 0;
+  gap: 1rem;
+  width: 38.9rem;
+  margin: 0 auto;
+}
+
+.backButton {
+  width: fit-content;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-self: stretch;
+  align-items: center;
+}
+
+.teamName {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.teamAction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
+}

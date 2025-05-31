@@ -1,0 +1,16 @@
+.container {
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.table {
+  width: 100%;
+
+  th {
+    padding: 0 var(--space-200);
+    background: var(--background-alternative-01);
+    height: var(--dimension-500);
+  }
+}

@@ -2,10 +2,12 @@ import { DropdownToggle, DropdownMenu, Dropdown, DropdownItem, Text, Button } fr
 import styles from './teamRow.module.scss';
 import { ChevronRightOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const TeamRow = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -53,7 +55,13 @@ export const TeamRow = () => {
           </Text>
         </td>
         <td>
-          <Button size="sm" color="secondary" icon={ChevronRightOutlineIcon} iconSide="right">
+          {/* TODO : 팀 id 제공 */}
+          <Button
+            size="sm"
+            color="secondary"
+            icon={ChevronRightOutlineIcon}
+            iconSide="right"
+            onClick={() => navigate(`/admin/teamList/1`)}>
             팀원 관리
           </Button>
         </td>

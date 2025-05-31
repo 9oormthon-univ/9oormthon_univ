@@ -25,7 +25,7 @@ const ApplicantTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/appl
 const TeamPreferenceForm = lazy(() => import('./pages/hackathon/IdeaCreateEdit/TeamPreferenceForm'));
 const ParticipantList = lazy(() => import('./pages/admin/participantList/ParticipantList'));
 const TeamList = lazy(() => import('./pages/admin/teamListAdmin/TeamList'));
-
+const TeamManagement = lazy(() => import('./pages/admin/teamManagement/TeamManagement'));
 const loaderProps = {
   color: 'black',
   lottieProps: {
@@ -245,6 +245,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <TeamList />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'teamList/:team_id',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <TeamManagement />
           </Suspense>
         ),
       },
