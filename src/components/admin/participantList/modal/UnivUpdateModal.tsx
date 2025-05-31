@@ -20,9 +20,10 @@ interface UnivUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
   univId: number | null;
+  onSuccess: () => void;
 }
 
-export default function UnivUpdateModal({ isOpen, toggle, univId }: UnivUpdateModalProps) {
+export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: UnivUpdateModalProps) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     name: '',
@@ -59,6 +60,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId }: UnivUpdateMo
       // TODO : 유니브 대표 추가 필요
       const res = await updateUnivAPI(univId, form.name, form.instagram_url);
       console.log(res);
+      onSuccess();
       toggle();
     } catch (error) {
       console.log(error);
