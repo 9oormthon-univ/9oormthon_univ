@@ -2,6 +2,8 @@ import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Text } from 
 import FormField from '../../../common/formField/FormField';
 import styles from './univCreateModal.module.scss';
 import { useState } from 'react';
+import { GENERATION } from '../../../../constants/common';
+import { createUnivAPI } from '../../../../api/admin';
 interface UnivCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
@@ -10,9 +12,22 @@ interface UnivCreateModalProps {
 export default function UnivCreateModal({ isOpen, toggle }: UnivCreateModalProps) {
   const [form, setForm] = useState({
     name: '',
-    link: '',
+    instagram_url: '',
+    generation: GENERATION,
   });
-  const hasChanged = form.name !== '' && form.link !== '';
+  const hasChanged = form.name !== '' && form.instagram_url !== '';
+
+  // API 연결 - 유니브 생성
+  const handleCreateUniv = async () => {
+    try {
+      const res = await createUnivAPI(form.name, form.instagram_url, form.generation);
+      console.log(res);
+      toggle();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader>
@@ -32,8 +47,8 @@ export default function UnivCreateModal({ isOpen, toggle }: UnivCreateModalProps
         <FormField label="소개 링크" required>
           <Input
             bsSize="lg"
-            value={form.link}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, link: e.target.value })}
+            value={form.instagram_url}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, instagram_url: e.target.value })}
             placeholder="소개 링크를 입력해주세요."
           />
         </FormField>
@@ -42,7 +57,7 @@ export default function UnivCreateModal({ isOpen, toggle }: UnivCreateModalProps
         <Button size="lg" color="secondary" onClick={toggle}>
           취소
         </Button>
-        <Button size="lg" color="primary" disabled={!hasChanged}>
+        <Button size="lg" color="primary" disabled={!hasChanged} onClick={handleCreateUniv}>
           추가
         </Button>
       </ModalFooter>

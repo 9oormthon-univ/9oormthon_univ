@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tableContainer {
+  flex-grow: 1;
+  overflow-y: auto;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.table {
+  overflow-y: auto;
+  width: 100%;
+
+  thead {
+    padding: 0rem var(--space-200);
+    height: var(--dimension-500);
+    background: var(--background-alternative-01);
+  }
+
+  td {
+    padding: 0rem var(--space-200);
+  }
+
+  td:first-child {
+    border-right: 1px solid var(--border-color);
+  }
+}

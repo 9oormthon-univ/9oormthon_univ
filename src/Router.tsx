@@ -24,6 +24,7 @@ const TeamBuildApplicant = lazy(() => import('./pages/hackathon/teamBuilding/app
 const ApplicantTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantTeamPage'));
 const TeamPreferenceForm = lazy(() => import('./pages/hackathon/IdeaCreateEdit/TeamPreferenceForm'));
 const ParticipantList = lazy(() => import('./pages/admin/participantList/ParticipantList'));
+const TeamList = lazy(() => import('./pages/admin/teamListAdmin/TeamList'));
 
 const loaderProps = {
   color: 'black',
@@ -236,6 +237,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <ParticipantList />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'teamList',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <TeamList />
           </Suspense>
         ),
       },

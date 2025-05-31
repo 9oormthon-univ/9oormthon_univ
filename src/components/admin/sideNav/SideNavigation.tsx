@@ -10,18 +10,30 @@ import {
 import styles from './sideNavigation.module.scss';
 import { SideNav, Avatar, Text, Button } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const SideNavigation = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleButtonClick = () => {
+  // 유니브 사이트 메인으로 이동
+  const handleUnivMainClick = () => {
     navigate('/');
+  };
+
+  // 미르미 리스트 페이지로 이동
+  const handleParticipantListClick = () => {
+    navigate('/admin');
+  };
+
+  const handleTeamListClick = () => {
+    navigate('/admin/teamList');
   };
 
   return (
@@ -36,27 +48,27 @@ export const SideNavigation = () => {
       </div>
       <SideNav.List>
         <SideNav.Group>
-          <SideNav.Item>
-            <SideNav.Link>
+          <SideNav.Item onClick={handleParticipantListClick} className={styles.sideNavItem}>
+            <SideNav.Link active={currentPath === '/admin'}>
               <GroupIcon size={20} /> 미르미 명단
             </SideNav.Link>
           </SideNav.Item>
-          <SideNav.Item>
-            <SideNav.Link>
+          <SideNav.Item onClick={handleTeamListClick} className={styles.sideNavItem}>
+            <SideNav.Link active={currentPath === '/admin/teamList'}>
               <NetworkIcon size={20} /> 팀 리스트
             </SideNav.Link>
           </SideNav.Item>
-          <SideNav.Item>
+          <SideNav.Item className={styles.sideNavItem}>
             <SideNav.Link>
               <LightbulbIcon size={20} /> 아이디어 관리
             </SideNav.Link>
           </SideNav.Item>
-          <SideNav.Item>
+          <SideNav.Item className={styles.sideNavItem}>
             <SideNav.Link>
               <FileIcon size={20} /> 프로젝트 관리
             </SideNav.Link>
           </SideNav.Item>
-          <SideNav.Item onClick={handleClick}>
+          <SideNav.Item onClick={handleClick} className={styles.sideNavItem}>
             <SideNav.Link>
               <CalendarIcon size={20} /> 기간 설정
             </SideNav.Link>
@@ -71,12 +83,12 @@ export const SideNavigation = () => {
           </SideNav.Item>
           {isOpen && (
             <div>
-              <SideNav.Item>
+              <SideNav.Item className={styles.sideNavItem}>
                 <SideNav.Link>
                   <CalendarIcon size={20} style={{ opacity: 0 }} /> 팀 빌딩
                 </SideNav.Link>
               </SideNav.Item>
-              <SideNav.Item>
+              <SideNav.Item className={styles.sideNavItem}>
                 <SideNav.Link>
                   <CalendarIcon size={20} style={{ opacity: 0 }} /> 리크루트
                 </SideNav.Link>
@@ -85,7 +97,7 @@ export const SideNavigation = () => {
           )}
         </SideNav.Group>
       </SideNav.List>
-      <Button color="secondary" icon={OutOutlineIcon} className={styles.button} onClick={handleButtonClick}>
+      <Button color="secondary" icon={OutOutlineIcon} className={styles.button} onClick={handleUnivMainClick}>
         유니브 사이트로 이동
       </Button>
     </SideNav>
