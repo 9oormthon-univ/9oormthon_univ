@@ -4,10 +4,9 @@ import MemberForm from '../form/MemberForm';
 interface MemberCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
-  memberId: string | null;
 }
 
-export const MemberCreateModal = ({ isOpen, toggle, memberId }: MemberCreateModalProps) => {
+export const MemberCreateModal = ({ isOpen, toggle }: MemberCreateModalProps) => {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader>
@@ -16,7 +15,7 @@ export const MemberCreateModal = ({ isOpen, toggle, memberId }: MemberCreateModa
         </Text>
       </ModalHeader>
       <ModalBody>
-        <MemberForm showProfileEdit={false} memberId={memberId} />
+        <MemberForm showProfileEdit={false} />
       </ModalBody>
       <ModalFooter>
         <Button size="lg" color="secondary" onClick={toggle}>

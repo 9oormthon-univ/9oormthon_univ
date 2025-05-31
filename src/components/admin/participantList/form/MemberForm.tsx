@@ -10,10 +10,9 @@ import { ImageIcon } from '@goorm-dev/vapor-icons';
 interface MemberFormProps {
   // mode: 'create' | 'edit';
   showProfileEdit?: boolean;
-  memberId?: string | null;
 }
 
-export default function MemberForm({ showProfileEdit, memberId }: MemberFormProps) {
+export default function MemberForm({ showProfileEdit }: MemberFormProps) {
   return (
     <div className={styles.modalBody}>
       <Avatar name="Goorm" />

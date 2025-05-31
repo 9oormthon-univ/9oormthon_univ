@@ -10,10 +10,8 @@ interface MemberTableProps {
 
 export const MemberTable = ({ members }: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
-  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
 
-  const handleOpenModal = (memberId: string) => {
-    setSelectedMemberId(memberId);
+  const handleOpenModal = () => {
     setIsMemberCreateModalOpen(true);
   };
 
@@ -30,7 +28,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
         </div>
         <div className={styles.tableHeaderRight}>
           <Input size="md" placeholder="검색" type="text" style={{ width: '11.875rem' }} />
-          <Button size="md" color="primary" onClick={() => handleOpenModal('')}>
+          <Button size="md" color="primary" onClick={handleOpenModal}>
             인원 추가하기
           </Button>
         </div>
@@ -64,7 +62,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
           </thead>
           <tbody>
             {members.map((member) => (
-              <MemberRow key={member.id} member={member} onOpenModal={() => handleOpenModal(member.id)} />
+              <MemberRow key={member.id} member={member} onOpenModal={handleOpenModal} />
             ))}
           </tbody>
         </table>
@@ -73,11 +71,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
       <div className={styles.pagination}>
         <BasicPagination pageCount={10} />
       </div>
-      <MemberCreateModal
-        isOpen={isMemberCreateModalOpen}
-        toggle={() => setIsMemberCreateModalOpen(false)}
-        memberId={selectedMemberId}
-      />
+      <MemberCreateModal isOpen={isMemberCreateModalOpen} toggle={() => setIsMemberCreateModalOpen(false)} />
     </div>
   );
 };
