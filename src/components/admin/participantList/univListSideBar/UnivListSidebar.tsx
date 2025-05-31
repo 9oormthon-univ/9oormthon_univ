@@ -19,8 +19,7 @@ import UnivUpdateModal from '../modal/UnivUpdateModal';
 import UnivCreateModal from '../modal/UnivCreateModal';
 import InformationModal from '../../../common/modal/InformationModal';
 import { GENERATION } from '../../../../constants/common';
-import { fetchUnivListAPI } from '../../../../api/univ';
-import { deleteUnivAPI } from '../../../../api/admin';
+import { deleteUnivAPI, fetchUnivListAPI } from '../../../../api/admin';
 
 interface Univ {
   id: number;
