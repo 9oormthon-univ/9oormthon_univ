@@ -39,6 +39,7 @@ export const TeamTable = () => {
           </thead>
           <tbody>
             <TeamRow />
+            <TeamRow />
           </tbody>
         </table>
       </div>
