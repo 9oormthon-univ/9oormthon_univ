@@ -1,0 +1,35 @@
+td {
+  padding: 0rem var(--space-200);
+  height: var(--dimension-700);
+}
+
+.teamName {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.memberDropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.memberDropdownMenu,
+.memberRoleDropdownMenu {
+  min-width: 6.0625rem !important;
+}
+
+.memberDropdownToggle {
+  width: var(--dimension-300) !important;
+  height: var(--dimension-300) !important;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.memberDropdownIcon {
+  width: var(--dimension-200) !important;
+  height: var(--dimension-200) !important;
+}
