@@ -57,8 +57,9 @@ export const UnivListSidebar = () => {
   const fetchUnivList = async () => {
     try {
       const res = await fetchUnivListAPI(GENERATION);
-      setUnivList(res.univs);
-      setUnivCount(res.count);
+      setUnivList(res.data.univs);
+      setUnivCount(res.data.count);
+      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
