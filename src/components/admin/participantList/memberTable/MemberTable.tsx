@@ -10,6 +10,13 @@ interface MemberTableProps {
 
 export const MemberTable = ({ members }: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+
+  const handleOpenModal = (memberId: string) => {
+    setSelectedMemberId(memberId);
+    setIsMemberCreateModalOpen(true);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
@@ -23,7 +30,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
         </div>
         <div className={styles.tableHeaderRight}>
           <Input size="md" placeholder="검색" type="text" style={{ width: '11.875rem' }} />
-          <Button size="md" color="primary" onClick={() => setIsMemberCreateModalOpen(true)}>
+          <Button size="md" color="primary" onClick={() => handleOpenModal('')}>
             인원 추가하기
           </Button>
         </div>
@@ -57,7 +64,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
           </thead>
           <tbody>
             {members.map((member) => (
-              <MemberRow key={member.id} member={member} />
+              <MemberRow key={member.id} member={member} onOpenModal={() => handleOpenModal(member.id)} />
             ))}
           </tbody>
         </table>
@@ -66,7 +73,11 @@ export const MemberTable = ({ members }: MemberTableProps) => {
       <div className={styles.pagination}>
         <BasicPagination pageCount={10} />
       </div>
-      <MemberCreateModal isOpen={isMemberCreateModalOpen} toggle={() => setIsMemberCreateModalOpen(false)} />
+      <MemberCreateModal
+        isOpen={isMemberCreateModalOpen}
+        toggle={() => setIsMemberCreateModalOpen(false)}
+        memberId={selectedMemberId}
+      />
     </div>
   );
 };

@@ -5,7 +5,12 @@ import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
 import { MemberUpdateModal } from '../modal/MemberUpdateModal';
 
-export const MemberRow = ({ member }: { member: any }) => {
+interface MemberRowProps {
+  member: any;
+  onOpenModal: () => void;
+}
+
+export const MemberRow = ({ member, onOpenModal }: MemberRowProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRoleOpen, setIsRoleOpen] = useState(false);
   const [isInformationModalOpen, setIsInformationModalOpen] = useState(false);
@@ -27,7 +32,7 @@ export const MemberRow = ({ member }: { member: any }) => {
               <MoreCommonOutlineIcon className={styles.memberDropdownIcon} />
             </DropdownToggle>
             <DropdownMenu className={styles.memberDropdownMenu}>
-              <DropdownItem onClick={toggleUpdateModal}>
+              <DropdownItem onClick={onOpenModal}>
                 <Text typography="body2" as="p" color="text-normal">
                   정보 보기
                 </Text>
@@ -62,7 +67,7 @@ export const MemberRow = ({ member }: { member: any }) => {
           </Text>
         </td>
         <td>
-          <Button size="sm" color="secondary" onClick={toggleUpdateModal}>
+          <Button size="sm" color="secondary" onClick={onOpenModal}>
             정보 보기
             <ChevronRightOutlineIcon className={styles.memberDropdownIcon} />
           </Button>

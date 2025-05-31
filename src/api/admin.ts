@@ -17,11 +17,11 @@ export const fetchUnivDetailAPI = async (univ_id: number) => {
 };
 
 // 어드민 유니브 수정
-export const updateUnivAPI = async (univ_id: number, name: string, instagram_url: string, leader_id: number) => {
+// TODO : 리더 추가 필요
+export const updateUnivAPI = async (univ_id: number, name: string, instagram_url: string) => {
   const response = await instance.put(`/api/v1/admins/univs/${univ_id}`, {
     name,
     instagram_url,
-    leader_id,
   });
   return response.data;
 };

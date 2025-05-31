@@ -13,21 +13,55 @@ import {
 } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
 import styles from './univUpdateModal.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchUnivDetailAPI, updateUnivAPI } from '../../../../api/admin';
 
 interface UnivUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
+  univId: number | null;
 }
 
-export default function UnivUpdateModal({ isOpen, toggle }: UnivUpdateModalProps) {
+export default function UnivUpdateModal({ isOpen, toggle, univId }: UnivUpdateModalProps) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     name: '',
-    link: '',
+    instagram_url: '',
   });
 
-  const hasChanged = form.name !== '' && form.link !== '';
+  const hasChanged = form.name !== '' && form.instagram_url !== '';
+
+  // 상세 조회
+  const fetchUnivInfo = async () => {
+    if (!univId) return;
+    try {
+      const res = await fetchUnivDetailAPI(univId);
+      setForm({
+        name: res.name,
+        instagram_url: res.instagram_url,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (univId) {
+      fetchUnivInfo();
+    }
+  }, [univId]);
+
+  // 유니브 정보 수정
+  const handleUpdateUniv = async () => {
+    try {
+      if (!univId) return;
+      const res = await updateUnivAPI(univId, form.name, form.instagram_url);
+      console.log(res);
+      toggle();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -47,8 +81,8 @@ export default function UnivUpdateModal({ isOpen, toggle }: UnivUpdateModalProps
         <FormField label="소개 링크" required={true}>
           <Input
             bsSize="lg"
-            value={form.link}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, link: e.target.value })}
+            value={form.instagram_url}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, instagram_url: e.target.value })}
           />
         </FormField>
         <FormField label="유니브 대표" required={false}>
@@ -61,6 +95,7 @@ export default function UnivUpdateModal({ isOpen, toggle }: UnivUpdateModalProps
             <DropdownMenu className={styles.dropdownMenu}>
               <DropdownItem header>이름/학교명</DropdownItem>
               <DropdownItem>
+                {/* TODO : 리더 내용 추가 필요 */}
                 <Text typography="body2" as="p">
                   김구름/구름대학교/010-1234-1234
                 </Text>
@@ -78,7 +113,7 @@ export default function UnivUpdateModal({ isOpen, toggle }: UnivUpdateModalProps
           }}>
           취소
         </Button>
-        <Button size="lg" color="primary" disabled={!hasChanged}>
+        <Button size="lg" color="primary" disabled={!hasChanged} onClick={handleUpdateUniv}>
           수정 완료
         </Button>
       </ModalFooter>
