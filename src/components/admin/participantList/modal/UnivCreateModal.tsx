@@ -7,9 +7,10 @@ import { createUnivAPI } from '../../../../api/admin';
 interface UnivCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
+  onSuccess: () => void;
 }
 
-export default function UnivCreateModal({ isOpen, toggle }: UnivCreateModalProps) {
+export default function UnivCreateModal({ isOpen, toggle, onSuccess }: UnivCreateModalProps) {
   const [form, setForm] = useState({
     name: '',
     instagram_url: '',
@@ -22,6 +23,7 @@ export default function UnivCreateModal({ isOpen, toggle }: UnivCreateModalProps
     try {
       const res = await createUnivAPI(form.name, form.instagram_url, form.generation);
       console.log(res);
+      onSuccess();
       toggle();
     } catch (error) {
       console.log(error);

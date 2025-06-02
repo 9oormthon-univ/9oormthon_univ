@@ -20,9 +20,10 @@ interface UnivUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
   univId: number | null;
+  onSuccess: () => void;
 }
 
-export default function UnivUpdateModal({ isOpen, toggle, univId }: UnivUpdateModalProps) {
+export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: UnivUpdateModalProps) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     name: '',
@@ -32,13 +33,14 @@ export default function UnivUpdateModal({ isOpen, toggle, univId }: UnivUpdateMo
   const hasChanged = form.name !== '' && form.instagram_url !== '';
 
   // 상세 조회
+  // TODO : 유니브 대표 추가 필요
   const fetchUnivInfo = async () => {
     if (!univId) return;
     try {
       const res = await fetchUnivDetailAPI(univId);
       setForm({
-        name: res.name,
-        instagram_url: res.instagram_url,
+        name: res.data.name,
+        instagram_url: res.data.instagram_url,
       });
     } catch (error) {
       console.log(error);
@@ -55,8 +57,10 @@ export default function UnivUpdateModal({ isOpen, toggle, univId }: UnivUpdateMo
   const handleUpdateUniv = async () => {
     try {
       if (!univId) return;
+      // TODO : 유니브 대표 추가 필요
       const res = await updateUnivAPI(univId, form.name, form.instagram_url);
       console.log(res);
+      onSuccess();
       toggle();
     } catch (error) {
       console.log(error);
