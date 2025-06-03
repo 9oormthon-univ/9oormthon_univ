@@ -3,10 +3,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './teamManagement.module.scss';
 import { ChevronLeftOutlineIcon } from '@goorm-dev/vapor-icons';
 import TeamManageTable from '../../../components/admin/teamManagement/teamManageTable/TeamManageTable';
+import TeamMemberCreateModal from '../../../components/admin/teamManagement/modal/teamMemberCreateModal';
+import { useState } from 'react';
 
 export default function TeamManagement() {
   const { team_id } = useParams();
   const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
   return (
     <div className={styles.container}>
       <Button
@@ -32,12 +40,14 @@ export default function TeamManagement() {
           <Button size="md" color="secondary">
             수정하기
           </Button>
-          <Button size="md" color="primary">
+          <Button size="md" color="primary" onClick={toggle}>
             팀원 추가하기
           </Button>
         </div>
       </div>
       <TeamManageTable />
+
+      <TeamMemberCreateModal isOpen={isOpen} toggle={toggle} />
     </div>
   );
 }
