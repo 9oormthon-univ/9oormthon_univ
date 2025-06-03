@@ -37,9 +37,6 @@ export default function TeamManagement() {
           </Text>
         </div>
         <div className={styles.teamAction}>
-          <Button size="md" color="secondary">
-            수정하기
-          </Button>
           <Button size="md" color="primary" onClick={toggle}>
             팀원 추가하기
           </Button>
