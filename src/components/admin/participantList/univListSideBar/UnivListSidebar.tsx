@@ -17,7 +17,7 @@ import UnivUpdateModal from '../modal/UnivUpdateModal';
 import UnivCreateModal from '../modal/UnivCreateModal';
 import InformationModal from '../../../common/modal/InformationModal';
 import { GENERATION } from '../../../../constants/common';
-import { deleteUnivAPI, fetchUnivListAPI } from '../../../../api/admin';
+import { deleteUnivAPI, fetchUnivListAPI } from '../../../../api/admin/univs';
 
 interface Univ {
   id: number;
@@ -169,6 +169,7 @@ export const UnivListSidebar = () => {
         </Button>
       </div>
       <UnivUpdateModal
+        // TODO : 모달 열기
         isOpen={isUnivUpdateModalOpen}
         toggle={() => setIsUnivUpdateModalOpen((prev) => !prev)}
         univId={selectedUnivId}

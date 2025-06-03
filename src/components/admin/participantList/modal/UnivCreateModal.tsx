@@ -3,7 +3,7 @@ import FormField from '../../../common/formField/FormField';
 import styles from './univCreateModal.module.scss';
 import { useState } from 'react';
 import { GENERATION } from '../../../../constants/common';
-import { createUnivAPI } from '../../../../api/admin';
+import { createUnivAPI } from '../../../../api/admin/univs';
 interface UnivCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
