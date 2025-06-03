@@ -44,11 +44,6 @@ export const MemberTable = ({ members }: MemberTableProps) => {
               </td>
               <td>
                 <Text typography="subtitle1" color="text-normal">
-                  권한
-                </Text>
-              </td>
-              <td>
-                <Text typography="subtitle1" color="text-normal">
                   이메일
                 </Text>
               </td>
