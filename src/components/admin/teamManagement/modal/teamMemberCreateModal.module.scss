@@ -1,0 +1,10 @@
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.radioGroup {
+  display: flex;
+  gap: var(--space-400);
+}

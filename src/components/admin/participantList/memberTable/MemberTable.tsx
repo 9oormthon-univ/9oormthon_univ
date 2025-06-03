@@ -44,11 +44,6 @@ export const MemberTable = ({ members }: MemberTableProps) => {
               </td>
               <td>
                 <Text typography="subtitle1" color="text-normal">
-                  권한
-                </Text>
-              </td>
-              <td>
-                <Text typography="subtitle1" color="text-normal">
                   이메일
                 </Text>
               </td>
@@ -62,7 +57,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
           </thead>
           <tbody>
             {members.map((member) => (
-              <MemberRow key={member.id} member={member} onOpenModal={handleOpenModal} />
+              <MemberRow key={member.id} member={member} />
             ))}
           </tbody>
         </table>

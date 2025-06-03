@@ -7,16 +7,13 @@ import { MemberUpdateModal } from '../modal/MemberUpdateModal';
 
 interface MemberRowProps {
   member: any;
-  onOpenModal: () => void;
 }
 
-export const MemberRow = ({ member, onOpenModal }: MemberRowProps) => {
+export const MemberRow = ({ member }: MemberRowProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isRoleOpen, setIsRoleOpen] = useState(false);
   const [isInformationModalOpen, setIsInformationModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
-  const toggleRoleDropdown = () => setIsRoleOpen((prev) => !prev);
   const toggleInformationModal = () => setIsInformationModalOpen((prev) => !prev);
   const toggleUpdateModal = () => setIsUpdateModalOpen((prev) => !prev);
 
@@ -32,7 +29,7 @@ export const MemberRow = ({ member, onOpenModal }: MemberRowProps) => {
               <MoreCommonOutlineIcon className={styles.memberDropdownIcon} />
             </DropdownToggle>
             <DropdownMenu className={styles.memberDropdownMenu}>
-              <DropdownItem onClick={onOpenModal}>
+              <DropdownItem onClick={toggleUpdateModal}>
                 <Text typography="body2" as="p" color="text-normal">
                   정보 보기
                 </Text>
@@ -42,17 +39,6 @@ export const MemberRow = ({ member, onOpenModal }: MemberRowProps) => {
                   퇴장
                 </Text>
               </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </td>
-        <td style={{ width: '7.5rem' }}>
-          <Dropdown isOpen={isRoleOpen} toggle={toggleRoleDropdown} direction="down" size="sm">
-            <DropdownToggle color="secondary" outline caret>
-              {member.role}
-            </DropdownToggle>
-            <DropdownMenu right className={styles.memberRoleDropdownMenu}>
-              <DropdownItem>참가자</DropdownItem>
-              <DropdownItem>중앙운영단</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </td>
@@ -67,7 +53,7 @@ export const MemberRow = ({ member, onOpenModal }: MemberRowProps) => {
           </Text>
         </td>
         <td>
-          <Button size="sm" color="secondary" onClick={onOpenModal}>
+          <Button size="sm" color="secondary" onClick={toggleUpdateModal}>
             정보 보기
             <ChevronRightOutlineIcon className={styles.memberDropdownIcon} />
           </Button>

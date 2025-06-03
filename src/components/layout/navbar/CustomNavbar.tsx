@@ -30,6 +30,7 @@ function CustomNavbar() {
   const profileImg = useAuthStore((state) => state.img_url);
 
   const { fetchPeriodData } = usePeriodStore();
+  const { fetchUserStatus } = useAuthStore();
 
   const NAV_ITEMS = [
     {
@@ -50,8 +51,12 @@ function CustomNavbar() {
   // 팀 빌딩 기간 데이터 업데이트 필요
   const handleClickHackathon = async () => {
     await fetchPeriodData();
+    // 현재 상태 업데이트
+    await fetchUserStatus();
 
     const currentStatus = useAuthStore.getState().status ?? UserStatus.NONE;
+
+    console.log(currentStatus);
 
     switch (currentStatus) {
       case UserStatus.PROVIDER:

@@ -7,21 +7,18 @@ const mockMembers = [
   {
     id: 1,
     name: '김구름',
-    role: '참가자',
     email: 'goorm1@example.com',
     teamBuilding: true,
   },
   {
     id: 2,
     name: '이햇살',
-    role: '중앙운영단',
     email: 'sunny2@example.com',
     teamBuilding: true,
   },
   {
     id: 3,
     name: '박별빛',
-    role: '참가자',
     email: 'moonlight3@example.com',
     teamBuilding: false,
   },

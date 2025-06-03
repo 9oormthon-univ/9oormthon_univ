@@ -26,3 +26,8 @@
   gap: var(--space-200);
   align-items: flex-start;
 }
+
+.radioGroup {
+  display: flex;
+  gap: var(--space-400);
+}
