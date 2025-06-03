@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import styles from './teamList.module.scss';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Text } from '@goorm-dev/vapor-components';
+import { Button, Input, Text } from '@goorm-dev/vapor-components';
 import { TeamTable } from '../../../components/admin/teamList/teamTable/TeamTable';
 import TeamCreateModal from '../../../components/admin/teamList/modal/TeamCreateModal';
 
 export default function TeamList() {
-  const [isGenerationOpen, setIsGenerationOpen] = useState(false);
   const [isCreateTeamOpen, setIsCreateTeamOpen] = useState(false);
 
-  const toggleGeneration = () => setIsGenerationOpen((prev) => !prev);
   const toggleCreateTeam = () => setIsCreateTeamOpen((prev) => !prev);
 
   return (
@@ -22,24 +20,10 @@ export default function TeamList() {
         </Text>
       </div>
       <div className={styles.filterContainer}>
-        {/* 기수 선택 - 우선 static으로 진행할 예정 */}
-        <Dropdown isOpen={isGenerationOpen} toggle={toggleGeneration} className={styles.dropdown}>
-          <DropdownToggle color="secondary" outline caret className={styles.dropdownToggle}>
-            4기
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem>1기</DropdownItem>
-            <DropdownItem>2기</DropdownItem>
-            <DropdownItem>3기</DropdownItem>
-            <DropdownItem>4기</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        <div className={styles.searchAddContainer}>
-          <Input bgSize="md" placeholder="팀 번호, 팀 명, 서비스 명으로 검색" className={styles.searchInput} />
-          <Button size="md" color="primary" onClick={toggleCreateTeam}>
-            팀 추가하기
-          </Button>
-        </div>
+        <Input bgSize="md" placeholder="팀 번호, 팀 명, 서비스 명으로 검색" className={styles.searchInput} />
+        <Button size="md" color="primary" onClick={toggleCreateTeam}>
+          팀 추가하기
+        </Button>
       </div>
       <TeamTable />
       <TeamCreateModal isOpen={isCreateTeamOpen} toggle={toggleCreateTeam} />
