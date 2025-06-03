@@ -32,9 +32,6 @@ export default function TeamList() {
         </Dropdown>
         <div className={styles.searchAddContainer}>
           <Input bgSize="md" placeholder="팀 번호, 팀 명, 서비스 명으로 검색" className={styles.searchInput} />
-          <Button size="md" color="secondary">
-            팀 번호 편집
-          </Button>
           <Button size="md" color="primary">
             팀 추가하기
           </Button>

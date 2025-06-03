@@ -3,11 +3,18 @@ import styles from './teamRow.module.scss';
 import { ChevronRightOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import InformationModal from '../../../common/modal/InformationModal';
 
 export const TeamRow = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
   const navigate = useNavigate();
+
+  // 삭제 모달
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const toggleDeleteModal = () => {
+    setIsDeleteModalOpen((prev) => !prev);
+  };
 
   return (
     <tr>
@@ -26,7 +33,7 @@ export const TeamRow = () => {
               </Text>
             </DropdownItem>
             <DropdownItem>
-              <Text typography="body2" as="p" color="text-danger">
+              <Text typography="body2" as="p" color="text-danger" onClick={toggleDeleteModal}>
                 해체
               </Text>
             </DropdownItem>
@@ -64,6 +71,25 @@ export const TeamRow = () => {
           팀원 관리
         </Button>
       </td>
+
+      <InformationModal
+        isOpen={isDeleteModalOpen}
+        toggle={toggleDeleteModal}
+        title="해당 팀을 해체시키시겠어요?"
+        description={
+          <>
+            <Text typography="body2" color="text-normal" as="p">
+              온정을 팀 리스트에서 삭제합니다.
+            </Text>
+            <Text typography="body2" color="text-normal" as="p">
+              팀 해체가 완료되면 데이터를 되돌릴 수 없습니다.
+            </Text>
+          </>
+        }
+        confirmLabel="팀 해체"
+        cancelLabel="취소"
+        onConfirm={() => {}}
+      />
     </tr>
   );
 };
