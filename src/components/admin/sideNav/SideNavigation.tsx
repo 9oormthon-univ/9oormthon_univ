@@ -32,6 +32,7 @@ export const SideNavigation = () => {
     navigate('/admin');
   };
 
+  // 팀 리스트 페이지로 이동
   const handleTeamListClick = () => {
     navigate('/admin/teamList');
   };
@@ -54,7 +55,7 @@ export const SideNavigation = () => {
             </SideNav.Link>
           </SideNav.Item>
           <SideNav.Item onClick={handleTeamListClick} className={styles.sideNavItem}>
-            <SideNav.Link active={currentPath === '/admin/teamList'}>
+            <SideNav.Link active={currentPath === '/admin/teamList' || currentPath.includes('/admin/teamList/')}>
               <NetworkIcon size={20} /> 팀 리스트
             </SideNav.Link>
           </SideNav.Item>

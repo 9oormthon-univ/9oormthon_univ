@@ -7,10 +7,9 @@ import { MemberUpdateModal } from '../modal/MemberUpdateModal';
 
 interface MemberRowProps {
   member: any;
-  onOpenModal: () => void;
 }
 
-export const MemberRow = ({ member, onOpenModal }: MemberRowProps) => {
+export const MemberRow = ({ member }: MemberRowProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRoleOpen, setIsRoleOpen] = useState(false);
   const [isInformationModalOpen, setIsInformationModalOpen] = useState(false);
@@ -32,7 +31,7 @@ export const MemberRow = ({ member, onOpenModal }: MemberRowProps) => {
               <MoreCommonOutlineIcon className={styles.memberDropdownIcon} />
             </DropdownToggle>
             <DropdownMenu className={styles.memberDropdownMenu}>
-              <DropdownItem onClick={onOpenModal}>
+              <DropdownItem onClick={toggleUpdateModal}>
                 <Text typography="body2" as="p" color="text-normal">
                   정보 보기
                 </Text>
@@ -67,7 +66,7 @@ export const MemberRow = ({ member, onOpenModal }: MemberRowProps) => {
           </Text>
         </td>
         <td>
-          <Button size="sm" color="secondary" onClick={onOpenModal}>
+          <Button size="sm" color="secondary" onClick={toggleUpdateModal}>
             정보 보기
             <ChevronRightOutlineIcon className={styles.memberDropdownIcon} />
           </Button>

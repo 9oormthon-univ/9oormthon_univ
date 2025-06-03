@@ -62,7 +62,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
           </thead>
           <tbody>
             {members.map((member) => (
-              <MemberRow key={member.id} member={member} onOpenModal={handleOpenModal} />
+              <MemberRow key={member.id} member={member} />
             ))}
           </tbody>
         </table>

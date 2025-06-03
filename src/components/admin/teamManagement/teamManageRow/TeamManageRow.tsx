@@ -3,14 +3,22 @@ import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './teamManageRow.module.scss';
 import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
+import TeamMemberUpdateModal from '../modal/TeamMemberUpdateModal';
 
 export default function TeamManageRow() {
   const [isMemberDropdownOpen, setIsMemberDropdownOpen] = useState(false);
   const toggleMemberDropdown = () => setIsMemberDropdownOpen((prev) => !prev);
 
+  // 삭제 모달
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const toggleDeleteModal = () => {
     setIsDeleteModalOpen((prev) => !prev);
+  };
+
+  // 수정 모달
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const toggleUpdateModal = () => {
+    setIsUpdateModalOpen((prev) => !prev);
   };
 
   return (
@@ -30,7 +38,7 @@ export default function TeamManageRow() {
             </DropdownToggle>
             <DropdownMenu className={styles.memberDropdownMenu}>
               <DropdownItem>
-                <Text typography="body2" as="p" color="text-normal">
+                <Text typography="body2" as="p" color="text-normal" onClick={toggleUpdateModal}>
                   정보 보기
                 </Text>
               </DropdownItem>
@@ -78,6 +86,7 @@ export default function TeamManageRow() {
         // TODO : 팀에서 제외 기능 추가
         onConfirm={() => {}}
       />
+      <TeamMemberUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
     </>
   );
 }
