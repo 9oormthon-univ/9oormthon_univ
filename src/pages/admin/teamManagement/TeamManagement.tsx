@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './teamManagement.module.scss';
 import { ChevronLeftOutlineIcon } from '@goorm-dev/vapor-icons';
 import TeamManageTable from '../../../components/admin/teamManagement/teamManageTable/TeamManageTable';
-import TeamMemberCreateModal from '../../../components/admin/teamManagement/modal/teamMemberCreateModal';
+import TeamMemberCreateModal from '../../../components/admin/teamManagement/modal/TeamMemberCreateModal';
 import { useState } from 'react';
 
 export default function TeamManagement() {
