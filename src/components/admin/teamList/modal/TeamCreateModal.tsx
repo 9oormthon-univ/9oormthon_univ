@@ -18,7 +18,7 @@ export default function TeamCreateModal({ isOpen, toggle }: TeamCreateModalProps
         </Text>
       </ModalHeader>
       <ModalBody>
-        <TeamForm onValidationChange={setIsFormValid} />
+        <TeamForm mode="create" onValidationChange={setIsFormValid} />
       </ModalBody>
       <ModalFooter>
         <Button size="lg" color="secondary" onClick={toggle}>

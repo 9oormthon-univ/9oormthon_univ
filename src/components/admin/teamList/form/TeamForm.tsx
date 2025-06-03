@@ -3,12 +3,14 @@ import FormField from '../../../common/formField/FormField';
 import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
 import { useState, useEffect } from 'react';
+import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
 
 interface TeamFormProps {
+  mode: 'create' | 'update';
   onValidationChange: (isValid: boolean) => void;
 }
 
-export default function TeamForm({ onValidationChange }: TeamFormProps) {
+export default function TeamForm({ mode, onValidationChange }: TeamFormProps) {
   const [teamName, setTeamName] = useState('');
   const [teamRoles, setTeamRoles] = useState({
     planning: null as number | null,
@@ -30,6 +32,11 @@ export default function TeamForm({ onValidationChange }: TeamFormProps) {
 
   return (
     <div className={styles.container}>
+      {mode === 'update' && (
+        <FormField label="팀 번호">
+          <Input size="lg" placeholder="팀 번호를 입력해 주세요" />
+        </FormField>
+      )}
       <FormField label="팀 이름">
         <Input
           size="lg"
@@ -66,6 +73,18 @@ export default function TeamForm({ onValidationChange }: TeamFormProps) {
           maxValue={4}
         />
       </FormField>
+
+      {mode === 'update' && (
+        <FormField label="서비스 명">
+          <Input size="lg" placeholder="서비스 명을 입력해 주세요" />
+        </FormField>
+      )}
+
+      {mode === 'update' && (
+        <FormField label="팀 대표 지정">
+          <SearchDropdown inPlaceholder="미르미 선택" outPlaceholder="팀 대표를 선택해주세요" />
+        </FormField>
+      )}
     </div>
   );
 }

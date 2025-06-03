@@ -4,6 +4,7 @@ import { ChevronRightOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InformationModal from '../../../common/modal/InformationModal';
+import TeamUpdateModal from '../modal/TeamUpdateModal';
 
 export const TeamRow = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -14,6 +15,12 @@ export const TeamRow = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const toggleDeleteModal = () => {
     setIsDeleteModalOpen((prev) => !prev);
+  };
+
+  // 수정 모달
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const toggleUpdateModal = () => {
+    setIsUpdateModalOpen((prev) => !prev);
   };
 
   return (
@@ -28,7 +35,7 @@ export const TeamRow = () => {
           </DropdownToggle>
           <DropdownMenu className={styles.memberDropdownMenu}>
             <DropdownItem>
-              <Text typography="body2" as="p" color="text-normal">
+              <Text typography="body2" as="p" color="text-normal" onClick={toggleUpdateModal}>
                 정보 보기
               </Text>
             </DropdownItem>
@@ -90,6 +97,7 @@ export const TeamRow = () => {
         cancelLabel="취소"
         onConfirm={() => {}}
       />
+      <TeamUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
     </tr>
   );
 };
