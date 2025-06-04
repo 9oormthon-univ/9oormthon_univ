@@ -10,9 +10,10 @@ interface MemberTableProps {
   pageInfo: any;
   onPageChange: (page: number) => void;
   selectedUniv: Univ | null;
+  onSearchChange: (query: string) => void;
 }
 
-export const MemberTable = ({ members, pageInfo, onPageChange, selectedUniv }: MemberTableProps) => {
+export const MemberTable = ({ members, pageInfo, onPageChange, selectedUniv, onSearchChange }: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -31,7 +32,13 @@ export const MemberTable = ({ members, pageInfo, onPageChange, selectedUniv }: M
           </Text>
         </div>
         <div className={styles.tableHeaderRight}>
-          <Input size="md" placeholder="검색" type="text" style={{ width: '11.875rem' }} />
+          <Input
+            size="md"
+            placeholder="검색"
+            type="text"
+            style={{ width: '11.875rem' }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onSearchChange(e.target.value)}
+          />
           <Button size="md" color="primary" onClick={handleOpenModal}>
             인원 추가하기
           </Button>
