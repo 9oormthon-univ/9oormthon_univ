@@ -5,12 +5,32 @@ import { MemberTable } from '../../../components/admin/participantList/memberTab
 import { useEffect, useState } from 'react';
 import { fetchUserSummaryListAPI } from '../../../api/admin/users';
 import { GENERATION } from '../../../constants/common';
+import { fetchUnivListAPI } from '../../../api/admin/univs';
+
+export interface Univ {
+  id: number;
+  name: string;
+}
 
 export default function ParticipantList() {
   const [selectedUnivId, setSelectedUnivId] = useState<number | null>(null);
   const [members, setMembers] = useState<any[]>([]);
   const [pageInfo, setPageInfo] = useState<any>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [univList, setUnivList] = useState<Univ[]>([]);
+  const [univCount, setUnivCount] = useState(0);
+  const [selectedUniv, setSelectedUniv] = useState<Univ | null>(null);
+
+  // 유니브 리스트 간단 조회
+  const fetchUnivList = async () => {
+    const res = await fetchUnivListAPI(GENERATION);
+    setUnivList(res.data.univs);
+    setUnivCount(res.data.count);
+  };
+
+  useEffect(() => {
+    fetchUnivList();
+  }, []);
 
   // 유저 목록 조회
   const getUserList = async (page: number, univId: number | null) => {
@@ -27,6 +47,7 @@ export default function ParticipantList() {
   const handleSelectUniv = (univId: number | null) => {
     setSelectedUnivId(univId);
     setCurrentPage(1);
+    setSelectedUniv(univList.find((univ) => univ.id === univId) || null);
   };
 
   return (
@@ -41,8 +62,14 @@ export default function ParticipantList() {
           </Text>
         </div>
         <div className={styles.listContent}>
-          <UnivListSidebar onSelectUniv={handleSelectUniv} />
+          <UnivListSidebar
+            onSelectUniv={handleSelectUniv}
+            univList={univList}
+            univCount={univCount}
+            onRefreshUnivList={fetchUnivList}
+          />
           <MemberTable
+            selectedUniv={selectedUniv || null}
             members={members}
             pageInfo={pageInfo}
             onPageChange={(page) => getUserList(page, selectedUnivId)}

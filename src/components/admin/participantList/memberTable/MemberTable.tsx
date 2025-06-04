@@ -4,13 +4,15 @@ import styles from './styles.module.scss';
 import { Button, Input, Text } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import { MemberCreateModal } from '../modal/MemberCreateModal';
+import { Univ } from '../../../../pages/admin/participantList/ParticipantList';
 interface MemberTableProps {
   members: any[];
   pageInfo: any;
   onPageChange: (page: number) => void;
+  selectedUniv: Univ | null;
 }
 
-export const MemberTable = ({ members, pageInfo, onPageChange }: MemberTableProps) => {
+export const MemberTable = ({ members, pageInfo, onPageChange, selectedUniv }: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -22,7 +24,7 @@ export const MemberTable = ({ members, pageInfo, onPageChange }: MemberTableProp
       <div className={styles.tableHeader}>
         <div className={styles.tableHeaderLeft}>
           <Text as="h6" typography="heading6" color="text-normal">
-            구름대학교
+            {selectedUniv?.name || '전체 미르미'}
           </Text>
           <Text as="h6" typography="heading6" color="text-primary">
             {pageInfo.total_items}

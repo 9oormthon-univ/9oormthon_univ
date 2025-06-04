@@ -16,19 +16,17 @@ import { useEffect, useRef, useState } from 'react';
 import UnivUpdateModal from '../modal/UnivUpdateModal';
 import UnivCreateModal from '../modal/UnivCreateModal';
 import InformationModal from '../../../common/modal/InformationModal';
-import { GENERATION } from '../../../../constants/common';
-import { deleteUnivAPI, fetchUnivListAPI } from '../../../../api/admin/univs';
-
-interface Univ {
-  id: number;
-  name: string;
-}
+import { deleteUnivAPI } from '../../../../api/admin/univs';
+import { Univ } from '../../../../pages/admin/participantList/ParticipantList';
 
 interface UnivListSidebarProps {
+  univList: Univ[];
+  univCount: number;
   onSelectUniv: (univId: number | null) => void;
+  onRefreshUnivList: () => void;
 }
 
-export const UnivListSidebar = ({ onSelectUniv }: UnivListSidebarProps) => {
+export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUnivList }: UnivListSidebarProps) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -43,10 +41,6 @@ export const UnivListSidebar = ({ onSelectUniv }: UnivListSidebarProps) => {
     setOpenDropdownId((prev) => (prev === id ? null : id));
   };
 
-  // API 데이터
-  const [univList, setUnivList] = useState<Univ[]>([]);
-  const [univCount, setUnivCount] = useState(0);
-
   // 검색 창 바깥 클릭 시 검색 창 닫기
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -60,28 +54,13 @@ export const UnivListSidebar = ({ onSelectUniv }: UnivListSidebarProps) => {
     };
   }, []);
 
-  // API 연결 - 유니브 리스트 간단 조회
-  const fetchUnivList = async () => {
-    try {
-      const res = await fetchUnivListAPI(GENERATION);
-      setUnivList(res.data.univs);
-      setUnivCount(res.data.count);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUnivList();
-  }, []);
-
   // 유니브 삭제
   const handleDeleteUniv = async (univ_id: number) => {
     try {
       const res = await deleteUnivAPI(univ_id);
       console.log(res);
-      fetchUnivList(); // 삭제 후 리스트 새로고침
+      onRefreshUnivList(); // 삭제 후 리스트 새로고침
+      onSelectUniv(null); // 삭제 후 유니브 선택 초기화
       setIsUnivDeleteModalOpen(false);
 
       toast('유니브 삭제가 완료되었습니다', {
@@ -138,8 +117,8 @@ export const UnivListSidebar = ({ onSelectUniv }: UnivListSidebarProps) => {
           </SideNav.Item>
 
           {univList.map((univ) => (
-            <SideNav.Item className={styles.univItem} key={univ.id}>
-              <SideNav.Link onClick={() => onSelectUniv(univ.id)}>{univ.name}</SideNav.Link>
+            <SideNav.Item className={styles.univItem} key={univ.id} onClick={() => onSelectUniv(univ.id)}>
+              <SideNav.Link active={selectedUnivId === univ.id}>{univ.name}</SideNav.Link>
               <SideNav.Item.RightArea>
                 <Dropdown
                   direction="down"
@@ -173,12 +152,11 @@ export const UnivListSidebar = ({ onSelectUniv }: UnivListSidebarProps) => {
         </Button>
       </div>
       <UnivUpdateModal
-        // TODO : 모달 열기
         isOpen={isUnivUpdateModalOpen}
         toggle={() => setIsUnivUpdateModalOpen((prev) => !prev)}
         univId={selectedUnivId}
         onSuccess={() => {
-          fetchUnivList();
+          onRefreshUnivList();
         }}
       />
       <InformationModal
@@ -202,7 +180,7 @@ export const UnivListSidebar = ({ onSelectUniv }: UnivListSidebarProps) => {
         isOpen={isUnivCreateModalOpen}
         toggle={() => setIsUnivCreateModalOpen((prev) => !prev)}
         onSuccess={() => {
-          fetchUnivList();
+          onRefreshUnivList();
         }}
       />
     </div>
