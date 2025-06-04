@@ -24,7 +24,11 @@ interface Univ {
   name: string;
 }
 
-export const UnivListSidebar = () => {
+interface UnivListSidebarProps {
+  onSelectUniv: (univId: number | null) => void;
+}
+
+export const UnivListSidebar = ({ onSelectUniv }: UnivListSidebarProps) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -129,13 +133,13 @@ export const UnivListSidebar = () => {
       </div>
       <SideNav className={styles.sideBar}>
         <SideNav.List className={styles.sideBarList}>
-          <SideNav.Item>
+          <SideNav.Item onClick={() => onSelectUniv(null)}>
             <SideNav.Link>전체</SideNav.Link>
           </SideNav.Item>
 
           {univList.map((univ) => (
             <SideNav.Item className={styles.univItem} key={univ.id}>
-              <SideNav.Link>{univ.name}</SideNav.Link>
+              <SideNav.Link onClick={() => onSelectUniv(univ.id)}>{univ.name}</SideNav.Link>
               <SideNav.Item.RightArea>
                 <Dropdown
                   direction="down"

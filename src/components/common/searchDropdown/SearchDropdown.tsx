@@ -69,7 +69,7 @@ export default function SearchDropdown({
 
       searchTimeoutRef.current = setTimeout(() => {
         onSearch?.(value);
-      }, 500); // 500ms 동안 입력이 없으면 API 호출
+      }, 500);
     },
     [onSearch],
   );

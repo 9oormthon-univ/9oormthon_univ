@@ -6,9 +6,11 @@ import { useState } from 'react';
 import { MemberCreateModal } from '../modal/MemberCreateModal';
 interface MemberTableProps {
   members: any[];
+  pageInfo: any;
+  onPageChange: (page: number) => void;
 }
 
-export const MemberTable = ({ members }: MemberTableProps) => {
+export const MemberTable = ({ members, pageInfo, onPageChange }: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -23,7 +25,7 @@ export const MemberTable = ({ members }: MemberTableProps) => {
             구름대학교
           </Text>
           <Text as="h6" typography="heading6" color="text-primary">
-            30
+            {pageInfo.total_items}
           </Text>
         </div>
         <div className={styles.tableHeaderRight}>
@@ -64,7 +66,11 @@ export const MemberTable = ({ members }: MemberTableProps) => {
       </div>
 
       <div className={styles.pagination}>
-        <BasicPagination pageCount={10} />
+        <BasicPagination
+          pageCount={pageInfo.total_pages}
+          page={pageInfo.current_page}
+          onPageChangeHandler={(page: number) => onPageChange(page)}
+        />
       </div>
       <MemberCreateModal isOpen={isMemberCreateModalOpen} toggle={() => setIsMemberCreateModalOpen(false)} />
     </div>

@@ -13,8 +13,8 @@ export const fetchUserSummaryListAPI = async (
   page: number,
   size: number,
   generation: number,
-  univ_id: number,
-  search: string,
+  univ_id?: number,
+  search?: string,
 ) => {
   const response = await instance.get(
     `/api/v1/admins/users/overviews?page=${page}&size=${size}&generation=${generation}&univ_id=${univ_id}&search=${search}`,
