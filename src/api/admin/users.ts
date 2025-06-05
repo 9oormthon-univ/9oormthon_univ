@@ -16,9 +16,22 @@ export const fetchUserSummaryListAPI = async (
   univ_id?: number,
   search?: string,
 ) => {
-  const response = await instance.get(
-    `/api/v1/admins/users/overviews?page=${page}&size=${size}&generation=${generation}&univ_id=${univ_id}&search=${search}`,
-  );
+  const queryParams = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    generation: generation.toString(),
+  });
+
+  // undefined인 경우 쿼리 파라미터에 추가하지 않음
+  if (univ_id !== undefined) {
+    queryParams.append('univ_id', univ_id.toString());
+  }
+  if (search !== undefined) {
+    queryParams.append('search', search);
+  }
+
+  const requestUrl = `/api/v1/admins/users/overviews?${queryParams.toString()}`;
+  const response = await instance.get(requestUrl);
   return response.data;
 };
 
