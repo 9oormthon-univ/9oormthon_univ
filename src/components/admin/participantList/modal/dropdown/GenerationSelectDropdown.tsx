@@ -1,11 +1,11 @@
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Badge, Text } from '@goorm-dev/vapor-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CloseOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './dropdown.module.scss';
 
 interface GenerationSelectDropdownProps {
   value?: number[];
-  onChange?: (generations: number[] | string[]) => void;
+  onChange?: (generations: number[]) => void;
 }
 
 // 4기까지 존재
@@ -33,6 +33,10 @@ export default function GenerationSelectDropdown({ value = [], onChange }: Gener
 
   // 선택되지 않은 기수만 필터링
   const availableGenerations = GENERATIONS.filter((generation) => !selectedGeneration.includes(generation));
+
+  useEffect(() => {
+    setSelectedGeneration(value);
+  }, [value]);
 
   return (
     <Dropdown isOpen={open} toggle={toggle} direction="down" size="lg" className={styles.dropdown}>
