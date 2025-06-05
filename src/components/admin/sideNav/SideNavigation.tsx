@@ -37,6 +37,11 @@ export const SideNavigation = () => {
     navigate('/admin/teamList');
   };
 
+  // 팀 빌딩 기간 설정 페이지로 이동
+  const handleTeamBuildingPeriodClick = () => {
+    navigate('/admin/period');
+  };
+
   return (
     <SideNav className={styles.sideNav}>
       <div className={styles.header}>
@@ -84,8 +89,8 @@ export const SideNavigation = () => {
           </SideNav.Item>
           {isOpen && (
             <div>
-              <SideNav.Item className={styles.sideNavItem}>
-                <SideNav.Link>
+              <SideNav.Item onClick={handleTeamBuildingPeriodClick} className={styles.sideNavItem}>
+                <SideNav.Link active={currentPath === '/admin/period'}>
                   <CalendarIcon size={20} style={{ opacity: 0 }} /> 팀 빌딩
                 </SideNav.Link>
               </SideNav.Item>
