@@ -3,20 +3,32 @@ import { useState } from 'react';
 import { CloseOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './dropdown.module.scss';
 
-const GENERATIONS = ['1기', '2기', '3기', '4기'];
+interface GenerationSelectDropdownProps {
+  value?: number[];
+  onChange?: (generations: number[] | string[]) => void;
+}
 
-export default function GenerationSelectDropdown() {
+// 4기까지 존재
+const GENERATIONS = [1, 2, 3, 4];
+
+const formatGeneration = (generation: number) => `${generation}기`;
+
+export default function GenerationSelectDropdown({ value = [], onChange }: GenerationSelectDropdownProps) {
   const [open, setOpen] = useState(false);
-  const [selectedGeneration, setSelectedGeneration] = useState<string[]>([]);
+  const [selectedGeneration, setSelectedGeneration] = useState<number[]>(value);
 
   const toggle = () => setOpen(!open);
 
-  const handleGenerationSelect = (generation: string) => {
-    setSelectedGeneration((prev) => [...prev, generation]);
+  const handleGenerationSelect = (generation: number) => {
+    const newSelected = [...selectedGeneration, generation];
+    setSelectedGeneration(newSelected);
+    onChange?.(newSelected);
   };
 
-  const handleGenerationRemove = (generation: string) => {
-    setSelectedGeneration((prev) => prev.filter((g) => g !== generation));
+  const handleGenerationRemove = (generation: number) => {
+    const newSelected = selectedGeneration.filter((g) => g !== generation);
+    setSelectedGeneration(newSelected);
+    onChange?.(newSelected);
   };
 
   // 선택되지 않은 기수만 필터링
@@ -35,7 +47,7 @@ export default function GenerationSelectDropdown() {
                 onRemove={() => handleGenerationRemove(generation)}
                 className={styles.badge}>
                 <Text typography="subtitle2" as="p" color="text-primary">
-                  {generation}
+                  {formatGeneration(generation)}
                 </Text>
                 <CloseOutlineIcon onClick={() => handleGenerationRemove(generation)} />
               </Badge>
@@ -50,7 +62,7 @@ export default function GenerationSelectDropdown() {
       <DropdownMenu className={styles.dropdownMenu}>
         {availableGenerations.map((generation) => (
           <DropdownItem key={generation} onClick={() => handleGenerationSelect(generation)}>
-            {generation}
+            {formatGeneration(generation)}
           </DropdownItem>
         ))}
       </DropdownMenu>

@@ -1,9 +1,10 @@
-import { DropdownItem, Dropdown, DropdownMenu, Text, DropdownToggle, Button } from '@goorm-dev/vapor-components';
+import { DropdownItem, Dropdown, DropdownMenu, Text, DropdownToggle, Button, toast } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { MoreCommonOutlineIcon, ChevronRightOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
 import { MemberUpdateModal } from '../modal/MemberUpdateModal';
+import { deleteUserAPI } from '../../../../api/admin/users';
 
 interface MemberRowProps {
   member: any;
@@ -16,6 +17,14 @@ export const MemberRow = ({ member }: MemberRowProps) => {
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
   const toggleInformationModal = () => setIsInformationModalOpen((prev) => !prev);
   const toggleUpdateModal = () => setIsUpdateModalOpen((prev) => !prev);
+
+  const handleDeleteMember = async () => {
+    await deleteUserAPI(member.id);
+    window.location.reload();
+    toast('미르미를 삭제했습니다.', {
+      type: 'success',
+    });
+  };
 
   return (
     <>
@@ -75,10 +84,10 @@ export const MemberRow = ({ member }: MemberRowProps) => {
           </>
         }
         confirmLabel="퇴장"
-        onConfirm={() => {}}
+        onConfirm={handleDeleteMember}
       />
 
-      <MemberUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
+      <MemberUpdateModal user_id={member.id} isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
     </>
   );
 };

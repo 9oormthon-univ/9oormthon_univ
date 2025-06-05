@@ -4,11 +4,16 @@ import styles from './styles.module.scss';
 import { Button, Input, Text } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import { MemberCreateModal } from '../modal/MemberCreateModal';
+import { Univ } from '../../../../pages/admin/participantList/ParticipantList';
 interface MemberTableProps {
   members: any[];
+  pageInfo: any;
+  onPageChange: (page: number) => void;
+  selectedUniv: Univ | null;
+  onSearchChange: (query: string) => void;
 }
 
-export const MemberTable = ({ members }: MemberTableProps) => {
+export const MemberTable = ({ members, pageInfo, onPageChange, selectedUniv, onSearchChange }: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -20,14 +25,20 @@ export const MemberTable = ({ members }: MemberTableProps) => {
       <div className={styles.tableHeader}>
         <div className={styles.tableHeaderLeft}>
           <Text as="h6" typography="heading6" color="text-normal">
-            구름대학교
+            {selectedUniv?.name || '전체 미르미'}
           </Text>
           <Text as="h6" typography="heading6" color="text-primary">
-            30
+            {pageInfo.total_items}
           </Text>
         </div>
         <div className={styles.tableHeaderRight}>
-          <Input size="md" placeholder="검색" type="text" style={{ width: '11.875rem' }} />
+          <Input
+            size="md"
+            placeholder="검색"
+            type="text"
+            style={{ width: '11.875rem' }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onSearchChange(e.target.value)}
+          />
           <Button size="md" color="primary" onClick={handleOpenModal}>
             인원 추가하기
           </Button>
@@ -64,7 +75,11 @@ export const MemberTable = ({ members }: MemberTableProps) => {
       </div>
 
       <div className={styles.pagination}>
-        <BasicPagination pageCount={10} />
+        <BasicPagination
+          pageCount={pageInfo.total_pages}
+          page={pageInfo.current_page}
+          onPageChangeHandler={(page: number) => onPageChange(page)}
+        />
       </div>
       <MemberCreateModal isOpen={isMemberCreateModalOpen} toggle={() => setIsMemberCreateModalOpen(false)} />
     </div>

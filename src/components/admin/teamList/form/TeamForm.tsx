@@ -80,9 +80,15 @@ export default function TeamForm({ mode, onValidationChange }: TeamFormProps) {
         </FormField>
       )}
 
+      {/* 팀 대표 추후 추가 필요 */}
       {mode === 'update' && (
         <FormField label="팀 대표 지정">
-          <SearchDropdown inPlaceholder="미르미 선택" outPlaceholder="팀 대표를 선택해주세요" />
+          <SearchDropdown
+            inPlaceholder="미르미 선택"
+            outPlaceholder="팀 대표를 선택해주세요"
+            items={[]}
+            onSelect={() => {}}
+          />
         </FormField>
       )}
     </div>

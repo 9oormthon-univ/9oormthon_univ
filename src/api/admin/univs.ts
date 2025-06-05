@@ -1,4 +1,4 @@
-import instance from './instance';
+import instance from '../instance';
 
 // 어드민 유니브 생성
 export const createUnivAPI = async (name: string, instagram_url: string, generation: number) => {
@@ -23,11 +23,11 @@ export const fetchUnivDetailAPI = async (univ_id: number) => {
 };
 
 // 어드민 유니브 수정
-// TODO : 리더 추가 필요
-export const updateUnivAPI = async (univ_id: number, name: string, instagram_url: string) => {
+export const updateUnivAPI = async (univ_id: number, name: string, instagram_url: string, leader_id?: number) => {
   const response = await instance.put(`/api/v1/admins/univs/${univ_id}`, {
     name,
     instagram_url,
+    leader_id,
   });
   return response.data;
 };

@@ -1,20 +1,11 @@
-import {
-  ModalBody,
-  ModalHeader,
-  Text,
-  Input,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  ModalFooter,
-  Button,
-  Modal,
-} from '@goorm-dev/vapor-components';
+import { ModalBody, ModalHeader, Text, Input, ModalFooter, Button, Modal } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
 import styles from './univUpdateModal.module.scss';
 import { useEffect, useState } from 'react';
-import { fetchUnivDetailAPI, updateUnivAPI } from '../../../../api/admin';
+import { fetchUnivDetailAPI, updateUnivAPI } from '../../../../api/admin/univs';
+import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
+import { fetchUserListAPI } from '../../../../api/admin/users';
+import { GENERATION } from '../../../../constants/common';
 
 interface UnivUpdateModalProps {
   isOpen: boolean;
@@ -23,17 +14,25 @@ interface UnivUpdateModalProps {
   onSuccess: () => void;
 }
 
+// 유저 간단 목록
+interface Representative {
+  id: number;
+  description: string;
+}
+
 export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: UnivUpdateModalProps) {
-  const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     name: '',
     instagram_url: '',
+    leader_id: null as number | null,
   });
+
+  const [representatives, setRepresentatives] = useState<Representative[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const hasChanged = form.name !== '' && form.instagram_url !== '';
 
   // 상세 조회
-  // TODO : 유니브 대표 추가 필요
   const fetchUnivInfo = async () => {
     if (!univId) return;
     try {
@@ -41,6 +40,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
       setForm({
         name: res.data.name,
         instagram_url: res.data.instagram_url,
+        leader_id: res.data.leader_id || null,
       });
     } catch (error) {
       console.log(error);
@@ -55,10 +55,10 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
 
   // 유니브 정보 수정
   const handleUpdateUniv = async () => {
+    console.log(form);
     try {
       if (!univId) return;
-      // TODO : 유니브 대표 추가 필요
-      const res = await updateUnivAPI(univId, form.name, form.instagram_url);
+      const res = await updateUnivAPI(univId, form.name, form.instagram_url, form.leader_id || undefined);
       console.log(res);
       onSuccess();
       toggle();
@@ -66,6 +66,39 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
       console.log(error);
     }
   };
+
+  // 대표자 선택 핸들러
+  const handleRepresentativeSelect = (item: Representative) => {
+    setForm((prev) => ({
+      ...prev,
+      leader_id: item.id,
+    }));
+  };
+
+  // 대표자 검색 핸들러
+  const handleSearch = async (searchTerm: string) => {
+    if (!univId) return;
+
+    setIsLoading(true);
+    try {
+      const res = await fetchUserListAPI(GENERATION, univId, searchTerm);
+      setRepresentatives(
+        res.data.users.map((user: { id: number; description: string }) => ({
+          id: user.id,
+          description: user.description,
+        })),
+      );
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 현재 선택된 대표자 찾기
+  const selectedRepresentative = form.leader_id
+    ? representatives.find((rep) => Number(rep.id) === form.leader_id)
+    : null;
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -80,6 +113,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
             bsSize="lg"
             value={form.name}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, name: e.target.value })}
+            placeholder="유니브 명을 입력해주세요."
           />
         </FormField>
         <FormField label="소개 링크" required={true}>
@@ -87,25 +121,19 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
             bsSize="lg"
             value={form.instagram_url}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, instagram_url: e.target.value })}
+            placeholder="소개 링크를 입력해주세요."
           />
         </FormField>
         <FormField label="유니브 대표" required={false}>
-          <Dropdown size="lg" isOpen={open} toggle={() => setOpen(!open)}>
-            <DropdownToggle caret color="select" className={styles.dropdownToggle}>
-              <Text typography="body2" as="p" color="text-hint">
-                해당 유니브 대표를 선택해주세요.
-              </Text>
-            </DropdownToggle>
-            <DropdownMenu className={styles.dropdownMenu}>
-              <DropdownItem header>이름/학교명</DropdownItem>
-              <DropdownItem>
-                {/* TODO : 리더 내용 추가 필요 */}
-                <Text typography="body2" as="p">
-                  김구름/구름대학교/010-1234-1234
-                </Text>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <SearchDropdown
+            items={representatives}
+            selectedItem={selectedRepresentative}
+            onSelect={handleRepresentativeSelect}
+            onSearch={handleSearch}
+            inPlaceholder="유니브 대표를 검색해주세요"
+            outPlaceholder="해당 유니브 대표를 선택해주세요"
+            disabled={isLoading}
+          />
         </FormField>
       </ModalBody>
       <ModalFooter>
