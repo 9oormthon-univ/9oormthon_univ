@@ -37,7 +37,8 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
 
   // 유니브별 드롭다운 구분
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
-  const toggleDropdown = (id: number) => {
+  const toggleDropdown = (id: number, event?: React.MouseEvent) => {
+    event?.stopPropagation(); // 이벤트 버블링 방지
     setOpenDropdownId((prev) => (prev === id ? null : id));
   };
 
@@ -124,17 +125,25 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
                   direction="down"
                   className={styles.univDropdown}
                   isOpen={openDropdownId === univ.id}
-                  toggle={() => toggleDropdown(univ.id)}>
+                  toggle={(event: React.MouseEvent) => toggleDropdown(univ.id, event)}>
                   <DropdownToggle size="sm" color="secondary" className={styles.univDropdownToggle}>
                     <MoreCommonOutlineIcon className={styles.univDropdownIcon} />
                   </DropdownToggle>
                   <DropdownMenu right className={styles.univDropdownMenu}>
-                    <DropdownItem onClick={() => handleOpenUpdateModal(univ.id)}>
+                    <DropdownItem
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleOpenUpdateModal(univ.id);
+                      }}>
                       <Text typography="body2" as="p" color="text-normal">
                         정보 수정
                       </Text>
                     </DropdownItem>
-                    <DropdownItem onClick={() => handleOpenDeleteModal(univ.id)}>
+                    <DropdownItem
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleOpenDeleteModal(univ.id);
+                      }}>
                       <Text typography="body2" as="p" color="text-danger">
                         삭제하기
                       </Text>
