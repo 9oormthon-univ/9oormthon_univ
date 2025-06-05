@@ -26,6 +26,8 @@ const TeamPreferenceForm = lazy(() => import('./pages/hackathon/IdeaCreateEdit/T
 const ParticipantList = lazy(() => import('./pages/admin/participantList/ParticipantList'));
 const TeamList = lazy(() => import('./pages/admin/teamListAdmin/TeamList'));
 const TeamManagement = lazy(() => import('./pages/admin/teamManagement/TeamManagement'));
+const TeamBuildingPeriodPage = lazy(() => import('./pages/admin/period/teamBuildingPeriod/TeamBuildingPeriodPage'));  
+
 const loaderProps = {
   color: 'black',
   lottieProps: {
@@ -253,6 +255,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <TeamManagement />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'period',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <TeamBuildingPeriodPage />
           </Suspense>
         ),
       },
