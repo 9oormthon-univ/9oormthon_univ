@@ -30,7 +30,7 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle }: MemberUpdateModal
     generations: member?.generations ?? [],
   });
 
-  const handleChange = (field: keyof MemberUpdateForm, value: string) => {
+  const handleChange = <K extends keyof MemberUpdateForm>(field: K, value: MemberUpdateForm[K]) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 

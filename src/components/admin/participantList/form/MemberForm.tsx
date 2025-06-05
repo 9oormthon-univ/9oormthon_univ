@@ -14,7 +14,7 @@ import { Member, MemberUpdateForm } from '../../../../types/admin/member';
 interface MemberFormProps {
   showProfileEdit?: boolean;
   member?: Member;
-  onChange?: (field: keyof MemberUpdateForm, value: string) => void;
+  onChange?: <K extends keyof MemberUpdateForm>(field: K, value: MemberUpdateForm[K]) => void;
 }
 
 export default function MemberForm({ showProfileEdit, member, onChange }: MemberFormProps) {
@@ -90,7 +90,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
         <FormField label="학교" required>
           <UnivSearchDropdown
             value={member?.univ?.name || ''}
-            onChange={(univ) => onChange?.('univ_id', univ.id.toString())}
+            onChange={(univ) => onChange?.('univ_id', univ.id)}
             univList={univList}
           />
         </FormField>
@@ -113,7 +113,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
         <FormField label="참여 기수" required>
           <GenerationSelectDropdown
             value={member?.generations || []}
-            onChange={(generations) => onChange?.('generations', generations.toString())}
+            onChange={(generations) => onChange?.('generations', generations)}
           />
         </FormField>
       </div>
