@@ -2,34 +2,40 @@ import { Avatar, Radio, Text } from '@goorm-dev/vapor-components';
 import styles from './form.module.scss';
 import FormField from '../../../common/formField/FormField';
 import { useState } from 'react';
+import { POSITIONS, RequirementKey } from '../../../../constants/position';
+import { Member } from '../../../../types/admin/member';
+
+const formatGeneration = (generation: number) => `${generation}기`;
 
 interface MemberInfoViewProps {
   isTeamInform?: boolean;
   isPartEditMode?: boolean;
+  member?: Member;
 }
 
-export default function MemberInfoView({ isTeamInform = false, isPartEditMode = false }: MemberInfoViewProps) {
-  const [role, setRole] = useState('PM');
+export default function MemberInfoView({ isTeamInform = false, isPartEditMode = false, member }: MemberInfoViewProps) {
+  const [role, setRole] = useState(member?.role || 'PM');
 
   return (
     <div className={styles.infoContainer}>
-      <Avatar name="Goorm" />
+      <Avatar name={member?.name || 'Goorm'} />
       <div className={styles.memberContainer}>
         <FormField label="이름">
           <Text typography="heading6" as="p" color="text-normal">
-            김구름
+            {member?.name}
           </Text>
         </FormField>
         <FormField label="팀 정보">
           <Text typography="heading6" as="p" color="text-normal">
-            1팀 / 팀 이름
+            {member?.team}
           </Text>
         </FormField>
         <FormField label="희망 파트">
           <Text typography="heading6" as="p" color="text-normal">
-            기획
+            {POSITIONS[member?.role?.toLowerCase() as RequirementKey]?.name}
           </Text>
         </FormField>
+        {/* TODO : 지원파트와 희망파트 구분 필요 */}
         {isTeamInform && (
           <FormField label="지원 파트">
             <Text typography="heading6" as="p" color="text-normal">
@@ -49,22 +55,22 @@ export default function MemberInfoView({ isTeamInform = false, isPartEditMode = 
         )}
         <FormField label="학교">
           <Text typography="heading6" as="p" color="text-normal">
-            구름대학교
+            {member?.univ?.name}
           </Text>
         </FormField>
         <FormField label="이메일">
           <Text typography="heading6" as="p" color="text-normal">
-            goorm@goorm.dev
+            {member?.email}
           </Text>
         </FormField>
         <FormField label="전화번호">
           <Text typography="heading6" as="p" color="text-normal">
-            010-1234-5678
+            {member?.phone_number}
           </Text>
         </FormField>
         <FormField label="참여 기수">
           <Text typography="heading6" as="p" color="text-normal">
-            3기, 4기
+            {member?.generations.map((generation) => formatGeneration(generation)).join(', ')}
           </Text>
         </FormField>
       </div>

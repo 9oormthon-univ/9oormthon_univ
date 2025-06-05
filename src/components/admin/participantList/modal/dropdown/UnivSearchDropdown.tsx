@@ -2,19 +2,26 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Text } fro
 import { SearchOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import styles from './dropdown.module.scss';
+import { Univ } from '../../../../../types/admin/univ';
 
-export default function UnivSearchDropdown() {
-  const schoolList = ['구름대학교', '성공회대학교', '서울대학교', '고려대학교']; // 예시
+interface UnivSearchDropdownProps {
+  value?: string;
+  onChange?: (univ: Univ) => void;
+  univList: Univ[];
+}
+
+export default function UnivSearchDropdown({ value, onChange, univList }: UnivSearchDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedSchool, setSelectedSchool] = useState('');
+  const [selectedSchool, setSelectedSchool] = useState(value);
 
-  const filteredList = schoolList.filter((school) => school.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredList = univList.filter((univ) => univ.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
-  const handleSelect = (school: string) => {
-    setSelectedSchool(school);
+  const handleSelect = (univ: Univ) => {
+    setSelectedSchool(univ.name);
     setSearchQuery('');
     setIsOpen(false);
+    onChange?.(univ);
   };
 
   return (
@@ -34,9 +41,9 @@ export default function UnivSearchDropdown() {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
           />
         </div>
-        {filteredList.map((school) => (
-          <DropdownItem key={school} onClick={() => handleSelect(school)}>
-            {school}
+        {filteredList.map((univ) => (
+          <DropdownItem key={univ.id} onClick={() => handleSelect(univ)}>
+            {univ.name}
           </DropdownItem>
         ))}
       </DropdownMenu>

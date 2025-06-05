@@ -78,7 +78,7 @@ export const MemberRow = ({ member }: MemberRowProps) => {
         onConfirm={() => {}}
       />
 
-      <MemberUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
+      <MemberUpdateModal user_id={member.id} isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
     </>
   );
 };
