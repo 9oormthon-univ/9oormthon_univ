@@ -10,19 +10,19 @@ export const createUnivAPI = async (name: string, instagram_url: string, generat
   return response.data;
 };
 
-// 2.3 유니브 간단 리스트 조회
+// 6.2 어드민 유니브 간단 리스트 조회
 export const fetchUnivListAPI = async (generation: number) => {
   const response = await instance.get(`/api/v1/admins/univs/briefs?generation=${generation}`);
   return response.data;
 };
 
-// 어드민 유니브 상세 조회
+// 6.3 어드민 유니브 상세 조회
 export const fetchUnivDetailAPI = async (univ_id: number) => {
   const response = await instance.get(`/api/v1/admins/univs/${univ_id}/details`);
   return response.data;
 };
 
-// 어드민 유니브 수정
+// 6.4 어드민 유니브 수정
 export const updateUnivAPI = async (univ_id: number, name: string, instagram_url: string, leader_id?: number) => {
   const response = await instance.put(`/api/v1/admins/univs/${univ_id}`, {
     name,
