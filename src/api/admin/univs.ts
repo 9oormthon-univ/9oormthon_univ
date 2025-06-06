@@ -10,7 +10,7 @@ export const createUnivAPI = async (name: string, instagram_url: string, generat
   return response.data;
 };
 
-// 유니브 간단 리스트 조회
+// 2.3 유니브 간단 리스트 조회
 export const fetchUnivListAPI = async (generation: number) => {
   const response = await instance.get(`/api/v1/admins/univs/briefs?generation=${generation}`);
   return response.data;

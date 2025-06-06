@@ -62,7 +62,7 @@ export default function ParticipantList() {
             미르미 리스트
           </Text>
           <Text typography="heading5" as="h5" color="text-primary">
-            9,999
+            {pageInfo.total_items}
           </Text>
         </div>
         <div className={styles.listContent}>
