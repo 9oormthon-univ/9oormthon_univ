@@ -62,7 +62,7 @@ export default function TeamList() {
           팀 리스트
         </Text>
         <Text typography="heading5" as="h5" color="text-primary">
-          999
+          {pageInfo.total_items}
         </Text>
       </div>
       <div className={styles.filterContainer}>

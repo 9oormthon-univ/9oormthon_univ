@@ -94,7 +94,9 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
           icon={ChevronRightOutlineIcon}
           iconSide="right"
           onClick={() => navigate(`/admin/teamList/${team.id}`)}>
-          팀원 관리
+          <Text typography="subtitle1" color="text-alternative">
+            팀원 관리
+          </Text>
         </Button>
       </td>
 

@@ -57,14 +57,9 @@ export default function ParticipantList() {
   return (
     <div className={styles.container}>
       <div className={styles.listContainer}>
-        <div className={styles.listTitle}>
-          <Text typography="heading4" as="h4">
-            미르미 리스트
-          </Text>
-          <Text typography="heading5" as="h5" color="text-primary">
-            {pageInfo.total_items}
-          </Text>
-        </div>
+        <Text typography="heading4" as="h4">
+          미르미 리스트
+        </Text>
         <div className={styles.listContent}>
           <UnivListSidebar
             onSelectUniv={handleSelectUniv}
