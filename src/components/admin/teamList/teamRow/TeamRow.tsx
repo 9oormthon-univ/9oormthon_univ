@@ -47,7 +47,7 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
     <tr>
       <td className={styles.teamName}>
         <Text typography="body2" color="text-normal">
-          {team.number || ''}팀
+          {team.number || '-'}팀
         </Text>
         <Dropdown direction="down" className={styles.memberDropdown} isOpen={isDropdownOpen} toggle={toggleDropdown}>
           <DropdownToggle size="sm" color="secondary" className={styles.memberDropdownToggle}>

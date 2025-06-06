@@ -90,9 +90,9 @@ export default function TeamInfoView({ teamDetail }: TeamInfoViewProps) {
         <Text typography="subtitle2" color="text-hint">
           팀장
         </Text>
-        <Button size="md" color="secondary" iconSide="right" icon={InOutlineIcon} className={styles.ideaInfoButton}>
+        <Text typography="heading6" color="text-normal">
           {teamDetail?.leader?.description || '-'}
-        </Button>
+        </Text>
       </div>
     </div>
   );
