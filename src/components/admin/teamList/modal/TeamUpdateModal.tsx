@@ -29,7 +29,13 @@ export default function TeamUpdateModal({ isOpen, toggle }: TeamUpdateModalProps
           </Text>
         )}
       </ModalHeader>
-      <ModalBody>{isEditMode ? <TeamForm mode="update" onValidationChange={() => {}} /> : <TeamInfoView />}</ModalBody>
+      <ModalBody>
+        {isEditMode ? (
+          <TeamForm mode="update" onValidationChange={() => {}} onFormChange={() => {}} />
+        ) : (
+          <TeamInfoView />
+        )}
+      </ModalBody>
       <ModalFooter>
         {isEditMode ? (
           <>
