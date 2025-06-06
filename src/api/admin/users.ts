@@ -1,10 +1,17 @@
 import instance from '../instance';
 
 // 어드민 유저 간단 리스트 조회
-export const fetchUserListAPI = async (generation: number, univ_id: number, search: string) => {
-  const response = await instance.get(
-    `/api/v1/admins/users/briefs?generation=${generation}&univ_id=${univ_id}&search=${search}`,
-  );
+export const fetchUserListAPI = async (generation: number, univId: number, search?: string) => {
+  const queryParams = new URLSearchParams({
+    generation: generation.toString(),
+    'univ-id': univId.toString(),
+  });
+
+  if (search !== undefined && search.trim() !== '') {
+    queryParams.append('search', search);
+  }
+
+  const response = await instance.get(`/api/v1/admins/users/briefs?${queryParams.toString()}`);
   return response.data;
 };
 
