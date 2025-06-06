@@ -29,8 +29,8 @@ export default function TeamCreateModal({ isOpen, toggle, onUpdate }: TeamCreate
       };
       await createTeamAPI(teamData);
       toggle();
-      toast('성공적으로 팀을 생성하였습니다..', {
-        type: 'success',
+      toast('성공적으로 팀을 생성하였습니다.', {
+        type: 'primary',
       });
       onUpdate();
     } catch (error) {
