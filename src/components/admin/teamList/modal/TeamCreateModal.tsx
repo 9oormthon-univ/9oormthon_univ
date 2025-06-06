@@ -22,7 +22,11 @@ export default function TeamCreateModal({ isOpen, toggle }: TeamCreateModalProps
 
   const handleCreateTeam = async () => {
     try {
-      await createTeamAPI(GENERATION, formData);
+      const teamData = {
+        generation: GENERATION,
+        ...formData,
+      };
+      await createTeamAPI(teamData);
       toggle();
     } catch (error) {
       console.error('팀 생성 실패:', error);

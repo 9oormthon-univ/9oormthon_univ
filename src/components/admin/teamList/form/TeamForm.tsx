@@ -4,64 +4,83 @@ import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
 import { useState, useEffect } from 'react';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
-import { Team, TeamDetail } from '../../../../types/admin/team';
+import { Team, TeamUpdateForm } from '../../../../types/admin/team';
+import { User } from '../../../../types/admin/member';
+import { fetchUserListAPI } from '../../../../api/admin/users';
+import { GENERATION } from '../../../../constants/common';
 
 interface TeamFormProps {
   mode: 'create' | 'update';
   onValidationChange: (isValid: boolean) => void;
-  onFormChange: (data: Team | TeamDetail) => void;
-  initialData?: TeamDetail;
+  onFormChange: (data: Team | TeamUpdateForm) => void;
+  initialData?: TeamUpdateForm;
 }
 
 export default function TeamForm({ mode, onValidationChange, onFormChange, initialData }: TeamFormProps) {
   const isUpdateMode = mode === 'update';
   const initial = isUpdateMode ? initialData : undefined;
   const [teamName, setTeamName] = useState(initial?.team_name || '');
-  const [teamRoles, setTeamRoles] = useState({
-    planning: null as number | null,
-    design: null as number | null,
-    frontend: null as number | null,
-    backend: null as number | null,
-  });
+  const [teamNumber, setTeamNumber] = useState(initial?.number ?? 0);
+  const [serviceName, setServiceName] = useState(initial?.service_name ?? '');
+  const [teamLeaderId, setTeamLeaderId] = useState(initial?.leader_id ?? 0);
 
+  const [teamRoles, setTeamRoles] = useState({
+    pm_capacity: initial?.pm_capacity ?? 0,
+    pd_capacity: initial?.pd_capacity ?? 0,
+    fe_capacity: initial?.fe_capacity ?? 0,
+    be_capacity: initial?.be_capacity ?? 0,
+  });
   useEffect(() => {
     const isValid =
       teamName.trim() !== '' &&
-      teamRoles.planning !== null &&
-      teamRoles.design !== null &&
-      teamRoles.frontend !== null &&
-      teamRoles.backend !== null;
+      teamRoles.pm_capacity !== null &&
+      teamRoles.pd_capacity !== null &&
+      teamRoles.fe_capacity !== null &&
+      teamRoles.be_capacity !== null;
     onValidationChange(isValid);
 
     if (mode === 'create') {
       onFormChange({
         name: teamName,
-        pm_capacity: teamRoles.planning ?? 0,
-        pd_capacity: teamRoles.design ?? 0,
-        fe_capacity: teamRoles.frontend ?? 0,
-        be_capacity: teamRoles.backend ?? 0,
+        pm_capacity: teamRoles.pm_capacity ?? 0,
+        pd_capacity: teamRoles.pd_capacity ?? 0,
+        fe_capacity: teamRoles.fe_capacity ?? 0,
+        be_capacity: teamRoles.be_capacity ?? 0,
       });
     } else {
       onFormChange({
-        id: initial?.id ?? 0,
-        number: initial?.number ?? 0,
+        number: teamNumber,
         team_name: teamName,
-        service_name: initial?.service_name ?? '',
-        idea_id: initial?.idea_id ?? 0,
-        leader: initial?.leader,
-        pm_capacity: teamRoles.planning ?? 0,
-        pd_capacity: teamRoles.design ?? 0,
-        fe_capacity: teamRoles.frontend ?? 0,
-        be_capacity: teamRoles.backend ?? 0,
+        service_name: serviceName,
+        leader_id: teamLeaderId,
+        pm_capacity: teamRoles.pm_capacity ?? 0,
+        pd_capacity: teamRoles.pd_capacity ?? 0,
+        fe_capacity: teamRoles.fe_capacity ?? 0,
+        be_capacity: teamRoles.be_capacity ?? 0,
       });
     }
-  }, [teamName, teamRoles, mode, initial, onFormChange]);
+  }, [teamName, teamRoles, mode, initial, onFormChange, teamNumber, serviceName, teamLeaderId]);
+
+  // 유저 리스트 전체 조회(팀장 선정을 위함)
+  const [userList, setUserList] = useState<User[]>([]);
+  useEffect(() => {
+    const fetchUserList = async () => {
+      const res = await fetchUserListAPI(GENERATION, undefined, '');
+      setUserList(res.data.users);
+    };
+    fetchUserList();
+  }, []);
 
   return (
     <div className={styles.container}>
       {mode === 'update' && (
         <FormField label="팀 번호">
-          <Input size="lg" placeholder="팀 번호를 입력해 주세요" value={initial?.number ?? 0} />
+          <Input
+            size="lg"
+            placeholder="팀 번호를 입력해 주세요"
+            value={teamNumber}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTeamNumber(Number(e.target.value))}
+          />
         </FormField>
       )}
       <FormField label="팀 이름">
@@ -74,36 +93,41 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
       </FormField>
       <FormField label="기획 필요 인원" required>
         <MemberNumberDropdown
-          value={teamRoles.planning}
-          onChange={(value) => setTeamRoles({ ...teamRoles, planning: value })}
+          value={teamRoles.pm_capacity}
+          onChange={(value) => setTeamRoles({ ...teamRoles, pm_capacity: value })}
         />
       </FormField>
 
       <FormField label="디자인 필요 인원" required>
         <MemberNumberDropdown
-          value={teamRoles.design}
-          onChange={(value) => setTeamRoles({ ...teamRoles, design: value })}
+          value={teamRoles.pd_capacity}
+          onChange={(value) => setTeamRoles({ ...teamRoles, pd_capacity: value })}
         />
       </FormField>
 
       <FormField label="프론트엔드 필요 인원" required>
         <MemberNumberDropdown
-          value={teamRoles.frontend}
-          onChange={(value) => setTeamRoles({ ...teamRoles, frontend: value })}
+          value={teamRoles.fe_capacity}
+          onChange={(value) => setTeamRoles({ ...teamRoles, fe_capacity: value })}
           maxValue={4}
         />
       </FormField>
       <FormField label="백엔드 필요 인원" required>
         <MemberNumberDropdown
-          value={teamRoles.backend}
-          onChange={(value) => setTeamRoles({ ...teamRoles, backend: value })}
+          value={teamRoles.be_capacity}
+          onChange={(value) => setTeamRoles({ ...teamRoles, be_capacity: value })}
           maxValue={4}
         />
       </FormField>
 
       {mode === 'update' && (
         <FormField label="서비스 명">
-          <Input size="lg" placeholder="서비스 명을 입력해 주세요" value={initial?.service_name ?? ''} />
+          <Input
+            size="lg"
+            placeholder="서비스 명을 입력해 주세요"
+            value={serviceName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setServiceName(e.target.value)}
+          />
         </FormField>
       )}
 
@@ -113,8 +137,20 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
           <SearchDropdown
             inPlaceholder="미르미 선택"
             outPlaceholder="팀 대표를 선택해주세요"
-            items={[]}
-            onSelect={() => {}}
+            items={userList.map((user) => ({
+              id: user.id,
+              description: user.description,
+            }))}
+            onSelect={(item) => {
+              setTeamLeaderId(item.id);
+            }}
+            selectedItem={userList.find((user) => user.id === teamLeaderId) ?? null}
+            onSearch={async (term) => {
+              if (term.length >= 2) {
+                const res = await fetchUserListAPI(GENERATION, undefined, term);
+                setUserList(res.data.users);
+              }
+            }}
           />
         </FormField>
       )}

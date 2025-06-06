@@ -47,7 +47,7 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
     <tr>
       <td className={styles.teamName}>
         <Text typography="body2" color="text-normal">
-          {team.number || ''}팀
+          {team.number || '-'}팀
         </Text>
         <Dropdown direction="down" className={styles.memberDropdown} isOpen={isDropdownOpen} toggle={toggleDropdown}>
           <DropdownToggle size="sm" color="secondary" className={styles.memberDropdownToggle}>
@@ -83,8 +83,8 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
         </Text>
       </td>
       <td>
-        <Text typography="body2" color={team.team_building ? 'text-primary' : 'text-danger'}>
-          {team.team_building ? '완료' : '진행중'}
+        <Text typography="body2" color={team.team_building === 'END' ? 'text-danger' : 'text-primary'}>
+          {team.team_building === 'END' ? '완료' : '진행중'}
         </Text>
       </td>
       <td>
@@ -94,7 +94,9 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
           icon={ChevronRightOutlineIcon}
           iconSide="right"
           onClick={() => navigate(`/admin/teamList/${team.id}`)}>
-          팀원 관리
+          <Text typography="subtitle1" color="text-alternative">
+            팀원 관리
+          </Text>
         </Button>
       </td>
 

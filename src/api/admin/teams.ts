@@ -1,13 +1,10 @@
 import instance from '../instance';
-import { Team, TeamDetail } from '../../types/admin/team';
+import { Team, TeamUpdateForm } from '../../types/admin/team';
 import { Position } from '../../constants/position';
 
 // 4.1 어드민 팀 추가
-export const createTeamAPI = async (generation: number, team: Team) => {
-  const response = await instance.post(`/api/v1/admins/teams`, {
-    generation,
-    team,
-  });
+export const createTeamAPI = async (teamData: Team) => {
+  const response = await instance.post(`/api/v1/admins/teams`, teamData);
   return response.data;
 };
 
@@ -64,7 +61,7 @@ export const fetchTeamMemberSummaryListAPI = async (team_id: number) => {
 };
 
 // 4.7 어드민 팀 정보 수정
-export const updateTeamAPI = async (team_id: number, team: TeamDetail) => {
+export const updateTeamAPI = async (team_id: number, team: TeamUpdateForm) => {
   const response = await instance.put(`/api/v1/admins/teams/${team_id}`, team);
   return response.data;
 };

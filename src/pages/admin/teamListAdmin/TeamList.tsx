@@ -26,12 +26,12 @@ export default function TeamList() {
   const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
   const [sortType, setSortType] = useState<SortType | undefined>(undefined);
 
-  const handleSorting = (newSorting: SortType) => {
-    if (sortType !== newSorting) {
-      setSorting(Sorting.ASC);
-      setSortType(newSorting);
+  const handleSorting = (newSorting: Sorting) => {
+    if (sorting !== newSorting) {
+      setSorting(newSorting);
+      setSortType(SortType.ASC);
     } else {
-      setSorting(sorting === Sorting.ASC ? Sorting.DESC : Sorting.ASC);
+      setSortType(sortType === SortType.ASC ? SortType.DESC : SortType.ASC);
     }
     setCurrentPage(1);
   };
@@ -39,7 +39,7 @@ export default function TeamList() {
   // 팀 리스트 조회
   useEffect(() => {
     const fetchTeamList = async () => {
-      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sorting, sortType, debouncedSearchQuery);
+      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sortType, sorting, debouncedSearchQuery);
       setTeamList(res.data.teams);
       setPageInfo(res.data.page_info);
     };
@@ -49,7 +49,7 @@ export default function TeamList() {
   // 팀 리스트 업데이트
   const handleUpdate = () => {
     const fetchTeamList = async () => {
-      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sorting, sortType, debouncedSearchQuery);
+      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sortType, sorting, debouncedSearchQuery);
       setTeamList(res.data.teams);
     };
     fetchTeamList();
@@ -62,7 +62,7 @@ export default function TeamList() {
           팀 리스트
         </Text>
         <Text typography="heading5" as="h5" color="text-primary">
-          999
+          {pageInfo.total_items}
         </Text>
       </div>
       <div className={styles.filterContainer}>

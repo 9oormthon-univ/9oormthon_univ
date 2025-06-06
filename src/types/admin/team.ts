@@ -16,7 +16,7 @@ export interface TeamOverview {
     name: string;
     service_name?: string;
     member_count: number;
-    team_building: boolean;
+    team_building: 'RECRUITING' | 'END';
   }[];
   page_info: {
     current_page: number;
@@ -27,12 +27,12 @@ export interface TeamOverview {
   };
 }
 
-export enum Sorting {
+export enum SortType {
   ASC = 'ASC',
   DESC = 'DESC',
 }
 
-export enum SortType {
+export enum Sorting {
   ID = 'ID',
   TEAM_NUMBER = 'TEAM_NUMBER',
   TEAM_NAME = 'TEAM_NAME',
@@ -53,6 +53,18 @@ export interface TeamDetail {
   service_name: string;
   idea_id?: number;
   leader?: User;
+}
+
+// 팀 수정 폼
+export interface TeamUpdateForm {
+  number: number;
+  team_name: string;
+  pm_capacity: number;
+  pd_capacity: number;
+  fe_capacity: number;
+  be_capacity: number;
+  service_name: string;
+  leader_id: number;
 }
 
 // 4.5 팀원 정보 요약
