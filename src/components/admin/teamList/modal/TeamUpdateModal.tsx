@@ -1,4 +1,4 @@
-import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter } from '@goorm-dev/vapor-components';
+import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter, toast } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
 import TeamForm from '../form/TeamForm';
 import TeamInfoView from '../form/TeamInfoView';
@@ -9,9 +9,10 @@ interface TeamUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
   teamId: number;
+  onUpdate: () => void;
 }
 
-export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateModalProps) {
+export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: TeamUpdateModalProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
   const handleClose = () => {
@@ -40,10 +41,16 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
   // 팀 정보 수정
   const handleUpdateTeam = async () => {
     try {
-      const res = await updateTeamAPI(teamId, formData as TeamUpdateForm);
-      console.log(res);
+      await updateTeamAPI(teamId, formData as TeamUpdateForm);
+      toast('성공적으로 팀 정보를 수정하였습니다.', {
+        type: 'primary',
+      });
+      onUpdate();
       handleClose();
     } catch (error) {
+      toast('팀 정보 수정에 실패했습니다.', {
+        type: 'danger',
+      });
       console.error(error);
     }
   };
@@ -71,7 +78,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
               number: teamDetail?.number ?? 0,
               team_name: teamDetail?.team_name ?? '',
               service_name: teamDetail?.service_name ?? '',
-              leader_id: teamDetail?.leader?.id ?? 0,
+              leader_id: teamDetail?.leader?.id ?? undefined,
               pm_capacity: teamDetail?.pm_capacity ?? 0,
               pd_capacity: teamDetail?.pd_capacity ?? 0,
               fe_capacity: teamDetail?.fe_capacity ?? 0,

@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text } from '@goorm-dev/vapor-components';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text, toast } from '@goorm-dev/vapor-components';
 import TeamForm from '../form/TeamForm';
 import { useState } from 'react';
 import { createTeamAPI } from '../../../../api/admin/teams';
@@ -8,9 +8,10 @@ import { Team } from '../../../../types/admin/team';
 interface TeamCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
+  onUpdate: () => void;
 }
 
-export default function TeamCreateModal({ isOpen, toggle }: TeamCreateModalProps) {
+export default function TeamCreateModal({ isOpen, toggle, onUpdate }: TeamCreateModalProps) {
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<Team>({
     name: '',
@@ -28,6 +29,10 @@ export default function TeamCreateModal({ isOpen, toggle }: TeamCreateModalProps
       };
       await createTeamAPI(teamData);
       toggle();
+      toast('성공적으로 팀을 생성하였습니다.', {
+        type: 'primary',
+      });
+      onUpdate();
     } catch (error) {
       console.error('팀 생성 실패:', error);
     }

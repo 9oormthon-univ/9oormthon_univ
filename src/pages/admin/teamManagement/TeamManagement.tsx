@@ -72,7 +72,7 @@ export default function TeamManagement() {
       </div>
       <TeamManageTable teamMemberSummaryList={teamMemberSummaryList} onUpdate={handleUpdate} />
 
-      <TeamMemberCreateModal isOpen={isOpen} toggle={toggle} />
+      <TeamMemberCreateModal isOpen={isOpen} toggle={toggle} onUpdate={handleUpdate} />
     </div>
   );
 }

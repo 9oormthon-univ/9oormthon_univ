@@ -65,7 +65,7 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
   const [userList, setUserList] = useState<User[]>([]);
   useEffect(() => {
     const fetchUserList = async () => {
-      const res = await fetchUserListAPI(GENERATION, undefined, '');
+      const res = await fetchUserListAPI(GENERATION);
       setUserList(res.data.users);
     };
     fetchUserList();

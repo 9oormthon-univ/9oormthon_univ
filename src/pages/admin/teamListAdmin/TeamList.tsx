@@ -39,7 +39,7 @@ export default function TeamList() {
   // 팀 리스트 조회
   useEffect(() => {
     const fetchTeamList = async () => {
-      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sortType, sorting, debouncedSearchQuery);
+      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sorting, sortType, debouncedSearchQuery);
       setTeamList(res.data.teams);
       setPageInfo(res.data.page_info);
     };
@@ -49,7 +49,7 @@ export default function TeamList() {
   // 팀 리스트 업데이트
   const handleUpdate = () => {
     const fetchTeamList = async () => {
-      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sortType, sorting, debouncedSearchQuery);
+      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sorting, sortType, debouncedSearchQuery);
       setTeamList(res.data.teams);
     };
     fetchTeamList();
@@ -84,7 +84,7 @@ export default function TeamList() {
         onSortChange={handleSorting}
         onUpdate={handleUpdate}
       />
-      <TeamCreateModal isOpen={isCreateTeamOpen} toggle={toggleCreateTeam} />
+      <TeamCreateModal isOpen={isCreateTeamOpen} toggle={toggleCreateTeam} onUpdate={handleUpdate} />
     </div>
   );
 }

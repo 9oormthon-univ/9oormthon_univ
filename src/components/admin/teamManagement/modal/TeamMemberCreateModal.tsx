@@ -1,4 +1,4 @@
-import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter, Radio } from '@goorm-dev/vapor-components';
+import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter, Radio, toast } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
 import styles from './teamMemberCreateModal.module.scss';
 import { useEffect, useState } from 'react';
@@ -13,9 +13,10 @@ import { User } from '../../../../types/admin/member';
 interface TeamMemberCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
+  onUpdate: () => void;
 }
 
-export default function TeamMemberCreateModal({ isOpen, toggle }: TeamMemberCreateModalProps) {
+export default function TeamMemberCreateModal({ isOpen, toggle, onUpdate }: TeamMemberCreateModalProps) {
   const [role, setRole] = useState<Position>(Position.NULL);
   const [userList, setUserList] = useState<{ id: number; description: string }[]>([]);
   const [selectedUser, setSelectedUser] = useState<{ id: number; description: string } | null>(null);
@@ -30,7 +31,11 @@ export default function TeamMemberCreateModal({ isOpen, toggle }: TeamMemberCrea
 
     try {
       await addTeamMemberAPI(Number(team_id), selectedUser?.id ?? 0, role as Position);
+      toast('성공적으로 팀원을 추가하였습니다.', {
+        type: 'primary',
+      });
       toggle();
+      onUpdate();
     } catch (error) {
       console.error('팀원 추가 실패:', error);
     }

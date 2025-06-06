@@ -67,8 +67,8 @@ export const updateTeamAPI = async (team_id: number, team: TeamUpdateForm) => {
 };
 
 // 4.8 어드민 팀원 팀장 임명
-export const updateTeamLeaderAPI = async (user_id: number) => {
-  const response = await instance.patch(`/api/v1/admins/members/${user_id}/is-leader`);
+export const updateTeamLeaderAPI = async (member_id: number) => {
+  const response = await instance.patch(`/api/v1/admins/members/${member_id}/is-leader`);
   return response.data;
 };
 
@@ -79,7 +79,7 @@ export const deleteTeamAPI = async (team_id: number) => {
 };
 
 // 4.12 어드민 팀원 방출
-export const deleteTeamMemberAPI = async (user_id: number) => {
-  const response = await instance.delete(`/api/v1/admins/members/${user_id}`);
+export const deleteTeamMemberAPI = async (member_id: number) => {
+  const response = await instance.delete(`/api/v1/admins/members/${member_id}`);
   return response.data;
 };
