@@ -2,7 +2,7 @@ import { ModalBody, ModalHeader, Text, Input, ModalFooter, Button, Modal } from 
 import FormField from '../../../common/formField/FormField';
 import styles from './univUpdateModal.module.scss';
 import { useEffect, useState } from 'react';
-import { fetchUnivDetailAPI, updateUnivAPI } from '../../../../api/admin/univs';
+import { fetchUnivDetailAPI, fetchUnivListAPI, updateUnivAPI } from '../../../../api/admin/univs';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
 import { fetchUserListAPI } from '../../../../api/admin/users';
 import { GENERATION } from '../../../../constants/common';
@@ -95,6 +95,16 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
       setIsLoading(false);
     }
   };
+
+  const fetchUnivList = async () => {
+    const res = await fetchUnivListAPI(GENERATION);
+    setRepresentatives(res.data.users);
+  };
+
+  // 최초 1회만 유니브 미르미 조회
+  useEffect(() => {
+    fetchUnivList();
+  }, []);
 
   // 현재 선택된 대표자 찾기
   const selectedRepresentative = form.leader_id
