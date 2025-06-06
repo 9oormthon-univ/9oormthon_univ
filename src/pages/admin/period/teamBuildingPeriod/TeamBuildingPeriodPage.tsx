@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PeriodRangeRow from '../../../../components/admin/period/teamBuildingPeriod/PeriodRangeRow';
 import styles from './teamBuildingPeriodPage.module.scss';
 import { Text, Button, toast } from '@goorm-dev/vapor-components';
 import TeamBuildingPhase from '../../../../components/admin/period/teamBuildingPeriod/TeamBuildingPhase';
-import { setPeriod } from '../../../../api/admin/system';
+import { getPeriod, setPeriod } from '../../../../api/admin/system';
 import { PeriodSettingPayload } from '../../../../types/admin/system';
 
 export default function TeamBuildingPeriodPage() {
@@ -49,6 +49,65 @@ export default function TeamBuildingPeriodPage() {
     });
   };
 
+  const formatDateInput = (date: string) => {
+    return date.split('T')[0];
+  };
+
+  // 기간 조회
+  useEffect(() => {
+    const fetchPeriod = async () => {
+      try {
+        const res = await getPeriod();
+        const data = res.data;
+        setIdeaPeriod({
+          startDate: formatDateInput(data.idea_submission_start),
+          endDate: formatDateInput(data.idea_submission_end),
+        });
+        setPhase([
+          {
+            id: 1,
+            supportPeriod: {
+              startDate: formatDateInput(data.phase1_team_building_start),
+              endDate: formatDateInput(data.phase1_team_building_end),
+            },
+            confirmPeriod: {
+              startDate: formatDateInput(data.phase1_confirmation_start),
+              endDate: formatDateInput(data.phase1_confirmation_end),
+            },
+          },
+          {
+            id: 2,
+            supportPeriod: {
+              startDate: formatDateInput(data.phase2_team_building_start),
+              endDate: formatDateInput(data.phase2_team_building_end),
+            },
+            confirmPeriod: {
+              startDate: formatDateInput(data.phase2_confirmation_start),
+              endDate: formatDateInput(data.phase2_confirmation_end),
+            },
+          },
+          {
+            id: 3,
+            supportPeriod: {
+              startDate: formatDateInput(data.phase3_team_building_start),
+              endDate: formatDateInput(data.phase3_team_building_end),
+            },
+            confirmPeriod: {
+              startDate: formatDateInput(data.phase3_confirmation_start),
+              endDate: formatDateInput(data.phase3_confirmation_end),
+            },
+          },
+        ]);
+      } catch (error) {
+        console.error(error);
+        toast('기간 조회에 실패했습니다.', {
+          type: 'error',
+        });
+      }
+    };
+    fetchPeriod();
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -56,14 +115,16 @@ export default function TeamBuildingPeriodPage() {
           팀 빌딩 기간
         </Text>
         <Button size="md" color="primary" onClick={handleSave}>
-          저장하기
+          저장
         </Button>
       </div>
       <PeriodRangeRow
         label="아이디어 등록 기간"
         startDate={ideaPeriod.startDate}
         endDate={ideaPeriod.endDate}
-        onChange={(startDate, endDate) => setIdeaPeriod({ startDate, endDate })}
+        onChange={(startDate, endDate) => {
+          setIdeaPeriod({ startDate: formatDateInput(startDate), endDate: formatDateInput(endDate) });
+        }}
       />
       {phase.map((item) => (
         <TeamBuildingPhase key={item.id} phase={item} setPhase={setPhase} />
