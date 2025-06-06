@@ -3,12 +3,15 @@ import styles from './form.module.scss';
 
 import { Button, Text } from '@goorm-dev/vapor-components';
 import { TeamDetail } from '../../../../types/admin/team';
+import { useNavigate } from 'react-router-dom';
 
 interface TeamInfoViewProps {
   teamDetail: TeamDetail | null;
 }
 
 export default function TeamInfoView({ teamDetail }: TeamInfoViewProps) {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <div className={styles.teamInfo}>
@@ -71,7 +74,15 @@ export default function TeamInfoView({ teamDetail }: TeamInfoViewProps) {
         <Text typography="subtitle2" color="text-hint">
           아이디어 정보
         </Text>
-        <Button size="md" color="secondary" iconSide="right" icon={InOutlineIcon} className={styles.ideaInfoButton}>
+        <Button
+          size="md"
+          color="secondary"
+          iconSide="right"
+          icon={InOutlineIcon}
+          className={styles.ideaInfoButton}
+          onClick={() => {
+            navigate(`/hackathon/detail/${teamDetail?.idea_id}`);
+          }}>
           아이디어 정보 보기
         </Button>
       </div>

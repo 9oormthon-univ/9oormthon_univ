@@ -51,6 +51,7 @@ export interface TeamDetail {
   fe_capacity: number;
   be_capacity: number;
   service_name: string;
+  idea_id?: number;
   leader?: User;
 }
 
