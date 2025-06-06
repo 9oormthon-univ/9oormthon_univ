@@ -2,22 +2,17 @@ import { ModalBody, ModalHeader, Text, Input, ModalFooter, Button, Modal } from 
 import FormField from '../../../common/formField/FormField';
 import styles from './univUpdateModal.module.scss';
 import { useEffect, useState } from 'react';
-import { fetchUnivDetailAPI, fetchUnivListAPI, updateUnivAPI } from '../../../../api/admin/univs';
+import { fetchUnivDetailAPI, updateUnivAPI } from '../../../../api/admin/univs';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
 import { fetchUserListAPI } from '../../../../api/admin/users';
 import { GENERATION } from '../../../../constants/common';
+import { User } from '../../../../types/admin/member';
 
 interface UnivUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
   univId: number | null;
   onSuccess: () => void;
-}
-
-// 유저 간단 목록
-interface Representative {
-  id: number;
-  description: string;
 }
 
 export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: UnivUpdateModalProps) {
@@ -27,7 +22,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
     leader_id: null as number | null,
   });
 
-  const [representatives, setRepresentatives] = useState<Representative[]>([]);
+  const [representatives, setRepresentatives] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const hasChanged = form.name !== '' && form.instagram_url !== '';
@@ -40,7 +35,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
       setForm({
         name: res.data.name,
         instagram_url: res.data.instagram_url,
-        leader_id: res.data.leader_id || null,
+        leader_id: res.data.leader.id || null,
       });
     } catch (error) {
       console.log(error);
@@ -55,7 +50,6 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
 
   // 유니브 정보 수정
   const handleUpdateUniv = async () => {
-    console.log(form);
     try {
       if (!univId) return;
       const res = await updateUnivAPI(univId, form.name, form.instagram_url, form.leader_id || undefined);
@@ -68,7 +62,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
   };
 
   // 대표자 선택 핸들러
-  const handleRepresentativeSelect = (item: Representative) => {
+  const handleRepresentativeSelect = (item: User) => {
     setForm((prev) => ({
       ...prev,
       leader_id: item.id,
@@ -84,7 +78,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
       const trimmed = searchTerm.trim();
       const res = await fetchUserListAPI(GENERATION, univId, trimmed === '' ? undefined : trimmed);
       setRepresentatives(
-        res.data.users.map((user: { id: number; description: string }) => ({
+        res.data.users.map((user: User) => ({
           id: user.id,
           description: user.description,
         })),
@@ -96,14 +90,16 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
     }
   };
 
-  const fetchUnivList = async () => {
-    const res = await fetchUnivListAPI(GENERATION);
+  // 특정 유니브 미르미 조회
+  const fetchUserList = async () => {
+    if (!univId) return;
+    const res = await fetchUserListAPI(GENERATION, univId);
     setRepresentatives(res.data.users);
   };
 
   // 최초 1회만 유니브 미르미 조회
   useEffect(() => {
-    fetchUnivList();
+    fetchUserList();
   }, []);
 
   // 현재 선택된 대표자 찾기
