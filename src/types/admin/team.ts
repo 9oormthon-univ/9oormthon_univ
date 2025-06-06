@@ -1,4 +1,5 @@
 import { User } from './member';
+import { PositionWithoutNull } from '../../constants/position';
 
 export interface Team {
   name: string;
@@ -51,4 +52,15 @@ export interface TeamDetail {
   be_capacity: number;
   service_name: string;
   leader?: User;
+}
+
+// 4.5 팀원 정보 요약
+export interface TeamMemberSummary {
+  id: number;
+  user_id: number;
+  name: string;
+  role: PositionWithoutNull;
+  univ: string;
+  email: string;
+  is_leader: boolean;
 }

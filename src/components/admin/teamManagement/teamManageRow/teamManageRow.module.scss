@@ -29,16 +29,6 @@
   height: var(--dimension-200) !important;
 }
 
-.name {
-  width: 5.625rem;
-  max-width: 5.625rem;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 td {
   padding: 0 var(--space-200);
   height: var(--dimension-700);
@@ -61,4 +51,19 @@ td {
   width: 10.5rem;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+}
+
+.nameContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-050);
+  width: 5.625rem;
+}
+
+.name {
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

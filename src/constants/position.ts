@@ -24,3 +24,10 @@ export const POSITIONS: Record<RequirementKey, PositionInfo> = {
   fe: { name: '프론트엔드', index: 2 },
   be: { name: '백엔드', index: 3 },
 } as const;
+
+export const POSITION_NAME = {
+  [Position.PM]: '기획',
+  [Position.PD]: '디자인',
+  [Position.FE]: '프론트엔드',
+  [Position.BE]: '백엔드',
+};

@@ -4,8 +4,14 @@ import styles from './teamManageRow.module.scss';
 import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
 import TeamMemberUpdateModal from '../modal/TeamMemberUpdateModal';
+import { TeamMemberSummary } from '../../../../types/admin/team';
+import { POSITION_NAME } from '../../../../constants/position';
 
-export default function TeamManageRow() {
+interface TeamManageRowProps {
+  member: TeamMemberSummary;
+}
+
+export default function TeamManageRow({ member }: TeamManageRowProps) {
   const [isMemberDropdownOpen, setIsMemberDropdownOpen] = useState(false);
   const toggleMemberDropdown = () => setIsMemberDropdownOpen((prev) => !prev);
 
@@ -25,9 +31,17 @@ export default function TeamManageRow() {
     <>
       <tr>
         <td className={styles.nameCell}>
-          <Text typography="body2" color="text-normal" className={styles.name}>
-            김구름
-          </Text>
+          <div className={styles.nameContainer}>
+            <Text typography="body2" color="text-normal" className={styles.name}>
+              {member.name}
+            </Text>
+            {member.is_leader && (
+              <Badge pill size="sm" color="hint">
+                팀장
+              </Badge>
+            )}
+          </div>
+
           <Dropdown
             direction="down"
             className={styles.memberDropdown}
@@ -52,17 +66,17 @@ export default function TeamManageRow() {
         </td>
         <td className={styles.roleCell}>
           <Badge color="primary" size="md" pill>
-            프론트엔드
+            {POSITION_NAME[member.role]}
           </Badge>
         </td>
         <td>
           <Text typography="body2" color="text-normal" className={styles.univName}>
-            구름대학교
+            {member.univ}
           </Text>
         </td>
         <td>
           <Text typography="body2" color="text-normal" className={styles.email}>
-            univ1234@gmail.com
+            {member.email}
           </Text>
         </td>
       </tr>
@@ -74,7 +88,7 @@ export default function TeamManageRow() {
         description={
           <>
             <Text typography="body2" color="text-normal" as="p">
-              김구름을 팀원 리스트에서 삭제합니다.
+              {member.name}을 팀원 리스트에서 삭제합니다.
             </Text>
             <Text typography="body2" color="text-normal" as="p">
               미르미 제외가 완료되면 데이터를 되돌릴 수 없습니다.
