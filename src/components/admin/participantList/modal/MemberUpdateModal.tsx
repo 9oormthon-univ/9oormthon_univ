@@ -55,7 +55,8 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle }: MemberUpdateModal
         formData.phone_number,
         formData.generations,
       );
-      console.log(res);
+      // 타입 확인
+      console.log(typeof formData.generations);
       return res;
     } catch (error) {
       console.error(error);
@@ -71,7 +72,7 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle }: MemberUpdateModal
       </ModalHeader>
       <ModalBody>
         {isEditMode ? (
-          <MemberForm showProfileEdit={true} member={member} onChange={handleChange} />
+          <MemberForm showProfileEdit={true} member={formData} onChange={handleChange} />
         ) : (
           <MemberInfoView member={member} />
         )}

@@ -9,11 +9,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Univ } from '../../../../types/admin/univ';
 import { fetchUnivListAPI } from '../../../../api/admin/univs';
 import { GENERATION } from '../../../../constants/common';
-import { Member, MemberUpdateForm } from '../../../../types/admin/member';
+import { MemberUpdateForm } from '../../../../types/admin/member';
 
 interface MemberFormProps {
   showProfileEdit?: boolean;
-  member?: Member;
+  member?: MemberUpdateForm;
   onChange?: <K extends keyof MemberUpdateForm>(field: K, value: MemberUpdateForm[K]) => void;
 }
 
@@ -22,6 +22,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
   const [imgPreview, setImgPreview] = useState<string | null>(null);
   const [imgFile, setImgFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  console.log(imgPreview); // 추후 수정
 
   // 학교 리스트 조회
   useEffect(() => {
@@ -51,13 +52,14 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
 
   return (
     <div className={styles.modalBody}>
-      {member?.img_url ? (
+      {/* {member?.img_url ? (
         <div className={styles.profileImgContainer}>
           <img src={imgPreview || member?.img_url} alt="profile" />
         </div>
       ) : (
         <Avatar name={member?.name || 'Goorm'} />
-      )}
+      )} */}
+      <Avatar name={member?.name || 'Goorm'} />
       <div className={styles.memberContainer}>
         {showProfileEdit && (
           <>
@@ -83,13 +85,13 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
           <Input
             bsSize="lg"
             placeholder="이름을 입력해주세요"
-            value={member?.name || ''}
+            value={member?.name}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('name', e.target.value)}
           />
         </FormField>
         <FormField label="학교" required>
           <UnivSearchDropdown
-            value={member?.univ?.name || ''}
+            value={univList.find((univ) => univ.id === member?.univ_id)?.name || ''}
             onChange={(univ) => onChange?.('univ_id', univ.id)}
             univList={univList}
           />
@@ -98,7 +100,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
           <Input
             bsSize="lg"
             placeholder="이메일을 입력해주세요"
-            value={member?.email || ''}
+            value={member?.email}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('email', e.target.value)}
           />
         </FormField>
@@ -106,7 +108,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
           <Input
             bsSize="lg"
             placeholder="000-0000-0000"
-            value={member?.phone_number || ''}
+            value={member?.phone_number}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('phone_number', e.target.value)}
           />
         </FormField>
