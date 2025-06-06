@@ -4,13 +4,16 @@ import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
 import { useState, useEffect } from 'react';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
-import { Team, TeamDetail } from '../../../../types/admin/team';
+import { Team, TeamUpdateForm } from '../../../../types/admin/team';
+import { User } from '../../../../types/admin/member';
+import { fetchUserListAPI } from '../../../../api/admin/users';
+import { GENERATION } from '../../../../constants/common';
 
 interface TeamFormProps {
   mode: 'create' | 'update';
   onValidationChange: (isValid: boolean) => void;
-  onFormChange: (data: Team | TeamDetail) => void;
-  initialData?: TeamDetail;
+  onFormChange: (data: Team | TeamUpdateForm) => void;
+  initialData?: TeamUpdateForm;
 }
 
 export default function TeamForm({ mode, onValidationChange, onFormChange, initialData }: TeamFormProps) {
@@ -19,13 +22,14 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
   const [teamName, setTeamName] = useState(initial?.team_name || '');
   const [teamNumber, setTeamNumber] = useState(initial?.number ?? 0);
   const [serviceName, setServiceName] = useState(initial?.service_name ?? '');
+  const [teamLeaderId, setTeamLeaderId] = useState(initial?.leader_id ?? 0);
+
   const [teamRoles, setTeamRoles] = useState({
     pm_capacity: initial?.pm_capacity ?? 0,
     pd_capacity: initial?.pd_capacity ?? 0,
     fe_capacity: initial?.fe_capacity ?? 0,
     be_capacity: initial?.be_capacity ?? 0,
   });
-
   useEffect(() => {
     const isValid =
       teamName.trim() !== '' &&
@@ -45,19 +49,27 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
       });
     } else {
       onFormChange({
-        id: initial?.id ?? 0,
         number: teamNumber,
         team_name: teamName,
         service_name: serviceName,
-        idea_id: initial?.idea_id ?? 0,
-        leader: initial?.leader,
-        pm_capacity: initial?.pm_capacity ?? 0,
-        pd_capacity: initial?.pd_capacity ?? 0,
-        fe_capacity: initial?.fe_capacity ?? 0,
-        be_capacity: initial?.be_capacity ?? 0,
+        leader_id: teamLeaderId,
+        pm_capacity: teamRoles.pm_capacity ?? 0,
+        pd_capacity: teamRoles.pd_capacity ?? 0,
+        fe_capacity: teamRoles.fe_capacity ?? 0,
+        be_capacity: teamRoles.be_capacity ?? 0,
       });
     }
-  }, [teamName, teamRoles, mode, initial, onFormChange, teamNumber, serviceName]);
+  }, [teamName, teamRoles, mode, initial, onFormChange, teamNumber, serviceName, teamLeaderId]);
+
+  // 유저 리스트 전체 조회(팀장 선정을 위함)
+  const [userList, setUserList] = useState<User[]>([]);
+  useEffect(() => {
+    const fetchUserList = async () => {
+      const res = await fetchUserListAPI(GENERATION, undefined, '');
+      setUserList(res.data.users);
+    };
+    fetchUserList();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -125,8 +137,20 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
           <SearchDropdown
             inPlaceholder="미르미 선택"
             outPlaceholder="팀 대표를 선택해주세요"
-            items={[]}
-            onSelect={() => {}}
+            items={userList.map((user) => ({
+              id: user.id,
+              description: user.description,
+            }))}
+            onSelect={(item) => {
+              setTeamLeaderId(item.id);
+            }}
+            selectedItem={userList.find((user) => user.id === teamLeaderId) ?? null}
+            onSearch={async (term) => {
+              if (term.length >= 2) {
+                const res = await fetchUserListAPI(GENERATION, undefined, term);
+                setUserList(res.data.users);
+              }
+            }}
           />
         </FormField>
       )}

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import TeamForm from '../form/TeamForm';
 import TeamInfoView from '../form/TeamInfoView';
 import { fetchTeamDetailAPI, updateTeamAPI } from '../../../../api/admin/teams';
-import { TeamDetail } from '../../../../types/admin/team';
+import { TeamDetail, TeamUpdateForm } from '../../../../types/admin/team';
 
 interface TeamUpdateModalProps {
   isOpen: boolean;
@@ -20,7 +20,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
   };
 
   const [teamDetail, setTeamDetail] = useState<TeamDetail | null>(null);
-  const [formData, setFormData] = useState<TeamDetail | null>(null);
+  const [formData, setFormData] = useState<TeamUpdateForm | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -40,7 +40,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
   // 팀 정보 수정
   const handleUpdateTeam = async () => {
     try {
-      const res = await updateTeamAPI(teamId, formData as TeamDetail);
+      const res = await updateTeamAPI(teamId, formData as TeamUpdateForm);
       console.log(res);
       handleClose();
     } catch (error) {
@@ -66,8 +66,17 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
           <TeamForm
             mode="update"
             onValidationChange={() => {}}
-            onFormChange={(data) => setFormData(data as TeamDetail)}
-            initialData={teamDetail as TeamDetail}
+            onFormChange={(data) => setFormData(data as TeamUpdateForm)}
+            initialData={{
+              number: teamDetail?.number ?? 0,
+              team_name: teamDetail?.team_name ?? '',
+              service_name: teamDetail?.service_name ?? '',
+              leader_id: teamDetail?.leader?.id ?? 0,
+              pm_capacity: teamDetail?.pm_capacity ?? 0,
+              pd_capacity: teamDetail?.pd_capacity ?? 0,
+              fe_capacity: teamDetail?.fe_capacity ?? 0,
+              be_capacity: teamDetail?.be_capacity ?? 0,
+            }}
           />
         ) : (
           <TeamInfoView teamDetail={teamDetail} />

@@ -55,6 +55,18 @@ export interface TeamDetail {
   leader?: User;
 }
 
+// 팀 수정 폼
+export interface TeamUpdateForm {
+  number: number;
+  team_name: string;
+  pm_capacity: number;
+  pd_capacity: number;
+  fe_capacity: number;
+  be_capacity: number;
+  service_name: string;
+  leader_id: number;
+}
+
 // 4.5 팀원 정보 요약
 export interface TeamMemberSummary {
   id: number;
