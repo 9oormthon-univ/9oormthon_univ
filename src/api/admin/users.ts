@@ -24,7 +24,7 @@ export const fetchUserSummaryListAPI = async (
 
   // undefined인 경우 쿼리 파라미터에 추가하지 않음
   if (univ_id !== undefined) {
-    queryParams.append('univ_id', univ_id.toString());
+    queryParams.append('univ-id', univ_id.toString());
   }
   if (search !== undefined) {
     queryParams.append('search', search);
