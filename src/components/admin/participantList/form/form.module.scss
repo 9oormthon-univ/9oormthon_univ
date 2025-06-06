@@ -31,3 +31,15 @@
   display: flex;
   gap: var(--space-400);
 }
+
+.profileImgContainer {
+  width: var(--dimension-600);
+  height: var(--dimension-600);
+  border-radius: 50%;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
