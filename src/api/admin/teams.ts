@@ -3,11 +3,8 @@ import { Team, TeamDetail } from '../../types/admin/team';
 import { Position } from '../../constants/position';
 
 // 4.1 어드민 팀 추가
-export const createTeamAPI = async (generation: number, team: Team) => {
-  const response = await instance.post(`/api/v1/admins/teams`, {
-    generation,
-    team,
-  });
+export const createTeamAPI = async (teamData: Team) => {
+  const response = await instance.post(`/api/v1/admins/teams`, teamData);
   return response.data;
 };
 
