@@ -31,3 +31,10 @@ export const POSITION_NAME = {
   [Position.FE]: '프론트엔드',
   [Position.BE]: '백엔드',
 };
+
+export const POSITION_COLOR = {
+  [Position.PM]: 'danger',
+  [Position.PD]: 'warning',
+  [Position.FE]: 'primary',
+  [Position.BE]: 'success',
+} as const;
