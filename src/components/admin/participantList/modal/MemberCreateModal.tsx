@@ -21,7 +21,7 @@ export const MemberCreateModal = ({ isOpen, toggle }: MemberCreateModalProps) =>
         <Button size="lg" color="secondary" onClick={toggle}>
           취소
         </Button>
-        <Button size="lg" color="primary">
+        <Button size="lg" color="primary" >
           추가
         </Button>
       </ModalFooter>
