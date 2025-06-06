@@ -64,7 +64,7 @@ export interface TeamUpdateForm {
   fe_capacity: number;
   be_capacity: number;
   service_name: string;
-  leader_id: number;
+  leader_id?: number;
 }
 
 // 4.5 팀원 정보 요약

@@ -10,7 +10,7 @@ export const fetchUserListAPI = async (generation: number, univId?: number, sear
     queryParams.append('univ-id', univId.toString());
   }
 
-  if (search !== undefined && search.trim() !== '') {
+  if (search !== undefined) {
     queryParams.append('search', search);
   }
 

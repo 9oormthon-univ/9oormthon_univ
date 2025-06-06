@@ -32,7 +32,7 @@ export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) 
   // 팀장 임명
   const updateTeamLeader = async () => {
     try {
-      await updateTeamLeaderAPI(member.user_id);
+      await updateTeamLeaderAPI(member.id);
       toast('팀장이 변경되었습니다.', {
         type: 'success',
       });
@@ -45,7 +45,7 @@ export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) 
   // 팀원 방출
   const handleDeleteTeamMember = async () => {
     try {
-      await deleteTeamMemberAPI(member.user_id);
+      await deleteTeamMemberAPI(member.id);
       toast('팀원이 방출되었습니다.', {
         type: 'success',
       });

@@ -71,7 +71,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
               number: teamDetail?.number ?? 0,
               team_name: teamDetail?.team_name ?? '',
               service_name: teamDetail?.service_name ?? '',
-              leader_id: teamDetail?.leader?.id ?? 0,
+              leader_id: teamDetail?.leader?.id ?? undefined,
               pm_capacity: teamDetail?.pm_capacity ?? 0,
               pd_capacity: teamDetail?.pd_capacity ?? 0,
               fe_capacity: teamDetail?.fe_capacity ?? 0,
