@@ -1,6 +1,9 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text } from '@goorm-dev/vapor-components';
 import TeamForm from '../form/TeamForm';
 import { useState } from 'react';
+import { createTeamAPI } from '../../../../api/admin/teams';
+import { GENERATION } from '../../../../constants/common';
+import { Team } from '../../../../types/admin/team';
 
 interface TeamCreateModalProps {
   isOpen: boolean;
@@ -9,6 +12,22 @@ interface TeamCreateModalProps {
 
 export default function TeamCreateModal({ isOpen, toggle }: TeamCreateModalProps) {
   const [isFormValid, setIsFormValid] = useState(false);
+  const [formData, setFormData] = useState<Team>({
+    name: '',
+    pm_capacity: 0,
+    pd_capacity: 0,
+    fe_capacity: 0,
+    be_capacity: 0,
+  });
+
+  const handleCreateTeam = async () => {
+    try {
+      await createTeamAPI(GENERATION, formData);
+      toggle();
+    } catch (error) {
+      console.error('팀 생성 실패:', error);
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -18,13 +37,13 @@ export default function TeamCreateModal({ isOpen, toggle }: TeamCreateModalProps
         </Text>
       </ModalHeader>
       <ModalBody>
-        <TeamForm mode="create" onValidationChange={setIsFormValid} />
+        <TeamForm mode="create" onValidationChange={setIsFormValid} onFormChange={setFormData} />
       </ModalBody>
       <ModalFooter>
         <Button size="lg" color="secondary" onClick={toggle}>
           취소
         </Button>
-        <Button size="lg" color="primary" disabled={!isFormValid}>
+        <Button size="lg" color="primary" disabled={!isFormValid} onClick={handleCreateTeam}>
           팀 추가하기
         </Button>
       </ModalFooter>

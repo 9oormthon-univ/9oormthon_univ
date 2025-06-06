@@ -4,13 +4,15 @@ import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
 import { useState, useEffect } from 'react';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
+import { Team } from '../../../../types/admin/team';
 
 interface TeamFormProps {
   mode: 'create' | 'update';
   onValidationChange: (isValid: boolean) => void;
+  onFormChange: (data: Team) => void;
 }
 
-export default function TeamForm({ mode, onValidationChange }: TeamFormProps) {
+export default function TeamForm({ mode, onValidationChange, onFormChange }: TeamFormProps) {
   const [teamName, setTeamName] = useState('');
   const [teamRoles, setTeamRoles] = useState({
     planning: null as number | null,
@@ -28,7 +30,17 @@ export default function TeamForm({ mode, onValidationChange }: TeamFormProps) {
       teamRoles.backend !== null;
 
     onValidationChange(isFormValid);
-  }, [teamName, teamRoles, onValidationChange]);
+
+    if (onFormChange) {
+      onFormChange({
+        name: teamName,
+        pm_capacity: teamRoles.planning ?? 0,
+        pd_capacity: teamRoles.design ?? 0,
+        fe_capacity: teamRoles.frontend ?? 0,
+        be_capacity: teamRoles.backend ?? 0,
+      });
+    }
+  }, [teamName, teamRoles, onValidationChange, onFormChange]);
 
   return (
     <div className={styles.container}>
