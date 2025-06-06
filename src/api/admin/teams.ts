@@ -19,3 +19,34 @@ export const addTeamMemberAPI = async (team_id: number, user_id: number, role: P
   });
   return response.data;
 };
+
+// 4.3 어드민 팀 요약 리스트 조회
+export const fetchTeamSummaryListAPI = async (
+  page: number,
+  size: number,
+  generation: number,
+  sorting?: string,
+  sort_type?: string,
+  search?: string,
+) => {
+  const queryParams = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    generation: generation.toString(),
+  });
+
+  if (sorting !== undefined) {
+    queryParams.append('sorting', sorting);
+  }
+
+  if (sort_type !== undefined) {
+    queryParams.append('sort-type', sort_type);
+  }
+
+  if (search !== undefined && search.trim() !== '') {
+    queryParams.append('search', search);
+  }
+
+  const response = await instance.get(`/api/v1/admins/teams/overviews?${queryParams.toString()}`);
+  return response.data;
+};
