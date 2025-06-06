@@ -81,7 +81,8 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
 
     setIsLoading(true);
     try {
-      const res = await fetchUserListAPI(GENERATION, univId, searchTerm);
+      const trimmed = searchTerm.trim();
+      const res = await fetchUserListAPI(GENERATION, univId, trimmed === '' ? undefined : trimmed);
       setRepresentatives(
         res.data.users.map((user: { id: number; description: string }) => ({
           id: user.id,

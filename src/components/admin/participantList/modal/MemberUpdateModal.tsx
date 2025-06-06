@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import MemberInfoView from '../form/MemberInfoView';
 import { GENERATION } from '../../../../constants/common';
 import { fetchUserDetailAPI, updateUserAPI } from '../../../../api/admin/users';
-import { MemberUpdateForm } from '../../../../types/admin/member';
+import { Member, MemberUpdateForm } from '../../../../types/admin/member';
 
 interface MemberUpdateModalProps {
   user_id: number;
@@ -20,7 +20,7 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle }: MemberUpdateModal
     toggle();
   };
 
-  const [member, setMember] = useState<any | null>(null);
+  const [member, setMember] = useState<Member | null>(null);
 
   const [formData, setFormData] = useState<MemberUpdateForm>({
     name: member?.name ?? '',
@@ -38,6 +38,13 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle }: MemberUpdateModal
   const fetchUserDetail = async (user_id: number) => {
     const res = await fetchUserDetailAPI(user_id, GENERATION);
     setMember(res.data);
+    setFormData({
+      name: res.data.name,
+      univ_id: res.data.univ_id,
+      email: res.data.email,
+      phone_number: res.data.phone_number,
+      generations: res.data.generations,
+    });
   };
 
   useEffect(() => {
@@ -74,7 +81,7 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle }: MemberUpdateModal
         {isEditMode ? (
           <MemberForm showProfileEdit={true} member={formData} onChange={handleChange} />
         ) : (
-          <MemberInfoView member={member} />
+          <MemberInfoView member={member ?? undefined} />
         )}
       </ModalBody>
       <ModalFooter>
