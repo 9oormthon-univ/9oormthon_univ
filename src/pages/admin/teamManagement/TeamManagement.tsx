@@ -32,7 +32,7 @@ export default function TeamManagement() {
       };
       fetchTeamMemberSummaryList();
     }
-  });
+  }, [team_id]);
 
   // 팀원 리스트 업데이트
   const handleUpdate = () => {
