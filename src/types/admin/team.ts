@@ -1,3 +1,5 @@
+import { User } from './member';
+
 export interface Team {
   name: string;
   pm_capacity: number;
@@ -36,4 +38,17 @@ export enum SortType {
   SERVICE_NAME = 'SERVICE_NAME',
   MEMBER_COUNT = 'MEMBER_COUNT',
   TEAM_BUILDING = 'TEAM_BUILDING',
+}
+
+// 팀 상세
+export interface TeamDetail {
+  id: number;
+  number: number;
+  team_name: string;
+  pm_capacity: number;
+  pd_capacity: number;
+  fe_capacity: number;
+  be_capacity: number;
+  service_name: string;
+  leader?: User;
 }

@@ -50,3 +50,9 @@ export const fetchTeamSummaryListAPI = async (
   const response = await instance.get(`/api/v1/admins/teams/overviews?${queryParams.toString()}`);
   return response.data;
 };
+
+// 4.4 어드민 팀 정보 상세 조회
+export const fetchTeamDetailAPI = async (team_id: number) => {
+  const response = await instance.get(`/api/v1/admins/teams/${team_id}/details`);
+  return response.data;
+};

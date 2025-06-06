@@ -1,20 +1,38 @@
 import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter } from '@goorm-dev/vapor-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TeamForm from '../form/TeamForm';
 import TeamInfoView from '../form/TeamInfoView';
+import { fetchTeamDetailAPI } from '../../../../api/admin/teams';
+import { TeamDetail } from '../../../../types/admin/team';
 
 interface TeamUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
+  teamId: number;
 }
 
-export default function TeamUpdateModal({ isOpen, toggle }: TeamUpdateModalProps) {
+export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateModalProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
   const handleClose = () => {
     setIsEditMode(false); // 모달 닫힐 때 편집모드 해제
     toggle();
   };
+  const [teamDetail, setTeamDetail] = useState<TeamDetail | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      const fetchTeamDetail = async () => {
+        try {
+          const res = await fetchTeamDetailAPI(teamId);
+          setTeamDetail(res.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchTeamDetail();
+    }
+  }, [isOpen, teamId]);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -33,7 +51,7 @@ export default function TeamUpdateModal({ isOpen, toggle }: TeamUpdateModalProps
         {isEditMode ? (
           <TeamForm mode="update" onValidationChange={() => {}} onFormChange={() => {}} />
         ) : (
-          <TeamInfoView />
+          <TeamInfoView teamDetail={teamDetail} />
         )}
       </ModalBody>
       <ModalFooter>

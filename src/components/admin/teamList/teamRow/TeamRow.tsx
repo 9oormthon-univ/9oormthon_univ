@@ -101,7 +101,7 @@ export const TeamRow = ({ team }: TeamRowProps) => {
         cancelLabel="취소"
         onConfirm={() => {}}
       />
-      <TeamUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
+      <TeamUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} teamId={team.id} />
     </tr>
   );
 };
