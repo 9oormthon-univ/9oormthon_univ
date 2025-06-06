@@ -83,8 +83,8 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
         </Text>
       </td>
       <td>
-        <Text typography="body2" color={team.team_building ? 'text-primary' : 'text-danger'}>
-          {team.team_building ? '완료' : '진행중'}
+        <Text typography="body2" color={team.team_building === 'END' ? 'text-danger' : 'text-primary'}>
+          {team.team_building === 'END' ? '완료' : '진행중'}
         </Text>
       </td>
       <td>

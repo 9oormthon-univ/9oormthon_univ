@@ -16,7 +16,7 @@ export interface TeamOverview {
     name: string;
     service_name?: string;
     member_count: number;
-    team_building: boolean;
+    team_building: 'RECRUITING' | 'END';
   }[];
   page_info: {
     current_page: number;
