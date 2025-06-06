@@ -2,7 +2,7 @@ import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter } from '@goorm
 import { useEffect, useState } from 'react';
 import TeamForm from '../form/TeamForm';
 import TeamInfoView from '../form/TeamInfoView';
-import { fetchTeamDetailAPI } from '../../../../api/admin/teams';
+import { fetchTeamDetailAPI, updateTeamAPI } from '../../../../api/admin/teams';
 import { TeamDetail } from '../../../../types/admin/team';
 
 interface TeamUpdateModalProps {
@@ -18,7 +18,9 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
     setIsEditMode(false); // 모달 닫힐 때 편집모드 해제
     toggle();
   };
+
   const [teamDetail, setTeamDetail] = useState<TeamDetail | null>(null);
+  const [formData, setFormData] = useState<TeamDetail | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -26,6 +28,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
         try {
           const res = await fetchTeamDetailAPI(teamId);
           setTeamDetail(res.data);
+          setFormData(res.data); // 수정
         } catch (error) {
           console.error(error);
         }
@@ -33,6 +36,17 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
       fetchTeamDetail();
     }
   }, [isOpen, teamId]);
+
+  // 팀 정보 수정
+  const handleUpdateTeam = async () => {
+    try {
+      const res = await updateTeamAPI(teamId, formData as TeamDetail);
+      console.log(res);
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -49,7 +63,12 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
       </ModalHeader>
       <ModalBody>
         {isEditMode ? (
-          <TeamForm mode="update" onValidationChange={() => {}} onFormChange={() => {}} />
+          <TeamForm
+            mode="update"
+            onValidationChange={() => {}}
+            onFormChange={(data) => setFormData(data as TeamDetail)}
+            initialData={teamDetail as TeamDetail}
+          />
         ) : (
           <TeamInfoView teamDetail={teamDetail} />
         )}
@@ -60,7 +79,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId }: TeamUpdateMo
             <Button size="lg" color="secondary" onClick={handleToggleEdit}>
               취소
             </Button>
-            <Button size="lg" color="primary" onClick={() => {}}>
+            <Button size="lg" color="primary" onClick={handleUpdateTeam}>
               수정 완료
             </Button>
           </>

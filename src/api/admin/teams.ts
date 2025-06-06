@@ -1,5 +1,5 @@
 import instance from '../instance';
-import { Team } from '../../types/admin/team';
+import { Team, TeamDetail } from '../../types/admin/team';
 import { Position } from '../../constants/position';
 
 // 4.1 어드민 팀 추가
@@ -60,5 +60,11 @@ export const fetchTeamDetailAPI = async (team_id: number) => {
 // 4.5 어드민 팀원 정보 요약 리스트 조회
 export const fetchTeamMemberSummaryListAPI = async (team_id: number) => {
   const response = await instance.get(`/api/v1/admins/teams/${team_id}/members/overviews`);
+  return response.data;
+};
+
+// 4.7 어드민 팀 정보 수정
+export const updateTeamAPI = async (team_id: number, team: TeamDetail) => {
+  const response = await instance.put(`/api/v1/admins/teams/${team_id}`, team);
   return response.data;
 };
