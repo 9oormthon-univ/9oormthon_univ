@@ -9,9 +9,10 @@ interface TeamTableProps {
   pageInfo: TeamOverview['page_info'];
   onPageChange: (page: number) => void;
   onSortChange: (sortType: SortType) => void;
+  onUpdate: () => void; // 삭제 후
 }
 
-export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange }: TeamTableProps) => {
+export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUpdate }: TeamTableProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.tableContainer}>
@@ -65,7 +66,7 @@ export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange }: Te
           </thead>
           <tbody>
             {teamList.map((team) => (
-              <TeamRow key={team.id} team={team} />
+              <TeamRow key={team.id} team={team} onUpdate={onUpdate} />
             ))}
           </tbody>
         </table>

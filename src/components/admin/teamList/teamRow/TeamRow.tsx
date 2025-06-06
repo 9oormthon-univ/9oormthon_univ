@@ -1,4 +1,4 @@
-import { DropdownToggle, DropdownMenu, Dropdown, DropdownItem, Text, Button } from '@goorm-dev/vapor-components';
+import { DropdownToggle, DropdownMenu, Dropdown, DropdownItem, Text, Button, toast } from '@goorm-dev/vapor-components';
 import styles from './teamRow.module.scss';
 import { ChevronRightOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import InformationModal from '../../../common/modal/InformationModal';
 import TeamUpdateModal from '../modal/TeamUpdateModal';
 import { TeamOverview } from '../../../../types/admin/team';
+import { deleteTeamAPI } from '../../../../api/admin/teams';
 
 interface TeamRowProps {
   team: TeamOverview['teams'][number];
+  onUpdate: () => void;
 }
 
-export const TeamRow = ({ team }: TeamRowProps) => {
+export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
   const navigate = useNavigate();
@@ -26,6 +28,19 @@ export const TeamRow = ({ team }: TeamRowProps) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const toggleUpdateModal = () => {
     setIsUpdateModalOpen((prev) => !prev);
+  };
+
+  // 팀 해체
+  const handleDeleteTeam = async () => {
+    try {
+      await deleteTeamAPI(team.id);
+      toast('팀 해체가 완료되었습니다.', {
+        type: 'success',
+      });
+      onUpdate();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -99,7 +114,7 @@ export const TeamRow = ({ team }: TeamRowProps) => {
         }
         confirmLabel="팀 해체"
         cancelLabel="취소"
-        onConfirm={() => {}}
+        onConfirm={handleDeleteTeam}
       />
       <TeamUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} teamId={team.id} />
     </tr>

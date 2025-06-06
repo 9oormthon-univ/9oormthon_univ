@@ -74,3 +74,9 @@ export const updateTeamLeaderAPI = async (user_id: number) => {
   const response = await instance.patch(`/api/v1/admins/members/${user_id}/is-leader`);
   return response.data;
 };
+
+// 4.11 어드민 팀 해체
+export const deleteTeamAPI = async (team_id: number) => {
+  const response = await instance.delete(`/api/v1/admins/teams/${team_id}`);
+  return response.data;
+};

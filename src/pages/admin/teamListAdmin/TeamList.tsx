@@ -46,6 +46,15 @@ export default function TeamList() {
     fetchTeamList();
   }, [currentPage, debouncedSearchQuery, sorting, sortType]);
 
+  // 팀 리스트 업데이트
+  const handleUpdate = () => {
+    const fetchTeamList = async () => {
+      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sorting, sortType, debouncedSearchQuery);
+      setTeamList(res.data.teams);
+    };
+    fetchTeamList();
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
@@ -68,7 +77,13 @@ export default function TeamList() {
           팀 추가하기
         </Button>
       </div>
-      <TeamTable teamList={teamList} pageInfo={pageInfo} onPageChange={setCurrentPage} onSortChange={handleSorting} />
+      <TeamTable
+        teamList={teamList}
+        pageInfo={pageInfo}
+        onPageChange={setCurrentPage}
+        onSortChange={handleSorting}
+        onUpdate={handleUpdate}
+      />
       <TeamCreateModal isOpen={isCreateTeamOpen} toggle={toggleCreateTeam} />
     </div>
   );
