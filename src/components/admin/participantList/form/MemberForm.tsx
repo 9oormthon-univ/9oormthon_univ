@@ -27,7 +27,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
   useEffect(() => {
     const fetchUnivList = async () => {
       const res = await fetchUnivListAPI(GENERATION);
-      setUnivList(res.data);
+      setUnivList(res.data.univs);
     };
     fetchUnivList();
   }, []);

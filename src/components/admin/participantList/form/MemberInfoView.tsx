@@ -22,17 +22,17 @@ export default function MemberInfoView({ isTeamInform = false, isPartEditMode = 
       <div className={styles.memberContainer}>
         <FormField label="이름">
           <Text typography="heading6" as="p" color="text-normal">
-            {member?.name}
+            {member?.name || '이름 정보 없음'}
           </Text>
         </FormField>
         <FormField label="팀 정보">
           <Text typography="heading6" as="p" color="text-normal">
-            {member?.team}
+            {member?.team || '팀 정보 없음'}
           </Text>
         </FormField>
         <FormField label="희망 파트">
           <Text typography="heading6" as="p" color="text-normal">
-            {POSITIONS[member?.role?.toLowerCase() as RequirementKey]?.name}
+            {POSITIONS[member?.role?.toLowerCase() as RequirementKey]?.name || '희망 파트 없음'}
           </Text>
         </FormField>
         {/* TODO : 지원파트와 희망파트 구분 필요 */}
@@ -55,22 +55,22 @@ export default function MemberInfoView({ isTeamInform = false, isPartEditMode = 
         )}
         <FormField label="학교">
           <Text typography="heading6" as="p" color="text-normal">
-            {member?.univ?.name}
+            {member?.univ?.name || '학교 정보 없음'}
           </Text>
         </FormField>
         <FormField label="이메일">
           <Text typography="heading6" as="p" color="text-normal">
-            {member?.email}
+            {member?.email || '이메일 정보 없음'}
           </Text>
         </FormField>
         <FormField label="전화번호">
           <Text typography="heading6" as="p" color="text-normal">
-            {member?.phone_number}
+            {member?.phone_number || '전화번호 정보 없음'}
           </Text>
         </FormField>
         <FormField label="참여 기수">
           <Text typography="heading6" as="p" color="text-normal">
-            {member?.generations.map((generation) => formatGeneration(generation)).join(', ')}
+            {member?.generations.map((generation) => formatGeneration(generation)).join(', ') || '참여 기수 정보 없음'}
           </Text>
         </FormField>
       </div>
