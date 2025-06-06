@@ -21,3 +21,8 @@ export interface MemberUpdateForm {
   phone_number: string;
   generations: number[];
 }
+
+export interface User {
+  id: number;
+  description: string;
+}
