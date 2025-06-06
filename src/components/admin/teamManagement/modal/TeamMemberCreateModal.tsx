@@ -1,7 +1,14 @@
-import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter, Input, Radio } from '@goorm-dev/vapor-components';
+import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter, Radio } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
 import styles from './teamMemberCreateModal.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { addTeamMemberAPI } from '../../../../api/admin/teams';
+import { useParams } from 'react-router-dom';
+import { Position } from '../../../../constants/position';
+import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
+import { fetchUserListAPI } from '../../../../api/admin/users';
+import { GENERATION } from '../../../../constants/common';
+import { User } from '../../../../types/admin/member';
 
 interface TeamMemberCreateModalProps {
   isOpen: boolean;
@@ -9,10 +16,38 @@ interface TeamMemberCreateModalProps {
 }
 
 export default function TeamMemberCreateModal({ isOpen, toggle }: TeamMemberCreateModalProps) {
-  const [name, setName] = useState('');
-  const [role, setRole] = useState('PM');
+  const [role, setRole] = useState<Position>(Position.NULL);
+  const [userList, setUserList] = useState<{ id: number; description: string }[]>([]);
+  const [selectedUser, setSelectedUser] = useState<{ id: number; description: string } | null>(null);
 
-  const isDisabled = name === '' || role === '';
+  const isDisabled = role === Position.NULL || selectedUser === null;
+
+  const { team_id } = useParams();
+
+  // 팀원 추가
+  const handleSubmit = async () => {
+    if (!team_id) return;
+
+    try {
+      await addTeamMemberAPI(Number(team_id), selectedUser?.id ?? 0, role as Position);
+      toggle();
+    } catch (error) {
+      console.error('팀원 추가 실패:', error);
+    }
+  };
+
+  // 유저 검색을 위한 전체 조회
+  useEffect(() => {
+    const fetchUserList = async () => {
+      const res = await fetchUserListAPI(GENERATION);
+      const formatted = res.data.users.map((user: User) => ({
+        id: user.id,
+        description: user.description,
+      }));
+      setUserList(formatted);
+    };
+    fetchUserList();
+  }, []);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -23,19 +58,52 @@ export default function TeamMemberCreateModal({ isOpen, toggle }: TeamMemberCrea
       </ModalHeader>
       <ModalBody className={styles.modalBody}>
         <FormField label="팀원 이름" required>
-          <Input
-            size="lg"
-            placeholder="미르미 검색"
-            value={name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+          <SearchDropdown
+            items={userList}
+            selectedItem={selectedUser}
+            onSelect={(user) => setSelectedUser(user)}
+            onSearch={(keyword) => {
+              if (keyword.trim() === '') {
+                setUserList(userList);
+              } else {
+                const filtered = userList.filter((user) => user.description.includes(keyword));
+                setUserList(filtered);
+              }
+            }}
+            inPlaceholder="미르미 검색"
+            outPlaceholder="팀원을 검색해주세요"
           />
         </FormField>
         <FormField label="파트 선택" required>
           <div className={styles.radioGroup}>
-            <Radio label="기획" id="PM" name="role" checked={role === 'PM'} onChange={() => setRole('PM')} />
-            <Radio label="디자인" id="PD" name="role" checked={role === 'PD'} onChange={() => setRole('PD')} />
-            <Radio label="프론트엔드" id="FE" name="role" checked={role === 'FE'} onChange={() => setRole('FE')} />
-            <Radio label="백엔드" id="BE" name="role" checked={role === 'BE'} onChange={() => setRole('BE')} />
+            <Radio
+              label="기획"
+              id="PM"
+              name="role"
+              checked={role === Position.PM}
+              onChange={() => setRole(Position.PM)}
+            />
+            <Radio
+              label="디자인"
+              id="PD"
+              name="role"
+              checked={role === Position.PD}
+              onChange={() => setRole(Position.PD)}
+            />
+            <Radio
+              label="프론트엔드"
+              id="FE"
+              name="role"
+              checked={role === Position.FE}
+              onChange={() => setRole(Position.FE)}
+            />
+            <Radio
+              label="백엔드"
+              id="BE"
+              name="role"
+              checked={role === Position.BE}
+              onChange={() => setRole(Position.BE)}
+            />
           </div>
         </FormField>
       </ModalBody>
@@ -43,7 +111,7 @@ export default function TeamMemberCreateModal({ isOpen, toggle }: TeamMemberCrea
         <Button size="lg" color="secondary" onClick={toggle}>
           취소
         </Button>
-        <Button size="lg" color="primary" disabled={isDisabled}>
+        <Button size="lg" color="primary" disabled={isDisabled} onClick={handleSubmit}>
           팀원 추가하기
         </Button>
       </ModalFooter>

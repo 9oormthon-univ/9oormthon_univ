@@ -1,11 +1,14 @@
 import instance from '../instance';
 
-// 어드민 유저 간단 리스트 조회
-export const fetchUserListAPI = async (generation: number, univId: number, search?: string) => {
+// 2.3 어드민 유저 간단 리스트 조회
+export const fetchUserListAPI = async (generation: number, univId?: number, search?: string) => {
   const queryParams = new URLSearchParams({
     generation: generation.toString(),
-    'univ-id': univId.toString(),
   });
+
+  if (univId !== undefined) {
+    queryParams.append('univ-id', univId.toString());
+  }
 
   if (search !== undefined && search.trim() !== '') {
     queryParams.append('search', search);

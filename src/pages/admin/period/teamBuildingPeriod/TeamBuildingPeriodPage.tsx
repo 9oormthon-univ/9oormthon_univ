@@ -20,7 +20,7 @@ export default function TeamBuildingPeriodPage() {
 
   const toISOStringWithTime = (dateStr: string, isStart: boolean) => {
     if (!dateStr) return null;
-    return `${dateStr}T${isStart ? '00:00:00' : '23:59:59'}Z`;
+    return `${dateStr}T${isStart ? '00:00:00' : '23:59:59'}`;
   };
 
   const handleSave = async () => {
