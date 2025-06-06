@@ -27,12 +27,12 @@ export interface TeamOverview {
   };
 }
 
-export enum Sorting {
+export enum SortType {
   ASC = 'ASC',
   DESC = 'DESC',
 }
 
-export enum SortType {
+export enum Sorting {
   ID = 'ID',
   TEAM_NUMBER = 'TEAM_NUMBER',
   TEAM_NAME = 'TEAM_NAME',

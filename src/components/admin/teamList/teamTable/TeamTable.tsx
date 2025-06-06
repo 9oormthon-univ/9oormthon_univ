@@ -1,14 +1,14 @@
 import { BasicPagination, Text } from '@goorm-dev/vapor-components';
 import styles from './teamTable.module.scss';
 import { TeamRow } from '../teamRow/TeamRow';
-import { SortType, TeamOverview } from '../../../../types/admin/team';
+import { Sorting, TeamOverview } from '../../../../types/admin/team';
 import { ControlCommonIcon } from '@goorm-dev/vapor-icons';
 
 interface TeamTableProps {
   teamList: TeamOverview['teams'];
   pageInfo: TeamOverview['page_info'];
   onPageChange: (page: number) => void;
-  onSortChange: (sortType: SortType) => void;
+  onSortChange: (sorting: Sorting) => void;
   onUpdate: () => void; // 삭제 후
 }
 
@@ -23,16 +23,13 @@ export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUp
                 <Text typography="subtitle1" color="text-alternative">
                   팀 번호
                 </Text>
-                <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange(SortType.ID)} />
+                <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange(Sorting.ID)} />
               </th>
               <th>
                 <Text typography="subtitle1" color="text-alternative">
                   팀 명
                 </Text>
-                <ControlCommonIcon
-                  className={styles.tableHeaderIcon}
-                  onClick={() => onSortChange(SortType.TEAM_NAME)}
-                />
+                <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange(Sorting.TEAM_NAME)} />
               </th>
               <th>
                 <Text typography="subtitle1" color="text-alternative">
@@ -40,7 +37,7 @@ export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUp
                 </Text>
                 <ControlCommonIcon
                   className={styles.tableHeaderIcon}
-                  onClick={() => onSortChange(SortType.SERVICE_NAME)}
+                  onClick={() => onSortChange(Sorting.SERVICE_NAME)}
                 />
               </th>
               <th>
@@ -49,7 +46,7 @@ export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUp
                 </Text>
                 <ControlCommonIcon
                   className={styles.tableHeaderIcon}
-                  onClick={() => onSortChange(SortType.MEMBER_COUNT)}
+                  onClick={() => onSortChange(Sorting.MEMBER_COUNT)}
                 />
               </th>
               <th>
@@ -58,7 +55,7 @@ export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUp
                 </Text>
                 <ControlCommonIcon
                   className={styles.tableHeaderIcon}
-                  onClick={() => onSortChange(SortType.TEAM_BUILDING)}
+                  onClick={() => onSortChange(Sorting.TEAM_BUILDING)}
                 />
               </th>
               <th></th>
