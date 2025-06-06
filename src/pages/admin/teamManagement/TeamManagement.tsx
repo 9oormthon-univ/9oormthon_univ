@@ -4,7 +4,9 @@ import styles from './teamManagement.module.scss';
 import { ChevronLeftOutlineIcon } from '@goorm-dev/vapor-icons';
 import TeamManageTable from '../../../components/admin/teamManagement/teamManageTable/TeamManageTable';
 import TeamMemberCreateModal from '../../../components/admin/teamManagement/modal/TeamMemberCreateModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchTeamMemberSummaryListAPI } from '../../../api/admin/teams';
+import { TeamMemberSummary } from '../../../types/admin/team';
 
 export default function TeamManagement() {
   const { team_id } = useParams();
@@ -13,6 +15,32 @@ export default function TeamManagement() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen((prev) => !prev);
+  };
+
+  const [teamMemberSummaryList, setTeamMemberSummaryList] = useState<TeamMemberSummary[]>([]);
+
+  // 팀원 리스트 조회
+  useEffect(() => {
+    if (team_id) {
+      const fetchTeamMemberSummaryList = async () => {
+        try {
+          const res = await fetchTeamMemberSummaryListAPI(Number(team_id));
+          setTeamMemberSummaryList(res.data.members);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchTeamMemberSummaryList();
+    }
+  });
+
+  // 팀원 리스트 업데이트
+  const handleUpdate = () => {
+    const fetchTeamMemberSummaryList = async () => {
+      const res = await fetchTeamMemberSummaryListAPI(Number(team_id));
+      setTeamMemberSummaryList(res.data.members);
+    };
+    fetchTeamMemberSummaryList();
   };
 
   return (
@@ -42,7 +70,7 @@ export default function TeamManagement() {
           </Button>
         </div>
       </div>
-      <TeamManageTable />
+      <TeamManageTable teamMemberSummaryList={teamMemberSummaryList} onUpdate={handleUpdate} />
 
       <TeamMemberCreateModal isOpen={isOpen} toggle={toggle} />
     </div>

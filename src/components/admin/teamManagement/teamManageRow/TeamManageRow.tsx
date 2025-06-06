@@ -1,11 +1,19 @@
-import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text } from '@goorm-dev/vapor-components';
+import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text, toast } from '@goorm-dev/vapor-components';
 import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './teamManageRow.module.scss';
 import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
 import TeamMemberUpdateModal from '../modal/TeamMemberUpdateModal';
+import { TeamMemberSummary } from '../../../../types/admin/team';
+import { POSITION_NAME } from '../../../../constants/position';
+import { deleteTeamMemberAPI, updateTeamLeaderAPI } from '../../../../api/admin/teams';
 
-export default function TeamManageRow() {
+interface TeamManageRowProps {
+  member: TeamMemberSummary;
+  onUpdate: () => void;
+}
+
+export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) {
   const [isMemberDropdownOpen, setIsMemberDropdownOpen] = useState(false);
   const toggleMemberDropdown = () => setIsMemberDropdownOpen((prev) => !prev);
 
@@ -21,13 +29,47 @@ export default function TeamManageRow() {
     setIsUpdateModalOpen((prev) => !prev);
   };
 
+  // 팀장 임명
+  const updateTeamLeader = async () => {
+    try {
+      await updateTeamLeaderAPI(member.user_id);
+      toast('팀장이 변경되었습니다.', {
+        type: 'success',
+      });
+      onUpdate(); // 상태 업데이트
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 팀원 방출
+  const handleDeleteTeamMember = async () => {
+    try {
+      await deleteTeamMemberAPI(member.user_id);
+      toast('팀원이 방출되었습니다.', {
+        type: 'success',
+      });
+      onUpdate(); // 상태 업데이트
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <tr>
         <td className={styles.nameCell}>
-          <Text typography="body2" color="text-normal" className={styles.name}>
-            김구름
-          </Text>
+          <div className={styles.nameContainer}>
+            <Text typography="body2" color="text-normal" className={styles.name}>
+              {member.name}
+            </Text>
+            {member.is_leader && (
+              <Badge pill size="sm" color="hint">
+                팀장
+              </Badge>
+            )}
+          </div>
+
           <Dropdown
             direction="down"
             className={styles.memberDropdown}
@@ -42,6 +84,11 @@ export default function TeamManageRow() {
                   정보 보기
                 </Text>
               </DropdownItem>
+              <DropdownItem disabled={member.is_leader} onClick={updateTeamLeader}>
+                <Text typography="body2" as="p" color={member.is_leader ? 'text-hint' : 'text-normal'}>
+                  팀장 임명
+                </Text>
+              </DropdownItem>
               <DropdownItem>
                 <Text typography="body2" as="p" color="text-danger" onClick={toggleDeleteModal}>
                   팀에서 제외
@@ -52,17 +99,17 @@ export default function TeamManageRow() {
         </td>
         <td className={styles.roleCell}>
           <Badge color="primary" size="md" pill>
-            프론트엔드
+            {POSITION_NAME[member.role]}
           </Badge>
         </td>
         <td>
           <Text typography="body2" color="text-normal" className={styles.univName}>
-            구름대학교
+            {member.univ}
           </Text>
         </td>
         <td>
           <Text typography="body2" color="text-normal" className={styles.email}>
-            univ1234@gmail.com
+            {member.email}
           </Text>
         </td>
       </tr>
@@ -74,7 +121,7 @@ export default function TeamManageRow() {
         description={
           <>
             <Text typography="body2" color="text-normal" as="p">
-              김구름을 팀원 리스트에서 삭제합니다.
+              {member.name}을 팀원 리스트에서 삭제합니다.
             </Text>
             <Text typography="body2" color="text-normal" as="p">
               미르미 제외가 완료되면 데이터를 되돌릴 수 없습니다.
@@ -83,8 +130,7 @@ export default function TeamManageRow() {
         }
         confirmLabel="팀에서 제외"
         cancelLabel="취소"
-        // TODO : 팀에서 제외 기능 추가
-        onConfirm={() => {}}
+        onConfirm={handleDeleteTeamMember}
       />
       <TeamMemberUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
     </>

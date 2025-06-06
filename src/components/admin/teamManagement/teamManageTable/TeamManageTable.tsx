@@ -1,8 +1,14 @@
 import { Text } from '@goorm-dev/vapor-components';
 import styles from './teamManageTable.module.scss';
 import TeamManageRow from '../teamManageRow/TeamManageRow';
+import { TeamMemberSummary } from '../../../../types/admin/team';
 
-export default function TeamManageTable() {
+interface TeamManageTableProps {
+  teamMemberSummaryList: TeamMemberSummary[];
+  onUpdate: () => void;
+}
+
+export default function TeamManageTable({ teamMemberSummaryList, onUpdate }: TeamManageTableProps) {
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -31,7 +37,9 @@ export default function TeamManageTable() {
           </tr>
         </thead>
         <tbody>
-          <TeamManageRow />
+          {teamMemberSummaryList.map((member) => (
+            <TeamManageRow key={member.id} member={member} onUpdate={onUpdate} />
+          ))}
         </tbody>
       </table>
     </div>

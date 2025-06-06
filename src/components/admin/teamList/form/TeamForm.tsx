@@ -4,16 +4,19 @@ import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
 import { useState, useEffect } from 'react';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
-import { Team } from '../../../../types/admin/team';
+import { Team, TeamDetail } from '../../../../types/admin/team';
 
 interface TeamFormProps {
   mode: 'create' | 'update';
   onValidationChange: (isValid: boolean) => void;
-  onFormChange: (data: Team) => void;
+  onFormChange: (data: Team | TeamDetail) => void;
+  initialData?: TeamDetail;
 }
 
-export default function TeamForm({ mode, onValidationChange, onFormChange }: TeamFormProps) {
-  const [teamName, setTeamName] = useState('');
+export default function TeamForm({ mode, onValidationChange, onFormChange, initialData }: TeamFormProps) {
+  const isUpdateMode = mode === 'update';
+  const initial = isUpdateMode ? initialData : undefined;
+  const [teamName, setTeamName] = useState(initial?.team_name || '');
   const [teamRoles, setTeamRoles] = useState({
     planning: null as number | null,
     design: null as number | null,
@@ -22,16 +25,15 @@ export default function TeamForm({ mode, onValidationChange, onFormChange }: Tea
   });
 
   useEffect(() => {
-    const isFormValid =
+    const isValid =
       teamName.trim() !== '' &&
       teamRoles.planning !== null &&
       teamRoles.design !== null &&
       teamRoles.frontend !== null &&
       teamRoles.backend !== null;
+    onValidationChange(isValid);
 
-    onValidationChange(isFormValid);
-
-    if (onFormChange) {
+    if (mode === 'create') {
       onFormChange({
         name: teamName,
         pm_capacity: teamRoles.planning ?? 0,
@@ -39,14 +41,27 @@ export default function TeamForm({ mode, onValidationChange, onFormChange }: Tea
         fe_capacity: teamRoles.frontend ?? 0,
         be_capacity: teamRoles.backend ?? 0,
       });
+    } else {
+      onFormChange({
+        id: initial?.id ?? 0,
+        number: initial?.number ?? 0,
+        team_name: teamName,
+        service_name: initial?.service_name ?? '',
+        idea_id: initial?.idea_id ?? 0,
+        leader: initial?.leader,
+        pm_capacity: teamRoles.planning ?? 0,
+        pd_capacity: teamRoles.design ?? 0,
+        fe_capacity: teamRoles.frontend ?? 0,
+        be_capacity: teamRoles.backend ?? 0,
+      });
     }
-  }, [teamName, teamRoles, onValidationChange, onFormChange]);
+  }, [teamName, teamRoles, mode, initial, onFormChange]);
 
   return (
     <div className={styles.container}>
       {mode === 'update' && (
         <FormField label="팀 번호">
-          <Input size="lg" placeholder="팀 번호를 입력해 주세요" />
+          <Input size="lg" placeholder="팀 번호를 입력해 주세요" value={initial?.number ?? 0} />
         </FormField>
       )}
       <FormField label="팀 이름">
@@ -88,7 +103,7 @@ export default function TeamForm({ mode, onValidationChange, onFormChange }: Tea
 
       {mode === 'update' && (
         <FormField label="서비스 명">
-          <Input size="lg" placeholder="서비스 명을 입력해 주세요" />
+          <Input size="lg" placeholder="서비스 명을 입력해 주세요" value={initial?.service_name ?? ''} />
         </FormField>
       )}
 

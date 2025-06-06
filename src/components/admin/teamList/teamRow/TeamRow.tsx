@@ -1,12 +1,19 @@
-import { DropdownToggle, DropdownMenu, Dropdown, DropdownItem, Text, Button } from '@goorm-dev/vapor-components';
+import { DropdownToggle, DropdownMenu, Dropdown, DropdownItem, Text, Button, toast } from '@goorm-dev/vapor-components';
 import styles from './teamRow.module.scss';
 import { ChevronRightOutlineIcon, MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InformationModal from '../../../common/modal/InformationModal';
 import TeamUpdateModal from '../modal/TeamUpdateModal';
+import { TeamOverview } from '../../../../types/admin/team';
+import { deleteTeamAPI } from '../../../../api/admin/teams';
 
-export const TeamRow = () => {
+interface TeamRowProps {
+  team: TeamOverview['teams'][number];
+  onUpdate: () => void;
+}
+
+export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
   const navigate = useNavigate();
@@ -23,11 +30,24 @@ export const TeamRow = () => {
     setIsUpdateModalOpen((prev) => !prev);
   };
 
+  // 팀 해체
+  const handleDeleteTeam = async () => {
+    try {
+      await deleteTeamAPI(team.id);
+      toast('팀 해체가 완료되었습니다.', {
+        type: 'success',
+      });
+      onUpdate();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <tr>
       <td className={styles.teamName}>
         <Text typography="body2" color="text-normal">
-          1팀
+          {team.number || ''}팀
         </Text>
         <Dropdown direction="down" className={styles.memberDropdown} isOpen={isDropdownOpen} toggle={toggleDropdown}>
           <DropdownToggle size="sm" color="secondary" className={styles.memberDropdownToggle}>
@@ -49,32 +69,31 @@ export const TeamRow = () => {
       </td>
       <td>
         <Text typography="body2" color="text-normal">
-          온정
+          {team.name || ''}
         </Text>
       </td>
       <td>
         <Text typography="body2" color="text-normal">
-          선행의 선순환이 시작되는 곳, 온정
+          {team.service_name || ''}
         </Text>
       </td>
       <td>
         <Text typography="body2" color="text-normal">
-          6명
+          {team.member_count || 0}명
         </Text>
       </td>
       <td>
-        <Text typography="body2" color="text-normal">
-          완료
+        <Text typography="body2" color={team.team_building ? 'text-primary' : 'text-danger'}>
+          {team.team_building ? '완료' : '진행중'}
         </Text>
       </td>
       <td>
-        {/* TODO : 팀 id 제공 */}
         <Button
           size="sm"
           color="secondary"
           icon={ChevronRightOutlineIcon}
           iconSide="right"
-          onClick={() => navigate(`/admin/teamList/1`)}>
+          onClick={() => navigate(`/admin/teamList/${team.id}`)}>
           팀원 관리
         </Button>
       </td>
@@ -86,7 +105,7 @@ export const TeamRow = () => {
         description={
           <>
             <Text typography="body2" color="text-normal" as="p">
-              온정을 팀 리스트에서 삭제합니다.
+              {team.name}을 팀 리스트에서 삭제합니다.
             </Text>
             <Text typography="body2" color="text-normal" as="p">
               팀 해체가 완료되면 데이터를 되돌릴 수 없습니다.
@@ -95,9 +114,9 @@ export const TeamRow = () => {
         }
         confirmLabel="팀 해체"
         cancelLabel="취소"
-        onConfirm={() => {}}
+        onConfirm={handleDeleteTeam}
       />
-      <TeamUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
+      <TeamUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} teamId={team.id} />
     </tr>
   );
 };
