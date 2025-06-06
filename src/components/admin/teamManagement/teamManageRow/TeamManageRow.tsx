@@ -1,4 +1,4 @@
-import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text } from '@goorm-dev/vapor-components';
+import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text, toast } from '@goorm-dev/vapor-components';
 import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './teamManageRow.module.scss';
 import { useState } from 'react';
@@ -6,12 +6,14 @@ import InformationModal from '../../../common/modal/InformationModal';
 import TeamMemberUpdateModal from '../modal/TeamMemberUpdateModal';
 import { TeamMemberSummary } from '../../../../types/admin/team';
 import { POSITION_NAME } from '../../../../constants/position';
+import { updateTeamLeaderAPI } from '../../../../api/admin/teams';
 
 interface TeamManageRowProps {
   member: TeamMemberSummary;
+  onUpdate: () => void;
 }
 
-export default function TeamManageRow({ member }: TeamManageRowProps) {
+export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) {
   const [isMemberDropdownOpen, setIsMemberDropdownOpen] = useState(false);
   const toggleMemberDropdown = () => setIsMemberDropdownOpen((prev) => !prev);
 
@@ -25,6 +27,19 @@ export default function TeamManageRow({ member }: TeamManageRowProps) {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const toggleUpdateModal = () => {
     setIsUpdateModalOpen((prev) => !prev);
+  };
+
+  // 팀장 임명
+  const updateTeamLeader = async () => {
+    try {
+      await updateTeamLeaderAPI(member.user_id);
+      toast('팀장이 변경되었습니다.', {
+        type: 'success',
+      });
+      onUpdate(); // 상태 업데이트
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -54,6 +69,11 @@ export default function TeamManageRow({ member }: TeamManageRowProps) {
               <DropdownItem>
                 <Text typography="body2" as="p" color="text-normal" onClick={toggleUpdateModal}>
                   정보 보기
+                </Text>
+              </DropdownItem>
+              <DropdownItem disabled={member.is_leader} onClick={updateTeamLeader}>
+                <Text typography="body2" as="p" color={member.is_leader ? 'text-hint' : 'text-normal'}>
+                  팀장 임명
                 </Text>
               </DropdownItem>
               <DropdownItem>

@@ -33,6 +33,14 @@ export default function TeamManagement() {
     }
   });
 
+  const handleUpdate = () => {
+    const fetchTeamMemberSummaryList = async () => {
+      const res = await fetchTeamMemberSummaryListAPI(Number(team_id));
+      setTeamMemberSummaryList(res.data.members);
+    };
+    fetchTeamMemberSummaryList();
+  };
+
   return (
     <div className={styles.container}>
       <Button
@@ -60,7 +68,7 @@ export default function TeamManagement() {
           </Button>
         </div>
       </div>
-      <TeamManageTable teamMemberSummaryList={teamMemberSummaryList} />
+      <TeamManageTable teamMemberSummaryList={teamMemberSummaryList} onUpdate={handleUpdate} />
 
       <TeamMemberCreateModal isOpen={isOpen} toggle={toggle} />
     </div>

@@ -5,9 +5,10 @@ import { TeamMemberSummary } from '../../../../types/admin/team';
 
 interface TeamManageTableProps {
   teamMemberSummaryList: TeamMemberSummary[];
+  onUpdate: () => void;
 }
 
-export default function TeamManageTable({ teamMemberSummaryList }: TeamManageTableProps) {
+export default function TeamManageTable({ teamMemberSummaryList, onUpdate }: TeamManageTableProps) {
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -37,7 +38,7 @@ export default function TeamManageTable({ teamMemberSummaryList }: TeamManageTab
         </thead>
         <tbody>
           {teamMemberSummaryList.map((member) => (
-            <TeamManageRow key={member.id} member={member} />
+            <TeamManageRow key={member.id} member={member} onUpdate={onUpdate} />
           ))}
         </tbody>
       </table>

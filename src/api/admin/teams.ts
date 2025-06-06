@@ -68,3 +68,9 @@ export const updateTeamAPI = async (team_id: number, team: TeamDetail) => {
   const response = await instance.put(`/api/v1/admins/teams/${team_id}`, team);
   return response.data;
 };
+
+// 4.8 어드민 팀원 팀장 임명
+export const updateTeamLeaderAPI = async (user_id: number) => {
+  const response = await instance.patch(`/api/v1/admins/members/${user_id}/is-leader`);
+  return response.data;
+};
