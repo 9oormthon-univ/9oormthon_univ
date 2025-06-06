@@ -80,3 +80,9 @@ export const deleteTeamAPI = async (team_id: number) => {
   const response = await instance.delete(`/api/v1/admins/teams/${team_id}`);
   return response.data;
 };
+
+// 4.12 어드민 팀원 방출
+export const deleteTeamMemberAPI = async (user_id: number) => {
+  const response = await instance.delete(`/api/v1/admins/members/${user_id}`);
+  return response.data;
+};

@@ -6,7 +6,7 @@ import InformationModal from '../../../common/modal/InformationModal';
 import TeamMemberUpdateModal from '../modal/TeamMemberUpdateModal';
 import { TeamMemberSummary } from '../../../../types/admin/team';
 import { POSITION_NAME } from '../../../../constants/position';
-import { updateTeamLeaderAPI } from '../../../../api/admin/teams';
+import { deleteTeamMemberAPI, updateTeamLeaderAPI } from '../../../../api/admin/teams';
 
 interface TeamManageRowProps {
   member: TeamMemberSummary;
@@ -34,6 +34,19 @@ export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) 
     try {
       await updateTeamLeaderAPI(member.user_id);
       toast('팀장이 변경되었습니다.', {
+        type: 'success',
+      });
+      onUpdate(); // 상태 업데이트
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 팀원 방출
+  const handleDeleteTeamMember = async () => {
+    try {
+      await deleteTeamMemberAPI(member.user_id);
+      toast('팀원이 방출되었습니다.', {
         type: 'success',
       });
       onUpdate(); // 상태 업데이트
@@ -117,8 +130,7 @@ export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) 
         }
         confirmLabel="팀에서 제외"
         cancelLabel="취소"
-        // TODO : 팀에서 제외 기능 추가
-        onConfirm={() => {}}
+        onConfirm={handleDeleteTeamMember}
       />
       <TeamMemberUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
     </>

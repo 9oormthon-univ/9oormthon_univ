@@ -19,6 +19,7 @@ export default function TeamManagement() {
 
   const [teamMemberSummaryList, setTeamMemberSummaryList] = useState<TeamMemberSummary[]>([]);
 
+  // 팀원 리스트 조회
   useEffect(() => {
     if (team_id) {
       const fetchTeamMemberSummaryList = async () => {
@@ -33,6 +34,7 @@ export default function TeamManagement() {
     }
   });
 
+  // 팀원 리스트 업데이트
   const handleUpdate = () => {
     const fetchTeamMemberSummaryList = async () => {
       const res = await fetchTeamMemberSummaryListAPI(Number(team_id));
