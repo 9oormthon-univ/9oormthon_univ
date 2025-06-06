@@ -84,7 +84,7 @@ export default function TeamList() {
         onSortChange={handleSorting}
         onUpdate={handleUpdate}
       />
-      <TeamCreateModal isOpen={isCreateTeamOpen} toggle={toggleCreateTeam} />
+      <TeamCreateModal isOpen={isCreateTeamOpen} toggle={toggleCreateTeam} onUpdate={handleUpdate} />
     </div>
   );
 }
