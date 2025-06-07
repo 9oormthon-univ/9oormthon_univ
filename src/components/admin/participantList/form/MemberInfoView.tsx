@@ -12,9 +12,15 @@ interface MemberInfoViewProps {
   isTeamInform?: boolean;
   isPartEditMode?: boolean;
   member?: Member | null;
+  onRoleChange?: (role: Position) => void;
 }
 
-export default function MemberInfoView({ isTeamInform = false, isPartEditMode = false, member }: MemberInfoViewProps) {
+export default function MemberInfoView({
+  isTeamInform = false,
+  isPartEditMode = false,
+  member,
+  onRoleChange,
+}: MemberInfoViewProps) {
   const [role, setRole] = useState(member?.role || Position.PM);
 
   return (
@@ -61,28 +67,40 @@ export default function MemberInfoView({ isTeamInform = false, isPartEditMode = 
                 id="PM"
                 name="role"
                 checked={role === Position.PM}
-                onChange={() => setRole(Position.PM)}
+                onChange={() => {
+                  setRole(Position.PM);
+                  onRoleChange?.(Position.PM);
+                }}
               />
               <Radio
                 label="디자인"
                 id="PD"
                 name="role"
                 checked={role === Position.PD}
-                onChange={() => setRole(Position.PD)}
+                onChange={() => {
+                  setRole(Position.PD);
+                  onRoleChange?.(Position.PD);
+                }}
               />
               <Radio
                 label="프론트엔드"
                 id="FE"
                 name="role"
                 checked={role === Position.FE}
-                onChange={() => setRole(Position.FE)}
+                onChange={() => {
+                  setRole(Position.FE);
+                  onRoleChange?.(Position.FE);
+                }}
               />
               <Radio
                 label="백엔드"
                 id="BE"
                 name="role"
                 checked={role === Position.BE}
-                onChange={() => setRole(Position.BE)}
+                onChange={() => {
+                  setRole(Position.BE);
+                  onRoleChange?.(Position.BE);
+                }}
               />
             </div>
           </FormField>

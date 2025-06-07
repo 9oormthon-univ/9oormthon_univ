@@ -1,29 +1,50 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text } from '@goorm-dev/vapor-components';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text, toast } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
 import MemberInfoView from '../../participantList/form/MemberInfoView';
 import { fetchUserDetailAPI } from '../../../../api/admin/users';
 import { GENERATION } from '../../../../constants/common';
 import { Member } from '../../../../types/admin/member';
+import { updateTeamMemberPartAPI } from '../../../../api/admin/teams';
+import { Position } from '../../../../constants/position';
 
 interface TeamMemberUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
+  memberUserId: number;
   memberId: number;
 }
 
-export default function TeamMemberUpdateModal({ isOpen, toggle, memberId }: TeamMemberUpdateModalProps) {
+export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, memberId }: TeamMemberUpdateModalProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
   const [memberDetail, setMemberDetail] = useState<Member | null>(null);
+  const [handleRoleChange, setHandleRoleChange] = useState<Position | null>(memberDetail?.role || null);
 
   // 팀원 상세 정보 조회
   useEffect(() => {
     const fetchMemberDetail = async () => {
-      const res = await fetchUserDetailAPI(memberId, GENERATION);
+      const res = await fetchUserDetailAPI(memberUserId, GENERATION);
       setMemberDetail(res.data);
     };
     fetchMemberDetail();
-  }, [memberId]);
+  }, [memberUserId]);
+
+  // 팀원 지원파트 수정
+  const handleUpdateTeamMemberPart = async () => {
+    try {
+      await updateTeamMemberPartAPI(memberId, handleRoleChange || memberDetail?.role || Position.PM);
+      toast('지원파트가 수정되었습니다', {
+        type: 'primary',
+      });
+      handleToggleEdit();
+      toggle();
+    } catch (error) {
+      console.error(error);
+      toast('지원파트 수정에 실패했습니다', {
+        type: 'danger',
+      });
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -34,7 +55,12 @@ export default function TeamMemberUpdateModal({ isOpen, toggle, memberId }: Team
       </ModalHeader>
       <ModalBody>
         {isEditMode ? (
-          <MemberInfoView isTeamInform={true} isPartEditMode={true} member={memberDetail} />
+          <MemberInfoView
+            isTeamInform={true}
+            isPartEditMode={true}
+            member={memberDetail}
+            onRoleChange={setHandleRoleChange}
+          />
         ) : (
           <MemberInfoView isTeamInform={true} member={memberDetail} />
         )}
@@ -45,7 +71,7 @@ export default function TeamMemberUpdateModal({ isOpen, toggle, memberId }: Team
             <Button size="lg" color="secondary" onClick={toggle}>
               취소
             </Button>
-            <Button size="lg" color="primary" onClick={handleToggleEdit}>
+            <Button size="lg" color="primary" onClick={handleUpdateTeamMemberPart}>
               수정 완료
             </Button>
           </>
