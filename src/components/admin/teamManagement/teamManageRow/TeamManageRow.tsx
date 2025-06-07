@@ -36,7 +36,7 @@ export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) 
       toast('팀장이 변경되었습니다.', {
         type: 'primary',
       });
-      onUpdate(); // 상태 업데이트
+      onUpdate();
     } catch (error: any) {
       const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
       toast(message, {
@@ -143,6 +143,7 @@ export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) 
         toggle={toggleUpdateModal}
         memberUserId={member.user_id}
         memberId={member.id}
+        onUpdate={onUpdate}
       />
     </>
   );

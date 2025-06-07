@@ -12,9 +12,10 @@ interface TeamMemberUpdateModalProps {
   toggle: () => void;
   memberUserId: number;
   memberId: number;
+  onUpdate: () => void;
 }
 
-export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, memberId }: TeamMemberUpdateModalProps) {
+export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, memberId, onUpdate }: TeamMemberUpdateModalProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
   const [memberDetail, setMemberDetail] = useState<Member | null>(null);
@@ -38,6 +39,7 @@ export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, me
       });
       handleToggleEdit();
       toggle();
+      onUpdate();
     } catch (error: any) {
       const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
       toast(message, {
