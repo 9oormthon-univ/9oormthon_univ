@@ -21,7 +21,7 @@ export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
 
   const handleDeleteMember = async () => {
     await deleteUserAPI(member.id);
-    window.location.reload();
+    onUpdate();
     toast('미르미를 삭제했습니다.', {
       type: 'success',
     });
