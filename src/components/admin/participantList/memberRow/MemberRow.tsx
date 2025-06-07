@@ -5,9 +5,10 @@ import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
 import { MemberUpdateModal } from '../modal/MemberUpdateModal';
 import { deleteUserAPI } from '../../../../api/admin/users';
+import { UserOverview } from '../../../../types/admin/user';
 
 interface MemberRowProps {
-  member: any;
+  member: UserOverview;
   onUpdate: () => void;
 }
 
@@ -58,8 +59,8 @@ export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
           </Text>
         </td>
         <td>
-          <Text typography="subtitle1" color={member.teamBuilding ? 'text-success' : 'text-danger'}>
-            {member.teamBuilding ? '완료' : '미완료'}
+          <Text typography="subtitle1" color={member.team_building ? 'text-success' : 'text-danger'}>
+            {member.team_building ? '완료' : '미완료'}
           </Text>
         </td>
         <td>
