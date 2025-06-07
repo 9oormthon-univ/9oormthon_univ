@@ -58,7 +58,7 @@ export const MemberTable = ({
           <thead>
             <tr>
               <td>
-                <Text typography="subtitle1" color="text-normal">
+                <Text typography="subtitle1" color="text-normal" className={styles.tableHeaderText}>
                   이름
                 </Text>
               </td>

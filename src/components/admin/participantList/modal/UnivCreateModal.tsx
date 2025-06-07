@@ -25,6 +25,11 @@ export default function UnivCreateModal({ isOpen, toggle, onSuccess }: UnivCreat
         type: 'primary',
       });
       toggle();
+      setForm({
+        // 초기화
+        name: '',
+        instagram_url: '',
+      });
       onSuccess();
     } catch (error: any) {
       const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
