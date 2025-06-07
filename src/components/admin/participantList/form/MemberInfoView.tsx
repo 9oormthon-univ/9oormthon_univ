@@ -44,7 +44,7 @@ export default function MemberInfoView({
             {member?.team || '팀 정보 없음'}
           </Text>
         </FormField>
-        {isTeamInform && (
+        {isTeamInform && !isPartEditMode && (
           <FormField label="지원 파트">
             <Text typography="heading6" as="p" color="text-normal">
               {POSITION_NAME[member?.role as PositionWithoutNull] || '희망 파트 없음'}

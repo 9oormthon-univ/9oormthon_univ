@@ -67,7 +67,7 @@ export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, me
       <ModalFooter>
         {isEditMode ? (
           <>
-            <Button size="lg" color="secondary" onClick={toggle}>
+            <Button size="lg" color="secondary" onClick={handleToggleEdit}>
               취소
             </Button>
             <Button size="lg" color="primary" onClick={handleUpdateTeamMemberPart}>
