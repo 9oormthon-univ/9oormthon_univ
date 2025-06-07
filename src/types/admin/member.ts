@@ -20,6 +20,7 @@ export interface UserForm {
   email: string;
   phone_number: string;
   generations: number[];
+  img_url?: string;
 }
 
 export interface User {

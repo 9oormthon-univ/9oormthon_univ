@@ -66,6 +66,7 @@ export const updateUserAPI = async (
   email: string,
   phone_number: string,
   generations: number[],
+  img_url?: string,
 ) => {
   const response = await instance.put(`/api/v1/admins/users/${user_id}`, {
     name,
@@ -73,6 +74,7 @@ export const updateUserAPI = async (
     email,
     phone_number,
     generations,
+    img_url,
   });
   return response.data;
 };

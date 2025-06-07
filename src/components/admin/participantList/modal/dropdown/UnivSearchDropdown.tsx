@@ -1,6 +1,6 @@
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Text } from '@goorm-dev/vapor-components';
 import { SearchOutlineIcon } from '@goorm-dev/vapor-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './dropdown.module.scss';
 import { Univ } from '../../../../../types/admin/univ';
 
@@ -14,6 +14,10 @@ export default function UnivSearchDropdown({ value, onChange, univList }: UnivSe
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSchool, setSelectedSchool] = useState(value);
+
+  useEffect(() => {
+    setSelectedSchool(value);
+  }, [value]);
 
   const filteredList = univList.filter((univ) => univ.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
