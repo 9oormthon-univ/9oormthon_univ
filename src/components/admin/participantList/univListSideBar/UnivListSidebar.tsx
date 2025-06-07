@@ -17,7 +17,7 @@ import UnivUpdateModal from '../modal/UnivUpdateModal';
 import UnivCreateModal from '../modal/UnivCreateModal';
 import InformationModal from '../../../common/modal/InformationModal';
 import { deleteUnivAPI } from '../../../../api/admin/univs';
-import { Univ } from '../../../../pages/admin/participantList/ParticipantList';
+import { Univ } from '../../../../types/admin/univ';
 
 interface UnivListSidebarProps {
   univList: Univ[];

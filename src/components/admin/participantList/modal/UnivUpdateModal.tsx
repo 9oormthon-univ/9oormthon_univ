@@ -1,12 +1,8 @@
-import { ModalBody, ModalHeader, Text, Input, ModalFooter, Button, Modal } from '@goorm-dev/vapor-components';
-import FormField from '../../../common/formField/FormField';
-import styles from './univUpdateModal.module.scss';
+import { ModalBody, ModalHeader, Text, ModalFooter, Button, Modal, toast } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
 import { fetchUnivDetailAPI, updateUnivAPI } from '../../../../api/admin/univs';
-import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
-import { fetchUserListAPI } from '../../../../api/admin/users';
-import { GENERATION } from '../../../../constants/common';
-import { User } from '../../../../types/admin/member';
+import UnivForm from '../form/UnivForm';
+import type { UnivFormPayload } from '../../../../types/admin/univ';
 
 interface UnivUpdateModalProps {
   isOpen: boolean;
@@ -16,16 +12,11 @@ interface UnivUpdateModalProps {
 }
 
 export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: UnivUpdateModalProps) {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<UnivFormPayload>({
     name: '',
     instagram_url: '',
-    leader_id: null as number | null,
+    leader_id: undefined,
   });
-
-  const [representatives, setRepresentatives] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const hasChanged = form.name !== '' && form.instagram_url !== '';
 
   // 상세 조회
   const fetchUnivInfo = async () => {
@@ -37,8 +28,11 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
         instagram_url: res.data.instagram_url,
         leader_id: res.data.leader.id || null,
       });
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
+      toast(message, {
+        type: 'danger',
+      });
     }
   };
 
@@ -46,66 +40,25 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
     if (univId) {
       fetchUnivInfo();
     }
-  }, [univId]);
+  }, [isOpen, univId]);
 
   // 유니브 정보 수정
   const handleUpdateUniv = async () => {
     try {
       if (!univId) return;
-      const res = await updateUnivAPI(univId, form.name, form.instagram_url, form.leader_id || undefined);
-      console.log(res);
+      await updateUnivAPI(univId, form.name, form.instagram_url, form.leader_id || undefined);
       onSuccess();
       toggle();
-    } catch (error) {
-      console.log(error);
+      toast('유니브 정보가 수정되었습니다.', {
+        type: 'primary',
+      });
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
+      toast(message, {
+        type: 'danger',
+      });
     }
   };
-
-  // 대표자 선택 핸들러
-  const handleRepresentativeSelect = (item: User) => {
-    setForm((prev) => ({
-      ...prev,
-      leader_id: item.id,
-    }));
-  };
-
-  // 대표자 검색 핸들러
-  const handleSearch = async (searchTerm: string) => {
-    if (!univId) return;
-
-    setIsLoading(true);
-    try {
-      const trimmed = searchTerm.trim();
-      const res = await fetchUserListAPI(GENERATION, univId, trimmed === '' ? undefined : trimmed);
-      setRepresentatives(
-        res.data.users.map((user: User) => ({
-          id: user.id,
-          description: user.description,
-        })),
-      );
-    } catch (error) {
-      console.error('Failed to fetch users:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // 특정 유니브 미르미 조회
-  const fetchUserList = async () => {
-    if (!univId) return;
-    const res = await fetchUserListAPI(GENERATION, univId);
-    setRepresentatives(res.data.users);
-  };
-
-  // 최초 1회만 유니브 미르미 조회
-  useEffect(() => {
-    fetchUserList();
-  }, []);
-
-  // 현재 선택된 대표자 찾기
-  const selectedRepresentative = form.leader_id
-    ? representatives.find((rep) => Number(rep.id) === form.leader_id)
-    : null;
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -114,34 +67,8 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
           유니브 정보 수정
         </Text>
       </ModalHeader>
-      <ModalBody className={styles.modalBody}>
-        <FormField label="유니브 명" required={true}>
-          <Input
-            bsSize="lg"
-            value={form.name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, name: e.target.value })}
-            placeholder="유니브 명을 입력해주세요."
-          />
-        </FormField>
-        <FormField label="소개 링크" required={true}>
-          <Input
-            bsSize="lg"
-            value={form.instagram_url}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, instagram_url: e.target.value })}
-            placeholder="소개 링크를 입력해주세요."
-          />
-        </FormField>
-        <FormField label="유니브 대표" required={false}>
-          <SearchDropdown
-            items={representatives}
-            selectedItem={selectedRepresentative}
-            onSelect={handleRepresentativeSelect}
-            onSearch={handleSearch}
-            inPlaceholder="유니브 대표를 검색해주세요"
-            outPlaceholder="해당 유니브 대표를 선택해주세요"
-            disabled={isLoading}
-          />
-        </FormField>
+      <ModalBody>
+        <UnivForm mode="update" form={form} univId={univId} />
       </ModalBody>
       <ModalFooter>
         <Button
@@ -152,7 +79,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
           }}>
           취소
         </Button>
-        <Button size="lg" color="primary" disabled={!hasChanged} onClick={handleUpdateUniv}>
+        <Button size="lg" color="primary" onClick={handleUpdateUniv}>
           수정 완료
         </Button>
       </ModalFooter>

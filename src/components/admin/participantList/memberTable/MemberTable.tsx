@@ -77,7 +77,7 @@ export const MemberTable = ({
           </thead>
           <tbody>
             {members.map((member) => (
-              <MemberRow key={member.id} member={member} />
+              <MemberRow key={member.id} member={member} onUpdate={onUpdate} />
             ))}
           </tbody>
         </table>

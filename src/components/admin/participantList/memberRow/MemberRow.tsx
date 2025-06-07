@@ -8,9 +8,10 @@ import { deleteUserAPI } from '../../../../api/admin/users';
 
 interface MemberRowProps {
   member: any;
+  onUpdate: () => void;
 }
 
-export const MemberRow = ({ member }: MemberRowProps) => {
+export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isInformationModalOpen, setIsInformationModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -87,7 +88,12 @@ export const MemberRow = ({ member }: MemberRowProps) => {
         onConfirm={handleDeleteMember}
       />
 
-      <MemberUpdateModal user_id={member.id} isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
+      <MemberUpdateModal
+        user_id={member.id}
+        isOpen={isUpdateModalOpen}
+        toggle={toggleUpdateModal}
+        onUpdate={onUpdate}
+      />
     </>
   );
 };
