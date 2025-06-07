@@ -9,12 +9,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Univ } from '../../../../types/admin/univ';
 import { fetchUnivListAPI } from '../../../../api/admin/univs';
 import { GENERATION } from '../../../../constants/common';
-import { MemberUpdateForm } from '../../../../types/admin/member';
+import { UserForm } from '../../../../types/admin/member';
 
 interface MemberFormProps {
   showProfileEdit?: boolean;
-  member?: MemberUpdateForm;
-  onChange?: <K extends keyof MemberUpdateForm>(field: K, value: MemberUpdateForm[K]) => void;
+  member?: UserForm;
+  onChange?: <K extends keyof UserForm>(field: K, value: UserForm[K]) => void;
 }
 
 export default function MemberForm({ showProfileEdit, member, onChange }: MemberFormProps) {

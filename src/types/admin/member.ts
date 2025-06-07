@@ -14,7 +14,7 @@ export interface Member {
   generations: number[];
 }
 
-export interface MemberUpdateForm {
+export interface UserForm {
   name: string;
   univ_id: number;
   email: string;
@@ -25,12 +25,4 @@ export interface MemberUpdateForm {
 export interface User {
   id: number;
   description: string;
-}
-
-export interface UserCreateForm {
-  name: string;
-  univ_id: number;
-  email: string;
-  phone_number: string;
-  generations: number[];
 }
