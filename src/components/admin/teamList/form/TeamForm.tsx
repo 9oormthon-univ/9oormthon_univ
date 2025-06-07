@@ -93,11 +93,11 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
   const [userList, setUserList] = useState<User[]>([]);
   useEffect(() => {
     const fetchUserList = async () => {
-      const res = await fetchUserListAPI(GENERATION);
+      const res = await fetchUserListAPI(GENERATION, undefined, undefined, teamId); // 팀장 선정을 위해 팀 아이디 추가
       setUserList(res.data.users);
     };
     fetchUserList();
-  }, []);
+  }, [teamId]);
 
   return (
     <div className={styles.container}>
