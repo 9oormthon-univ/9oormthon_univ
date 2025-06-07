@@ -18,6 +18,7 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle, onUpdate }: MemberU
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
   const handleClose = () => {
     setIsEditMode(false); // 모달 닫힐 때 편집모드 해제
+    setMember(null);
     toggle();
   };
 
@@ -51,8 +52,10 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle, onUpdate }: MemberU
   };
 
   useEffect(() => {
-    fetchUserDetail(user_id);
-  }, [user_id]);
+    if (isOpen) {
+      fetchUserDetail(user_id);
+    }
+  }, [user_id, isOpen]);
 
   // 미르미 정보 수정
   const handleUpdateMember = async () => {
