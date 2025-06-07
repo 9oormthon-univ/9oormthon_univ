@@ -1,9 +1,10 @@
-import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Text } from '@goorm-dev/vapor-components';
-import FormField from '../../../common/formField/FormField';
-import styles from './univCreateModal.module.scss';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text, toast } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import { GENERATION } from '../../../../constants/common';
 import { createUnivAPI } from '../../../../api/admin/univs';
+import type { UnivFormPayload } from '../../../../types/admin/univ';
+import UnivForm from '../form/UnivForm';
+
 interface UnivCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
@@ -11,23 +12,30 @@ interface UnivCreateModalProps {
 }
 
 export default function UnivCreateModal({ isOpen, toggle, onSuccess }: UnivCreateModalProps) {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<UnivFormPayload>({
     name: '',
     instagram_url: '',
-    generation: GENERATION,
   });
-  const hasChanged = form.name !== '' && form.instagram_url !== '';
 
   // API 연결 - 유니브 생성
   const handleCreateUniv = async () => {
     try {
-      const res = await createUnivAPI(form.name, form.instagram_url, form.generation);
-      console.log(res);
-      onSuccess();
+      await createUnivAPI(form.name, form.instagram_url, GENERATION);
+      toast('유니브가 추가되었습니다.', {
+        type: 'primary',
+      });
       toggle();
-    } catch (error) {
-      console.log(error);
+      onSuccess();
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
+      toast(message, {
+        type: 'danger',
+      });
     }
+  };
+
+  const handleChange = (field: keyof UnivFormPayload, value: UnivFormPayload[keyof UnivFormPayload]) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -37,29 +45,14 @@ export default function UnivCreateModal({ isOpen, toggle, onSuccess }: UnivCreat
           유니브 추가하기
         </Text>
       </ModalHeader>
-      <ModalBody className={styles.modalBody}>
-        <FormField label="유니브 명" required>
-          <Input
-            bsSize="lg"
-            value={form.name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, name: e.target.value })}
-            placeholder="유니브 명을 입력해주세요."
-          />
-        </FormField>
-        <FormField label="소개 링크" required>
-          <Input
-            bsSize="lg"
-            value={form.instagram_url}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, instagram_url: e.target.value })}
-            placeholder="소개 링크를 입력해주세요."
-          />
-        </FormField>
+      <ModalBody>
+        <UnivForm mode="create" form={form} onChange={handleChange} />
       </ModalBody>
       <ModalFooter>
         <Button size="lg" color="secondary" onClick={toggle}>
           취소
         </Button>
-        <Button size="lg" color="primary" disabled={!hasChanged} onClick={handleCreateUniv}>
+        <Button size="lg" color="primary" onClick={handleCreateUniv}>
           추가
         </Button>
       </ModalFooter>

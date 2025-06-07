@@ -71,7 +71,6 @@ export default function MyPageEdit() {
       setImgFile(file);
       setImgPreview(URL.createObjectURL(file));
     }
-    console.log(file);
   };
 
   // 프로필 수정 클릭 시 파일 업로드 창 열기

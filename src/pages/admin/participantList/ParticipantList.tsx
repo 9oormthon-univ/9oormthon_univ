@@ -7,11 +7,7 @@ import { fetchUserSummaryListAPI } from '../../../api/admin/users';
 import { GENERATION } from '../../../constants/common';
 import { fetchUnivListAPI } from '../../../api/admin/univs';
 import { useDebounce } from '../../../hooks/useDebounce';
-
-export interface Univ {
-  id: number;
-  name: string;
-}
+import { Univ } from '../../../types/admin/univ';
 
 export default function ParticipantList() {
   const [selectedUnivId, setSelectedUnivId] = useState<number | null>(null);
@@ -73,6 +69,7 @@ export default function ParticipantList() {
             pageInfo={pageInfo}
             onPageChange={(page) => getUserList(page, selectedUnivId, searchQuery)}
             onSearchChange={(query) => setSearchQuery(query)}
+            onUpdate={() => getUserList(currentPage, selectedUnivId, searchQuery)}
           />
         </div>
       </div>

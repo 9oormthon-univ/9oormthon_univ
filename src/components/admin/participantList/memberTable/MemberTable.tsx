@@ -4,16 +4,25 @@ import styles from './styles.module.scss';
 import { Button, Input, Text } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import { MemberCreateModal } from '../modal/MemberCreateModal';
-import { Univ } from '../../../../pages/admin/participantList/ParticipantList';
+import { Univ } from '../../../../types/admin/univ';
+
 interface MemberTableProps {
   members: any[];
   pageInfo: any;
   onPageChange: (page: number) => void;
   selectedUniv: Univ | null;
   onSearchChange: (query: string) => void;
+  onUpdate: () => void;
 }
 
-export const MemberTable = ({ members, pageInfo, onPageChange, selectedUniv, onSearchChange }: MemberTableProps) => {
+export const MemberTable = ({
+  members,
+  pageInfo,
+  onPageChange,
+  selectedUniv,
+  onSearchChange,
+  onUpdate,
+}: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -68,7 +77,7 @@ export const MemberTable = ({ members, pageInfo, onPageChange, selectedUniv, onS
           </thead>
           <tbody>
             {members.map((member) => (
-              <MemberRow key={member.id} member={member} />
+              <MemberRow key={member.id} member={member} onUpdate={onUpdate} />
             ))}
           </tbody>
         </table>
@@ -81,7 +90,11 @@ export const MemberTable = ({ members, pageInfo, onPageChange, selectedUniv, onS
           onPageChangeHandler={(page: number) => onPageChange(page)}
         />
       </div>
-      <MemberCreateModal isOpen={isMemberCreateModalOpen} toggle={() => setIsMemberCreateModalOpen(false)} />
+      <MemberCreateModal
+        isOpen={isMemberCreateModalOpen}
+        toggle={() => setIsMemberCreateModalOpen(false)}
+        onUpdate={onUpdate}
+      />
     </div>
   );
 };

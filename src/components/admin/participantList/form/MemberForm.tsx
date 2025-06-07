@@ -9,20 +9,18 @@ import { useEffect, useRef, useState } from 'react';
 import { Univ } from '../../../../types/admin/univ';
 import { fetchUnivListAPI } from '../../../../api/admin/univs';
 import { GENERATION } from '../../../../constants/common';
-import { MemberUpdateForm } from '../../../../types/admin/member';
+import { UserForm } from '../../../../types/admin/member';
 
 interface MemberFormProps {
   showProfileEdit?: boolean;
-  member?: MemberUpdateForm;
-  onChange?: <K extends keyof MemberUpdateForm>(field: K, value: MemberUpdateForm[K]) => void;
+  member?: UserForm;
+  onChange?: <K extends keyof UserForm>(field: K, value: UserForm[K]) => void;
 }
 
 export default function MemberForm({ showProfileEdit, member, onChange }: MemberFormProps) {
   const [univList, setUnivList] = useState<Univ[]>([]);
   const [imgPreview, setImgPreview] = useState<string | null>(null);
-  const [imgFile, setImgFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  console.log(imgPreview); // 추후 수정
 
   // 학교 리스트 조회
   useEffect(() => {
@@ -37,12 +35,10 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setImgFile(file);
-      setImgPreview(URL.createObjectURL(file));
+      const fileUrl = URL.createObjectURL(file);
+      setImgPreview(fileUrl);
+      onChange?.('img_url', fileUrl);
     }
-    console.log(file);
-    // 추후 데이터로 넘어갈 예정
-    console.log(imgFile);
   };
 
   // 프로필 수정 클릭 시 파일 업로드 창 열기
@@ -52,14 +48,13 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
 
   return (
     <div className={styles.modalBody}>
-      {/* {member?.img_url ? (
+      {member?.img_url ? (
         <div className={styles.profileImgContainer}>
           <img src={imgPreview || member?.img_url} alt="profile" />
         </div>
       ) : (
         <Avatar name={member?.name || 'Goorm'} />
-      )} */}
-      <Avatar name={member?.name || 'Goorm'} />
+      )}
       <div className={styles.memberContainer}>
         {showProfileEdit && (
           <>
@@ -91,7 +86,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
         </FormField>
         <FormField label="학교" required>
           <UnivSearchDropdown
-            value={univList.find((univ) => univ.id === member?.univ_id)?.name || ''}
+            value={univList.find((univ) => univ.id === member?.univ_id)?.name ?? ''}
             onChange={(univ) => onChange?.('univ_id', univ.id)}
             univList={univList}
           />

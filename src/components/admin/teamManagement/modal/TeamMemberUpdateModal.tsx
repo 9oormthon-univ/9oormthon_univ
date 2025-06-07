@@ -12,9 +12,10 @@ interface TeamMemberUpdateModalProps {
   toggle: () => void;
   memberUserId: number;
   memberId: number;
+  onUpdate: () => void;
 }
 
-export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, memberId }: TeamMemberUpdateModalProps) {
+export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, memberId, onUpdate }: TeamMemberUpdateModalProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
   const [memberDetail, setMemberDetail] = useState<Member | null>(null);
@@ -31,15 +32,17 @@ export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, me
 
   // 팀원 지원파트 수정
   const handleUpdateTeamMemberPart = async () => {
-    const res = await updateTeamMemberPartAPI(memberId, handleRoleChange || memberDetail?.role || Position.PM);
-    if (res.success) {
+    try {
+      await updateTeamMemberPartAPI(memberId, handleRoleChange || memberDetail?.role || Position.PM);
       toast('지원파트가 수정되었습니다', {
         type: 'primary',
       });
       handleToggleEdit();
       toggle();
-    } else {
-      toast(res.error.message || '지원파트 수정에 실패했습니다', {
+      onUpdate();
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
+      toast(message, {
         type: 'danger',
       });
     }

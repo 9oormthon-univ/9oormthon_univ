@@ -5,12 +5,14 @@ import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
 import { MemberUpdateModal } from '../modal/MemberUpdateModal';
 import { deleteUserAPI } from '../../../../api/admin/users';
+import { UserOverview } from '../../../../types/admin/user';
 
 interface MemberRowProps {
-  member: any;
+  member: UserOverview;
+  onUpdate: () => void;
 }
 
-export const MemberRow = ({ member }: MemberRowProps) => {
+export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isInformationModalOpen, setIsInformationModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -20,7 +22,7 @@ export const MemberRow = ({ member }: MemberRowProps) => {
 
   const handleDeleteMember = async () => {
     await deleteUserAPI(member.id);
-    window.location.reload();
+    onUpdate();
     toast('미르미를 삭제했습니다.', {
       type: 'success',
     });
@@ -57,8 +59,8 @@ export const MemberRow = ({ member }: MemberRowProps) => {
           </Text>
         </td>
         <td>
-          <Text typography="subtitle1" color={member.teamBuilding ? 'text-success' : 'text-danger'}>
-            {member.teamBuilding ? '완료' : '미완료'}
+          <Text typography="subtitle1" color={member.team_building ? 'text-success' : 'text-danger'}>
+            {member.team_building ? '완료' : '미완료'}
           </Text>
         </td>
         <td>
@@ -87,7 +89,12 @@ export const MemberRow = ({ member }: MemberRowProps) => {
         onConfirm={handleDeleteMember}
       />
 
-      <MemberUpdateModal user_id={member.id} isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
+      <MemberUpdateModal
+        user_id={member.id}
+        isOpen={isUpdateModalOpen}
+        toggle={toggleUpdateModal}
+        onUpdate={onUpdate}
+      />
     </>
   );
 };

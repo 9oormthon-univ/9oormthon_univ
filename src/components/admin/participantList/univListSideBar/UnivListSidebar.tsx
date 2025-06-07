@@ -17,7 +17,7 @@ import UnivUpdateModal from '../modal/UnivUpdateModal';
 import UnivCreateModal from '../modal/UnivCreateModal';
 import InformationModal from '../../../common/modal/InformationModal';
 import { deleteUnivAPI } from '../../../../api/admin/univs';
-import { Univ } from '../../../../pages/admin/participantList/ParticipantList';
+import { Univ } from '../../../../types/admin/univ';
 
 interface UnivListSidebarProps {
   univList: Univ[];
@@ -34,6 +34,8 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
   const [isUnivDeleteModalOpen, setIsUnivDeleteModalOpen] = useState(false);
   const [isUnivCreateModalOpen, setIsUnivCreateModalOpen] = useState(false);
   const [selectedUnivId, setSelectedUnivId] = useState<number | null>(null);
+
+  const [filteredUnivList, setFilteredUnivList] = useState<Univ[]>(univList);
 
   // 유니브별 드롭다운 구분
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
@@ -84,6 +86,20 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
     setIsUnivDeleteModalOpen(true);
   };
 
+  // 유니브 검색
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchQuery.trim() === '') {
+        setFilteredUnivList(univList);
+      } else {
+        const lowerQuery = searchQuery.toLowerCase();
+        setFilteredUnivList(univList.filter((univ) => univ.name.toLowerCase().includes(lowerQuery)));
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery, univList]);
+
   return (
     <div className={styles.container}>
       <div className={styles.listHeader}>
@@ -117,8 +133,14 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
             <SideNav.Link>전체</SideNav.Link>
           </SideNav.Item>
 
-          {univList.map((univ) => (
-            <SideNav.Item className={styles.univItem} key={univ.id} onClick={() => onSelectUniv(univ.id)}>
+          {filteredUnivList.map((univ) => (
+            <SideNav.Item
+              className={styles.univItem}
+              key={univ.id}
+              onClick={() => {
+                onSelectUniv(univ.id);
+                setSelectedUnivId(univ.id);
+              }}>
               <SideNav.Link active={selectedUnivId === univ.id}>{univ.name}</SideNav.Link>
               <SideNav.Item.RightArea>
                 <Dropdown

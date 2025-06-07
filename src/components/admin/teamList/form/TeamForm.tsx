@@ -2,7 +2,7 @@ import { Input } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
 import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
 import { Team, TeamUpdateForm } from '../../../../types/admin/team';
 import { User } from '../../../../types/admin/member';
@@ -14,9 +14,10 @@ interface TeamFormProps {
   onValidationChange: (isValid: boolean) => void;
   onFormChange: (data: Team | TeamUpdateForm) => void;
   initialData?: TeamUpdateForm;
+  teamId?: number;
 }
 
-export default function TeamForm({ mode, onValidationChange, onFormChange, initialData }: TeamFormProps) {
+export default function TeamForm({ mode, onValidationChange, onFormChange, initialData, teamId }: TeamFormProps) {
   const isUpdateMode = mode === 'update';
   const initial = isUpdateMode ? initialData : undefined;
   const [teamName, setTeamName] = useState(initial?.team_name || '');
@@ -30,6 +31,17 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
     fe_capacity: initial?.fe_capacity ?? 0,
     be_capacity: initial?.be_capacity ?? 0,
   });
+
+  const prevFormDataRef = useRef<Team | TeamUpdateForm>(
+    initial ?? {
+      name: '',
+      pm_capacity: 0,
+      pd_capacity: 0,
+      fe_capacity: 0,
+      be_capacity: 0,
+    },
+  );
+
   useEffect(() => {
     const isValid =
       teamName.trim() !== '' &&
@@ -39,27 +51,43 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
       teamRoles.be_capacity !== null;
     onValidationChange(isValid);
 
-    if (mode === 'create') {
-      onFormChange({
-        name: teamName,
-        pm_capacity: teamRoles.pm_capacity ?? 0,
-        pd_capacity: teamRoles.pd_capacity ?? 0,
-        fe_capacity: teamRoles.fe_capacity ?? 0,
-        be_capacity: teamRoles.be_capacity ?? 0,
-      });
-    } else {
-      onFormChange({
-        number: teamNumber,
-        team_name: teamName,
-        service_name: serviceName,
-        leader_id: teamLeaderId,
-        pm_capacity: teamRoles.pm_capacity ?? 0,
-        pd_capacity: teamRoles.pd_capacity ?? 0,
-        fe_capacity: teamRoles.fe_capacity ?? 0,
-        be_capacity: teamRoles.be_capacity ?? 0,
-      });
+    const formData =
+      mode === 'create'
+        ? {
+            name: teamName,
+            pm_capacity: teamRoles.pm_capacity ?? 0,
+            pd_capacity: teamRoles.pd_capacity ?? 0,
+            fe_capacity: teamRoles.fe_capacity ?? 0,
+            be_capacity: teamRoles.be_capacity ?? 0,
+          }
+        : {
+            number: teamNumber,
+            team_name: teamName,
+            service_name: serviceName,
+            leader_id: teamLeaderId,
+            pm_capacity: teamRoles.pm_capacity ?? 0,
+            pd_capacity: teamRoles.pd_capacity ?? 0,
+            fe_capacity: teamRoles.fe_capacity ?? 0,
+            be_capacity: teamRoles.be_capacity ?? 0,
+          };
+
+    if (JSON.stringify(formData) !== JSON.stringify(prevFormDataRef.current)) {
+      onFormChange(formData);
+      prevFormDataRef.current = formData;
     }
-  }, [teamName, teamRoles, mode, initial, onFormChange, teamNumber, serviceName, teamLeaderId]);
+  }, [
+    teamName,
+    teamRoles.pm_capacity,
+    teamRoles.pd_capacity,
+    teamRoles.fe_capacity,
+    teamRoles.be_capacity,
+    teamNumber,
+    serviceName,
+    teamLeaderId,
+    mode,
+    onValidationChange,
+    onFormChange,
+  ]);
 
   // 유저 리스트 전체 조회(팀장 선정을 위함)
   const [userList, setUserList] = useState<User[]>([]);
@@ -147,7 +175,7 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
             selectedItem={userList.find((user) => user.id === teamLeaderId) ?? null}
             onSearch={async (term) => {
               if (term.length >= 2) {
-                const res = await fetchUserListAPI(GENERATION, undefined, term);
+                const res = await fetchUserListAPI(GENERATION, undefined, term, teamId);
                 setUserList(res.data.users);
               }
             }}

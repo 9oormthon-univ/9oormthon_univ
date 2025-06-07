@@ -14,12 +14,13 @@ export interface Member {
   generations: number[];
 }
 
-export interface MemberUpdateForm {
+export interface UserForm {
   name: string;
   univ_id: number;
   email: string;
   phone_number: string;
   generations: number[];
+  img_url?: string;
 }
 
 export interface User {

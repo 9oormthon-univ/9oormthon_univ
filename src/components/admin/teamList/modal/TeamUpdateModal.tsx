@@ -40,15 +40,22 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
 
   // 팀 정보 수정
   const handleUpdateTeam = async () => {
-    const res = await updateTeamAPI(teamId, formData as TeamUpdateForm);
-    if (res.success) {
-      toast('성공적으로 팀 정보를 수정하였습니다.', {
-        type: 'primary',
-      });
-      onUpdate();
-      handleClose();
-    } else {
-      toast(res.error.message || '팀 정보 수정에 실패했습니다.', {
+    try {
+      const res = await updateTeamAPI(teamId, formData as TeamUpdateForm);
+      if (res.success) {
+        toast('성공적으로 팀 정보를 수정하였습니다.', {
+          type: 'primary',
+        });
+        onUpdate();
+        handleClose();
+      } else {
+        toast(res.error.message || '팀 정보 수정에 실패했습니다.', {
+          type: 'danger',
+        });
+      }
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
+      toast(message, {
         type: 'danger',
       });
     }
@@ -83,6 +90,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
               fe_capacity: teamDetail?.fe_capacity ?? 0,
               be_capacity: teamDetail?.be_capacity ?? 0,
             }}
+            teamId={teamId}
           />
         ) : (
           <TeamInfoView teamDetail={teamDetail} />
