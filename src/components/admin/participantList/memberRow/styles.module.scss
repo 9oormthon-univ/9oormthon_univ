@@ -17,7 +17,7 @@ tbody {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 9.375rem;
+  // width: 9.375rem;
 }
 
 .memberDropdown {
@@ -43,4 +43,14 @@ tbody {
 .memberDropdownIcon {
   width: var(--dimension-200) !important;
   height: var(--dimension-200) !important;
+}
+
+.text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  flex: 1 0 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

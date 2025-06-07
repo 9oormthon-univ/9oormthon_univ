@@ -30,7 +30,7 @@ export const MemberRow = ({ member }: MemberRowProps) => {
     <>
       <tr>
         <td className={styles.memberName}>
-          <Text typography="subtitle1" color="text-normal">
+          <Text typography="subtitle1" color="text-normal" className={styles.text}>
             {member.name}
           </Text>
           <Dropdown direction="down" className={styles.memberDropdown} isOpen={isDropdownOpen} toggle={toggleDropdown}>
@@ -52,7 +52,7 @@ export const MemberRow = ({ member }: MemberRowProps) => {
           </Dropdown>
         </td>
         <td>
-          <Text typography="subtitle1" color="text-normal">
+          <Text typography="subtitle1" color="text-normal" className={styles.text}>
             {member.email}
           </Text>
         </td>

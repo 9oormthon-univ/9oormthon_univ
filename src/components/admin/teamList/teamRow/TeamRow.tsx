@@ -68,12 +68,12 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
         </Dropdown>
       </td>
       <td>
-        <Text typography="body2" color="text-normal">
+        <Text typography="body2" color="text-normal" className={styles.text}>
           {team.name || ''}
         </Text>
       </td>
       <td>
-        <Text typography="body2" color="text-normal">
+        <Text typography="body2" color="text-normal" className={styles.text}>
           {team.service_name || ''}
         </Text>
       </td>
