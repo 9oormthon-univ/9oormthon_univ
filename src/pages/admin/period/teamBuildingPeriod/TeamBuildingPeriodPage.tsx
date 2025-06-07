@@ -43,10 +43,17 @@ export default function TeamBuildingPeriodPage() {
       phase3_confirmation_start: toISOStringWithTime(phase[2].confirmPeriod.startDate, true) || '',
       phase3_confirmation_end: toISOStringWithTime(phase[2].confirmPeriod.endDate, false) || '',
     };
-    await setPeriod(payload);
-    toast('기간 설정이 완료되었습니다.', {
-      type: 'success',
-    });
+    try {
+      await setPeriod(payload);
+      toast('기간 설정이 완료되었습니다.', {
+        type: 'primary',
+      });
+    } catch (error) {
+      console.error(error);
+      toast('기간 설정에 실패했습니다.', {
+        type: 'danger',
+      });
+    }
   };
 
   const formatDateInput = (date: string) => {

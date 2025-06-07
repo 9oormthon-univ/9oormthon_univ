@@ -9,6 +9,6 @@ export const setPeriod = async (data: PeriodSettingPayload) => {
 
 // 0.2 어드민 시스템 설정 기간 상세 조회
 export const getPeriod = async () => {
-  const response = await instance.get('/api/v1/admins/system-settings/detail');
+  const response = await instance.get('/api/v1/admins/system-settings/details');
   return response.data;
 };
