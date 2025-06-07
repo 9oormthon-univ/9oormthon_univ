@@ -132,7 +132,7 @@ export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) 
         cancelLabel="취소"
         onConfirm={handleDeleteTeamMember}
       />
-      <TeamMemberUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
+      <TeamMemberUpdateModal isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} memberId={member.user_id} />
     </>
   );
 }

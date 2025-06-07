@@ -1,6 +1,6 @@
 import instance from '../instance';
 
-// 2.3 어드민 유저 간단 리스트 조회
+// 2.5 어드민 유저 간단 리스트 조회
 export const fetchUserListAPI = async (generation: number, univId?: number, search?: string) => {
   const queryParams = new URLSearchParams({
     generation: generation.toString(),
@@ -18,7 +18,7 @@ export const fetchUserListAPI = async (generation: number, univId?: number, sear
   return response.data;
 };
 
-// 어드민 유저 요약 리스트 조회
+// 2.6 어드민 유저 요약 리스트 조회
 export const fetchUserSummaryListAPI = async (
   page: number,
   size: number,
@@ -45,7 +45,7 @@ export const fetchUserSummaryListAPI = async (
   return response.data;
 };
 
-// 어드민 유저 상세조회
+// 2.7 어드민 유저 상세조회
 export const fetchUserDetailAPI = async (user_id: number, generation: number) => {
   const response = await instance.get(`/api/v1/admins/users/${user_id}/details?generation=${generation}`);
   return response.data;

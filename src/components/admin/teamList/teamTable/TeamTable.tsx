@@ -23,7 +23,10 @@ export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUp
                 <Text typography="subtitle1" color="text-alternative">
                   팀 번호
                 </Text>
-                <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange(Sorting.ID)} />
+                <ControlCommonIcon
+                  className={styles.tableHeaderIcon}
+                  onClick={() => onSortChange(Sorting.TEAM_NUMBER)}
+                />
               </th>
               <th>
                 <Text typography="subtitle1" color="text-alternative">

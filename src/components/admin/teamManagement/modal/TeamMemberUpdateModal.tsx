@@ -1,15 +1,29 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text } from '@goorm-dev/vapor-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MemberInfoView from '../../participantList/form/MemberInfoView';
+import { fetchUserDetailAPI } from '../../../../api/admin/users';
+import { GENERATION } from '../../../../constants/common';
+import { Member } from '../../../../types/admin/member';
 
 interface TeamMemberUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
+  memberId: number;
 }
 
-export default function TeamMemberUpdateModal({ isOpen, toggle }: TeamMemberUpdateModalProps) {
+export default function TeamMemberUpdateModal({ isOpen, toggle, memberId }: TeamMemberUpdateModalProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
+  const [memberDetail, setMemberDetail] = useState<Member | null>(null);
+
+  // 팀원 상세 정보 조회
+  useEffect(() => {
+    const fetchMemberDetail = async () => {
+      const res = await fetchUserDetailAPI(memberId, GENERATION);
+      setMemberDetail(res.data);
+    };
+    fetchMemberDetail();
+  }, [memberId]);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -20,9 +34,9 @@ export default function TeamMemberUpdateModal({ isOpen, toggle }: TeamMemberUpda
       </ModalHeader>
       <ModalBody>
         {isEditMode ? (
-          <MemberInfoView isTeamInform={true} isPartEditMode={true} />
+          <MemberInfoView isTeamInform={true} isPartEditMode={true} member={memberDetail} />
         ) : (
-          <MemberInfoView isTeamInform={true} />
+          <MemberInfoView isTeamInform={true} member={memberDetail} />
         )}
       </ModalBody>
       <ModalFooter>
