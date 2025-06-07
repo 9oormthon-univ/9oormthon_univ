@@ -37,7 +37,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
   };
 
   useEffect(() => {
-    if (univId) {
+    if (univId && isOpen) {
       fetchUnivInfo();
     }
   }, [isOpen, univId]);

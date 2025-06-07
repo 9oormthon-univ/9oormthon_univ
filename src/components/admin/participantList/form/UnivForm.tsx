@@ -17,6 +17,15 @@ interface UnivFormProps {
 
 export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps) {
   const [representatives, setRepresentatives] = useState<User[]>([]);
+  const [localForm, setLocalForm] = useState<UnivFormPayload>(
+    form ?? { name: '', instagram_url: '', leader_id: undefined },
+  );
+
+  useEffect(() => {
+    if (form) {
+      setLocalForm(form);
+    }
+  }, [form]);
 
   // 특정 유니브 미르미 조회
   const fetchUserList = async () => {
@@ -55,16 +64,24 @@ export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps
       <FormField label="유니브 명" required={true}>
         <Input
           size="lg"
-          value={form?.name || ''}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('name', e.target.value)}
+          value={localForm.name}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const updated = { ...localForm, name: e.target.value };
+            setLocalForm(updated);
+            onChange?.('name', updated.name);
+          }}
           placeholder="유니브 명을 입력해주세요"
         />
       </FormField>
       <FormField label="소개 링크" required={true}>
         <Input
           size="lg"
-          value={form?.instagram_url}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('instagram_url', e.target.value)}
+          value={localForm.instagram_url}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const updated = { ...localForm, instagram_url: e.target.value };
+            setLocalForm(updated);
+            onChange?.('instagram_url', updated.instagram_url);
+          }}
           placeholder="소개 링크를 입력해주세요"
         />
       </FormField>
@@ -72,8 +89,12 @@ export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps
         <FormField label="유니브 대표" required={false}>
           <SearchDropdown
             items={representatives}
-            selectedItem={representatives.find((representative) => representative.id === form?.leader_id) ?? null}
-            onSelect={(item) => onChange?.('leader_id', item.id)}
+            selectedItem={representatives.find((representative) => representative.id === localForm.leader_id) ?? null}
+            onSelect={(item) => {
+              const updated = { ...localForm, leader_id: item.id };
+              setLocalForm(updated);
+              onChange?.('leader_id', updated.leader_id);
+            }}
             onSearch={handleSearch}
             inPlaceholder="유니브 대표를 검색해주세요"
             outPlaceholder="해당 유니브 대표를 선택해주세요"
