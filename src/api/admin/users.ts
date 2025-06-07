@@ -8,7 +8,7 @@ export const createUserAPI = async (userData: UserForm) => {
 };
 
 // 2.5 어드민 유저 간단 리스트 조회
-export const fetchUserListAPI = async (generation: number, univId?: number, search?: string) => {
+export const fetchUserListAPI = async (generation: number, univId?: number, search?: string, teamId?: number) => {
   const queryParams = new URLSearchParams({
     generation: generation.toString(),
   });
@@ -19,6 +19,10 @@ export const fetchUserListAPI = async (generation: number, univId?: number, sear
 
   if (search !== undefined) {
     queryParams.append('search', search);
+  }
+
+  if (teamId !== undefined) {
+    queryParams.append('team-id', teamId.toString());
   }
 
   const response = await instance.get(`/api/v1/admins/users/briefs?${queryParams.toString()}`);

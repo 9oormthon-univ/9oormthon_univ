@@ -14,9 +14,10 @@ interface TeamFormProps {
   onValidationChange: (isValid: boolean) => void;
   onFormChange: (data: Team | TeamUpdateForm) => void;
   initialData?: TeamUpdateForm;
+  teamId?: number;
 }
 
-export default function TeamForm({ mode, onValidationChange, onFormChange, initialData }: TeamFormProps) {
+export default function TeamForm({ mode, onValidationChange, onFormChange, initialData, teamId }: TeamFormProps) {
   const isUpdateMode = mode === 'update';
   const initial = isUpdateMode ? initialData : undefined;
   const [teamName, setTeamName] = useState(initial?.team_name || '');
@@ -174,7 +175,7 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
             selectedItem={userList.find((user) => user.id === teamLeaderId) ?? null}
             onSearch={async (term) => {
               if (term.length >= 2) {
-                const res = await fetchUserListAPI(GENERATION, undefined, term);
+                const res = await fetchUserListAPI(GENERATION, undefined, term, teamId);
                 setUserList(res.data.users);
               }
             }}

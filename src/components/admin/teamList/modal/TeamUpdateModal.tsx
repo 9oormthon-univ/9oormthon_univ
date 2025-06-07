@@ -90,6 +90,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
               fe_capacity: teamDetail?.fe_capacity ?? 0,
               be_capacity: teamDetail?.be_capacity ?? 0,
             }}
+            teamId={teamId}
           />
         ) : (
           <TeamInfoView teamDetail={teamDetail} />
