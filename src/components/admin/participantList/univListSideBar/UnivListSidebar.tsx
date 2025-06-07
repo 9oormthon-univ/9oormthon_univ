@@ -134,7 +134,13 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
           </SideNav.Item>
 
           {filteredUnivList.map((univ) => (
-            <SideNav.Item className={styles.univItem} key={univ.id} onClick={() => onSelectUniv(univ.id)}>
+            <SideNav.Item
+              className={styles.univItem}
+              key={univ.id}
+              onClick={() => {
+                onSelectUniv(univ.id);
+                setSelectedUnivId(univ.id);
+              }}>
               <SideNav.Link active={selectedUnivId === univ.id}>{univ.name}</SideNav.Link>
               <SideNav.Item.RightArea>
                 <Dropdown
