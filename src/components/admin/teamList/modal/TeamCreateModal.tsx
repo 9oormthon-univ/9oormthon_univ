@@ -26,15 +26,16 @@ export default function TeamCreateModal({ isOpen, toggle, onUpdate }: TeamCreate
       generation: GENERATION,
       ...formData,
     };
-    const res = await createTeamAPI(teamData);
-    if (res.success) {
+    try {
+      await createTeamAPI(teamData);
       toggle();
       toast('성공적으로 팀을 생성하였습니다.', {
         type: 'primary',
       });
       onUpdate();
-    } else {
-      toast(res.error.message || '팀 생성에 실패했습니다.', {
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
+      toast(message, {
         type: 'danger',
       });
     }

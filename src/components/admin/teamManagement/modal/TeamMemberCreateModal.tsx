@@ -27,9 +27,9 @@ export default function TeamMemberCreateModal({ isOpen, toggle, onUpdate }: Team
   // 팀원 추가
   const handleSubmit = async () => {
     if (!team_id) return;
-    const res = await addTeamMemberAPI(Number(team_id), selectedUser?.id ?? 0, role as Position);
 
-    if (res.success) {
+    try {
+      await addTeamMemberAPI(Number(team_id), selectedUser?.id ?? 0, role as Position);
       toast('성공적으로 팀원을 추가하였습니다.', {
         type: 'primary',
       });
@@ -37,8 +37,9 @@ export default function TeamMemberCreateModal({ isOpen, toggle, onUpdate }: Team
       setSelectedUser(null);
       toggle();
       onUpdate();
-    } else {
-      toast(res.error.message || '팀원 추가에 실패했습니다.', {
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
+      toast(message, {
         type: 'danger',
       });
     }

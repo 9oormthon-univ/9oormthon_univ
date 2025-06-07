@@ -1,4 +1,11 @@
+import { UserCreateForm } from '../../types/admin/member';
 import instance from '../instance';
+
+// 2.1 어드민 유저 생성
+export const createUserAPI = async (userData: UserCreateForm) => {
+  const response = await instance.post('/api/v1/admins/users', userData);
+  return response.data;
+};
 
 // 2.5 어드민 유저 간단 리스트 조회
 export const fetchUserListAPI = async (generation: number, univId?: number, search?: string) => {

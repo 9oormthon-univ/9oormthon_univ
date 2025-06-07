@@ -26,3 +26,11 @@ export interface User {
   id: number;
   description: string;
 }
+
+export interface UserCreateForm {
+  name: string;
+  univ_id: number;
+  email: string;
+  phone_number: string;
+  generations: number[];
+}
