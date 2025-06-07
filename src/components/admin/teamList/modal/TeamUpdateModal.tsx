@@ -40,18 +40,17 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
 
   // 팀 정보 수정
   const handleUpdateTeam = async () => {
-    try {
-      await updateTeamAPI(teamId, formData as TeamUpdateForm);
+    const res = await updateTeamAPI(teamId, formData as TeamUpdateForm);
+    if (res.success) {
       toast('성공적으로 팀 정보를 수정하였습니다.', {
         type: 'primary',
       });
       onUpdate();
       handleClose();
-    } catch (error) {
-      toast('팀 정보 수정에 실패했습니다.', {
+    } else {
+      toast(res.error.message || '팀 정보 수정에 실패했습니다.', {
         type: 'danger',
       });
-      console.error(error);
     }
   };
 

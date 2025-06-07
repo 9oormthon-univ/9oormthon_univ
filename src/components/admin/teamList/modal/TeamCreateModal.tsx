@@ -22,19 +22,21 @@ export default function TeamCreateModal({ isOpen, toggle, onUpdate }: TeamCreate
   });
 
   const handleCreateTeam = async () => {
-    try {
-      const teamData = {
-        generation: GENERATION,
-        ...formData,
-      };
-      await createTeamAPI(teamData);
+    const teamData = {
+      generation: GENERATION,
+      ...formData,
+    };
+    const res = await createTeamAPI(teamData);
+    if (res.success) {
       toggle();
       toast('성공적으로 팀을 생성하였습니다.', {
         type: 'primary',
       });
       onUpdate();
-    } catch (error) {
-      console.error('팀 생성 실패:', error);
+    } else {
+      toast(res.error.message || '팀 생성에 실패했습니다.', {
+        type: 'danger',
+      });
     }
   };
 

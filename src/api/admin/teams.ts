@@ -86,7 +86,7 @@ export const deleteTeamMemberAPI = async (member_id: number) => {
 
 // 4.14. 어드민 팀원 지원파트 변경
 export const updateTeamMemberPartAPI = async (member_id: number, role: Position) => {
-  const response = await instance.patch(`/api/v1/admins/members/${member_id}/part`, {
+  const response = await instance.patch(`/api/v1/admins/members/${member_id}/role`, {
     role,
   });
   return response.data;

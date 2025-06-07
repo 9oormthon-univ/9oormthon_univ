@@ -31,16 +31,15 @@ export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, me
 
   // 팀원 지원파트 수정
   const handleUpdateTeamMemberPart = async () => {
-    try {
-      await updateTeamMemberPartAPI(memberId, handleRoleChange || memberDetail?.role || Position.PM);
+    const res = await updateTeamMemberPartAPI(memberId, handleRoleChange || memberDetail?.role || Position.PM);
+    if (res.success) {
       toast('지원파트가 수정되었습니다', {
         type: 'primary',
       });
       handleToggleEdit();
       toggle();
-    } catch (error) {
-      console.error(error);
-      toast('지원파트 수정에 실패했습니다', {
+    } else {
+      toast(res.error.message || '지원파트 수정에 실패했습니다', {
         type: 'danger',
       });
     }
@@ -68,7 +67,7 @@ export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, me
       <ModalFooter>
         {isEditMode ? (
           <>
-            <Button size="lg" color="secondary" onClick={toggle}>
+            <Button size="lg" color="secondary" onClick={handleToggleEdit}>
               취소
             </Button>
             <Button size="lg" color="primary" onClick={handleUpdateTeamMemberPart}>
