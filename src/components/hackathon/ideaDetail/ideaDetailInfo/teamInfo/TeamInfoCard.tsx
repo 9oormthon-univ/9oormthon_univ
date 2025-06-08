@@ -14,6 +14,7 @@ interface TeamInfoCardProps {
     id: number;
     name: string;
     imgUrl: string;
+    is_leader: boolean;
   }[];
   ratio: string;
 }
@@ -51,7 +52,13 @@ export default function TeamInfoCard({
           <>
             <div className={styles.teamMemberInfoContainer}>
               {currentMembers.map((member) => (
-                <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.imgUrl} />
+                <MemberInfoItem
+                  key={member.id}
+                  id={member.id}
+                  name={member.name}
+                  imgUrl={member.imgUrl}
+                  is_leader={member.is_leader}
+                />
               ))}
             </div>
             <Text as="span" typography="subtitle2" color="text-hint">
@@ -74,7 +81,13 @@ export default function TeamInfoCard({
           </div>
           <div className={styles.teamMemberInfoContainerMobile}>
             {currentMembers.map((member) => (
-              <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.imgUrl} />
+              <MemberInfoItem
+                key={member.id}
+                id={member.id}
+                name={member.name}
+                imgUrl={member.imgUrl}
+                is_leader={member.is_leader}
+              />
             ))}
           </div>
         </>

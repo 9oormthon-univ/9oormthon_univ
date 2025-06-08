@@ -8,6 +8,7 @@ interface TeamMember {
   img_url: string;
   name: string;
   univ: string;
+  is_leader: boolean;
 }
 
 interface PositionRequirement {
@@ -44,6 +45,7 @@ export default function TeamInfo({ requirements }: TeamInfoProps) {
               id: member.id,
               name: member.name,
               imgUrl: member.img_url,
+              is_leader: member.is_leader,
             }))}
             ratio={info.ratio}
           />

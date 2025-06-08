@@ -11,6 +11,7 @@ import BackLinkNavigation from '../common/BackLinkNavigation';
 import { fetchIdeaSubjects } from '../../../api/idea';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import { PositionWithoutNull } from '../../../constants/position';
+import { GENERATION } from '../../../constants/common';
 interface TeamPreferenceStep1Props {
   formData: any;
   nextStep: () => void;
@@ -25,7 +26,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   useEffect(() => {
     const loadTopics = async () => {
       try {
-        const response = await fetchIdeaSubjects();
+        const response = await fetchIdeaSubjects(GENERATION);
         const activeTopics = response.data.idea_subjects
           .filter((topic: { is_active: boolean }) => topic.is_active)
           .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));

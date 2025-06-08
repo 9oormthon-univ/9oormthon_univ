@@ -5,6 +5,7 @@ import IdeaApplyListItem from '../../../../components/hackathon/teamBuilding/Ide
 import { getMyApplySummary } from '../../../../api/users';
 import usePeriodStore from '../../../../store/usePeriodStore';
 import TeamBuildingPhaseSelector from '../../../../components/hackathon/teamBuilding/TeamBuildingPhaseSelector';
+import { GENERATION } from '../../../../constants/common';
 
 export default function ApplicantPage() {
   const [buttonIndex, setButtonIndex] = useState(0);
@@ -20,7 +21,7 @@ export default function ApplicantPage() {
   // 지원 내역 조회
   const fetchApplySummary = async () => {
     try {
-      const response = await getMyApplySummary(4, buttonIndex + 1);
+      const response = await getMyApplySummary(GENERATION, buttonIndex + 1);
       setApplySummary(response.data);
     } catch (error) {
       console.error('Error fetching apply summary:', error);
@@ -44,6 +45,7 @@ export default function ApplicantPage() {
           applySummary={apply}
           phase={buttonIndex + 1}
           onDeleteSuccess={fetchApplySummary}
+          applyIndex={applySummary?.applies?.indexOf(apply) + 1}
         />
       ))}
     </div>

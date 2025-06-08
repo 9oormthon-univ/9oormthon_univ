@@ -5,25 +5,7 @@ import MemberInfoItem from '../common/team/MemberInfoItem';
 import { useEffect, useRef, useState } from 'react';
 import { GENERATION } from '../../../constants/common';
 import { updateTeamInfo } from '../../../api/teams';
-
-interface TeamMember {
-  id: number;
-  name: string;
-  img_url: string;
-}
-
-interface RoleInfo {
-  max_count: number;
-  current_count: number;
-  members?: TeamMember[]; // 팀 멤버가 없을 수도 있음.
-}
-
-interface TeamRole {
-  pm?: RoleInfo;
-  pd?: RoleInfo;
-  be?: RoleInfo;
-  fe?: RoleInfo;
-}
+import { TeamRole } from '../../../types/user/team';
 
 interface TeamInformationProps {
   viewer?: boolean; // 보기 전용인지
@@ -140,7 +122,13 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
           <div className={styles.teamInformContentItem}>
             {roleInfo?.members && roleInfo.members.length > 0 ? (
               roleInfo.members.map((member) => (
-                <MemberInfoItem key={member.id} id={member.id} name={member.name} imgUrl={member.img_url} />
+                <MemberInfoItem
+                  key={member.id}
+                  id={member.id}
+                  name={member.name}
+                  imgUrl={member.img_url}
+                  is_leader={member.is_leader}
+                />
               ))
             ) : (
               <MemberInfoItem name="팀원 없음" />

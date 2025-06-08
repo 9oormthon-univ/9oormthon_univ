@@ -65,3 +65,9 @@
     background: var(--gray-600-transparent-8) !important;
   }
 }
+
+.memberInfoName {
+  display: flex;
+  align-items: center;
+  gap: var(--space-050);
+}

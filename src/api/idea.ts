@@ -55,9 +55,9 @@ export const updateIdeaAPI = async (
   await instance.put(`/api/v1/users/ideas/${idea_id}`, idea);
 };
 
-// 아이디어 주제 조회 API
-export const fetchIdeaSubjects = async () => {
-  const response = await instance.get('/api/v1/idea-subjects/briefs');
+// 3.9 아이디어 주제 간단 리스트 조회
+export const fetchIdeaSubjects = async (generation: number) => {
+  const response = await instance.get(`/api/v1/users/idea-subjects/briefs?generation=${generation}`);
   return response.data;
 };
 
