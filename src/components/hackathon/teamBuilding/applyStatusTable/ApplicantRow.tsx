@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 import ApplyDecisionModal from './ApplyDecisionModal';
 import { useNavigate } from 'react-router-dom';
 import usePeriodStore from '../../../../store/usePeriodStore';
-import { PositionWithoutNull } from '../../../../constants/position';
+import { POSITION_NAME, PositionWithoutNull } from '../../../../constants/position';
 
 interface User {
   id: number;
@@ -28,13 +28,6 @@ interface ApplicantRowProps {
   applicant: Applicant;
   refetchApplyStatus: () => Promise<void>;
 }
-
-const roleMap: Record<PositionWithoutNull, string> = {
-  PM: '기획',
-  PD: '디자인',
-  BE: '백엔드',
-  FE: '프론트엔드',
-};
 
 const statusMap = {
   ACCEPTED: { text: '수락 완료', color: 'text-success' },
@@ -70,7 +63,7 @@ export default function ApplicantRow({ applicant, refetchApplyStatus }: Applican
           <OutOutlineIcon />
         </td>
         <td>
-          <Text typography="body3">{roleMap[applicant.role as keyof typeof roleMap]}</Text>
+          <Text typography="body3">{POSITION_NAME[applicant.role as PositionWithoutNull]}</Text>
         </td>
         <td>
           <Text typography="body3">{applicant.user.univ}</Text>
@@ -123,7 +116,7 @@ export default function ApplicantRow({ applicant, refetchApplyStatus }: Applican
             id: applicant.id,
             motivation: applicant.motivation,
             name: applicant.user.name,
-            role: applicant.role,
+            role: applicant.role as PositionWithoutNull,
             univ: applicant.user.univ,
           }}
         />
