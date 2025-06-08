@@ -8,16 +8,18 @@ export interface TeamMember {
 export interface RoleInfo {
   max_count: number;
   current_count: number;
-  members: TeamMember[];
+  members?: TeamMember[];
+}
+
+export interface TeamRole {
+  pm?: RoleInfo;
+  pd?: RoleInfo;
+  fe?: RoleInfo;
+  be?: RoleInfo;
 }
 
 export interface TeamInfo {
   number?: number;
   name?: string;
-  role: {
-    pm?: RoleInfo;
-    pd?: RoleInfo;
-    fe?: RoleInfo;
-    be?: RoleInfo;
-  };
+  role: TeamRole;
 }
