@@ -59,7 +59,7 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
         {`${position.index + 1}. ${POSITIONS[position.key as keyof typeof POSITIONS].name}`}
       </Text>
       <FormDropdown
-        label="필요 인원"
+        label="필요 인원 (본인 포함)"
         nullable={false}
         selectedValue={currentValue?.capacity?.toString() || '0'}
         placeholder="인원을 선택해주세요"
