@@ -42,7 +42,7 @@ export default function SignUp() {
   return (
     <div className={styles.updatePWContainer}>
       <div className={styles.header}>
-        <Button icon={BackPageOutlineIcon} color="secondary"></Button>
+        <Button icon={BackPageOutlineIcon} color="secondary" onClick={() => navigate(-1)}></Button>
         <Text typography="heading3" color="gray-900">
           비밀번호 변경
         </Text>
