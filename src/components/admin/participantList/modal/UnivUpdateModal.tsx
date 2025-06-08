@@ -26,7 +26,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
       setForm({
         name: res.data.name,
         instagram_url: res.data.instagram_url,
-        leader_id: res.data.leader || undefined,
+        leader_id: res.data.leader.id || undefined,
       });
     } catch (error: any) {
       const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
