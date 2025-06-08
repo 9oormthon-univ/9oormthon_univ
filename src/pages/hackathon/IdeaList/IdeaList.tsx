@@ -74,7 +74,7 @@ export default function IdeaList() {
 
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
-  const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(undefined);
+  const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(true);
   const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
 
