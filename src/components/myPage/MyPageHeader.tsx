@@ -11,6 +11,7 @@ import {
 import styles from './styles.module.scss';
 import { LinkType } from '../../constants/linkType';
 import { useNavigate } from 'react-router-dom';
+import notfound from '../../assets/images/notfound.png';
 export interface Link {
   type: LinkType;
   url: string;
@@ -46,25 +47,25 @@ export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPag
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}>
-        <img src={img_url} alt="profile" />
+        <img src={img_url || notfound} alt="profile" />
       </div>
       <div className={styles.headerRight}>
         <div className={styles.headerRightTop}>
           <div className={styles.headerInfo}>
             <Text as="h6" typography="heading6" color="text-normal">
-              {name}
+              {name || '이름 없음'}
             </Text>
             <div className={styles.headerInfoEmailUniv}>
               <div className={styles.headerInfoEmailUnivItem}>
                 <MailIcon />
                 <Text as="p" typography="body2" color="text-alternative">
-                  {email}
+                  {email || '이메일 없음'}
                 </Text>
               </div>
               <div className={styles.headerInfoEmailUnivItem}>
                 <SchoolIcon />
                 <Text as="p" typography="body2" color="text-alternative">
-                  {univ}
+                  {univ || '학교 없음'}
                 </Text>
               </div>
             </div>

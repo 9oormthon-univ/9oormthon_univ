@@ -25,14 +25,13 @@ const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE'> | 'ADMIN', string> = {
 
 // 상태 옵션
 const statusOptions = [
-  { label: '전체', value: undefined },
   { label: '모집 중', value: true },
   { label: '모집 완료', value: false },
 ];
 
 // 북마크 옵션
 const bookmarkOptions = [
-  { label: '전체', value: undefined },
+  { label: '전체 아이디어', value: undefined },
   { label: '찜한 아이디어', value: true },
 ];
 
@@ -93,7 +92,7 @@ export default function IdeaList() {
         const activeTopics = response.data.idea_subjects
           .filter((topic: { is_active: boolean }) => topic.is_active)
           .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
-        setHackathonTopics([{ id: 0, name: '전체' }, ...activeTopics]); // "전체" 옵션 추가
+        setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
       } catch (error) {
         console.error('Error fetching idea subjects:', error);
       }
@@ -156,6 +155,9 @@ export default function IdeaList() {
 
     try {
       await addIdeaBookmark(ideaId);
+      toast('북마크 상태가 변경되었습니다.', {
+        type: 'primary',
+      });
     } catch (error: any) {
       console.error('Error toggling bookmark:', error);
       if (error.response) {
@@ -164,6 +166,7 @@ export default function IdeaList() {
           toast('본인 아이디어는 북마크 할 수 없습니다.', {
             type: 'danger',
           });
+          return;
         }
       }
 
@@ -173,6 +176,9 @@ export default function IdeaList() {
           idea.id === ideaId ? { ...idea, is_bookmarked: !idea.is_bookmarked } : idea,
         ),
       }));
+      toast('북마크 상태 변경에 실패했습니다.', {
+        type: 'danger',
+      });
     }
   };
 

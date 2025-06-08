@@ -1,7 +1,7 @@
 import { Avatar, Button } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
 import { Input } from '@goorm-dev/vapor-components';
-import UnivSearchDropdown from '../modal/dropdown/UnivSearchDropdown';
+
 import GenerationSelectDropdown from '../modal/dropdown/GenerationSelectDropdown';
 import styles from './form.module.scss';
 import { ImageIcon } from '@goorm-dev/vapor-icons';
@@ -10,6 +10,7 @@ import { Univ } from '../../../../types/admin/univ';
 import { fetchUnivListAPI } from '../../../../api/admin/univs';
 import { GENERATION } from '../../../../constants/common';
 import { UserForm } from '../../../../types/admin/member';
+import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
 
 interface MemberFormProps {
   showProfileEdit?: boolean;
@@ -78,22 +79,34 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
         )}
         <FormField label="이름" required>
           <Input
-            bsSize="lg"
+            size="lg"
             placeholder="이름을 입력해주세요"
             value={member?.name}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('name', e.target.value)}
           />
         </FormField>
         <FormField label="학교" required>
-          <UnivSearchDropdown
-            value={univList.find((univ) => univ.id === member?.univ_id)?.name ?? ''}
-            onChange={(univ) => onChange?.('univ_id', univ.id)}
-            univList={univList}
+          <SearchDropdown
+            items={univList.map((univ) => ({
+              id: univ.id,
+              description: univ.name,
+            }))}
+            selectedItem={
+              univList.find((univ) => univ.id === member?.univ_id)
+                ? {
+                    id: univList.find((univ) => univ.id === member?.univ_id)?.id || 0,
+                    description: univList.find((univ) => univ.id === member?.univ_id)?.name ?? '',
+                  }
+                : null
+            }
+            onSelect={(univ) => onChange?.('univ_id', univ.id)}
+            inPlaceholder="학교를 검색해주세요"
+            outPlaceholder="학교를 선택해주세요"
           />
         </FormField>
         <FormField label="이메일" required>
           <Input
-            bsSize="lg"
+            size="lg"
             placeholder="이메일을 입력해주세요"
             value={member?.email}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('email', e.target.value)}
@@ -101,8 +114,8 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
         </FormField>
         <FormField label="전화번호" required>
           <Input
-            bsSize="lg"
-            placeholder="000-0000-0000"
+            size="lg"
+            placeholder="-빼고 입력해주세요"
             value={member?.phone_number}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('phone_number', e.target.value)}
           />

@@ -6,12 +6,14 @@ import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
 import usePeriodStore from '../../store/usePeriodStore';
+import { Role } from '../../constants/role';
 
 export default function SignUpCard() {
   const navigate = useNavigate();
 
   const { login } = useAuthStore();
   const { fetchPeriodData } = usePeriodStore();
+  const { fetchUserStatus } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -38,7 +40,12 @@ export default function SignUpCard() {
     try {
       await login(email, password);
       await fetchPeriodData();
-      navigate('/');
+      await fetchUserStatus();
+      if (useAuthStore.getState().role === Role.ADMIN) {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     } catch (error: any) {
       setErrorMessage(error.response.data.error?.message || '알 수 없는 오류가 발생했습니다.');
       console.log(error.response.data.error?.message);

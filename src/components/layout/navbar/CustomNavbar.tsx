@@ -56,8 +56,6 @@ function CustomNavbar() {
 
     const currentStatus = useAuthStore.getState().status ?? UserStatus.NONE;
 
-    console.log(currentStatus);
-
     switch (currentStatus) {
       case UserStatus.PROVIDER:
         navigate('/team/provider');
@@ -72,6 +70,19 @@ function CustomNavbar() {
       default:
         console.error('Unknown status:', currentStatus);
         alert('알 수 없는 오류가 발생했습니다.');
+    }
+  };
+
+  const handleClickMyTeam = async () => {
+    await fetchPeriodData();
+    await fetchUserStatus();
+
+    const currentStatus = useAuthStore.getState().status ?? UserStatus.NONE;
+
+    if (currentStatus === UserStatus.PROVIDER || currentStatus === UserStatus.MEMBER) {
+      navigate('/team/my-team');
+    } else {
+      alert('아직 팀 빌딩을 진행하지 않았습니다.');
     }
   };
 
@@ -111,7 +122,8 @@ function CustomNavbar() {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem onClick={() => navigate('/hackathon')}>아이디어</DropdownItem>
-                <DropdownItem onClick={handleClickHackathon}>나의 팀</DropdownItem>
+                <DropdownItem onClick={handleClickHackathon}>지원 현황</DropdownItem>
+                <DropdownItem onClick={handleClickMyTeam}>나의 팀</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}

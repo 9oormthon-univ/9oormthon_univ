@@ -1,10 +1,21 @@
-import { Text, Badge, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from '@goorm-dev/vapor-components';
+import {
+  Text,
+  Badge,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+  toast,
+} from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon, OutOutlineIcon } from '@goorm-dev/vapor-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useBreakPoint from '../../../hooks/useBreakPoint';
 import usePeriodStore from '../../../store/usePeriodStore';
+import useAuthStore from '../../../store/useAuthStore';
+import { UserStatus } from '../../../constants/role';
 interface IdeaDetailHeaderProps {
   id: number;
   provider_id: number;
@@ -37,6 +48,30 @@ export default function IdeaDetailHeader({
   const navigate = useNavigate();
   const breakpoint = useBreakPoint();
   const { current_period } = usePeriodStore();
+  const { status, fetchUserStatus } = useAuthStore();
+
+  // 사용자 상태 조회
+  useEffect(() => {
+    fetchUserStatus();
+  }, []);
+
+  const handleApplyIdea = () => {
+    if (status === UserStatus.APPLICANT || status === UserStatus.NONE) {
+      navigate(`/hackathon/apply/${id}`);
+    } else if (status === UserStatus.PROVIDER) {
+      toast('이미 등록한 아이디어가 있어 지원할 수 없습니다.', {
+        type: 'danger',
+      });
+    } else if (status === UserStatus.MEMBER) {
+      toast('이미 다른 팀에 소속되어 있어 지원할 수 없습니다.', {
+        type: 'danger',
+      });
+    } else {
+      toast('지원 가능한 상태가 아닙니다.', {
+        type: 'danger',
+      });
+    }
+  };
 
   return (
     <div className={styles.headerContainer}>
@@ -82,12 +117,7 @@ export default function IdeaDetailHeader({
                   icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
                   onClick={onBookmarkToggle}
                 />
-                <Button
-                  color="primary"
-                  size="lg"
-                  onClick={() => {
-                    navigate(`/hackathon/apply/${id}`);
-                  }}>
+                <Button color="primary" size="lg" onClick={handleApplyIdea}>
                   지원하기
                 </Button>
               </div>
@@ -111,13 +141,7 @@ export default function IdeaDetailHeader({
         </div>
         {!is_provider && ['sm', 'xs'].includes(breakpoint) && (
           <div className={styles.applyButtonMobile}>
-            <Button
-              color="primary"
-              size="lg"
-              block
-              onClick={() => {
-                navigate(`/hackathon/apply/${id}`);
-              }}>
+            <Button color="primary" size="lg" block onClick={handleApplyIdea}>
               지원하기
             </Button>
             <Button

@@ -186,13 +186,7 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
         isOpen={isUnivUpdateModalOpen}
         toggle={() => setIsUnivUpdateModalOpen((prev) => !prev)}
         univId={selectedUnivId}
-        onSuccess={() => {
-          onRefreshUnivList();
-          toast('유니브 정보 수정이 완료되었습니다.', {
-            type: 'primary',
-          });
-          setIsUnivUpdateModalOpen(false);
-        }}
+        onSuccess={onRefreshUnivList}
       />
       <InformationModal
         isOpen={isUnivDeleteModalOpen}

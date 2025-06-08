@@ -8,6 +8,7 @@ import { addIdeaBookmark, fetchIdeaDetailById, fetchMyIdeaDetail } from '../../.
 import { useParams } from 'react-router-dom';
 import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 import { MOCK_IDEA_DETAIL } from './mockUpData';
+import { toast } from '@goorm-dev/vapor-components';
 
 export default function IdeaDetail() {
   const { idea_id } = useParams();
@@ -53,6 +54,9 @@ export default function IdeaDetail() {
 
     try {
       await addIdeaBookmark(idea_info.id);
+      toast('북마크 상태가 변경되었습니다.', {
+        type: 'primary',
+      });
     } catch (error) {
       console.error('Error toggling bookmark:', error);
 
@@ -63,6 +67,9 @@ export default function IdeaDetail() {
           is_bookmarked: !prevState.idea_info.is_bookmarked,
         },
       }));
+      toast('북마크 상태 변경에 실패했습니다.', {
+        type: 'danger',
+      });
     }
   };
 

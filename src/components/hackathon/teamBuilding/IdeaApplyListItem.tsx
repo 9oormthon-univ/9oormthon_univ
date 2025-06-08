@@ -94,7 +94,7 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
             {statusMap[apply_info.status].text}
           </Text>
           <Text typography="subtitle2" color="text-hint">
-            지원 비율 {apply_info.ratio}
+            경쟁률 {apply_info.ratio}
           </Text>
         </div>
         {/* 팀 빌딩 기간이라면 지원 취소 가능 */}

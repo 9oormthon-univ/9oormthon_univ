@@ -162,19 +162,19 @@ export default function MyPageEdit() {
             <div className={styles.editFormHeaderRight}>
               <div className={styles.profileName}>
                 <Text as="h6" typography="heading6" color="text-normal">
-                  {userInfo.name}
+                  {userInfo.name || '이름 없음'}
                 </Text>
                 <div className={styles.profileEmailUniv}>
                   <div className={styles.profileEmailUnivItem}>
                     <MailIcon />
                     <Text as="p" typography="body2" color="text-alternative">
-                      {userInfo.email}
+                      {userInfo.email || '이메일 없음'}
                     </Text>
                   </div>
                   <div className={styles.profileEmailUnivItem}>
                     <SchoolIcon />
                     <Text as="p" typography="body2" color="text-alternative">
-                      {userInfo.univ}
+                      {userInfo.univ || '학교 없음'}
                     </Text>
                   </div>
                 </div>

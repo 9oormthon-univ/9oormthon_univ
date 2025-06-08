@@ -38,8 +38,9 @@
 }
 
 .contentStackContainer {
-  display: flex;
+  display: grid;
   gap: var(--space-100);
+  grid-template-columns: repeat(auto-fill, minmax(3.5rem, 1fr));
 }
 
 // MyPageEdit

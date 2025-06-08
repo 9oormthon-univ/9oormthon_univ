@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { getUserBriefAPI, loginAPI, logoutAPI } from '../api/auth';
 import { Role, UserStatus } from '../constants/role';
+import { toast } from '@goorm-dev/vapor-components';
 
 // Enum 변환 유틸 함수
 const parseEnumValue = <T extends Record<string, string>>(
@@ -78,8 +79,14 @@ const useAuthStore = create<AuthStore>((set) => ({
   logout: async () => {
     try {
       await logoutAPI();
+      toast('로그아웃 되었습니다.', {
+        type: 'primary',
+      });
     } catch (error) {
       console.error('Logout error', error);
+      toast('로그아웃에 실패했습니다.', {
+        type: 'danger',
+      });
     }
 
     localStorage.setItem('role', Role.GUEST);
@@ -104,12 +111,17 @@ const useAuthStore = create<AuthStore>((set) => ({
   fetchUserStatus: async () => {
     try {
       const response = await getUserBriefAPI();
-      const { status } = response.data;
+      const { role, img_url, status } = response.data;
 
       const parsedStatus = parseEnumValue(UserStatus, status, UserStatus.NONE);
+      const parsedRole = parseEnumValue(Role, role, Role.GUEST);
+      const parsedImgUrl = img_url || null;
+
+      localStorage.setItem('role', parsedRole);
+      localStorage.setItem('img_url', parsedImgUrl);
       localStorage.setItem('status', parsedStatus);
 
-      set({ status: parsedStatus });
+      set({ status: parsedStatus, role: parsedRole, img_url: parsedImgUrl });
     } catch (error) {
       console.error('Error fetching user status:', error);
       throw error;

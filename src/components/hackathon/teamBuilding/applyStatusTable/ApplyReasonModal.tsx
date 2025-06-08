@@ -1,11 +1,13 @@
 import { Modal, ModalBody, ModalHeader, Text } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 
+import { POSITION_NAME, PositionWithoutNull } from '../../../../constants/position';
+
 interface ApplyReason {
   id: number;
   motivation: string;
   name: string;
-  role: string;
+  role: PositionWithoutNull; // 지원자의 포지션
   univ: string;
 }
 
@@ -18,16 +20,17 @@ interface ApplyInfoProps {
 export default function ApplyReasonModal({ applyInfo, toggle, isOpen }: ApplyInfoProps) {
   return (
     <Modal type="center" isOpen={isOpen} toggle={toggle}>
-      <ModalHeader toggle={toggle} />
-      <ModalBody className={styles.modalReasonBody}>
+      <ModalHeader toggle={toggle}>
         <Text as="h5" typography="heading5">
           지원 사유
         </Text>
+      </ModalHeader>
+      <ModalBody className={styles.modalReasonBody}>
         <Text as="p" typography="body2">
           {applyInfo.motivation}
         </Text>
         <Text as="span" typography="body3" color="text-alternative">
-          {applyInfo.name} / {applyInfo.role} / {applyInfo.univ}
+          {applyInfo.name} / {POSITION_NAME[applyInfo.role]} / {applyInfo.univ}
         </Text>
       </ModalBody>
     </Modal>

@@ -21,12 +21,12 @@ const MyIdeaDetail = lazy(() => import('./pages/hackathon/IdeaDetail/IdeaDetail'
 const IdeaApply = lazy(() => import('./pages/hackathon/IdeaApply/IdeaApply'));
 const TeamBuildProvider = lazy(() => import('./pages/hackathon/teamBuilding/provider/ProviderPage'));
 const TeamBuildApplicant = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantPage'));
-const ApplicantTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/applicant/ApplicantTeamPage'));
+const MyTeamPage = lazy(() => import('./pages/hackathon/teamBuilding/myTeam/MyTeamPage'));
 const TeamPreferenceForm = lazy(() => import('./pages/hackathon/IdeaCreateEdit/TeamPreferenceForm'));
 const ParticipantList = lazy(() => import('./pages/admin/participantList/ParticipantList'));
 const TeamList = lazy(() => import('./pages/admin/teamListAdmin/TeamList'));
 const TeamManagement = lazy(() => import('./pages/admin/teamManagement/TeamManagement'));
-const TeamBuildingPeriodPage = lazy(() => import('./pages/admin/period/teamBuildingPeriod/TeamBuildingPeriodPage'));  
+const TeamBuildingPeriodPage = lazy(() => import('./pages/admin/period/teamBuildingPeriod/TeamBuildingPeriodPage'));
 
 const loaderProps = {
   color: 'black',
@@ -148,7 +148,15 @@ const router = createBrowserRouter([
             path: 'detail',
             element: (
               <Suspense fallback={<GoormLoader {...loaderProps} />}>
-                <ApplicantTeamPage />
+                <MyTeamPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'my-team',
+            element: (
+              <Suspense fallback={<GoormLoader {...loaderProps} />}>
+                <MyTeamPage />
               </Suspense>
             ),
           },
