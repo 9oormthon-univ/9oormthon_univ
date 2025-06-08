@@ -39,15 +39,19 @@ export default function ApplicantPage() {
       </Text>
       <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
 
-      {applySummary?.applies?.map((apply: any) => (
-        <IdeaApplyListItem
-          key={apply.apply_info.id}
-          applySummary={apply}
-          phase={buttonIndex + 1}
-          onDeleteSuccess={fetchApplySummary}
-          applyIndex={applySummary?.applies?.indexOf(apply) + 1}
-        />
-      ))}
+      {applySummary?.applies?.length > 0 ? (
+        applySummary?.applies?.map((apply: any) => (
+          <IdeaApplyListItem
+            key={apply.apply_info.id}
+            applySummary={apply}
+            phase={buttonIndex + 1}
+            onDeleteSuccess={fetchApplySummary}
+            applyIndex={applySummary?.applies?.indexOf(apply) + 1}
+          />
+        ))
+      ) : (
+        <Text typography="body1">지원 내역이 없습니다.</Text>
+      )}
     </div>
   );
 }
