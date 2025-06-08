@@ -126,7 +126,7 @@ export default function SearchDropdown({
         </div>
 
         <DropdownItem divider />
-        <div className={styles.dropdownMenu}>
+        <div className={styles.filterItemMenu}>
           {filteredItems.length > 0 ? (
             filteredItems.map((item) => (
               <DropdownItem key={item.id} onClick={() => handleItemSelect(item)}>
