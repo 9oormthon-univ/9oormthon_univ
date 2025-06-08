@@ -205,7 +205,7 @@ export default function FormEditor({
             )}
 
             <Text typography="subtitle1" color="text-alternative">
-              이미지를 드래그하거나 이곳을 클릭해서 추가해주세요.
+              이 곳을 클릭해서 이미지를 추가해 주세요.
             </Text>
           </div>
         )}
