@@ -13,6 +13,7 @@ import { EditIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import usePeriodStore from '../../../store/usePeriodStore';
 import { UserStatus, Role } from '../../../constants/role';
 import useAuthStore from '../../../store/useAuthStore';
+import { GENERATION } from '../../../constants/common';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE'> | 'ADMIN', string> = {
@@ -88,7 +89,7 @@ export default function IdeaList() {
   useEffect(() => {
     const loadTopics = async () => {
       try {
-        const response = await fetchIdeaSubjects();
+        const response = await fetchIdeaSubjects(GENERATION);
         const activeTopics = response.data.idea_subjects
           .filter((topic: { is_active: boolean }) => topic.is_active)
           .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
