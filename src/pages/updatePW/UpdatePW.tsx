@@ -1,11 +1,13 @@
 import { BackPageOutlineIcon, WarningIcon } from '@goorm-dev/vapor-icons';
-import { Alert, Button, Input, Text } from '@goorm-dev/vapor-components';
+import { Alert, Button, Input, Text, toast } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 
 import { useState } from 'react';
 import { resetPasswordAPI } from '../../api/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,15 +22,20 @@ export default function SignUp() {
       return;
     }
     try {
-      const response = await resetPasswordAPI(currentPassword, newPassword);
-      console.log(response);
-      if (response.status !== 200) {
-        setAlertMessage(response.message);
-      } else {
-        setAlertMessage(null);
-      }
-    } catch (error) {
+      await resetPasswordAPI(currentPassword, newPassword);
+      navigate('/my-page');
+      toast('비밀번호 변경이 완료되었습니다.', {
+        type: 'primary',
+      });
+    } catch (error: any) {
       console.error('비밀번호 변경 실패', error);
+      setAlertMessage(error?.response?.data?.message || '비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
     }
   };
 
@@ -56,6 +63,7 @@ export default function SignUp() {
               type="password"
               value={currentPassword}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPassword(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </div>
         )}
@@ -72,6 +80,7 @@ export default function SignUp() {
             type="password"
             value={newPassword}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <div className={styles.inputGroup}>
@@ -87,6 +96,7 @@ export default function SignUp() {
             type="password"
             value={confirmPassword}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
       </div>
