@@ -44,12 +44,7 @@ const statusMap = {
   ACCEPTED_NOT_JOINED: { text: '-', color: 'text-hint' },
 } as const;
 
-export default function IdeaApplyListItem({
-  applySummary,
-  phase,
-  onDeleteSuccess,
-  applyIndex,
-}: IdeaApplyListItemProps) {
+export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, applyIndex }: IdeaApplyListItemProps) {
   const { apply_info, idea_info } = applySummary;
   const navigate = useNavigate();
 
@@ -103,16 +98,18 @@ export default function IdeaApplyListItem({
           </Text>
         </div>
         {/* 팀 빌딩 기간이라면 지원 취소 가능 */}
-        {isTeamBuildingPeriod() ? (
-          <Button size="sm" color="secondary" onClick={handleDeleteApply}>
-            지원 취소
-          </Button>
-        ) : apply_info.status === 'CONFIRMED' ? (
+        {apply_info.status === 'CONFIRMED' ? (
           <Button size="sm" color="secondary" onClick={() => navigate('/team/detail')}>
             팀 정보 보기
           </Button>
         ) : (
-          <Button size="sm" color="secondary" disabled>
+          <Button
+            size="sm"
+            color="secondary"
+            onClick={handleDeleteApply}
+            disabled={
+              !isTeamBuildingPeriod() || (apply_info.status !== 'ACCEPTED' && apply_info.status !== 'REJECTED')
+            }>
             지원 취소
           </Button>
         )}
