@@ -58,14 +58,6 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
       <Text as="h6" typography="heading6" color="text-normal" style={{ marginBottom: 'var(--space-200)' }}>
         {`${position.index + 1}. ${POSITIONS[position.key as keyof typeof POSITIONS].name}`}
       </Text>
-      <FormTextarea
-        label="원하는 팀원상"
-        nullable={false}
-        placeholder="이런 팀원과 함께 하고싶어요"
-        value={currentValue.requirement}
-        onChange={(e) => handleChange({ requirement: e.target.value })}
-        disabled={isDisabled}
-      />
       <FormDropdown
         label="필요 인원"
         nullable={false}
@@ -74,6 +66,14 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
         // 직군에 따라 최대 팀원 수 다름
         options={Array.from({ length: getMaxCapacity(position.key) + 1 }, (_, i) => ({ id: i, name: i.toString() }))}
         onChange={(e) => handleChange({ capacity: parseInt(e.target.value) })}
+        disabled={isDisabled}
+      />
+      <FormTextarea
+        label="원하는 팀원상"
+        nullable={true}
+        placeholder="이런 팀원과 함께 하고싶어요"
+        value={currentValue.requirement}
+        onChange={(e) => handleChange({ requirement: e.target.value })}
         disabled={isDisabled}
       />
       <StackSelector
