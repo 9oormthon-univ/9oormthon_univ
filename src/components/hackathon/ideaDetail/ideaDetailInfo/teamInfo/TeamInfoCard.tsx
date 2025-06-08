@@ -62,7 +62,7 @@ export default function TeamInfoCard({
               ))}
             </div>
             <Text as="span" typography="subtitle2" color="text-hint">
-              지원 비율 {ratio}
+              경쟁률 {ratio}
             </Text>
           </>
         )}
