@@ -148,10 +148,6 @@
   padding: var(--space-100) var(--space-200) !important;
 }
 
-:global(.undefined) {
-  height: fit-content !important;
-}
-
 :global(.w-md-editor-toolbar li > button:disabled) {
   opacity: 0.5 !important;
 }

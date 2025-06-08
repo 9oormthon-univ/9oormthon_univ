@@ -24,7 +24,7 @@ export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
     await deleteUserAPI(member.id);
     onUpdate();
     toast('미르미를 삭제했습니다.', {
-      type: 'success',
+      type: 'primary',
     });
   };
 
