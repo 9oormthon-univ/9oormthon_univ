@@ -92,7 +92,7 @@ export const addIdeaBookmark = async (idea_id: number) => {
   return response.data;
 };
 
-// 내 잔여 지망 간단 리스트 조회 API
+// 3.11 내 잔여 지망 간단 리스트 조회 API
 export const fetchMyRemainingRanks = async (generation: number, phase: number) => {
   const response = await instance.get(`/api/v1/users/applies/briefs?generation=${generation}&phase=${phase}`);
   return response.data;

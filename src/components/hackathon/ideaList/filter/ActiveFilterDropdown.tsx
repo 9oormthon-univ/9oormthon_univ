@@ -18,7 +18,7 @@ export default function ActiveFilterDropdown({
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => !disabled && setIsOpen(!isOpen);
 
-  const selectedLabel = options.find((option) => option.value === selectedValue)?.label || '전체';
+  const selectedLabel = options.find((option) => option.value === selectedValue)?.label;
 
   return (
     <Dropdown direction="down" size="lg" isOpen={isOpen} toggle={toggle} disabled={disabled}>

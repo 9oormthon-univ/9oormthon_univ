@@ -70,11 +70,12 @@ export default function IdeaList() {
     PHASE2_CONFIRMATION: `지금은 2차 팀빌딩 합불 결정 기간입니다. (${phase2_confirmation_period})`,
     PHASE3_TEAM_BUILDING: `지금은 3차 팀빌딩 지원 기간입니다. (${phase3_team_building_period})`,
     PHASE3_CONFIRMATION: `지금은 3차 팀빌딩 합불 결정 기간입니다. (${phase3_confirmation_period})`,
+    NONE: '해커톤 또는 팀 빌딩 기간이 아닙니다.',
   };
 
   // 필터링
   const [selectedTopic, setSelectedTopic] = useState<number>(0);
-  const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(undefined);
+  const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(true);
   const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
 

@@ -39,7 +39,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     loadTopics();
   }, []);
 
-  // 주제 조회 중 대기 
+  // 주제 조회 중 대기
   // TODO : 나중에 새로운 UI로 바꾸어야할듯
   if (topics.length === 0) {
     return <Spinner />;
@@ -76,7 +76,8 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     return Object.values(formStatus).every((value) => value === true);
   };
 
-  const selectedTopic = topics.find((topic) => topic.id === formData.idea_info.idea_subject_id);
+  // 이름으로 확인
+  const selectedTopic = topics.find((topic) => topic.name === formData.idea_info.subject);
 
   return (
     <div className={styles.container}>

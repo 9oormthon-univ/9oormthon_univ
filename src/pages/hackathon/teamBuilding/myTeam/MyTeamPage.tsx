@@ -1,4 +1,3 @@
-import BackLinkNavigation from '../../../../components/hackathon/common/BackLinkNavigation';
 import TeamInformation from '../../../../components/hackathon/teamBuilding/TeamInformation';
 import styles from './styles.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
@@ -8,15 +7,14 @@ import { UserStatus } from '../../../../constants/role';
 export default function ApplicantTeamPage() {
   const { status } = useAuthStore();
 
-  let viewer = false;
+  let viewer = true;
 
   if (status === UserStatus.PROVIDER) {
-    viewer = true;
+    viewer = false;
   }
 
   return (
     <div className={styles.teamPageContainer}>
-      <BackLinkNavigation />
       <div className={styles.teamPageContent}>
         <Text as="h3" typography="heading3" color="text-normal">
           팀 정보
