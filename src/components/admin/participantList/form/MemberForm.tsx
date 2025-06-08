@@ -1,7 +1,7 @@
 import { Avatar, Button } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
 import { Input } from '@goorm-dev/vapor-components';
-import UnivSearchDropdown from '../modal/dropdown/UnivSearchDropdown';
+
 import GenerationSelectDropdown from '../modal/dropdown/GenerationSelectDropdown';
 import styles from './form.module.scss';
 import { ImageIcon } from '@goorm-dev/vapor-icons';
@@ -10,6 +10,7 @@ import { Univ } from '../../../../types/admin/univ';
 import { fetchUnivListAPI } from '../../../../api/admin/univs';
 import { GENERATION } from '../../../../constants/common';
 import { UserForm } from '../../../../types/admin/member';
+import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
 
 interface MemberFormProps {
   showProfileEdit?: boolean;
@@ -85,10 +86,22 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
           />
         </FormField>
         <FormField label="학교" required>
-          <UnivSearchDropdown
-            value={univList.find((univ) => univ.id === member?.univ_id)?.name ?? ''}
-            onChange={(univ) => onChange?.('univ_id', univ.id)}
-            univList={univList}
+          <SearchDropdown
+            items={univList.map((univ) => ({
+              id: univ.id,
+              description: univ.name,
+            }))}
+            selectedItem={
+              univList.find((univ) => univ.id === member?.univ_id)
+                ? {
+                    id: univList.find((univ) => univ.id === member?.univ_id)?.id || 0,
+                    description: univList.find((univ) => univ.id === member?.univ_id)?.name ?? '',
+                  }
+                : null
+            }
+            onSelect={(univ) => onChange?.('univ_id', univ.id)}
+            inPlaceholder="학교를 검색해주세요"
+            outPlaceholder="학교를 선택해주세요"
           />
         </FormField>
         <FormField label="이메일" required>
