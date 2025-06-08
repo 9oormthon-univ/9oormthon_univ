@@ -39,6 +39,12 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     loadTopics();
   }, []);
 
+  // 주제 조회 중 대기 
+  // TODO : 나중에 새로운 UI로 바꾸어야할듯
+  if (topics.length === 0) {
+    return <Spinner />;
+  }
+
   // 파트 선택시 제한 인원 체크
   const handleRoleChange = (role: PositionWithoutNull) => {
     if (role === 'PM' || role === 'PD') {
@@ -70,6 +76,8 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     return Object.values(formStatus).every((value) => value === true);
   };
 
+  const selectedTopic = topics.find((topic) => topic.id === formData.idea_info.idea_subject_id);
+
   return (
     <div className={styles.container}>
       <BackLinkNavigation backLink="/hackathon" />
@@ -82,7 +90,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
             <FormDropdown
               label="어떤 주제에 해당 되나요?"
               nullable={false}
-              selectedValue={topics.find((topic) => topic.id === formData.idea_info.idea_subject_id)?.name || ''}
+              selectedValue={selectedTopic?.name || ''}
               placeholder="주제를 선택해주세요"
               options={topics}
               onChange={(e) => updateIdeaInfo('idea_subject_id', parseInt(e.target.value))}

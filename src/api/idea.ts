@@ -26,7 +26,7 @@ export const fetchMyIdeaDetail = async () => {
   return response.data;
 };
 
-// 3.8 다른 사람의 아이디어 상세 조회 API
+// 3.8 아이디어 상세 조회 API
 export const fetchIdeaDetailById = async (idea_id: string) => {
   const response = await instance.get(`/api/v1/users/ideas/${idea_id}/details`);
   return response.data;
