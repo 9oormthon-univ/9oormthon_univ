@@ -8,6 +8,7 @@ import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 import { applyIdea, fetchMyRemainingRanks } from '../../../api/idea';
 import { useParams, useNavigate } from 'react-router-dom';
+import { GENERATION } from '../../../constants/common';
 
 // 에러 메시지 매핑
 const ERROR_MESSAGES: Record<number, string> = {
@@ -29,8 +30,7 @@ export default function IdeaApply() {
   const [selectedRank, setSelectedRank] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  // 임의로 기수와 차수 설정
-  const generation = 4;
+  // 임의로 차수 설정
   const phase = 1;
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -44,7 +44,7 @@ export default function IdeaApply() {
   useEffect(() => {
     const loadPreferences = async () => {
       try {
-        const response = await fetchMyRemainingRanks(generation, phase);
+        const response = await fetchMyRemainingRanks(GENERATION, phase);
         setPreferences(response.data.preferences);
       } catch (error: any) {
         if (error.response) {
