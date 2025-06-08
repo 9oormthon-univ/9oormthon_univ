@@ -31,19 +31,19 @@ export const refreshAPI = async () => {
   return response.data;
 };
 
-// 비밀번호 재설정
+// 1.5 인증 정보 간단 조회
+export const getUserBriefAPI = async () => {
+  const response = await instance.get(`/api/v1/auth/briefs?generation=${GENERATION}`);
+
+  return response.data;
+};
+
+// 1.6 비밀번호 재설정
 export const resetPasswordAPI = async (current_password: string, new_password: string) => {
   const response = await instance.patch('/api/v1/auth/password', {
     current_password,
     new_password,
   });
-
-  return response.data;
-};
-
-// 인증 정보 간단 조회
-export const getUserBriefAPI = async () => {
-  const response = await instance.get(`/api/v1/auth/briefs?generation=${GENERATION}`);
 
   return response.data;
 };
