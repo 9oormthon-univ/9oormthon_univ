@@ -2,7 +2,7 @@ import MDEditor, { bold, commands, hr, italic, strikethrough } from '@uiw/react-
 import { Button, FormGroup, Spinner, Text } from '@goorm-dev/vapor-components';
 import FormLabel from './FormLabel';
 import styles from './styles.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EditIcon, ImageOutlineIcon, ViewOnIcon } from '@goorm-dev/vapor-icons';
 import { useS3Upload } from '../../../hooks/useS3Upload';
 import useUpload from '../../../hooks/useUpload';
@@ -27,6 +27,7 @@ export default function FormEditor({
   const { uploadToS3 } = useS3Upload();
   const [isUploading, setIsUploading] = useState(false);
   const isImage = (file: File) => file.type.startsWith('image/');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // 수정 버튼 클릭 시 편집 모드와 미리보기 모드 전환
   const toggleEditMode = () => {
@@ -76,6 +77,25 @@ export default function FormEditor({
     setIsUploading(false);
   };
 
+  const insertAtCursor = (text: string) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const current = markdownContent;
+
+    const newValue = current.slice(0, start) + text + current.slice(end);
+
+    setMarkdownContent(newValue);
+    onChange(newValue);
+
+    // 커서 위치 조정
+    requestAnimationFrame(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + text.length;
+    });
+  };
+
   // 드래그 & 드랍, 클립보드 붙여넣기 처리
   const handlePasteOrDrop = async (data: DataTransfer | React.ClipboardEvent) => {
     if ('clipboardData' in data) {
@@ -86,16 +106,13 @@ export default function FormEditor({
         const file = imageItem.getAsFile();
         if (file) {
           await handleFileUpload(file);
-          return;
         }
       }
 
       // 이미지가 아닌 경우 텍스트 데이터 처리
       const textData = data.clipboardData?.getData('text');
       if (textData) {
-        const newContent = markdownContent + textData;
-        setMarkdownContent(newContent);
-        onChange(newContent);
+        insertAtCursor(textData);
       }
     } else {
       // 드래그 & 드롭 처리
@@ -137,7 +154,10 @@ export default function FormEditor({
             placeholder: placeholder,
           }}
           onPaste={async (e) => {
-            e.preventDefault();
+            const hasImage = Array.from(e.clipboardData.items).some((item) => item.type.startsWith('image/'));
+            if (hasImage) {
+              e.preventDefault();
+            }
             await handlePasteOrDrop(e);
           }}
           onDrop={async (e) => {
