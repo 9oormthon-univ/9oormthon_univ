@@ -78,7 +78,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
         )}
         <FormField label="이름" required>
           <Input
-            bsSize="lg"
+            size="lg"
             placeholder="이름을 입력해주세요"
             value={member?.name}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('name', e.target.value)}
@@ -93,7 +93,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
         </FormField>
         <FormField label="이메일" required>
           <Input
-            bsSize="lg"
+            size="lg"
             placeholder="이메일을 입력해주세요"
             value={member?.email}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('email', e.target.value)}
@@ -101,8 +101,8 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
         </FormField>
         <FormField label="전화번호" required>
           <Input
-            bsSize="lg"
-            placeholder="000-0000-0000"
+            size="lg"
+            placeholder="-빼고 입력해주세요"
             value={member?.phone_number}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.('phone_number', e.target.value)}
           />
