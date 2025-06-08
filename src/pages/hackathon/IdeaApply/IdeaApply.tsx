@@ -9,6 +9,8 @@ import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNav
 import { applyIdea, fetchMyRemainingRanks } from '../../../api/idea';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GENERATION } from '../../../constants/common';
+import usePeriodStore from '../../../store/usePeriodStore';
+import { PositionWithoutNull } from '../../../constants/position';
 
 // 에러 메시지 매핑
 const ERROR_MESSAGES: Record<number, string> = {
@@ -30,8 +32,7 @@ export default function IdeaApply() {
   const [selectedRank, setSelectedRank] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  // 임의로 차수 설정
-  const phase = 1;
+  const { current_phase } = usePeriodStore();
 
   const [errorMessage, setErrorMessage] = useState('');
   const isFormValid = selectedRank !== null && reason.trim() !== '' && role !== '';
@@ -44,7 +45,7 @@ export default function IdeaApply() {
   useEffect(() => {
     const loadPreferences = async () => {
       try {
-        const response = await fetchMyRemainingRanks(GENERATION, phase);
+        const response = await fetchMyRemainingRanks(GENERATION, current_phase);
         setPreferences(response.data.preferences);
       } catch (error: any) {
         if (error.response) {
@@ -57,13 +58,19 @@ export default function IdeaApply() {
     };
 
     loadPreferences();
-  }, []);
+  }, [current_phase]);
 
   // 아이디어 지원
   const handleApply = async () => {
     try {
       if (selectedRank !== null) {
-        await applyIdea(Number(idea_id), phase, selectedRank, reason, role.toUpperCase() as 'PM' | 'PD' | 'FE' | 'BE');
+        await applyIdea(
+          Number(idea_id),
+          current_phase,
+          selectedRank,
+          reason,
+          role.toUpperCase() as PositionWithoutNull,
+        );
       }
       navigate(`/hackathon`);
     } catch (error: any) {
@@ -79,7 +86,6 @@ export default function IdeaApply() {
 
   return (
     <div className={styles.container}>
-      {/* id값으로 변경 필요 */}
       <BackLinkNavigation backLink={`/hackathon/detail/${idea_id}`} />
       <Text as="h4" typography="heading4" color="text-normal">
         지원하기

@@ -21,6 +21,7 @@ interface PeriodState {
   phase2_confirmation_period: string;
   phase3_team_building_period: string;
   phase3_confirmation_period: string;
+  current_phase: number;
   isTeamBuildingPeriod: () => boolean;
   isConfirmationPeriod: () => boolean;
   fetchPeriodData: () => Promise<void>;
@@ -38,7 +39,7 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
   phase2_confirmation_period: '',
   phase3_team_building_period: '',
   phase3_confirmation_period: '',
-
+  current_phase: 0,
   // 팀 빌딩 기간인지 확인
   isTeamBuildingPeriod: () => {
     const state = get();
@@ -54,8 +55,21 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
   fetchPeriodData: async () => {
     try {
       const response = await fetchPeriod();
+      const currentPeriod = response.data.current_period;
+
+      // current_period에 따라 current_phase 설정
+      let currentPhase = 0;
+      if (currentPeriod === 'PHASE1_TEAM_BUILDING' || currentPeriod === 'PHASE1_CONFIRMATION') {
+        currentPhase = 1;
+      } else if (currentPeriod === 'PHASE2_TEAM_BUILDING' || currentPeriod === 'PHASE2_CONFIRMATION') {
+        currentPhase = 2;
+      } else if (currentPeriod === 'PHASE3_TEAM_BUILDING' || currentPeriod === 'PHASE3_CONFIRMATION') {
+        currentPhase = 3;
+      }
+
       set({
-        current_period: response.data.current_period,
+        current_period: currentPeriod,
+        current_phase: currentPhase,
         phase1_period: `${response.data.phase1_period}`,
         phase2_period: `${response.data.phase2_period}`,
         phase3_period: `${response.data.phase3_period}`,
