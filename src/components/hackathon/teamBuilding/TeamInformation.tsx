@@ -1,17 +1,23 @@
 import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Text } from '@goorm-dev/vapor-components';
+import {
+  Badge,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Input,
+  Text,
+  toast,
+} from '@goorm-dev/vapor-components';
 import MemberInfoItem from '../common/team/MemberInfoItem';
 import { useEffect, useRef, useState } from 'react';
 import { GENERATION } from '../../../constants/common';
-import { updateTeamInfo } from '../../../api/teams';
-import { TeamRole } from '../../../types/user/team';
+import { getTeamInfo, updateTeamInfo } from '../../../api/teams';
+import { TeamInfo, TeamRole } from '../../../types/user/team';
 
 interface TeamInformationProps {
-  viewer?: boolean; // 보기 전용인지
-  number?: number; // 팀 번호
-  name?: string; // 팀 이름
-  role: TeamRole; // 팀 역할
+  viewer: boolean; // 보기 전용인지
 }
 
 const roleMap = {
@@ -21,21 +27,39 @@ const roleMap = {
   be: '백엔드',
 };
 
-export default function TeamInformation({ viewer, number, name, role }: TeamInformationProps) {
+export default function TeamInformation({ viewer }: TeamInformationProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const [teamName, setTeamName] = useState(name ?? '팀 이름');
+  const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
+
+  useEffect(() => {
+    const fetchTeamInfo = async () => {
+      try {
+        const response = await getTeamInfo(GENERATION);
+        setTeamInfo(response.data);
+      } catch (error) {
+        toast('팀 정보 불러오기 실패', {
+          type: 'danger',
+        });
+        console.error('팀 정보 불러오기 실패:', error);
+        setTeamInfo(null);
+      }
+    };
+    fetchTeamInfo();
+  }, []);
+
+  const [teamName, setTeamName] = useState(teamInfo?.name ?? '팀 이름');
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // name prop이 바뀔 때 teamName 상태 업데이트
   useEffect(() => {
-    setTeamName(name ?? '팀 이름');
-  }, [name]);
+    setTeamName(teamInfo?.name ?? '팀 이름');
+  }, [teamInfo]);
 
   // 수정 모드 전환 및 input에 포커스
   const enableEditing = () => {
@@ -72,7 +96,7 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
   const orderedRoles = ['pm', 'pd', 'fe', 'be']; // 기획 → 디자인 → 프론트엔드 → 백엔드
   const sortedRoles = orderedRoles.map((key) => ({
     key,
-    roleInfo: role?.[key as keyof TeamRole] ?? { max_count: 0, current_count: 0 },
+    roleInfo: teamInfo?.role?.[key as keyof TeamRole] ?? { max_count: 0, current_count: 0 },
   }));
 
   return (
@@ -80,7 +104,7 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
       <div className={styles.teamInformHeader}>
         <div className={styles.teamInformHeaderText}>
           <Text typography="subtitle1" color="text-hint">
-            {number}팀
+            {teamInfo?.number}팀
           </Text>
           {isEditing ? (
             <Input
@@ -121,7 +145,7 @@ export default function TeamInformation({ viewer, number, name, role }: TeamInfo
           </div>
           <div className={styles.teamInformContentItem}>
             {roleInfo?.members && roleInfo.members.length > 0 ? (
-              roleInfo.members.map((member) => (
+              roleInfo.members.map((member: any) => (
                 <MemberInfoItem
                   key={member.id}
                   id={member.id}
