@@ -12,7 +12,7 @@ export default function ApplicantPage() {
   const [applySummary, setApplySummary] = useState<any>(null);
 
   // 현재 팀빌딩 기간 조회
-  const { fetchPeriodData } = usePeriodStore();
+  const { current_phase, fetchPeriodData } = usePeriodStore();
 
   useEffect(() => {
     fetchPeriodData();
@@ -21,7 +21,7 @@ export default function ApplicantPage() {
   // 지원 내역 조회
   const fetchApplySummary = async () => {
     try {
-      const response = await getMyApplySummary(GENERATION, buttonIndex + 1);
+      const response = await getMyApplySummary(GENERATION, current_phase);
       setApplySummary(response.data);
     } catch (error) {
       console.error('Error fetching apply summary:', error);
@@ -29,8 +29,10 @@ export default function ApplicantPage() {
   };
 
   useEffect(() => {
-    fetchApplySummary();
-  }, [buttonIndex]);
+    if (current_phase) {
+      fetchApplySummary();
+    }
+  }, [current_phase]);
 
   return (
     <div className={styles.container}>
@@ -44,7 +46,7 @@ export default function ApplicantPage() {
           <IdeaApplyListItem
             key={apply.apply_info.id}
             applySummary={apply}
-            phase={buttonIndex + 1}
+            phase={current_phase}
             onDeleteSuccess={fetchApplySummary}
             applyIndex={applySummary?.applies?.indexOf(apply) + 1}
           />
