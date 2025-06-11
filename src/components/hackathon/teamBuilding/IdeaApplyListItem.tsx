@@ -111,11 +111,7 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
             size="sm"
             color="secondary"
             onClick={handleDeleteApply}
-            disabled={
-              !isTeamBuildingPeriod() ||
-              (apply_info.status !== 'ACCEPTED' && apply_info.status !== 'REJECTED') ||
-              status === UserStatus.MEMBER
-            }>
+            disabled={!isTeamBuildingPeriod() || apply_info.status !== 'WAITING' || status === UserStatus.MEMBER}>
             지원 취소
           </Button>
         )}
