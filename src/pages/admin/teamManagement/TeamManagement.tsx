@@ -1,5 +1,5 @@
 import { Button, Text } from '@goorm-dev/vapor-components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './teamManagement.module.scss';
 import { ChevronLeftOutlineIcon } from '@goorm-dev/vapor-icons';
 import TeamManageTable from '../../../components/admin/teamManagement/teamManageTable/TeamManageTable';
@@ -10,6 +10,7 @@ import { TeamMemberSummary } from '../../../types/admin/team';
 
 export default function TeamManagement() {
   const { team_id } = useParams();
+  const { teamNumber } = useLocation().state;
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +59,7 @@ export default function TeamManagement() {
       <div className={styles.header}>
         <div className={styles.teamName}>
           <Text typography="subtitle1" color="text-hint">
-            {team_id}팀
+            {teamNumber || '-'}팀
           </Text>
           <Text typography="heading4" color="text-normal">
             팀원 관리

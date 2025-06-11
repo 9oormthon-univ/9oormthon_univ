@@ -200,8 +200,6 @@ export default function IdeaList() {
 
   return (
     <div className={styles.mainContainer}>
-      {/* 추후 이미지 */}
-      <div className={styles.imgBox}></div>
       {loading ? (
         <div className={styles.loadingContainer}>
           <Spinner />

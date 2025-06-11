@@ -28,8 +28,9 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
       const fetchTeamDetail = async () => {
         try {
           const res = await fetchTeamDetailAPI(teamId);
+          const { leader, ...rest } = res.data;
           setTeamDetail(res.data);
-          setFormData(res.data); // 수정
+          setFormData({ ...rest, leader_id: leader?.id || undefined }); // 수정
         } catch (error) {
           console.error(error);
         }

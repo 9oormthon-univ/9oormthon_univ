@@ -95,7 +95,11 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
           color="secondary"
           icon={ChevronRightOutlineIcon}
           iconSide="right"
-          onClick={() => navigate(`/admin/teamList/${team.id}`)}>
+          onClick={() =>
+            navigate(`/admin/teamList/${team.id}`, {
+              state: { teamNumber: team.number },
+            })
+          }>
           <Text typography="subtitle1" color="text-alternative">
             팀원 관리
           </Text>

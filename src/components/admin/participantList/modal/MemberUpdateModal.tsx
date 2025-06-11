@@ -43,7 +43,7 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle, onUpdate }: MemberU
     setMember(res.data);
     setFormData({
       name: res.data.name,
-      univ_id: res.data.univ_id,
+      univ_id: res.data.univ.id,
       email: res.data.email,
       phone_number: res.data.phone_number,
       generations: res.data.generations,

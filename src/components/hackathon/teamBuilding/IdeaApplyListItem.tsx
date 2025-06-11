@@ -3,6 +3,9 @@ import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { deleteApply } from '../../../api/users';
 import usePeriodStore from '../../../store/usePeriodStore';
+import useAuthStore from '../../../store/useAuthStore';
+import { UserStatus } from '../../../constants/role';
+
 interface ApplyInfo {
   id: number;
   status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED';
@@ -49,6 +52,7 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
   const navigate = useNavigate();
 
   const { isTeamBuildingPeriod } = usePeriodStore();
+  const { status } = useAuthStore();
 
   const handleDeleteApply = async () => {
     try {
@@ -107,9 +111,7 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
             size="sm"
             color="secondary"
             onClick={handleDeleteApply}
-            disabled={
-              !isTeamBuildingPeriod() || (apply_info.status !== 'ACCEPTED' && apply_info.status !== 'REJECTED')
-            }>
+            disabled={!isTeamBuildingPeriod() || apply_info.status !== 'WAITING' || status === UserStatus.MEMBER}>
             지원 취소
           </Button>
         )}
