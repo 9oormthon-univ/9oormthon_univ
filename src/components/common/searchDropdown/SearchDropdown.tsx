@@ -30,7 +30,12 @@ export default function SearchDropdown({
   onSearch,
 }: SearchDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen((prev) => !prev);
+  const toggle = () => {
+    setIsOpen((prev) => {
+      console.log('[Dropdown toggle] prev:', prev);
+      return !prev;
+    });
+  };
   const [searchTerm, setSearchTerm] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
@@ -91,6 +96,7 @@ export default function SearchDropdown({
     }
     onSelect?.(item);
     setIsOpen(false);
+    toggle();
     setSearchTerm('');
   };
 
