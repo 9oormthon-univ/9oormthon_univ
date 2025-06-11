@@ -42,6 +42,11 @@ export const SideNavigation = () => {
     navigate('/admin/period');
   };
 
+  // 아이디어 관리 페이지로 이동
+  const handleIdeaManagementClick = () => {
+    navigate('/admin/ideaList');
+  };
+
   return (
     <SideNav className={styles.sideNav}>
       <div className={styles.header}>
@@ -65,7 +70,7 @@ export const SideNavigation = () => {
             </SideNav.Link>
           </SideNav.Item>
           <SideNav.Item className={styles.sideNavItem}>
-            <SideNav.Link>
+            <SideNav.Link active={currentPath === '/admin/ideaList'} onClick={handleIdeaManagementClick}>
               <LightbulbIcon size={20} /> 아이디어 관리
             </SideNav.Link>
           </SideNav.Item>

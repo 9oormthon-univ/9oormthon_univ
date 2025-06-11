@@ -27,6 +27,7 @@ const ParticipantList = lazy(() => import('./pages/admin/participantList/Partici
 const TeamList = lazy(() => import('./pages/admin/teamListAdmin/TeamList'));
 const TeamManagement = lazy(() => import('./pages/admin/teamManagement/TeamManagement'));
 const TeamBuildingPeriodPage = lazy(() => import('./pages/admin/period/teamBuildingPeriod/TeamBuildingPeriodPage'));
+const IdeaManagement = lazy(() => import('./pages/admin/ideaManagement/IdeaManagement'));
 
 const loaderProps = {
   color: 'black',
@@ -118,6 +119,14 @@ const router = createBrowserRouter([
       },
       {
         path: 'notFound',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <NotFound />
+          </Suspense>
+        ),
+      },
+      {
+        path: '*',
         element: (
           <Suspense fallback={<GoormLoader {...loaderProps} />}>
             <NotFound />
@@ -274,6 +283,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: 'ideaList',
+        element: (
+          <Suspense fallback={<GoormLoader {...loaderProps} />}>
+            <IdeaManagement />
+          </Suspense>
+        ),
+      },
+      {},
     ],
   }, // 어드민
 ]);
