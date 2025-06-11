@@ -25,7 +25,7 @@ export default function TeamBuildingPhaseSelector({ onPhaseChange, activeIndex }
     <ButtonToggleGroup
       size="lg"
       activeIndex={activeIndex}
-      onToggle={onPhaseChange}
+      onToggle={(index) => onPhaseChange(index)}
       className={styles.buttonToggleGroup}>
       {phases.map((phase, index) => {
         const isUpcoming = index > currentPhaseIndex;

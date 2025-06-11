@@ -6,12 +6,14 @@ import TeamBuildingPhaseSelector from '../../../../components/hackathon/teamBuil
 import { useEffect, useState } from 'react';
 import usePeriodStore from '../../../../store/usePeriodStore';
 import { getIdeaApplyStatus } from '../../../../api/users';
+import { Applies } from '../../../../types/user/team';
+import { GENERATION } from '../../../../constants/common';
 
 export default function ProviderPage() {
-  const [buttonIndex, setButtonIndex] = useState(0);
-  const [applyStatus, setApplyStatus] = useState<any>(null);
+  const [buttonIndex, setButtonIndex] = useState<number>(0);
+  const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
   // 현재 팀빌딩 기간 조회
-  const { fetchPeriodData } = usePeriodStore();
+  const { current_phase, fetchPeriodData } = usePeriodStore();
 
   useEffect(() => {
     fetchPeriodData();
@@ -20,13 +22,19 @@ export default function ProviderPage() {
   // fetchApplyStatus를 컴포넌트 레벨로 올리고 재사용 가능하게 만듦
   const fetchApplyStatus = async () => {
     try {
-      const response = await getIdeaApplyStatus(4, buttonIndex + 1);
+      const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1);
       setApplyStatus(response.data);
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
       setApplyStatus({ counts: 0, applies: [] });
     }
   };
+
+  useEffect(() => {
+    if (typeof current_phase === 'number') {
+      setButtonIndex(current_phase);
+    }
+  }, [current_phase]);
 
   useEffect(() => {
     fetchApplyStatus();
@@ -50,7 +58,9 @@ export default function ProviderPage() {
           </Text>
         </div>
 
-        <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
+        {typeof current_phase === 'number' && (
+          <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={current_phase} />
+        )}
 
         {applyStatus?.applies?.length > 0 ? (
           <ApplyStatusTable applicants={applyStatus.applies} refetchApplyStatus={fetchApplyStatus} />

@@ -24,7 +24,7 @@ export const getMyApplySummary = async (generation: number, phase: number) => {
   return response.data;
 };
 
-// 아이디어에 대한 지원 현황 리스트 조회
+// 3.12 아이디어에 대한 지원 현황 리스트 조회
 export const getIdeaApplyStatus = async (generation: number, phase: number) => {
   const response = await instance.get(`/api/v1/users/teams/applies/overviews?generation=${generation}&phase=${phase}`);
   return response.data;
