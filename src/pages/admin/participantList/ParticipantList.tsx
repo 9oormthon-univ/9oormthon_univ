@@ -41,9 +41,23 @@ export default function ParticipantList() {
   }, []);
 
   // 유저 목록 조회
-  const getUserList = async (page: number, univId: number | null, search?: string) => {
+  const getUserList = async (
+    page: number,
+    univId: number | null,
+    search?: string,
+    sorting?: Sorting,
+    sortType?: SortType,
+  ) => {
     const searchParam = search?.trim() === '' ? undefined : search;
-    const res = await fetchUserSummaryListAPI(page, 10, GENERATION, univId || undefined, searchParam);
+    const res = await fetchUserSummaryListAPI(
+      page,
+      10,
+      GENERATION,
+      univId || undefined,
+      searchParam,
+      sorting,
+      sortType,
+    );
     setMembers(res.data.users);
     setPageInfo(res.data.page_info);
   };
@@ -59,6 +73,7 @@ export default function ParticipantList() {
     setSelectedUniv(univList.find((univ) => univ.id === univId) || null);
   };
 
+  // 정렬 콜백
   const handleSorting = (newSorting: Sorting) => {
     if (sorting !== newSorting) {
       setSorting(newSorting);
