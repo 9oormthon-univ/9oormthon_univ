@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import TeamForm from '../form/TeamForm';
 import TeamInfoView from '../form/TeamInfoView';
 import { fetchTeamDetailAPI, updateTeamAPI } from '../../../../api/admin/teams';
-import { TeamDetail, TeamUpdateForm } from '../../../../types/admin/team';
+import { TeamBuildingStatus, TeamDetail, TeamUpdateForm } from '../../../../types/admin/team';
 
 interface TeamUpdateModalProps {
   isOpen: boolean;
@@ -90,6 +90,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
               pd_capacity: teamDetail?.pd_capacity ?? 0,
               fe_capacity: teamDetail?.fe_capacity ?? 0,
               be_capacity: teamDetail?.be_capacity ?? 0,
+              status: teamDetail?.status ?? TeamBuildingStatus.RECRUITING,
             }}
             teamId={teamId}
           />
