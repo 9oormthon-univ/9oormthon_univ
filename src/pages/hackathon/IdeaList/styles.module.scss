@@ -36,7 +36,30 @@
 
 .listHeader {
   display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+}
+
+.titleContainer {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: var(--space-100);
+  align-items: center;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchInput {
+  width: 16.25rem;
 }
 
 .dropdownWrap {

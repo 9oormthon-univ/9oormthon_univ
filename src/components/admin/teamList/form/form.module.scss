@@ -13,3 +13,8 @@
 .ideaInfoButton {
   width: fit-content;
 }
+
+.radioGroup {
+  display: flex;
+  gap: var(--space-400);
+}

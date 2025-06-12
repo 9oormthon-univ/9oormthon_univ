@@ -8,17 +8,26 @@ import { GENERATION } from '../../../constants/common';
 import { fetchUnivListAPI } from '../../../api/admin/univs';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { Univ } from '../../../types/admin/univ';
+import { PageInfo, Sorting, SortType, UserOverview } from '../../../types/admin/user';
 
 export default function ParticipantList() {
   const [selectedUnivId, setSelectedUnivId] = useState<number | null>(null);
-  const [members, setMembers] = useState<any[]>([]);
-  const [pageInfo, setPageInfo] = useState<any>({});
+  const [members, setMembers] = useState<UserOverview[]>([]);
+  const [pageInfo, setPageInfo] = useState<PageInfo>({
+    current_page: 0,
+    current_items: 0,
+    page_size: 0,
+    total_pages: 0,
+    total_items: 0,
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [univList, setUnivList] = useState<Univ[]>([]);
   const [univCount, setUnivCount] = useState(0);
   const [selectedUniv, setSelectedUniv] = useState<Univ | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
+  const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
+  const [sortType, setSortType] = useState<SortType | undefined>(undefined);
 
   // 유니브 리스트 간단 조회
   const fetchUnivList = async () => {
@@ -50,6 +59,16 @@ export default function ParticipantList() {
     setSelectedUniv(univList.find((univ) => univ.id === univId) || null);
   };
 
+  const handleSorting = (newSorting: Sorting) => {
+    if (sorting !== newSorting) {
+      setSorting(newSorting);
+      setSortType(SortType.ASC);
+    } else {
+      setSortType(sortType === SortType.ASC ? SortType.DESC : SortType.ASC);
+    }
+    setCurrentPage(1);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.listContainer}>
@@ -70,6 +89,7 @@ export default function ParticipantList() {
             onPageChange={(page) => getUserList(page, selectedUnivId, searchQuery)}
             onSearchChange={(query) => setSearchQuery(query)}
             onUpdate={() => getUserList(currentPage, selectedUnivId, searchQuery)}
+            onSortChange={handleSorting}
           />
         </div>
       </div>

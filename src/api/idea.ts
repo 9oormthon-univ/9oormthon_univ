@@ -61,7 +61,7 @@ export const fetchIdeaSubjects = async (generation: number) => {
   return response.data;
 };
 
-// 아이디어 리스트 조회 API
+// 3.6 아이디어 요약 리스트 조회 API
 export const fetchIdeas = async (
   page: number,
   size: number,
@@ -69,6 +69,7 @@ export const fetchIdeas = async (
   subjectId?: number,
   isActive?: boolean,
   isBookmarked?: boolean,
+  search?: string,
 ) => {
   const queryParams = new URLSearchParams({
     page: page.toString(),
@@ -80,6 +81,7 @@ export const fetchIdeas = async (
   if (subjectId !== undefined) queryParams.append('subject-id', subjectId.toString());
   if (isActive !== undefined) queryParams.append('is-active', isActive.toString());
   if (isBookmarked !== undefined) queryParams.append('is-bookmarked', isBookmarked.toString());
+  if (search !== undefined) queryParams.append('search', search);
 
   const requestUrl = `/api/v1/users/ideas/overviews?${queryParams.toString()}`;
   const response = await instance.get(requestUrl);

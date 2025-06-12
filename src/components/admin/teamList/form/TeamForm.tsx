@@ -1,10 +1,10 @@
-import { Input } from '@goorm-dev/vapor-components';
+import { Input, Radio } from '@goorm-dev/vapor-components';
 import FormField from '../../../common/formField/FormField';
 import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
 import { useState, useEffect, useRef } from 'react';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
-import { Team, TeamUpdateForm } from '../../../../types/admin/team';
+import { Team, TeamBuildingStatus, TeamUpdateForm } from '../../../../types/admin/team';
 import { User } from '../../../../types/admin/member';
 import { fetchUserListAPI } from '../../../../api/admin/users';
 import { GENERATION } from '../../../../constants/common';
@@ -24,6 +24,7 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
   const [teamNumber, setTeamNumber] = useState(initial?.number ?? 0);
   const [serviceName, setServiceName] = useState(initial?.service_name ?? '');
   const [teamLeaderId, setTeamLeaderId] = useState(initial?.leader_id ?? 0);
+  const [teamBuildingStatus, setTeamBuildingStatus] = useState(initial?.status ?? TeamBuildingStatus.RECRUITING);
 
   const [teamRoles, setTeamRoles] = useState({
     pm_capacity: initial?.pm_capacity ?? 0,
@@ -69,6 +70,7 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
             pd_capacity: teamRoles.pd_capacity ?? 0,
             fe_capacity: teamRoles.fe_capacity ?? 0,
             be_capacity: teamRoles.be_capacity ?? 0,
+            status: teamBuildingStatus,
           };
 
     if (JSON.stringify(formData) !== JSON.stringify(prevFormDataRef.current)) {
@@ -87,6 +89,7 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
     mode,
     onValidationChange,
     onFormChange,
+    teamBuildingStatus,
   ]);
 
   // 유저 리스트 전체 조회(팀장 선정을 위함)
@@ -159,7 +162,6 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
         </FormField>
       )}
 
-      {/* 팀 대표 추후 추가 필요 */}
       {mode === 'update' && (
         <FormField label="팀장 지정">
           <SearchDropdown
@@ -180,6 +182,27 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
               }
             }}
           />
+        </FormField>
+      )}
+
+      {mode === 'update' && (
+        <FormField label="팀 빌딩 상태">
+          <div className={styles.radioGroup}>
+            <Radio
+              id="recruiting"
+              name="status"
+              checked={teamBuildingStatus === TeamBuildingStatus.RECRUITING}
+              onChange={() => setTeamBuildingStatus(TeamBuildingStatus.RECRUITING)}>
+              모집 중
+            </Radio>
+            <Radio
+              id="end"
+              name="status"
+              checked={teamBuildingStatus === TeamBuildingStatus.END}
+              onChange={() => setTeamBuildingStatus(TeamBuildingStatus.END)}>
+              모집 완료
+            </Radio>
+          </div>
         </FormField>
       )}
     </div>

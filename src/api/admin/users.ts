@@ -1,4 +1,5 @@
 import { UserForm } from '../../types/admin/member';
+import { Sorting, SortType } from '../../types/admin/user';
 import instance from '../instance';
 
 // 2.1 어드민 유저 생성
@@ -36,6 +37,8 @@ export const fetchUserSummaryListAPI = async (
   generation: number,
   univ_id?: number,
   search?: string,
+  sorting?: Sorting,
+  sort_type?: SortType,
 ) => {
   const queryParams = new URLSearchParams({
     page: page.toString(),
@@ -47,6 +50,15 @@ export const fetchUserSummaryListAPI = async (
   if (univ_id !== undefined) {
     queryParams.append('univ-id', univ_id.toString());
   }
+
+  if (sorting !== undefined) {
+    queryParams.append('sorting', sorting);
+  }
+
+  if (sort_type !== undefined) {
+    queryParams.append('sort-type', sort_type);
+  }
+
   if (search !== undefined) {
     queryParams.append('search', search);
   }

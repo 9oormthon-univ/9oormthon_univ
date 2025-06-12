@@ -41,6 +41,12 @@ export enum Sorting {
   TEAM_BUILDING = 'TEAM_BUILDING',
 }
 
+// 팀 빌딩 상태
+export enum TeamBuildingStatus {
+  RECRUITING = 'RECRUITING',
+  END = 'END',
+}
+
 // 팀 상세
 export interface TeamDetail {
   id: number;
@@ -53,6 +59,7 @@ export interface TeamDetail {
   service_name: string;
   idea_id?: number;
   leader?: User;
+  status: TeamBuildingStatus;
 }
 
 // 팀 수정 폼
@@ -65,6 +72,7 @@ export interface TeamUpdateForm {
   be_capacity: number;
   service_name: string;
   leader_id?: number;
+  status: TeamBuildingStatus;
 }
 
 // 4.5 팀원 정보 요약
