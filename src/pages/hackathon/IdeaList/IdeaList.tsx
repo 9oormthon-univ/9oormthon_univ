@@ -1,4 +1,14 @@
-import { Alert, BasicPagination, Button, Slide, Spinner, toast, ToastContainer } from '@goorm-dev/vapor-components';
+import {
+  Alert,
+  BasicPagination,
+  Button,
+  Input,
+  Slide,
+  Spinner,
+  Text,
+  toast,
+  ToastContainer,
+} from '@goorm-dev/vapor-components';
 import 'react-toastify/dist/ReactToastify.min.css';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
@@ -14,6 +24,7 @@ import usePeriodStore from '../../../store/usePeriodStore';
 import { UserStatus, Role } from '../../../constants/role';
 import useAuthStore from '../../../store/useAuthStore';
 import { GENERATION } from '../../../constants/common';
+import { useDebounce } from '../../../hooks/useDebounce';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE'> | 'ADMIN', string> = {
@@ -47,7 +58,8 @@ export default function IdeaList() {
     },
   });
   const { ideas, page_info } = ideaList;
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const loading = true;
   const {
     current_period,
     idea_submission_period,
@@ -78,6 +90,8 @@ export default function IdeaList() {
   const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(true);
   const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   // 기간 정보 갱신 및 사용자 상태 조회
   useEffect(() => {
@@ -105,23 +119,31 @@ export default function IdeaList() {
   // 아이디어 가져오는 api
   useEffect(() => {
     const loadIdeas = async () => {
-      setLoading(true);
+      // setLoading(true);
       try {
         const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
         const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
         const isBookmarked = selectedBookmark === true ? true : undefined;
 
-        const response = await fetchIdeas(currentPage, projectsPerPage, 4, subjectId, isActive, isBookmarked);
+        const response = await fetchIdeas(
+          currentPage,
+          projectsPerPage,
+          GENERATION,
+          subjectId,
+          isActive,
+          isBookmarked,
+          debouncedSearchQuery,
+        );
         setIdeaList(response.data);
       } catch (error) {
         console.error('Error fetching ideas:', error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
     loadIdeas();
-  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark]);
+  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark, debouncedSearchQuery]);
 
   // 팀빌딩 기간인지
   const isTeamBuilding =
@@ -198,6 +220,16 @@ export default function IdeaList() {
     navigate('/hackathon/create/step1');
   };
 
+  // 내 아이디어 버튼 클릭 시 예외처리
+  const handleMyIdea = () => {
+    if (status && status !== UserStatus.PROVIDER) {
+      toast('등록된 아이디어가 없습니다', { type: 'danger' });
+      return;
+    }
+
+    navigate('/hackathon/detail/myIdea');
+  };
+
   return (
     <div className={styles.mainContainer}>
       {loading ? (
@@ -212,29 +244,48 @@ export default function IdeaList() {
           </Alert>
           {/* 필터링, 아이디어 등록 버튼 */}
           <div className={styles.listHeader}>
-            <div className={styles.dropdownWrap}>
-              <SubjectFilterDropdown
-                options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
-                selectedValue={selectedTopic}
-                onChange={setSelectedTopic}
-                disabled={!isTeamBuilding}
-              />
-              <ActiveFilterDropdown
-                options={statusOptions}
-                selectedValue={selectedStatus}
-                onChange={(value) => setSelectedStatus(value)}
-                disabled={!isTeamBuilding}
-              />
-              <BookmarkedFilterDropdown
-                options={bookmarkOptions}
-                selectedValue={selectedBookmark}
-                onChange={(value) => setSelectedBookmark(value)}
-                disabled={!isTeamBuilding}
+            <div className={styles.titleContainer}>
+              <Text typography="heading4" as="h4" color="text-normal">
+                아이디어 리스트
+              </Text>
+              <div className={styles.buttonContainer}>
+                <Button size="lg" onClick={handleMyIdea} className={styles.noneBtn} color="secondary">
+                  내 아이디어
+                </Button>
+                <Button icon={EditIcon} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
+                  아이디어 등록
+                </Button>
+              </div>
+            </div>
+            <div className={styles.searchContainer}>
+              <div className={styles.dropdownWrap}>
+                <SubjectFilterDropdown
+                  options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
+                  selectedValue={selectedTopic}
+                  onChange={setSelectedTopic}
+                  disabled={!isTeamBuilding}
+                />
+                <ActiveFilterDropdown
+                  options={statusOptions}
+                  selectedValue={selectedStatus}
+                  onChange={(value) => setSelectedStatus(value)}
+                  disabled={!isTeamBuilding}
+                />
+                <BookmarkedFilterDropdown
+                  options={bookmarkOptions}
+                  selectedValue={selectedBookmark}
+                  onChange={(value) => setSelectedBookmark(value)}
+                  disabled={!isTeamBuilding}
+                />
+              </div>
+              <Input
+                size="lg"
+                placeholder="아이디어 제목, 미르미 명으로 검색"
+                className={styles.searchInput}
+                value={searchQuery}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Button icon={EditIcon} active={false} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
-              아이디어 등록
-            </Button>
           </div>
           {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
           {isTeamBuilding ? (
