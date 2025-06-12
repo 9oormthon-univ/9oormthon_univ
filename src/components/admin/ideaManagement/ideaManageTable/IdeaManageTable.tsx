@@ -14,25 +14,25 @@ export default function IdeaManageTable() {
                 <Text typography="body2" color="text-alternative">
                   아이디어 제목
                 </Text>
-                <ControlCommonIcon />
+                <ControlCommonIcon className={styles.icon} />
               </th>
               <th>
                 <Text typography="body2" color="text-alternative">
                   주제
                 </Text>
-                <ControlCommonIcon />
+                <ControlCommonIcon className={styles.icon} />
               </th>
               <th>
                 <Text typography="body2" color="text-alternative">
                   게시자
                 </Text>
-                <ControlCommonIcon />
+                <ControlCommonIcon className={styles.icon} />
               </th>
               <th>
                 <Text typography="body2" color="text-alternative">
                   팀 빌딩
                 </Text>
-                <ControlCommonIcon />
+                <ControlCommonIcon className={styles.icon} />
               </th>
               <th></th>
             </tr>

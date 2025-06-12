@@ -39,6 +39,12 @@
   }
 }
 
+.icon {
+  width: 1rem;
+  height: 1rem;
+  margin-left: var(--space-050);
+}
+
 .pagination {
   border-radius: 0rem 0rem 0.5rem 0.5rem;
   background: #fff;

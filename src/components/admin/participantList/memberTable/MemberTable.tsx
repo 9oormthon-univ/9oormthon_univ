@@ -5,6 +5,8 @@ import { Button, Input, Text } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import { MemberCreateModal } from '../modal/MemberCreateModal';
 import { Univ } from '../../../../types/admin/univ';
+import { Sorting } from '../../../../types/admin/user';
+import { ControlCommonIcon } from '@goorm-dev/vapor-icons';
 
 interface MemberTableProps {
   members: any[];
@@ -13,6 +15,7 @@ interface MemberTableProps {
   selectedUniv: Univ | null;
   onSearchChange: (query: string) => void;
   onUpdate: () => void;
+  onSortChange: (sorting: Sorting) => void;
 }
 
 export const MemberTable = ({
@@ -22,6 +25,7 @@ export const MemberTable = ({
   selectedUniv,
   onSearchChange,
   onUpdate,
+  onSortChange,
 }: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
 
@@ -61,16 +65,22 @@ export const MemberTable = ({
                 <Text typography="subtitle1" color="text-normal" className={styles.tableHeaderText}>
                   이름
                 </Text>
+                <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange(Sorting.NAME)} />
               </td>
               <td>
                 <Text typography="subtitle1" color="text-normal">
                   이메일
                 </Text>
+                <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange(Sorting.EMAIL)} />
               </td>
               <td>
                 <Text typography="subtitle1" color="text-normal">
                   팀빌딩
                 </Text>
+                <ControlCommonIcon
+                  className={styles.tableHeaderIcon}
+                  onClick={() => onSortChange(Sorting.TEAM_BUILDING)}
+                />
               </td>
               <td></td>
             </tr>
