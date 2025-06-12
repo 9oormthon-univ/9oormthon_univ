@@ -32,7 +32,7 @@ export default function ProviderPage() {
 
   useEffect(() => {
     if (typeof current_phase === 'number') {
-      setButtonIndex(current_phase);
+      setButtonIndex(current_phase - 1);
     }
   }, [current_phase]);
 
@@ -59,7 +59,7 @@ export default function ProviderPage() {
         </div>
 
         {typeof current_phase === 'number' && (
-          <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={current_phase} />
+          <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
         )}
 
         {applyStatus?.applies?.length > 0 ? (
