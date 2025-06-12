@@ -92,58 +92,6 @@ export default function IdeaList() {
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-  // 기간 정보 갱신 및 사용자 상태 조회
-  useEffect(() => {
-    fetchPeriodData();
-    fetchUserStatus();
-  }, []);
-
-  // 주제 가져오는 api
-  useEffect(() => {
-    const loadTopics = async () => {
-      try {
-        const response = await fetchIdeaSubjects(GENERATION);
-        const activeTopics = response.data.idea_subjects
-          .filter((topic: { is_active: boolean }) => topic.is_active)
-          .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
-        setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
-      } catch (error) {
-        console.error('Error fetching idea subjects:', error);
-      }
-    };
-
-    loadTopics();
-  }, []);
-
-  // 아이디어 가져오는 api
-  useEffect(() => {
-    const loadIdeas = async () => {
-      setLoading(true);
-      try {
-        const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
-        const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
-        const isBookmarked = selectedBookmark === true ? true : undefined;
-
-        const response = await fetchIdeas(
-          currentPage,
-          projectsPerPage,
-          GENERATION,
-          subjectId,
-          isActive,
-          isBookmarked,
-          debouncedSearchQuery,
-        );
-        setIdeaList(response.data);
-      } catch (error) {
-        console.error('Error fetching ideas:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadIdeas();
-  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark, debouncedSearchQuery]);
-
   // 팀빌딩 기간인지
   const isTeamBuilding =
     current_period === 'PHASE1_TEAM_BUILDING' ||
@@ -155,6 +103,60 @@ export default function IdeaList() {
 
   // 한 페이지당 보여질 페이지 수
   const projectsPerPage = 8;
+
+  // 기간 정보 갱신 및 사용자 상태 조회
+  useEffect(() => {
+    fetchPeriodData();
+    fetchUserStatus();
+  }, []);
+
+  // 주제 가져오는 api (팀빌딩 기간일 때만)
+  useEffect(() => {
+    if (isTeamBuilding) {
+      const loadTopics = async () => {
+        try {
+          const response = await fetchIdeaSubjects(GENERATION);
+          const activeTopics = response.data.idea_subjects
+            .filter((topic: { is_active: boolean }) => topic.is_active)
+            .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
+          setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
+        } catch (error) {
+          console.error('Error fetching idea subjects:', error);
+        }
+      };
+      loadTopics();
+    }
+  }, [isTeamBuilding]);
+
+  // 아이디어 가져오는 api (팀빌딩 기간일 때만)
+  useEffect(() => {
+    if (isTeamBuilding) {
+      const loadIdeas = async () => {
+        setLoading(true);
+        try {
+          const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
+          const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
+          const isBookmarked = selectedBookmark === true ? true : undefined;
+
+          const response = await fetchIdeas(
+            currentPage,
+            projectsPerPage,
+            GENERATION,
+            subjectId,
+            isActive,
+            isBookmarked,
+            debouncedSearchQuery,
+          );
+          setIdeaList(response.data);
+        } catch (error) {
+          console.error('Error fetching ideas:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadIdeas();
+    }
+  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark, debouncedSearchQuery, isTeamBuilding]);
 
   // 페이지네이션 페이지 이동
   const handlePageChange = (page: number) => {
@@ -283,6 +285,7 @@ export default function IdeaList() {
                 className={styles.searchInput}
                 value={searchQuery}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                disabled={!isTeamBuilding}
               />
             </div>
           </div>
