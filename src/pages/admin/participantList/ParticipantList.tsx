@@ -63,8 +63,8 @@ export default function ParticipantList() {
   };
 
   useEffect(() => {
-    getUserList(currentPage, selectedUnivId, debouncedSearchQuery);
-  }, [currentPage, selectedUnivId, debouncedSearchQuery]);
+    getUserList(currentPage, selectedUnivId, debouncedSearchQuery, sorting, sortType);
+  }, [currentPage, selectedUnivId, debouncedSearchQuery, sorting, sortType]);
 
   // 유니브 선택 콜백 / 유니브를 아무것도 선택하지 않았을 때 미르미 전체 조회
   const handleSelectUniv = (univId: number | null) => {
