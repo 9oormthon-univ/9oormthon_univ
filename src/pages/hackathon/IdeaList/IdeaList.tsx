@@ -58,8 +58,7 @@ export default function IdeaList() {
     },
   });
   const { ideas, page_info } = ideaList;
-  // const [loading, setLoading] = useState(false);
-  const loading = true;
+  const [loading, setLoading] = useState(false);
   const {
     current_period,
     idea_submission_period,
@@ -119,7 +118,7 @@ export default function IdeaList() {
   // 아이디어 가져오는 api
   useEffect(() => {
     const loadIdeas = async () => {
-      // setLoading(true);
+      setLoading(true);
       try {
         const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
         const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
@@ -138,7 +137,7 @@ export default function IdeaList() {
       } catch (error) {
         console.error('Error fetching ideas:', error);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     };
 
