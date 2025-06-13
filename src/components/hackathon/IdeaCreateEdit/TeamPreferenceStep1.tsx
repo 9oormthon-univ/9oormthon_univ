@@ -1,6 +1,6 @@
 import { ChevronRightOutlineIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import { Alert, Button, Form, Spinner, Text } from '@goorm-dev/vapor-components';
+import { Alert, Button, Form, Text } from '@goorm-dev/vapor-components';
 import FormDropdown from '../ideaForm/FormDropdown';
 import FormInput from '../ideaForm/FormInput';
 import FormTextarea from '../ideaForm/FormTextarea';
@@ -38,12 +38,6 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
 
     loadTopics();
   }, []);
-
-  // 주제 조회 중 대기
-  // TODO : 나중에 새로운 UI로 바꾸어야할듯
-  if (topics.length === 0) {
-    return <Spinner />;
-  }
 
   // 파트 선택시 제한 인원 체크
   const handleRoleChange = (role: PositionWithoutNull) => {
