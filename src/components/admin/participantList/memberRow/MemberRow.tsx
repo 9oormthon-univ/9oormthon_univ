@@ -32,7 +32,7 @@ export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
     <>
       <tr>
         <td className={styles.memberName}>
-          <Text typography="subtitle1" color="text-normal" className={styles.text}>
+          <Text typography="subtitle1" color="text-normal" className={styles.memberNameText}>
             {member.name}
           </Text>
           <Dropdown direction="down" className={styles.memberDropdown} isOpen={isDropdownOpen} toggle={toggleDropdown}>
