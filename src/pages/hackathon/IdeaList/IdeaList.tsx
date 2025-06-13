@@ -105,9 +105,10 @@ export default function IdeaList() {
       const loadTopics = async () => {
         try {
           const response = await fetchIdeaSubjects(GENERATION);
-          const activeTopics = response.data.idea_subjects
-            .filter((topic: { is_active: boolean }) => topic.is_active)
-            .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
+          const activeTopics = response.data.idea_subjects.map((topic: { id: number; name: string }) => ({
+            id: topic.id,
+            name: topic.name,
+          }));
           setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
         } catch (error) {
           console.error('Error fetching idea subjects:', error);
