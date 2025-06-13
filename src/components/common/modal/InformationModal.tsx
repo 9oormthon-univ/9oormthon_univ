@@ -11,6 +11,7 @@ interface InformationModalProps {
   cancelLabel?: string;
   onConfirm?: () => void;
   onCancel?: () => void;
+  isPrimary?: boolean;
 }
 
 export default function InformationModal({
@@ -22,6 +23,7 @@ export default function InformationModal({
   cancelLabel = '취소',
   onConfirm,
   onCancel,
+  isPrimary = false,
 }: InformationModalProps) {
   const handleCancel = () => {
     onCancel?.();
@@ -37,7 +39,7 @@ export default function InformationModal({
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader />
       <ModalBody className={styles.modalBody}>
-        <NoticeCircleIcon className={styles.modalIcon} />
+        <NoticeCircleIcon className={isPrimary ? styles.notDangerIcon : styles.modalIcon} />
         <Text typography="heading5" color="text-normal">
           {title}
         </Text>

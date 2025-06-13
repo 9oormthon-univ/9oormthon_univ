@@ -1,15 +1,4 @@
-import {
-  Alert,
-  BasicPagination,
-  Button,
-  Input,
-  Slide,
-  Spinner,
-  Text,
-  toast,
-  ToastContainer,
-} from '@goorm-dev/vapor-components';
-import 'react-toastify/dist/ReactToastify.min.css';
+import { Alert, BasicPagination, Button, Input, Spinner, Text, toast } from '@goorm-dev/vapor-components';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
@@ -322,7 +311,6 @@ export default function IdeaList() {
           )}
         </div>
       )}
-      <ToastContainer autoClose={3000} transition={Slide} closeButton={false} newestOnTop hideProgressBar />
     </div>
   );
 }

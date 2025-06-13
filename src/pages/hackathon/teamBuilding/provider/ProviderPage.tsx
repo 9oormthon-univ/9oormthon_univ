@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { Text } from '@goorm-dev/vapor-components';
+import { Text, Button, toast } from '@goorm-dev/vapor-components';
 import TeamInformation from '../../../../components/hackathon/teamBuilding/TeamInformation';
 import ApplyStatusTable from '../../../../components/hackathon/teamBuilding/applyStatusTable/ApplyStatusTable';
 import TeamBuildingPhaseSelector from '../../../../components/hackathon/teamBuilding/TeamBuildingPhaseSelector';
@@ -8,6 +8,8 @@ import usePeriodStore from '../../../../store/usePeriodStore';
 import { getIdeaApplyStatus } from '../../../../api/users';
 import { Applies } from '../../../../types/user/team';
 import { GENERATION } from '../../../../constants/common';
+import InformationModal from '../../../../components/common/modal/InformationModal';
+import { confirmTeamBuilding } from '../../../../api/teams';
 
 export default function ProviderPage() {
   const [buttonIndex, setButtonIndex] = useState<number>(0);
@@ -15,9 +17,9 @@ export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
   const { current_phase, fetchPeriodData } = usePeriodStore();
 
-  useEffect(() => {
-    fetchPeriodData();
-  }, []);
+  // 팀 빌딩 확정 모달
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
   // fetchApplyStatus를 컴포넌트 레벨로 올리고 재사용 가능하게 만듦
   const fetchApplyStatus = async () => {
@@ -29,6 +31,25 @@ export default function ProviderPage() {
       setApplyStatus({ counts: 0, applies: [] });
     }
   };
+
+  const handleConfirmTeamBuilding = async () => {
+    try {
+      await confirmTeamBuilding();
+      toast('팀 빌딩이 확정되었습니다.', {
+        type: 'primary',
+      });
+      toggle();
+    } catch (error) {
+      console.error('팀 빌딩 확정 실패:', error);
+      toast('팀 빌딩 확정에 실패했습니다.', {
+        type: 'danger',
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchPeriodData();
+  }, []);
 
   useEffect(() => {
     if (typeof current_phase === 'number') {
@@ -43,9 +64,15 @@ export default function ProviderPage() {
   return (
     <div className={styles.container}>
       <div className={styles.teamInform}>
-        <Text as="h3" typography="heading3" color="text-normal">
-          팀 정보
-        </Text>
+        <div className={styles.teamInformHeader}>
+          <Text as="h3" typography="heading3" color="text-normal">
+            팀 정보
+          </Text>
+          <Button size="md" color="primary" onClick={toggle}>
+            팀 빌딩 확정
+          </Button>
+        </div>
+
         <TeamInformation viewer={false} />
       </div>
       <div className={styles.applyStatus}>
@@ -72,6 +99,17 @@ export default function ProviderPage() {
           </div>
         )}
       </div>
+
+      <InformationModal
+        isOpen={isOpen}
+        toggle={toggle}
+        title="팀 빌딩을 확정할까요?"
+        description="한번 결정하면 다시 되돌리지 못해요."
+        cancelLabel="취소"
+        confirmLabel="확정"
+        onConfirm={handleConfirmTeamBuilding}
+        isPrimary={true}
+      />
     </div>
   );
 }

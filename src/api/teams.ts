@@ -6,11 +6,17 @@ export const getTeamInfo = async (generation: number) => {
   return response.data;
 };
 
-// 팀 정보 수정
+// 4.9 팀 정보 수정
 export const updateTeamInfo = async (generation: number, name: string) => {
   const response = await instance.patch(`/api/v1/users/teams`, {
     generation,
     name,
   });
+  return response.data;
+};
+
+// 4.10 팀 빌딩 확정
+export const confirmTeamBuilding = async () => {
+  const response = await instance.patch('/api/v1/users/teams/status');
   return response.data;
 };
