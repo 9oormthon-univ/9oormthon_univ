@@ -27,7 +27,6 @@ interface ApplySummary {
 
 interface IdeaApplyListItemProps {
   applySummary: ApplySummary;
-  phase: number;
   onDeleteSuccess: () => void;
   applyIndex: number;
 }
