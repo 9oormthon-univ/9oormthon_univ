@@ -189,19 +189,19 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
         <FormField label="팀 빌딩 상태">
           <div className={styles.radioGroup}>
             <Radio
+              label="모집 중"
               id="recruiting"
               name="status"
               checked={teamBuildingStatus === TeamBuildingStatus.RECRUITING}
-              onChange={() => setTeamBuildingStatus(TeamBuildingStatus.RECRUITING)}>
-              모집 중
-            </Radio>
+              onChange={() => setTeamBuildingStatus(TeamBuildingStatus.RECRUITING)}
+            />
             <Radio
+              label="모집 완료"
               id="end"
               name="status"
               checked={teamBuildingStatus === TeamBuildingStatus.END}
-              onChange={() => setTeamBuildingStatus(TeamBuildingStatus.END)}>
-              모집 완료
-            </Radio>
+              onChange={() => setTeamBuildingStatus(TeamBuildingStatus.END)}
+            />
           </div>
         </FormField>
       )}

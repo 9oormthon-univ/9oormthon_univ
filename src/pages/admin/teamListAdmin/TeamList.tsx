@@ -37,23 +37,16 @@ export default function TeamList() {
   };
 
   // 팀 리스트 조회
+  const fetchTeamList = async () => {
+    const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sorting, sortType, debouncedSearchQuery);
+    setTeamList(res.data.teams);
+    setPageInfo(res.data.page_info);
+  };
+
+  // 팀 리스트 조회
   useEffect(() => {
-    const fetchTeamList = async () => {
-      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sorting, sortType, debouncedSearchQuery);
-      setTeamList(res.data.teams);
-      setPageInfo(res.data.page_info);
-    };
     fetchTeamList();
   }, [currentPage, debouncedSearchQuery, sorting, sortType]);
-
-  // 팀 리스트 업데이트
-  const handleUpdate = () => {
-    const fetchTeamList = async () => {
-      const res = await fetchTeamSummaryListAPI(currentPage, 10, GENERATION, sorting, sortType, debouncedSearchQuery);
-      setTeamList(res.data.teams);
-    };
-    fetchTeamList();
-  };
 
   return (
     <div className={styles.container}>
@@ -82,9 +75,9 @@ export default function TeamList() {
         pageInfo={pageInfo}
         onPageChange={setCurrentPage}
         onSortChange={handleSorting}
-        onUpdate={handleUpdate}
+        onUpdate={fetchTeamList}
       />
-      <TeamCreateModal isOpen={isCreateTeamOpen} toggle={toggleCreateTeam} onUpdate={handleUpdate} />
+      <TeamCreateModal isOpen={isCreateTeamOpen} toggle={toggleCreateTeam} onUpdate={fetchTeamList} />
     </div>
   );
 }

@@ -32,14 +32,15 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
 
   // 팀 해체
   const handleDeleteTeam = async () => {
-    const res = await deleteTeamAPI(team.id);
-    if (res.success) {
+    try {
+      await deleteTeamAPI(team.id);
       toast('팀 해체가 완료되었습니다.', {
-        type: 'success',
+        type: 'primary',
       });
       onUpdate();
-    } else {
-      toast(res.error.message || '팀 해체에 실패했습니다.', {
+    } catch (error) {
+      console.error('팀 해체 실패:', error);
+      toast('팀 해체에 실패했습니다.', {
         type: 'danger',
       });
     }

@@ -16,7 +16,7 @@ export const updateTeamInfo = async (generation: number, name: string) => {
 };
 
 // 4.10 팀 빌딩 확정
-export const confirmTeamBuilding = async () => {
-  const response = await instance.patch('/api/v1/users/teams/status');
+export const confirmTeamBuilding = async (generation: number) => {
+  const response = await instance.patch(`/api/v1/users/teams/status?generation=${generation}`);
   return response.data;
 };

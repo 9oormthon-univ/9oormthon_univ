@@ -13,6 +13,12 @@
   gap: var(--space-200);
 }
 
+.teamInformHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .applyStatus {
   display: flex;
   flex-direction: column;

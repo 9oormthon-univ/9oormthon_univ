@@ -129,8 +129,12 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
       </div>
       <SideNav className={styles.sideBar}>
         <SideNav.List className={styles.sideBarList}>
-          <SideNav.Item onClick={() => onSelectUniv(null)}>
-            <SideNav.Link>전체</SideNav.Link>
+          <SideNav.Item
+            onClick={() => {
+              onSelectUniv(null);
+              setSelectedUnivId(null);
+            }}>
+            <SideNav.Link active={selectedUnivId === null}>전체</SideNav.Link>
           </SideNav.Item>
 
           {filteredUnivList.map((univ) => (
