@@ -34,7 +34,7 @@ export default function ProviderPage() {
 
   const handleConfirmTeamBuilding = async () => {
     try {
-      await confirmTeamBuilding();
+      await confirmTeamBuilding(GENERATION);
       toast('팀 빌딩이 확정되었습니다.', {
         type: 'primary',
       });
@@ -109,6 +109,7 @@ export default function ProviderPage() {
         confirmLabel="확정"
         onConfirm={handleConfirmTeamBuilding}
         isPrimary={true}
+        confirmButtonColor="primary"
       />
     </div>
   );

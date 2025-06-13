@@ -12,6 +12,7 @@ interface InformationModalProps {
   onConfirm?: () => void;
   onCancel?: () => void;
   isPrimary?: boolean;
+  confirmButtonColor?: 'primary' | 'secondary' | 'danger';
 }
 
 export default function InformationModal({
@@ -24,6 +25,7 @@ export default function InformationModal({
   onConfirm,
   onCancel,
   isPrimary = false,
+  confirmButtonColor = 'danger',
 }: InformationModalProps) {
   const handleCancel = () => {
     onCancel?.();
@@ -51,7 +53,7 @@ export default function InformationModal({
         <Button size="lg" color="secondary" onClick={handleCancel}>
           {cancelLabel}
         </Button>
-        <Button size="lg" color="danger" onClick={handleConfirm}>
+        <Button size="lg" color={confirmButtonColor} onClick={handleConfirm}>
           {confirmLabel}
         </Button>
       </ModalFooter>
