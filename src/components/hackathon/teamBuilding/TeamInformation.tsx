@@ -1,23 +1,15 @@
 import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import {
-  Badge,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Input,
-  Text,
-  toast,
-} from '@goorm-dev/vapor-components';
+import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Text } from '@goorm-dev/vapor-components';
 import MemberInfoItem from '../common/team/MemberInfoItem';
 import { useEffect, useRef, useState } from 'react';
 import { GENERATION } from '../../../constants/common';
-import { getTeamInfo, updateTeamInfo } from '../../../api/teams';
+import { updateTeamInfo } from '../../../api/teams';
 import { TeamInfo, TeamRole } from '../../../types/user/team';
 
 interface TeamInformationProps {
   viewer: boolean; // 보기 전용인지
+  teamInfo: TeamInfo | null;
 }
 
 const roleMap = {
@@ -27,30 +19,12 @@ const roleMap = {
   be: '백엔드',
 };
 
-export default function TeamInformation({ viewer }: TeamInformationProps) {
+export default function TeamInformation({ viewer, teamInfo }: TeamInformationProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
-
-  const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
-
-  useEffect(() => {
-    const fetchTeamInfo = async () => {
-      try {
-        const response = await getTeamInfo(GENERATION);
-        setTeamInfo(response.data);
-      } catch (error) {
-        toast('팀 정보 불러오기 실패', {
-          type: 'danger',
-        });
-        console.error('팀 정보 불러오기 실패:', error);
-        setTeamInfo(null);
-      }
-    };
-    fetchTeamInfo();
-  }, []);
 
   const [teamName, setTeamName] = useState(teamInfo?.name ?? '팀 이름');
   const [isEditing, setIsEditing] = useState(false);
