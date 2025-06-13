@@ -1,15 +1,4 @@
-import {
-  Alert,
-  BasicPagination,
-  Button,
-  Input,
-  Slide,
-  Spinner,
-  Text,
-  toast,
-  ToastContainer,
-} from '@goorm-dev/vapor-components';
-import 'react-toastify/dist/ReactToastify.min.css';
+import { Alert, BasicPagination, Button, Input, Spinner, Text, toast } from '@goorm-dev/vapor-components';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
@@ -116,9 +105,10 @@ export default function IdeaList() {
       const loadTopics = async () => {
         try {
           const response = await fetchIdeaSubjects(GENERATION);
-          const activeTopics = response.data.idea_subjects
-            .filter((topic: { is_active: boolean }) => topic.is_active)
-            .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
+          const activeTopics = response.data.idea_subjects.map((topic: { id: number; name: string }) => ({
+            id: topic.id,
+            name: topic.name,
+          }));
           setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
         } catch (error) {
           console.error('Error fetching idea subjects:', error);
@@ -322,7 +312,6 @@ export default function IdeaList() {
           )}
         </div>
       )}
-      <ToastContainer autoClose={3000} transition={Slide} closeButton={false} newestOnTop hideProgressBar />
     </div>
   );
 }
