@@ -10,6 +10,7 @@ import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNav
 import { toast } from '@goorm-dev/vapor-components';
 import IdeaHeaderSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaHeaderSkeleton';
 import IdeaContentSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaContentSkeleton';
+import IdeaTeamContentSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaTeamContentSkeleton';
 
 export default function IdeaDetail() {
   const { idea_id } = useParams();
@@ -91,14 +92,11 @@ export default function IdeaDetail() {
 
       <div className={styles.contentContainer}>
         <IdeaDetailTab activeTab={activeTab} setActiveTab={setActiveTab} />
-        {isLoading ? (
-          <IdeaContentSkeleton />
-        ) : (
-          <div className={styles.tabContent}>
-            {activeTab === 'basic' && <IdeaInfo ideaInfo={idea_info?.content} />}
-            {activeTab === 'team' && <TeamInfo requirements={requirements} />}
-          </div>
-        )}
+
+        <div className={styles.tabContent}>
+          {activeTab === 'basic' && (isLoading ? <IdeaContentSkeleton /> : <IdeaInfo ideaInfo={idea_info?.content} />)}
+          {activeTab === 'team' && (isLoading ? <IdeaTeamContentSkeleton /> : <TeamInfo requirements={requirements} />)}
+        </div>
       </div>
       <BackLinkNavigation backLink="/hackathon" />
     </div>

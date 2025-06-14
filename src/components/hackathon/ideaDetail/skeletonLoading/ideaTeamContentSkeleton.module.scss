@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+  align-self: stretch;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--space-100);
+  border: 1px solid var(--border-color);
+  background: var(--background-normal);
+  padding: var(--space-400) var(--space-250);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+}
