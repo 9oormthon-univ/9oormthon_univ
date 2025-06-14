@@ -1,0 +1,26 @@
+.tableHeadItem,
+.tableBodyItem {
+  padding: 0rem var(--space-300);
+
+  &:first-child {
+    border-right: 1px solid var(--border-color);
+  }
+}
+
+.tableHeadRow,
+.tableBodyRow {
+  height: var(--dimension-700);
+}
+
+.tableHead {
+  border-bottom: 1px solid var(--border-color);
+  background: var(--background-alternative-01);
+}
+
+.tableBody {
+  background: var(--background-normal);
+}
+
+.tableBodyItem {
+  border-bottom: 1px solid var(--border-color);
+}
