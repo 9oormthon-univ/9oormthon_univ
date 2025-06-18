@@ -100,8 +100,8 @@ export default function TeamInfoView({ teamDetail }: TeamInfoViewProps) {
         </Text>
         <Text
           typography="heading6"
-          color={teamDetail?.status === TeamBuildingStatus.RECRUITING ? 'text-primary' : 'text-success'}>
-          {teamDetail?.status === TeamBuildingStatus.RECRUITING ? '모집중' : '모집완료'}
+          color={teamDetail?.team_building === TeamBuildingStatus.RECRUITING ? 'text-primary' : 'text-success'}>
+          {teamDetail?.team_building === TeamBuildingStatus.RECRUITING ? '모집중' : '모집완료'}
         </Text>
       </div>
     </div>
