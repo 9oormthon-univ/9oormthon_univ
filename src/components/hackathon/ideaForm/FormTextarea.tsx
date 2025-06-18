@@ -28,7 +28,8 @@ export default function FormTextarea({ label, nullable, placeholder, value, onCh
         className={styles.textArea}
         value={value}
         onChange={onChange}
-        disabled={disabled}></textarea>
+        disabled={disabled}
+        maxLength={255}></textarea>
     </FormGroup>
   );
 }
