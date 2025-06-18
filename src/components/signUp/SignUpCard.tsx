@@ -1,7 +1,7 @@
 import styles from './signUpCard.module.scss';
 import { WarningIcon } from '@goorm-dev/vapor-icons';
 import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
@@ -25,6 +25,14 @@ export default function SignUpCard() {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+
+  useEffect(() => {
+    if (useAuthStore.getState().role === Role.ADMIN) {
+      navigate('/admin');
+    } else if (useAuthStore.getState().role === Role.USER) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   // 로그인
   const handleLogin = useCallback(async () => {
