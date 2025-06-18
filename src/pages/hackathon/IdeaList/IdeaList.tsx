@@ -231,9 +231,11 @@ export default function IdeaList() {
     <div className={styles.mainContainer}>
       <div className={styles.listContainer}>
         {/* 현재 기간이 어떤 기간인지 나타냄 */}
-        <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
-          {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
-        </Alert>
+        {!loading && (
+          <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
+            {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
+          </Alert>
+        )}
         {/* 필터링, 아이디어 등록 버튼 */}
         <div className={styles.listHeader}>
           <div className={styles.titleContainer}>

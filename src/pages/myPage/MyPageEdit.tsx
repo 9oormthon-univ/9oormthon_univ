@@ -132,7 +132,6 @@ export default function MyPageEdit() {
       updateProfileImage(uploadedImageUrl);
       navigate('/my-page');
     } catch (error: any) {
-      console.error('프로필 업데이트 실패:', error);
       if (error.response.data.error.code === 40011) {
         setErrorMessage('자기소개는 필수로 입력해야 합니다.');
       } else {
