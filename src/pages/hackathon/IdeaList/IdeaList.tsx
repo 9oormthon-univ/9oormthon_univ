@@ -94,6 +94,11 @@ export default function IdeaList() {
   // 한 페이지당 보여질 페이지 수
   const projectsPerPage = 8;
 
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 기간 정보 갱신 및 사용자 상태 조회
   useEffect(() => {
     fetchPeriodData();

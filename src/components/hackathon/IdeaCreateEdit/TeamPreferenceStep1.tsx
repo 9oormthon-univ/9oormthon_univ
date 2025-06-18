@@ -22,6 +22,11 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const { updateIdeaInfo } = useIdeaFormStore();
 
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 아이디어 주제 조회
   useEffect(() => {
     const loadTopics = async () => {
