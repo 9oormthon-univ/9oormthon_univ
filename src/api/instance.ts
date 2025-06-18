@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { reissueAPI } from './auth';
-import useAuthStore from '../store/useAuthStore';
-import { useNavigate } from 'react-router-dom';
+// import useAuthStore from '../store/useAuthStore';
+// import { useNavigate } from 'react-router-dom';
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
@@ -11,11 +11,11 @@ const instance = axios.create({
 let isRefreshing = false; // 토큰 재발급 중인지 여부
 let refreshSubscribers: ((token: string) => void)[] = []; // 토큰 갱신 중인 요청 보관 (요청이 여러 개일 수 있으니 배열로 저장)
 
-let navigate: ReturnType<typeof useNavigate> | null = null;
+// let navigate: ReturnType<typeof useNavigate> | null = null;
 
-export const setAxiosNavigate = (nav: ReturnType<typeof useNavigate>) => {
-  navigate = nav;
-};
+// export const setAxiosNavigate = (nav: ReturnType<typeof useNavigate>) => {
+//   navigate = nav;
+// };
 
 // 401 오류 발생하면 accessToken 재발급
 instance.interceptors.response.use(
@@ -52,11 +52,11 @@ instance.interceptors.response.use(
       } catch (error) {
         isRefreshing = false;
         refreshSubscribers = [];
-        useAuthStore.getState().resetToGuest(); // 로그인 풀리면 GUEST로 변경
-        alert('로그아웃 되었습니다. 다시 로그인해주세요.');
-        if (navigate) {
-          navigate('/login');
-        }
+        // useAuthStore.getState().resetToGuest(); // 로그인 풀리면 GUEST로 변경
+        // alert('로그아웃 되었습니다. 다시 로그인해주세요.');
+        // if (navigate) {
+        //   navigate('/login');
+        // }
         return Promise.reject(error);
       }
     }
