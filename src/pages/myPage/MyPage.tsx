@@ -29,6 +29,11 @@ export default function MyPage() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 유저 / 내 정보 조회 구분
   useEffect(() => {
     const fetchUserInfo = async () => {

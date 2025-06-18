@@ -33,6 +33,11 @@ export default function MyPageEdit() {
   const { updateProfileImage } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 기존 유저 정보 불러오기
   useEffect(() => {
     setIsLoading(true);
