@@ -55,8 +55,8 @@ export default function SignUpCard() {
         navigate('/');
       }
     } catch (error: any) {
-      setErrorMessage(error.response.data.error?.message || '알 수 없는 오류가 발생했습니다.');
-      console.log(error.response.data.error?.message);
+      setErrorMessage('아이디 또는 비밀번호가 일치하지 않습니다.');
+      console.log(error.response.data);
     }
   }, [email, password, login, navigate]);
 
