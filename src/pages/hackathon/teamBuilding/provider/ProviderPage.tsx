@@ -11,6 +11,7 @@ import { GENERATION } from '../../../../constants/common';
 import InformationModal from '../../../../components/common/modal/InformationModal';
 import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
 import TeamInformationSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
+import TeamBuildingTableSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamBuildingTableSkeleton';
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
@@ -118,7 +119,9 @@ export default function ProviderPage() {
           )
         )}
 
-        {applyStatus?.applies?.length > 0 ? (
+        {isLoading ? (
+          <TeamBuildingTableSkeleton />
+        ) : applyStatus?.applies?.length > 0 ? (
           <ApplyStatusTable applicants={applyStatus.applies} refetchApplyStatus={fetchApplyStatus} />
         ) : (
           <div className={styles.noApplyStatus}>

@@ -11,6 +11,7 @@ import { getMyInfo, updateUserInfo } from '../../api/users';
 import { useNavigate } from 'react-router-dom';
 import { LinkType } from '../../constants/linkType';
 import useAuthStore from '../../store/useAuthStore';
+import MyPageSkeleton from '../../components/myPage/skeletonLoading/MyPageSkeleton';
 
 export default function MyPageEdit() {
   const [userInfo, setUserInfo] = useState({
@@ -30,9 +31,11 @@ export default function MyPageEdit() {
   const { uploadToS3 } = useS3Upload();
   const navigate = useNavigate();
   const { updateProfileImage } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
 
   // 기존 유저 정보 불러오기
   useEffect(() => {
+    setIsLoading(true);
     const fetchUserInfo = async () => {
       try {
         const response = await getMyInfo();
@@ -58,6 +61,8 @@ export default function MyPageEdit() {
         setImgPreview(data.img_url || notFound);
       } catch (error) {
         console.error('유저 정보 불러오기 실패:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -135,11 +140,16 @@ export default function MyPageEdit() {
     setUserInfo({ ...userInfo, introduction: value });
   };
 
-  return (
+  return isLoading ? (
+    <div className={styles.editContainer}>
+      <MyPageSkeleton />
+    </div>
+  ) : (
     <div className={styles.editContainer}>
       <Text typography="heading3" color="gray-900">
         내 정보 수정
       </Text>
+
       <hr className={styles.hr} />
       <div className={styles.editFormContainer}>
         <div className={styles.editForm}>

@@ -5,6 +5,7 @@ import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';
 import styles from './customNavbar.module.scss';
 import {
+  Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -149,7 +150,11 @@ function CustomNavbar() {
           {isLoggedIn ? (
             <Dropdown nav isOpen={isMyPageOpened} toggle={() => setIsMyPageOpened((prev) => !prev)}>
               <DropdownToggle nav className={styles.grayCircle}>
-                {profileImg && <img src={profileImg} alt="profile" className={styles.profileImg} />}
+                {profileImg ? (
+                  <img src={profileImg} alt="profile" className={styles.profileImg} />
+                ) : (
+                  <Avatar name="미르미" />
+                )}
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem className={styles.dropdownItem} onClick={() => navigate('/my-page')}>

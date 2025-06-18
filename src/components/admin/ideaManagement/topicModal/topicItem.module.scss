@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  height: 2.5rem;
+  align-items: center;
+  gap: var(--space-100);
+  align-self: stretch;
+  width: 100%;
+}
+
+.number {
+  width: 1.25rem;
+}
+
+.title,
+.input {
+  flex: 1;
+}
+
+.editButton {
+  height: var(--dimension-500);
+}

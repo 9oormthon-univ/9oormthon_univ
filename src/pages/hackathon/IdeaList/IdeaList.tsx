@@ -1,4 +1,4 @@
-import { Alert, BasicPagination, Button, Input, Spinner, Text, toast } from '@goorm-dev/vapor-components';
+import { Alert, BasicPagination, Button, Input, Text, toast } from '@goorm-dev/vapor-components';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
@@ -14,6 +14,7 @@ import { UserStatus, Role } from '../../../constants/role';
 import useAuthStore from '../../../store/useAuthStore';
 import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
+import IdeaListSkeleton from '../../../components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE'> | 'ADMIN', string> = {
@@ -223,69 +224,67 @@ export default function IdeaList() {
 
   return (
     <div className={styles.mainContainer}>
-      {loading ? (
-        <div className={styles.loadingContainer}>
-          <Spinner />
-        </div>
-      ) : (
-        <div className={styles.listContainer}>
-          {/* 현재 기간이 어떤 기간인지 나타냄 */}
-          <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
-            {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
-          </Alert>
-          {/* 필터링, 아이디어 등록 버튼 */}
-          <div className={styles.listHeader}>
-            <div className={styles.titleContainer}>
-              <Text typography="heading4" as="h4" color="text-normal">
-                아이디어 리스트
-              </Text>
-              <div className={styles.buttonContainer}>
-                <Button size="lg" onClick={handleMyIdea} className={styles.noneBtn} color="secondary">
-                  내 아이디어
-                </Button>
-                <Button icon={EditIcon} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
-                  아이디어 등록
-                </Button>
-              </div>
+      <div className={styles.listContainer}>
+        {/* 현재 기간이 어떤 기간인지 나타냄 */}
+        <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
+          {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
+        </Alert>
+        {/* 필터링, 아이디어 등록 버튼 */}
+        <div className={styles.listHeader}>
+          <div className={styles.titleContainer}>
+            <Text typography="heading4" as="h4" color="text-normal">
+              아이디어 리스트
+            </Text>
+            <div className={styles.buttonContainer}>
+              <Button size="lg" onClick={handleMyIdea} className={styles.noneBtn} color="secondary">
+                내 아이디어
+              </Button>
+              <Button icon={EditIcon} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
+                아이디어 등록
+              </Button>
             </div>
-            <div className={styles.searchContainer}>
-              <div className={styles.dropdownWrap}>
-                <SubjectFilterDropdown
-                  options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
-                  selectedValue={selectedTopic}
-                  onChange={setSelectedTopic}
-                  disabled={!isTeamBuilding}
-                />
-                <ActiveFilterDropdown
-                  options={statusOptions}
-                  selectedValue={selectedStatus}
-                  onChange={(value) => setSelectedStatus(value)}
-                  disabled={!isTeamBuilding}
-                />
-                <BookmarkedFilterDropdown
-                  options={bookmarkOptions}
-                  selectedValue={selectedBookmark}
-                  onChange={(value) => setSelectedBookmark(value)}
-                  disabled={!isTeamBuilding}
-                />
-              </div>
-              <Input
-                size="lg"
-                placeholder="아이디어 제목, 미르미 명으로 검색"
-                className={styles.searchInput}
-                value={searchQuery}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+          </div>
+          <div className={styles.searchContainer}>
+            <div className={styles.dropdownWrap}>
+              <SubjectFilterDropdown
+                options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
+                selectedValue={selectedTopic}
+                onChange={setSelectedTopic}
+                disabled={!isTeamBuilding}
+              />
+              <ActiveFilterDropdown
+                options={statusOptions}
+                selectedValue={selectedStatus}
+                onChange={(value) => setSelectedStatus(value)}
+                disabled={!isTeamBuilding}
+              />
+              <BookmarkedFilterDropdown
+                options={bookmarkOptions}
+                selectedValue={selectedBookmark}
+                onChange={(value) => setSelectedBookmark(value)}
                 disabled={!isTeamBuilding}
               />
             </div>
+            <Input
+              size="lg"
+              placeholder="아이디어 제목, 미르미 명으로 검색"
+              className={styles.searchInput}
+              value={searchQuery}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+              disabled={!isTeamBuilding}
+            />
           </div>
-          {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
-          {isTeamBuilding ? (
-            ideaList.ideas.length === 0 ? (
-              <NoAccess heading1="아이디어가 없어요 :(" />
-            ) : (
-              <div className={styles.ideaListWrap}>
-                {ideas?.map((idea: any) => (
+        </div>
+        {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
+        {isTeamBuilding ? (
+          ideaList.ideas.length === 0 ? (
+            <NoAccess heading1="아이디어가 없어요 :(" />
+          ) : (
+            <div className={styles.ideaListWrap}>
+              {loading ? (
+                <IdeaListSkeleton />
+              ) : (
+                ideas?.map((idea: any) => (
                   <IdeaListItem
                     key={idea.id}
                     topic={idea.subject}
@@ -296,22 +295,22 @@ export default function IdeaList() {
                     onClick={() => handleIdeaClick(idea.id)}
                     onBookmarkToggle={() => handleBookmarkToggle(idea.id)}
                   />
-                ))}
+                ))
+              )}
 
-                <BasicPagination
-                  page={page_info?.current_page}
-                  limitCount={projectsPerPage}
-                  pageCount={page_info?.total_pages}
-                  onPageChangeHandler={(currentPage: number) => handlePageChange(currentPage)}
-                  className={styles.basicPagination}
-                />
-              </div>
-            )
-          ) : (
-            <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />
-          )}
-        </div>
-      )}
+              <BasicPagination
+                page={page_info?.current_page}
+                limitCount={projectsPerPage}
+                pageCount={page_info?.total_pages}
+                onPageChangeHandler={(currentPage: number) => handlePageChange(currentPage)}
+                className={styles.basicPagination}
+              />
+            </div>
+          )
+        ) : (
+          <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />
+        )}
+      </div>
     </div>
   );
 }

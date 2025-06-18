@@ -3,11 +3,12 @@ import MDEditor from '@uiw/react-md-editor';
 import StackItem from '../../components/hackathon/common/team/StackItem';
 import { MyPageHeader } from '../../components/myPage/MyPageHeader';
 // import { MyPageProject } from '../../components/myPage/MyPageProject';
-import { Spinner, Text } from '@goorm-dev/vapor-components';
+import { Text } from '@goorm-dev/vapor-components';
 import { LinkType } from '../../constants/linkType';
 import { getMyInfo, getUserInfo } from '../../api/users';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import MyPageSkeleton from '../../components/myPage/skeletonLoading/MyPageSkeleton';
 
 interface UserInfo {
   name: string;
@@ -48,9 +49,7 @@ export default function MyPage() {
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <div className={styles.loading}>
-          <Spinner />
-        </div>
+        <MyPageSkeleton />
       ) : (
         <>
           <MyPageHeader
