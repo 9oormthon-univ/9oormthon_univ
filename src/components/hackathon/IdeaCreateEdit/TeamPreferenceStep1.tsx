@@ -72,7 +72,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   };
 
   // 이름으로 확인
-  const selectedTopic = topics.find((topic) => topic.name === formData.idea_info.subject);
+  const selectedTopic = topics.find((topic) => topic.id === formData.idea_info.idea_subject_id);
 
   return (
     <div className={styles.container}>
