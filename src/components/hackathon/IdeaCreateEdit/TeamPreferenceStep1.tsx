@@ -27,9 +27,10 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     const loadTopics = async () => {
       try {
         const response = await fetchIdeaSubjects(GENERATION);
-        const activeTopics = response.data.idea_subjects
-          .filter((topic: { is_active: boolean }) => topic.is_active)
-          .map((topic: { id: number; name: string }) => ({ id: topic.id, name: topic.name }));
+        const activeTopics = response.data.idea_subjects.map((topic: { id: number; name: string }) => ({
+          id: topic.id,
+          name: topic.name,
+        }));
         setTopics(activeTopics);
       } catch (error) {
         console.error('Error fetching idea subjects:', error);

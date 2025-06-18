@@ -2,7 +2,7 @@ import { InOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './form.module.scss';
 
 import { Button, Text } from '@goorm-dev/vapor-components';
-import { TeamDetail } from '../../../../types/admin/team';
+import { TeamBuildingStatus, TeamDetail } from '../../../../types/admin/team';
 import { useNavigate } from 'react-router-dom';
 
 interface TeamInfoViewProps {
@@ -92,6 +92,16 @@ export default function TeamInfoView({ teamDetail }: TeamInfoViewProps) {
         </Text>
         <Text typography="heading6" color="text-normal">
           {teamDetail?.leader?.description || '-'}
+        </Text>
+      </div>
+      <div className={styles.teamInfo}>
+        <Text typography="subtitle2" color="text-hint">
+          팀빌딩 상태
+        </Text>
+        <Text
+          typography="heading6"
+          color={teamDetail?.team_building === TeamBuildingStatus.RECRUITING ? 'text-primary' : 'text-success'}>
+          {teamDetail?.team_building === TeamBuildingStatus.RECRUITING ? '모집중' : '모집완료'}
         </Text>
       </div>
     </div>
