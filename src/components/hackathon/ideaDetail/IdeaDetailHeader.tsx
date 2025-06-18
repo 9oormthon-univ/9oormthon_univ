@@ -16,6 +16,7 @@ import useBreakPoint from '../../../hooks/useBreakPoint';
 import usePeriodStore from '../../../store/usePeriodStore';
 import useAuthStore from '../../../store/useAuthStore';
 import { UserStatus } from '../../../constants/role';
+import { deleteIdea } from '../../../api/idea';
 interface IdeaDetailHeaderProps {
   id: number;
   provider_id: number;
@@ -73,6 +74,19 @@ export default function IdeaDetailHeader({
     }
   };
 
+  // 아이디어 삭제
+  const handleDeleteIdea = async () => {
+    if (current_period === 'IDEA_SUBMISSION') {
+      await deleteIdea(id);
+      await fetchUserStatus(); // 사용자 상태 갱신
+      navigate('/hackathon');
+    } else {
+      toast('아이디어 삭제 기간이 아닙니다.', {
+        type: 'danger',
+      });
+    }
+  };
+
   return (
     <div className={styles.headerContainer}>
       <div className={styles.titleContainer}>
@@ -103,6 +117,7 @@ export default function IdeaDetailHeader({
                 <DropdownItem
                   color="danger"
                   className={styles.deleteItem}
+                  onClick={handleDeleteIdea}
                   disabled={current_period !== 'IDEA_SUBMISSION'}>
                   삭제하기
                 </DropdownItem>

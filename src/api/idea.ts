@@ -116,3 +116,9 @@ export const applyIdea = async (
   });
   return response.data;
 };
+
+// 3.16 아이디어 삭제
+export const deleteIdea = async (idea_id: number) => {
+  const response = await instance.delete(`/api/v1/users/ideas/${idea_id}`);
+  return response.data;
+};
