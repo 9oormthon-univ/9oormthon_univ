@@ -48,7 +48,7 @@ export default function IdeaDetailHeader({
   const toggle = () => setOpen((prev) => !prev);
   const navigate = useNavigate();
   const breakpoint = useBreakPoint();
-  const { current_period } = usePeriodStore();
+  const { current_period, isTeamBuildingPeriod } = usePeriodStore();
   const { status, fetchUserStatus } = useAuthStore();
 
   // 사용자 상태 조회
@@ -56,7 +56,14 @@ export default function IdeaDetailHeader({
     fetchUserStatus();
   }, []);
 
+  // 아이디어 지원 이동
   const handleApplyIdea = () => {
+    if (!isTeamBuildingPeriod()) {
+      toast('팀 빌딩 지원 기간이 아닙니다.', {
+        type: 'danger',
+      });
+      return;
+    }
     if (status === UserStatus.APPLICANT || status === UserStatus.NONE) {
       navigate(`/hackathon/apply/${id}`);
     } else if (status === UserStatus.PROVIDER) {
