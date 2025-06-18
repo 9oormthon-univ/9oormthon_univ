@@ -281,27 +281,26 @@ export default function IdeaList() {
           </div>
         </div>
         {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
-        {isTeamBuilding ? (
-          ideaList.ideas.length === 0 ? (
+        {loading ? (
+          <IdeaListSkeleton />
+        ) : (
+          isTeamBuilding &&
+          (ideaList.ideas.length === 0 ? (
             <NoAccess heading1="아이디어가 없어요 :(" />
           ) : (
             <div className={styles.ideaListWrap}>
-              {loading ? (
-                <IdeaListSkeleton />
-              ) : (
-                ideas?.map((idea: any) => (
-                  <IdeaListItem
-                    key={idea.id}
-                    topic={idea.subject}
-                    title={idea.title}
-                    description={idea.summary}
-                    is_active={idea.is_active}
-                    is_bookmarked={idea.is_bookmarked}
-                    onClick={() => handleIdeaClick(idea.id)}
-                    onBookmarkToggle={() => handleBookmarkToggle(idea.id)}
-                  />
-                ))
-              )}
+              {ideas?.map((idea: any) => (
+                <IdeaListItem
+                  key={idea.id}
+                  topic={idea.subject}
+                  title={idea.title}
+                  description={idea.summary}
+                  is_active={idea.is_active}
+                  is_bookmarked={idea.is_bookmarked}
+                  onClick={() => handleIdeaClick(idea.id)}
+                  onBookmarkToggle={() => handleBookmarkToggle(idea.id)}
+                />
+              ))}
 
               <BasicPagination
                 page={page_info?.current_page}
@@ -311,10 +310,9 @@ export default function IdeaList() {
                 className={styles.basicPagination}
               />
             </div>
-          )
-        ) : (
-          <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />
+          ))
         )}
+        {!isTeamBuilding && <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />}
       </div>
     </div>
   );
