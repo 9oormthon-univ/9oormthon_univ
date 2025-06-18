@@ -22,6 +22,11 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const { updateIdeaInfo } = useIdeaFormStore();
 
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 아이디어 주제 조회
   useEffect(() => {
     const loadTopics = async () => {
@@ -72,7 +77,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   };
 
   // 이름으로 확인
-  const selectedTopic = topics.find((topic) => topic.name === formData.idea_info.subject);
+  const selectedTopic = topics.find((topic) => topic.id === formData.idea_info.idea_subject_id);
 
   return (
     <div className={styles.container}>

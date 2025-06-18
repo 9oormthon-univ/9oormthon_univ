@@ -4,6 +4,7 @@ import PositionForm from '../ideaForm/PositionForm';
 import BackLinkNavigation from '../common/BackLinkNavigation';
 import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import { POSITIONS, RequirementKey } from '../../../constants/position';
+import { useEffect } from 'react';
 
 interface TeamPreferenceStep2Props {
   formData: any;
@@ -24,6 +25,11 @@ export default function TeamPreferenceStep2({
     name: value.name,
     index: value.index,
   }));
+
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className={styles.container}>

@@ -2,7 +2,7 @@ import instance from '../instance';
 
 // 3.18 어드민 아이디어 주제 간단 리스트 조회
 export const fetchIdeaSubjects = async (generation: number) => {
-  const response = await instance.get(`/api/v1/admin/ideas/subjects?generation=${generation}`);
+  const response = await instance.get(`/api/v1/admins/idea-subjects/briefs?generation=${generation}`);
   return response.data;
 };
 

@@ -33,6 +33,11 @@ export default function MyPageEdit() {
   const { updateProfileImage } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
 
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 기존 유저 정보 불러오기
   useEffect(() => {
     setIsLoading(true);
@@ -126,9 +131,13 @@ export default function MyPageEdit() {
       await updateUserInfo(updatedData);
       updateProfileImage(uploadedImageUrl);
       navigate('/my-page');
-    } catch (error) {
+    } catch (error: any) {
       console.error('프로필 업데이트 실패:', error);
-      setErrorMessage('프로필 수정에 실패했습니다.');
+      if (error.response.data.error.code === 40011) {
+        setErrorMessage('자기소개는 필수로 입력해야 합니다.');
+      } else {
+        setErrorMessage('프로필 수정에 실패했습니다.');
+      }
     }
   };
 

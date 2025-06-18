@@ -174,14 +174,6 @@ export default function FormEditor({
             italic,
             strikethrough,
             hr,
-            commands.group(
-              [commands.title1, commands.title2, commands.title3, commands.title4, commands.title5, commands.title6],
-              {
-                name: 'title',
-                groupName: 'title',
-                buttonProps: { 'aria-label': 'Insert title' },
-              },
-            ),
             commands.divider,
             commands.link,
             commands.quote,

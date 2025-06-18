@@ -16,6 +16,7 @@ import useBreakPoint from '../../../hooks/useBreakPoint';
 import usePeriodStore from '../../../store/usePeriodStore';
 import useAuthStore from '../../../store/useAuthStore';
 import { UserStatus } from '../../../constants/role';
+import { deleteIdea } from '../../../api/idea';
 interface IdeaDetailHeaderProps {
   id: number;
   provider_id: number;
@@ -47,7 +48,7 @@ export default function IdeaDetailHeader({
   const toggle = () => setOpen((prev) => !prev);
   const navigate = useNavigate();
   const breakpoint = useBreakPoint();
-  const { current_period } = usePeriodStore();
+  const { current_period, isTeamBuildingPeriod } = usePeriodStore();
   const { status, fetchUserStatus } = useAuthStore();
 
   // 사용자 상태 조회
@@ -55,7 +56,14 @@ export default function IdeaDetailHeader({
     fetchUserStatus();
   }, []);
 
+  // 아이디어 지원 이동
   const handleApplyIdea = () => {
+    if (!isTeamBuildingPeriod()) {
+      toast('팀 빌딩 지원 기간이 아닙니다.', {
+        type: 'danger',
+      });
+      return;
+    }
     if (status === UserStatus.APPLICANT || status === UserStatus.NONE) {
       navigate(`/hackathon/apply/${id}`);
     } else if (status === UserStatus.PROVIDER) {
@@ -68,6 +76,19 @@ export default function IdeaDetailHeader({
       });
     } else {
       toast('지원 가능한 상태가 아닙니다.', {
+        type: 'danger',
+      });
+    }
+  };
+
+  // 아이디어 삭제
+  const handleDeleteIdea = async () => {
+    if (current_period === 'IDEA_SUBMISSION') {
+      await deleteIdea(id);
+      await fetchUserStatus(); // 사용자 상태 갱신
+      navigate('/hackathon');
+    } else {
+      toast('아이디어 삭제 기간이 아닙니다.', {
         type: 'danger',
       });
     }
@@ -103,6 +124,7 @@ export default function IdeaDetailHeader({
                 <DropdownItem
                   color="danger"
                   className={styles.deleteItem}
+                  onClick={handleDeleteIdea}
                   disabled={current_period !== 'IDEA_SUBMISSION'}>
                   삭제하기
                 </DropdownItem>

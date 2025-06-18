@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
-import { createIdeaAPI, fetchIdeaDetailById, updateIdeaAPI } from '../../../api/idea';
+import { createIdeaAPI, fetchMyIdeaDetail, updateIdeaAPI } from '../../../api/idea';
 import TeamPreferenceStep1 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep1';
 import TeamPreferenceStep2 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep2';
 import { IDEA_ADD_ERROR_MESSAGES } from '../../../constants/errorMessage';
@@ -23,7 +23,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
     if (isEditMode && idea_id) {
       const fetchData = async () => {
         try {
-          const response = await fetchIdeaDetailById(idea_id);
+          const response = await fetchMyIdeaDetail();
 
           const mappedIdeaInfo = {
             ...response.data.idea_info,

@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import IdeaInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/IdeaInfo';
 import TeamInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/TeamInfo';
 import { addIdeaBookmark, fetchIdeaDetailById, fetchMyIdeaDetail } from '../../../api/idea';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 import { toast } from '@goorm-dev/vapor-components';
 import IdeaHeaderSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaHeaderSkeleton';
@@ -18,6 +18,11 @@ export default function IdeaDetail() {
   const [ideaDetail, setIdeaDetail] = useState<any>(null);
   const { idea_info, provider_info, requirements } = ideaDetail || {};
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // 아이디어 조회
   useEffect(() => {
@@ -26,7 +31,11 @@ export default function IdeaDetail() {
       try {
         const response = idea_id ? await fetchIdeaDetailById(idea_id) : await fetchMyIdeaDetail();
         setIdeaDetail(response.data);
-      } catch (error) {
+      } catch (error: any) {
+        toast('아이디어 조회 기간이 아닙니다.', {
+          type: 'danger',
+        });
+        navigate('/hackathon');
         console.error('Error fetching idea details:', error);
       } finally {
         setIsLoading(false);
