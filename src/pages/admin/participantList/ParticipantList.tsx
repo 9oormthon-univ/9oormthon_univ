@@ -101,9 +101,9 @@ export default function ParticipantList() {
             selectedUniv={selectedUniv || null}
             members={members}
             pageInfo={pageInfo}
-            onPageChange={(page) => getUserList(page, selectedUnivId, searchQuery)}
+            onPageChange={(page) => setCurrentPage(page)}
             onSearchChange={(query) => setSearchQuery(query)}
-            onUpdate={() => getUserList(currentPage, selectedUnivId, searchQuery)}
+            onUpdate={() => getUserList(currentPage, selectedUnivId, searchQuery, sorting, sortType)}
             onSortChange={handleSorting}
           />
         </div>

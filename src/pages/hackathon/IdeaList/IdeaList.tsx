@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { fetchIdeas, fetchIdeaSubjects, addIdeaBookmark } from '../../../api/idea';
 import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/ActiveFilterDropdown';
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
 import { EditIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import usePeriodStore from '../../../store/usePeriodStore';
@@ -38,6 +38,8 @@ const bookmarkOptions = [
 
 export default function IdeaList() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // 주제 가져오기
   const [hackathonTopics, setHackathonTopics] = useState<{ id: number; name: string }[]>([]);
   const [ideaList, setIdeaList] = useState<{ ideas: any[]; page_info: any }>({
@@ -75,11 +77,11 @@ export default function IdeaList() {
   };
 
   // 필터링
-  const [selectedTopic, setSelectedTopic] = useState<number>(0);
-  const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(true);
-  const [selectedBookmark, setSelectedBookmark] = useState<boolean | undefined>(undefined);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
+  const selectedTopic = Number(searchParams.get('topic')) || 0;
+  const selectedStatus = searchParams.get('status') !== null ? searchParams.get('status') === 'true' : undefined;
+  const selectedBookmark = searchParams.get('bookmark') !== null ? searchParams.get('bookmark') === 'true' : undefined;
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || '');
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   // 팀빌딩 기간인지
@@ -154,9 +156,50 @@ export default function IdeaList() {
     }
   }, [selectedTopic, selectedStatus, currentPage, selectedBookmark, debouncedSearchQuery, isTeamBuilding]);
 
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   // 페이지네이션 페이지 이동
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    searchParams.set('page', String(page));
+    setSearchParams(searchParams);
+  };
+
+  // 필터 변경 핸들러들
+  const handleTopicChange = (value: number) => {
+    searchParams.set('topic', String(value));
+    searchParams.set('page', '1');
+    setSearchParams(searchParams);
+  };
+
+  const handleStatusChange = (value: boolean | undefined) => {
+    if (value === undefined) {
+      searchParams.delete('status');
+    } else {
+      searchParams.set('status', String(value));
+    }
+    searchParams.set('page', '1');
+    setSearchParams(searchParams);
+  };
+
+  const handleBookmarkChange = (value: boolean | undefined) => {
+    if (value === undefined) {
+      searchParams.delete('bookmark');
+    } else {
+      searchParams.set('bookmark', String(value));
+    }
+    searchParams.set('page', '1');
+    setSearchParams(searchParams);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    searchParams.set('query', query);
+    searchParams.set('page', '1');
+    setSearchParams(searchParams);
   };
 
   // 아이디어 클릭 이벤트
@@ -231,9 +274,11 @@ export default function IdeaList() {
     <div className={styles.mainContainer}>
       <div className={styles.listContainer}>
         {/* 현재 기간이 어떤 기간인지 나타냄 */}
-        <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
-          {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
-        </Alert>
+        {!loading && (
+          <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
+            {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
+          </Alert>
+        )}
         {/* 필터링, 아이디어 등록 버튼 */}
         <div className={styles.listHeader}>
           <div className={styles.titleContainer}>
@@ -254,19 +299,19 @@ export default function IdeaList() {
               <SubjectFilterDropdown
                 options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
                 selectedValue={selectedTopic}
-                onChange={setSelectedTopic}
+                onChange={handleTopicChange}
                 disabled={!isTeamBuilding}
               />
               <ActiveFilterDropdown
                 options={statusOptions}
                 selectedValue={selectedStatus}
-                onChange={(value) => setSelectedStatus(value)}
+                onChange={handleStatusChange}
                 disabled={!isTeamBuilding}
               />
               <BookmarkedFilterDropdown
                 options={bookmarkOptions}
                 selectedValue={selectedBookmark}
-                onChange={(value) => setSelectedBookmark(value)}
+                onChange={handleBookmarkChange}
                 disabled={!isTeamBuilding}
               />
             </div>
@@ -275,7 +320,7 @@ export default function IdeaList() {
               placeholder="아이디어 제목, 미르미 명으로 검색"
               className={styles.searchInput}
               value={searchQuery}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
               disabled={!isTeamBuilding}
             />
           </div>
