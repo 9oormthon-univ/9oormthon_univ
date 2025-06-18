@@ -94,7 +94,7 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
               pd_capacity: teamDetail?.pd_capacity ?? 0,
               fe_capacity: teamDetail?.fe_capacity ?? 0,
               be_capacity: teamDetail?.be_capacity ?? 0,
-              status: teamDetail?.status ?? TeamBuildingStatus.RECRUITING,
+              status: teamDetail?.team_building ?? TeamBuildingStatus.RECRUITING,
             }}
             teamId={teamId}
           />

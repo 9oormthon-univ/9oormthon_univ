@@ -59,7 +59,7 @@ export interface TeamDetail {
   service_name: string;
   idea_id?: number;
   leader?: User;
-  status: TeamBuildingStatus;
+  team_building: TeamBuildingStatus;
 }
 
 // 팀 수정 폼
