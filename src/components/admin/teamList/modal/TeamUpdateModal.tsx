@@ -30,7 +30,11 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
           const res = await fetchTeamDetailAPI(teamId);
           const { leader, ...rest } = res.data;
           setTeamDetail(res.data);
-          setFormData({ ...rest, leader_id: leader?.id || undefined }); // 수정
+          setFormData({
+            ...rest,
+            leader_id: leader?.id || undefined,
+            status: res.data.team_building ?? TeamBuildingStatus.RECRUITING,
+          }); // 수정
         } catch (error) {
           console.error(error);
         }
