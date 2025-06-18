@@ -55,14 +55,16 @@ export default function ApplicantPage() {
       {isLoading ? (
         <IdeaApplyListSkeleton />
       ) : applySummary?.applies?.length > 0 ? (
-        applySummary?.applies?.map((apply: any) => (
-          <IdeaApplyListItem
-            key={apply.apply_info.id}
-            applySummary={apply}
-            onDeleteSuccess={fetchApplySummary}
-            applyIndex={applySummary?.applies?.indexOf(apply) + 1}
-          />
-        ))
+        [...applySummary.applies]
+          .sort((a, b) => a.apply_info.preference - b.apply_info.preference)
+          .map((apply: any) => (
+            <IdeaApplyListItem
+              key={apply.apply_info.id}
+              applySummary={apply}
+              onDeleteSuccess={fetchApplySummary}
+              applyIndex={apply.apply_info.preference}
+            />
+          ))
       ) : (
         <Text typography="body1">지원 내역이 없습니다.</Text>
       )}
