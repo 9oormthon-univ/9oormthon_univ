@@ -78,7 +78,7 @@ export default function IdeaList() {
 
   // 필터링
   const selectedTopic = Number(searchParams.get('topic')) || 0;
-  const selectedStatus = searchParams.get('status') !== null ? searchParams.get('status') === 'true' : undefined;
+  const selectedStatus = searchParams.get('status') !== null ? searchParams.get('status') === 'true' : true;
   const selectedBookmark = searchParams.get('bookmark') !== null ? searchParams.get('bookmark') === 'true' : undefined;
   const currentPage = Number(searchParams.get('page')) || 1;
   const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || '');
@@ -169,7 +169,11 @@ export default function IdeaList() {
 
   // 필터 변경 핸들러들
   const handleTopicChange = (value: number) => {
-    searchParams.set('topic', String(value));
+    if (value === 0) {
+      searchParams.delete('topic');
+    } else {
+      searchParams.set('topic', String(value));
+    }
     searchParams.set('page', '1');
     setSearchParams(searchParams);
   };
