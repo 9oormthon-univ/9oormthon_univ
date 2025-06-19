@@ -22,10 +22,10 @@ export const TopicModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
     const fetchTopics = async () => {
       try {
         const res = await fetchIdeaSubjects(GENERATION);
-        if (res.length === 0) {
+        if (res.data.idea_subjects.length === 0) {
           setTopics([{ value: '', isEditing: true, isNew: true }]);
         } else {
-          setTopics(res.map((t: any) => ({ id: t.id, value: t.name, isEditing: false })));
+          setTopics(res.data.idea_subjects.map((t: any) => ({ id: t.id, value: t.name, isEditing: false })));
         }
       } catch (err) {
         console.error('조회 실패', err);
