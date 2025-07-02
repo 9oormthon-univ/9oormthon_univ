@@ -63,6 +63,7 @@ function CustomNavbar() {
         break;
       case UserStatus.MEMBER:
       case UserStatus.APPLICANT:
+      case UserStatus.APPLICANT_REJECTED:
         navigate('/team/applicant');
         break;
       case UserStatus.NONE:
