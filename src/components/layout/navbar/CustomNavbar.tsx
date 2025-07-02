@@ -47,6 +47,7 @@ function CustomNavbar() {
   const handleLogout = () => {
     useAuthStore.getState().logout();
     navigate('/');
+    window.location.reload();
   };
 
   // 팀 빌딩 기간 데이터 업데이트 필요
