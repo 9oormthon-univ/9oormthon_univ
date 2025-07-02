@@ -1,7 +1,7 @@
 import { Button, Input, Text } from '@goorm-dev/vapor-components';
 import styles from './topicItem.module.scss';
 import { EditIcon, TrashIcon } from '@goorm-dev/vapor-icons';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { createIdeaSubject, updateIdeaSubject } from '../../../../api/admin/idea';
 import { GENERATION } from '../../../../constants/common';
 
@@ -25,9 +25,12 @@ export const TopicItem = ({
 }) => {
   const [isEditing, setIsEditing] = useState(topic.isEditing);
   const [value, setValue] = useState(topic.value);
+  const isLoadingRef = useRef(false);
 
   const handleComplete = async () => {
-    if (!value.trim()) return;
+    if (!value.trim() || isLoadingRef.current) return;
+
+    isLoadingRef.current = true;
 
     try {
       let updatedTopic: Topic = { ...topic, value, isEditing: false };
@@ -43,6 +46,8 @@ export const TopicItem = ({
       setIsEditing(false);
     } catch (error) {
       console.error('주제 저장 실패:', error);
+    } finally {
+      isLoadingRef.current = false;
     }
   };
 

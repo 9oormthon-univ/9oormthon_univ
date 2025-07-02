@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text } from '@goorm-dev/vapor-components';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text, toast } from '@goorm-dev/vapor-components';
 import { TopicItem } from './TopicItem';
 import styles from './topicModal.module.scss';
 import { PlusOutlineIcon } from '@goorm-dev/vapor-icons';
@@ -44,8 +44,15 @@ export const TopicModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
   };
 
   const handleRemove = async (id: number) => {
-    setTopics((prev) => prev.filter((topic) => topic.id !== id));
-    await deleteIdeaSubject(id);
+    try {
+      await deleteIdeaSubject(id);
+      setTopics((prev) => prev.filter((topic) => topic.id !== id));
+      toast('주제를 삭제했습니다.', {
+        type: 'primary',
+      });
+    } catch (error) {
+      console.error('주제 삭제 실패:', error);
+    }
   };
 
   return (
