@@ -60,3 +60,9 @@ export const fetchIdeaSummaries = async (
   const response = await instance.get(`/api/v1/admins/ideas/overviews?${queryParams.toString()}`);
   return response.data;
 };
+
+// 3.24 어드민 아이디어 삭제
+export const deleteIdea = async (id: number) => {
+  const response = await instance.delete(`/api/v1/admins/ideas/${id}`);
+  return response.data;
+};

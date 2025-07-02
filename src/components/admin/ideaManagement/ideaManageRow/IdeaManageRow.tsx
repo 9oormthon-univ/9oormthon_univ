@@ -3,7 +3,7 @@ import { OpenInNewOutlineIcon, TrashIcon } from '@goorm-dev/vapor-icons';
 import styles from './ideaManageRow.module.scss';
 import { Idea } from '../../../../types/admin/idea';
 
-export const IdeaManageRow = ({ idea }: { idea: Idea }) => {
+export const IdeaManageRow = ({ idea, onDeleteClick }: { idea: Idea; onDeleteClick: (idea: Idea) => void }) => {
   return (
     <tr>
       <td>
@@ -30,7 +30,7 @@ export const IdeaManageRow = ({ idea }: { idea: Idea }) => {
         </Text>
       </td>
       <td className={styles.buttonContainer}>
-        <Button type="button" size="sm" color="secondary" icon={TrashIcon} />
+        <Button type="button" size="sm" color="secondary" icon={TrashIcon} onClick={() => onDeleteClick(idea)} />
         <Button
           type="button"
           size="sm"

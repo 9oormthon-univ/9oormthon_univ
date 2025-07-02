@@ -74,6 +74,7 @@ export default function IdeaManagement() {
         pageInfo={pageInfo}
         onSortChange={handleSorting}
         onPageChange={(page: number) => setPageInfo({ ...pageInfo, current_page: page })}
+        onUpdate={() => getIdeaList(pageInfo.current_page, sorting, sortOrder, debouncedSearchQuery)}
       />
       <TopicModal isOpen={isTopicModalOpen} toggle={toggleTopicModal} />
     </div>
