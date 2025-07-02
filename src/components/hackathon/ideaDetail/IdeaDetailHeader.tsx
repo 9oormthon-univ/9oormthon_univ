@@ -66,7 +66,8 @@ export default function IdeaDetailHeader({
       });
       return;
     }
-    if (status === UserStatus.APPLICANT || status === UserStatus.NONE) {
+    // 제시자나 멤버가 아니면 지원 가능
+    if (status !== UserStatus.PROVIDER && status !== UserStatus.MEMBER) {
       navigate(`/hackathon/apply/${id}`);
     } else if (status === UserStatus.PROVIDER) {
       toast('이미 등록한 아이디어가 있어 지원할 수 없습니다.', {

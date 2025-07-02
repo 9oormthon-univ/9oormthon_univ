@@ -78,6 +78,8 @@ const useAuthStore = create<AuthStore>((set) => ({
 
   // 로그아웃
   logout: async () => {
+    let shouldClearCookies = false;
+
     try {
       await logoutAPI();
       toast('로그아웃 되었습니다.', {
@@ -85,10 +87,14 @@ const useAuthStore = create<AuthStore>((set) => ({
       });
     } catch (error) {
       console.warn('Logout error', error);
+      shouldClearCookies = true;
     }
 
-    clearAuthCookies();
-    console.log('clearAuthCookies');
+    if (shouldClearCookies) {
+      clearAuthCookies();
+      window.location.reload();
+      console.log('clearAuthCookies');
+    }
 
     localStorage.setItem('role', Role.GUEST);
     localStorage.removeItem('status');

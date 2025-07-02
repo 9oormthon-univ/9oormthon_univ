@@ -32,6 +32,10 @@
   @include container-md {
     width: 48rem;
   }
+
+  @include container-lg {
+    width: 59.5rem;
+  }
 }
 
 .listHeader {
