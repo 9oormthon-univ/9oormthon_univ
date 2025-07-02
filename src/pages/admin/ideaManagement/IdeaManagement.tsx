@@ -28,7 +28,8 @@ export default function IdeaManagement() {
 
   // 아이디어 목록 조회
   const getIdeaList = async (page: number, sorting?: Sorting, sortOrder?: SortOrder, search?: string) => {
-    const res = await fetchIdeaSummaries(page, 10, GENERATION, sorting, sortOrder, search);
+    const searchParam = search?.trim() === '' ? undefined : search;
+    const res = await fetchIdeaSummaries(page, 10, GENERATION, sorting, sortOrder, searchParam);
     setIdeaList(res.data.ideas);
     setPageInfo(res.data.page_info);
   };
