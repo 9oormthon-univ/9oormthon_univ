@@ -33,7 +33,13 @@
     width: 16rem;
   }
 
-  td:first-child {
+  td:nth-child(3),
+  th:nth-child(3) {
+    width: 5.6rem;
+  }
+
+  td:first-child,
+  th:first-child {
     border-right: 1px solid var(--border-color);
   }
 }
