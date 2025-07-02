@@ -60,8 +60,7 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
   // 유니브 삭제
   const handleDeleteUniv = async (univ_id: number) => {
     try {
-      const res = await deleteUnivAPI(univ_id);
-      console.log(res);
+      await deleteUnivAPI(univ_id);
       onRefreshUnivList(); // 삭제 후 리스트 새로고침
       onSelectUniv(null); // 삭제 후 유니브 선택 초기화
       setIsUnivDeleteModalOpen(false);
@@ -69,8 +68,17 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
       toast('유니브 삭제가 완료되었습니다', {
         type: 'primary',
       });
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const errorCode = error.response.data?.error?.code;
+      if (errorCode === 40904) {
+        toast('해당 유니브에 미르미가 있어 삭제할 수 없습니다.', {
+          type: 'danger',
+        });
+      } else {
+        toast('유니브 삭제에 실패했습니다', {
+          type: 'danger',
+        });
+      }
     }
   };
 
