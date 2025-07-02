@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { getUserBriefAPI, loginAPI, logoutAPI } from '../api/auth';
 import { Role, UserStatus } from '../constants/role';
 import { toast } from '@goorm-dev/vapor-components';
+import { clearAuthCookies } from '../utilities/deleteCookies';
 
 // Enum 변환 유틸 함수
 const parseEnumValue = <T extends Record<string, string>>(
@@ -83,11 +84,11 @@ const useAuthStore = create<AuthStore>((set) => ({
         type: 'primary',
       });
     } catch (error) {
-      console.error('Logout error', error);
-      toast('로그아웃에 실패했습니다.', {
-        type: 'danger',
-      });
+      console.warn('Logout error', error);
     }
+
+    clearAuthCookies();
+    console.log('clearAuthCookies');
 
     localStorage.setItem('role', Role.GUEST);
     localStorage.removeItem('status');

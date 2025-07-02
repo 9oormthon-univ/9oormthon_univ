@@ -17,7 +17,7 @@ import { useDebounce } from '../../../hooks/useDebounce';
 import IdeaListSkeleton from '../../../components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
 
 // 상태별 메시지 매핑 객체 수정
-const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE'> | 'ADMIN', string> = {
+const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE' | 'APPLICANT_REJECTED'> | 'ADMIN', string> = {
   [UserStatus.PROVIDER]: '이미 제출된 아이디어가 있어 등록이 불가합니다.',
   [UserStatus.MEMBER]: '이미 팀이 있어 아이디어 등록이 불가합니다.',
   [UserStatus.APPLICANT]: '지원한 아이디어가 있어 등록이 불가합니다.',
@@ -256,7 +256,8 @@ export default function IdeaList() {
       return;
     }
 
-    if (status && status !== UserStatus.NONE) {
+    // NONE과 APPLICANT_REJECTED는 아이디어 등록 가능
+    if (status && status !== UserStatus.NONE && status !== UserStatus.APPLICANT_REJECTED) {
       toast(STATUS_MESSAGES[status], { type: 'danger' });
       return;
     }

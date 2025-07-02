@@ -17,6 +17,7 @@ import usePeriodStore from '../../../store/usePeriodStore';
 import useAuthStore from '../../../store/useAuthStore';
 import { UserStatus } from '../../../constants/role';
 import { deleteIdea } from '../../../api/idea';
+import InformationModal from '../../common/modal/InformationModal';
 interface IdeaDetailHeaderProps {
   id: number;
   provider_id: number;
@@ -50,6 +51,7 @@ export default function IdeaDetailHeader({
   const breakpoint = useBreakPoint();
   const { current_period, isTeamBuildingPeriod } = usePeriodStore();
   const { status, fetchUserStatus } = useAuthStore();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // 사용자 상태 조회
   useEffect(() => {
@@ -86,8 +88,13 @@ export default function IdeaDetailHeader({
     if (current_period === 'IDEA_SUBMISSION') {
       await deleteIdea(id);
       await fetchUserStatus(); // 사용자 상태 갱신
+      setIsDeleteModalOpen(false);
       navigate('/hackathon');
+      toast('아이디어를 삭제했습니다.', {
+        type: 'primary',
+      });
     } else {
+      setIsDeleteModalOpen(false);
       toast('아이디어 삭제 기간이 아닙니다.', {
         type: 'danger',
       });
@@ -124,7 +131,7 @@ export default function IdeaDetailHeader({
                 <DropdownItem
                   color="danger"
                   className={styles.deleteItem}
-                  onClick={handleDeleteIdea}
+                  onClick={() => setIsDeleteModalOpen(true)}
                   disabled={current_period !== 'IDEA_SUBMISSION'}>
                   삭제하기
                 </DropdownItem>
@@ -175,6 +182,24 @@ export default function IdeaDetailHeader({
           </div>
         )}
       </div>
+      <InformationModal
+        isOpen={isDeleteModalOpen}
+        toggle={() => setIsDeleteModalOpen(false)}
+        title="아이디어 삭제"
+        description={
+          <>
+            <Text typography="body2" color="text-normal" as="p">
+              {title}을 삭제하시겠습니까?
+            </Text>
+            <Text typography="body2" color="text-normal" as="p">
+              삭제된 아이디어는 다시 복구할 수 없습니다.
+            </Text>
+          </>
+        }
+        confirmLabel="삭제"
+        onConfirm={handleDeleteIdea}
+        confirmButtonColor="danger"
+      />
     </div>
   );
 }

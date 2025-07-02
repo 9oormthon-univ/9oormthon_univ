@@ -95,10 +95,10 @@ export default function IdeaManageTable({
         title="아이디어 삭제"
         description={
           <>
-            <Text typography="body2" color="text-normal">
+            <Text typography="body2" color="text-normal" as="p">
               {selectedIdea?.title}을 삭제하시겠습니까?
             </Text>
-            <Text typography="body2" color="text-normal">
+            <Text typography="body2" color="text-normal" as="p">
               삭제된 아이디어 및 팀은 복구할 수 없습니다.
             </Text>
           </>

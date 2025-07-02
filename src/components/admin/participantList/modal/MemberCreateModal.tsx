@@ -28,6 +28,14 @@ export const MemberCreateModal = ({ isOpen, toggle, onUpdate }: MemberCreateModa
       toast('인원이 추가되었습니다.', {
         type: 'primary',
       });
+      // 인원 추가 후 폼 초기화
+      setFormData({
+        name: '',
+        univ_id: 0,
+        email: '',
+        phone_number: '',
+        generations: [],
+      });
     } catch (error: any) {
       const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
       toast(message, {

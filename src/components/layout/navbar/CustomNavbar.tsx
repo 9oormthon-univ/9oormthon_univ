@@ -47,6 +47,7 @@ function CustomNavbar() {
   const handleLogout = () => {
     useAuthStore.getState().logout();
     navigate('/');
+    window.location.reload();
   };
 
   // 팀 빌딩 기간 데이터 업데이트 필요
@@ -63,6 +64,7 @@ function CustomNavbar() {
         break;
       case UserStatus.MEMBER:
       case UserStatus.APPLICANT:
+      case UserStatus.APPLICANT_REJECTED:
         navigate('/team/applicant');
         break;
       case UserStatus.NONE:
