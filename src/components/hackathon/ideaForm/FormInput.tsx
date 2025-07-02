@@ -13,8 +13,7 @@ export default function FormInput({ label, nullable, placeholder, value, onChang
   return (
     <FormGroup>
       <FormLabel label={label} nullable={nullable} />
-      {/* 추후 글자수 제한 필요 */}
-      <Input size="lg" counter={true} placeholder={placeholder} value={value} onChange={onChange} maxLength={255} />
+      <Input bsSize="lg" counter={true} placeholder={placeholder} value={value} onChange={onChange} maxLength={255} />
     </FormGroup>
   );
 }

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Position, RequirementKey } from '../constants/position';
+import { GENERATION } from '../constants/common';
 
 interface PositionRequirement {
   requirement: string;
@@ -34,7 +35,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
         title: '',
         summary: '',
         content: '',
-        generation: 4,
+        generation: GENERATION,
         provider_role: Position.NULL,
       },
       requirements: {
@@ -103,7 +104,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
             title: '',
             summary: '',
             content: '',
-            generation: 4,
+            generation: GENERATION,
             provider_role: Position.NULL,
           },
           requirements: {

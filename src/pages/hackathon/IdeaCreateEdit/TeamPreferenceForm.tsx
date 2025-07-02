@@ -28,7 +28,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
           const mappedIdeaInfo = {
             ...response.data.idea_info,
             provider_role: response.data.provider_info.role,
-            idea_subject_id: response.data.idea_info.id,
+            idea_subject_id: response.data.idea_info.subject_id,
           };
 
           // 현재 코드 매핑 필요
