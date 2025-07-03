@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from './teamList.module.scss';
-import { Button, Input, Text } from '@goorm-dev/vapor-components';
+import { Button, Input, Text, toast } from '@goorm-dev/vapor-components';
 import { TeamTable } from '../../../components/admin/teamList/teamTable/TeamTable';
 import TeamCreateModal from '../../../components/admin/teamList/modal/TeamCreateModal';
 import { Sorting, SortType, TeamOverview } from '../../../types/admin/team';
-import { fetchTeamSummaryListAPI } from '../../../api/admin/teams';
+import { assignTeamNumberAPI, fetchTeamSummaryListAPI } from '../../../api/admin/teams';
 import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
+import { ReloadOutlineIcon } from '@goorm-dev/vapor-icons';
 
 export default function TeamList() {
   const [isCreateTeamOpen, setIsCreateTeamOpen] = useState(false);
@@ -48,6 +49,21 @@ export default function TeamList() {
     fetchTeamList();
   }, [currentPage, debouncedSearchQuery, sorting, sortType]);
 
+  const handleAssignTeamNumber = async () => {
+    try {
+      await assignTeamNumberAPI(GENERATION);
+      toast('팀 번호 부여가 완료되었습니다.', {
+        type: 'primary',
+      });
+    } catch (error: any) {
+      console.error(error);
+      toast('팀 번호 부여에 실패했습니다.', {
+        type: 'danger',
+      });
+    }
+    fetchTeamList();
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
@@ -66,9 +82,14 @@ export default function TeamList() {
           className={styles.searchInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
         />
-        <Button size="md" color="primary" onClick={toggleCreateTeam}>
-          팀 추가하기
-        </Button>
+        <div className={styles.buttonContainer}>
+          <Button size="md" color="secondary" onClick={handleAssignTeamNumber} icon={ReloadOutlineIcon}>
+            팀 번호 부여
+          </Button>
+          <Button size="md" color="primary" onClick={toggleCreateTeam}>
+            팀 추가하기
+          </Button>
+        </div>
       </div>
       <TeamTable
         teamList={teamList}

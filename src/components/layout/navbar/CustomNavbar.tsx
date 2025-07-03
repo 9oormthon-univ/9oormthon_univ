@@ -47,6 +47,7 @@ function CustomNavbar() {
   const handleLogout = () => {
     useAuthStore.getState().logout();
     navigate('/');
+    useAuthStore.getState().resetToGuest();
     window.location.reload();
   };
 

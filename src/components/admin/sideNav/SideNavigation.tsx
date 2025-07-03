@@ -75,7 +75,7 @@ export const SideNavigation = () => {
             </SideNav.Link>
           </SideNav.Item>
           <SideNav.Item className={styles.sideNavItem}>
-            <SideNav.Link>
+            <SideNav.Link disabled>
               <FileIcon size={20} /> 프로젝트 관리
             </SideNav.Link>
           </SideNav.Item>
@@ -100,7 +100,7 @@ export const SideNavigation = () => {
                 </SideNav.Link>
               </SideNav.Item>
               <SideNav.Item className={styles.sideNavItem}>
-                <SideNav.Link>
+                <SideNav.Link disabled>
                   <CalendarIcon size={20} style={{ opacity: 0 }} /> 리크루트
                 </SideNav.Link>
               </SideNav.Item>

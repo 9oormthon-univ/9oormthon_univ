@@ -85,21 +85,26 @@ const useAuthStore = create<AuthStore>((set) => ({
       toast('로그아웃 되었습니다.', {
         type: 'primary',
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
       console.warn('Logout error', error);
       shouldClearCookies = true;
     }
 
     if (shouldClearCookies) {
       clearAuthCookies();
-      window.location.reload();
       console.log('clearAuthCookies');
+      toast('로그아웃에 실패했습니다.', {
+        type: 'danger',
+      });
     }
 
     localStorage.setItem('role', Role.GUEST);
     localStorage.removeItem('status');
     localStorage.removeItem('img_url');
     localStorage.removeItem('idea_form');
+
+    console.log('logout');
 
     set({ role: Role.GUEST, status: null, img_url: null });
   },

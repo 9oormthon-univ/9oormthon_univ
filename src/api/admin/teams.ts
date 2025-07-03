@@ -84,6 +84,12 @@ export const deleteTeamMemberAPI = async (member_id: number) => {
   return response.data;
 };
 
+// 4.13 어드민 팀번호 랜덤 부여
+export const assignTeamNumberAPI = async (generation: number) => {
+  const response = await instance.post(`/api/v1/admins/teams/number/randomize?generation=${generation}`);
+  return response.data;
+};
+
 // 4.14. 어드민 팀원 지원파트 변경
 export const updateTeamMemberPartAPI = async (member_id: number, role: Position) => {
   const response = await instance.patch(`/api/v1/admins/members/${member_id}/role`, {
