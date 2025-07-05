@@ -60,7 +60,7 @@ export default function IdeaDetailHeader({
 
   // 아이디어 지원 이동
   const handleApplyIdea = () => {
-    if (!isTeamBuildingPeriod()) {
+    if (!isTeamBuildingPeriod() || current_period === 'HACKATHON') {
       toast('팀 빌딩 지원 기간이 아닙니다.', {
         type: 'danger',
       });
@@ -128,7 +128,11 @@ export default function IdeaDetailHeader({
                 <MoreCommonOutlineIcon className={styles.dropdownIcon} />
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem onClick={() => navigate(`/hackathon/edit/${id}/step1`)}>수정하기</DropdownItem>
+                <DropdownItem
+                  onClick={() => navigate(`/hackathon/edit/${id}/step1`)}
+                  disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
+                  수정하기
+                </DropdownItem>
                 <DropdownItem
                   color="danger"
                   className={styles.deleteItem}
@@ -147,7 +151,11 @@ export default function IdeaDetailHeader({
                   icon={is_bookmarked ? BookmarkIcon : BookmarkOutlineIcon}
                   onClick={onBookmarkToggle}
                 />
-                <Button color="primary" size="lg" onClick={handleApplyIdea}>
+                <Button
+                  color="primary"
+                  size="lg"
+                  onClick={handleApplyIdea}
+                  disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
                   지원하기
                 </Button>
               </div>
@@ -171,7 +179,12 @@ export default function IdeaDetailHeader({
         </div>
         {!is_provider && ['sm', 'xs'].includes(breakpoint) && (
           <div className={styles.applyButtonMobile}>
-            <Button color="primary" size="lg" block onClick={handleApplyIdea}>
+            <Button
+              color="primary"
+              size="lg"
+              block
+              onClick={handleApplyIdea}
+              disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
               지원하기
             </Button>
             <Button
