@@ -10,6 +10,7 @@ interface PeriodState {
     | 'PHASE2_CONFIRMATION'
     | 'PHASE3_TEAM_BUILDING'
     | 'PHASE3_CONFIRMATION'
+    | 'HACKATHON'
     | 'NONE';
   phase1_period: string;
   phase2_period: string;
@@ -21,6 +22,7 @@ interface PeriodState {
   phase2_confirmation_period: string;
   phase3_team_building_period: string;
   phase3_confirmation_period: string;
+  hackathon_period: string;
   current_phase: number;
   isTeamBuildingPeriod: () => boolean;
   isConfirmationPeriod: () => boolean;
@@ -39,6 +41,7 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
   phase2_confirmation_period: '',
   phase3_team_building_period: '',
   phase3_confirmation_period: '',
+  hackathon_period: '',
   current_phase: 0,
   // 팀 빌딩 기간인지 확인
   isTeamBuildingPeriod: () => {
@@ -80,6 +83,7 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
         phase2_confirmation_period: `${response.data.phase2_confirmation_period}`,
         phase3_team_building_period: `${response.data.phase3_team_building_period}`,
         phase3_confirmation_period: `${response.data.phase3_confirmation_period}`,
+        hackathon_period: `${response.data.hackathon_period}`,
       });
     } catch (error) {
       console.error('Error fetching period:', error);

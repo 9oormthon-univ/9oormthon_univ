@@ -60,6 +60,7 @@ export default function IdeaList() {
     phase2_confirmation_period,
     phase3_team_building_period,
     phase3_confirmation_period,
+    hackathon_period,
     fetchPeriodData,
   } = usePeriodStore(); // 기간 정보
   const { status, role, fetchUserStatus } = useAuthStore();
@@ -73,6 +74,7 @@ export default function IdeaList() {
     PHASE2_CONFIRMATION: `지금은 2차 팀빌딩 합불 결정 기간입니다. (${phase2_confirmation_period})`,
     PHASE3_TEAM_BUILDING: `지금은 3차 팀빌딩 지원 기간입니다. (${phase3_team_building_period})`,
     PHASE3_CONFIRMATION: `지금은 3차 팀빌딩 합불 결정 기간입니다. (${phase3_confirmation_period})`,
+    HACKATHON: `팀 빌딩 기간이 종료되었습니다. (${hackathon_period})`,
     NONE: '해커톤 또는 팀 빌딩 기간이 아닙니다.',
   };
 
@@ -91,7 +93,8 @@ export default function IdeaList() {
     current_period === 'PHASE3_TEAM_BUILDING' ||
     current_period === 'PHASE1_CONFIRMATION' ||
     current_period === 'PHASE2_CONFIRMATION' ||
-    current_period === 'PHASE3_CONFIRMATION';
+    current_period === 'PHASE3_CONFIRMATION' ||
+    current_period === 'HACKATHON';
 
   // 한 페이지당 보여질 페이지 수
   const projectsPerPage = 8;
@@ -124,7 +127,7 @@ export default function IdeaList() {
       };
       loadTopics();
     }
-  }, [isTeamBuilding]);
+  }, [isTeamBuilding, current_period]);
 
   // 아이디어 가져오는 api (팀빌딩 기간일 때만)
   useEffect(() => {
@@ -294,7 +297,12 @@ export default function IdeaList() {
               <Button size="lg" onClick={handleMyIdea} className={styles.noneBtn} color="secondary">
                 내 아이디어
               </Button>
-              <Button icon={EditIcon} size="lg" onClick={handleCreateIdea} className={styles.noneBtn}>
+              <Button
+                icon={EditIcon}
+                size="lg"
+                onClick={handleCreateIdea}
+                className={styles.noneBtn}
+                disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
                 아이디어 등록
               </Button>
             </div>
