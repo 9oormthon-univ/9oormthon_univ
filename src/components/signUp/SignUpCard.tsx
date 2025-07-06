@@ -51,6 +51,7 @@ export default function SignUpCard() {
       await fetchUserStatus();
       if (useAuthStore.getState().role === Role.ADMIN) {
         navigate('/admin');
+        console.log(localStorage);
       } else {
         navigate('/');
       }
