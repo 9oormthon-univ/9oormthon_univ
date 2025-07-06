@@ -6,6 +6,10 @@ import { Role } from '../constants/role';
 export default function ProtectedRoute({ allowedRoles }: { allowedRoles: string[] }) {
   const { role } = useAuthStore();
 
+  if (role === null) {
+    return null;
+  }
+
   if (!allowedRoles.includes(role as Role)) {
     alert('권한이 없습니다.');
     return <Navigate to="/notFound" replace />;
