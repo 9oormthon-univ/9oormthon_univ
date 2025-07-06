@@ -290,9 +290,15 @@ export default function IdeaList() {
         {/* 필터링, 아이디어 등록 버튼 */}
         <div className={styles.listHeader}>
           <div className={styles.titleContainer}>
-            <Text typography="heading4" as="h4" color="text-normal">
-              아이디어 리스트
-            </Text>
+            <div className={styles.title}>
+              <Text typography="heading4" as="h4" color="text-normal">
+                아이디어 리스트
+              </Text>
+              <Text typography="body2" as="p" color="text-hint">
+                90개 등록 가능
+              </Text>
+            </div>
+
             <div className={styles.buttonContainer}>
               <Button size="lg" onClick={handleMyIdea} className={styles.noneBtn} color="secondary">
                 내 아이디어
