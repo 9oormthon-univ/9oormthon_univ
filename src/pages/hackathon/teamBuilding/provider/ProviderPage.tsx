@@ -16,7 +16,7 @@ import TeamBuildingTableSkeleton from '../../../../components/hackathon/teamBuil
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
   const { current_phase, fetchPeriodData } = usePeriodStore();
-  const [buttonIndex, setButtonIndex] = useState<number>(current_phase ? current_phase - 1 : 0);
+  const [buttonIndex, setButtonIndex] = useState<number>(0);
   const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
   const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
 
@@ -86,6 +86,11 @@ export default function ProviderPage() {
     };
     fetch();
   }, []);
+
+  // current_phase 변경 시 buttonIndex 업데이트
+  useEffect(() => {
+    setButtonIndex(current_phase ? current_phase - 1 : 0);
+  }, [current_phase]);
 
   // 지원 현황 불러오기
   useEffect(() => {
