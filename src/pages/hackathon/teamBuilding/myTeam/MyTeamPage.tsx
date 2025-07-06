@@ -4,7 +4,7 @@ import { Text, Button, toast, Badge } from '@goorm-dev/vapor-components';
 import useAuthStore from '../../../../store/useAuthStore';
 import { UserStatus } from '../../../../constants/role';
 import InformationModal from '../../../../components/common/modal/InformationModal';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
 import { GENERATION } from '../../../../constants/common';
 import TeamInformationSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
@@ -18,32 +18,29 @@ export default function ApplicantTeamPage() {
   const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const fetchTeamInfo = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await getTeamInfo(GENERATION);
+      setTeamInfo(res.data);
+    } catch (error: any) {
+      console.error('팀 정보 불러오기 실패:', error);
+      toast('팀 정보 불러오기 실패', { type: 'danger' });
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     fetchUserStatus();
-  }, []);
+    fetchTeamInfo();
+  }, [fetchUserStatus, fetchTeamInfo]);
 
   let viewer = true;
 
   if (status === UserStatus.PROVIDER) {
     viewer = false;
   }
-
-  useEffect(() => {
-    const fetchTeamInfo = async () => {
-      try {
-        setIsLoading(true);
-        const res = await getTeamInfo(GENERATION);
-        setTeamInfo(res.data);
-      } catch (error: any) {
-        console.error('팀 정보 불러오기 실패:', error);
-        toast('팀 정보 불러오기 실패', { type: 'danger' });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTeamInfo();
-  }, []);
 
   const handleConfirmTeamBuilding = async () => {
     try {
@@ -52,6 +49,7 @@ export default function ApplicantTeamPage() {
         type: 'primary',
       });
       toggle();
+      fetchTeamInfo();
     } catch (error) {
       console.error('팀 빌딩 확정 실패:', error);
       toast('팀 빌딩 확정에 실패했습니다. 팀 빌딩 조건을 다시 확인해주세요.', {

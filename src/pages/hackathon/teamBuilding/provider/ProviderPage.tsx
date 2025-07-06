@@ -48,6 +48,7 @@ export default function ProviderPage() {
         type: 'primary',
       });
       toggle();
+      fetchTeamInfo();
     } catch (error) {
       console.error('팀 빌딩 확정 실패:', error);
       toast('팀 빌딩 확정에 실패했습니다.', {
@@ -57,22 +58,25 @@ export default function ProviderPage() {
   };
 
   // 팀 정보 불러오기
+  const fetchTeamInfo = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getTeamInfo(GENERATION);
+      setTeamInfo(res.data);
+    } catch (error: any) {
+      console.error('팀 정보 불러오기 실패:', error);
+      toast('팀 정보 불러오기 실패', { type: 'danger' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 팀 정보 불러오기
   useEffect(() => {
-    const fetchTeamInfo = async () => {
-      try {
-        setIsLoading(true);
-        const res = await getTeamInfo(GENERATION);
-        setTeamInfo(res.data);
-      } catch (error: any) {
-        console.error('팀 정보 불러오기 실패:', error);
-        toast('팀 정보 불러오기 실패', { type: 'danger' });
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchTeamInfo();
   }, []);
 
+  // 팀 빌딩 기간 조회
   useEffect(() => {
     const fetch = async () => {
       setIsLoading(true);
@@ -83,6 +87,7 @@ export default function ProviderPage() {
     fetch();
   }, []);
 
+  // 지원 현황 불러오기
   useEffect(() => {
     fetchApplyStatus();
   }, [buttonIndex]);
