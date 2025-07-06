@@ -12,13 +12,13 @@ const getRemaining = (role: string, teamInfo: TeamInfo, applies: Applies[]) => {
   const max = teamInfo.role[roleKey]?.max_count || 0;
   const current = teamInfo.role[roleKey]?.current_count || 0;
 
-  const confirmedCount = applies.filter((a) => a.role === role && a.status === 'CONFIRMED').length;
+  const confirmedCount = applies?.filter((a) => a.role === role && a.status === 'CONFIRMED').length || 0;
 
   return Math.max(0, max - current - confirmedCount);
 };
 
 export default function AcceptableCountIndicator({ teamInfo, applies }: AcceptableCountIndicatorProps) {
-  if (!teamInfo) return null;
+  if (!teamInfo || !applies) return null;
 
   return (
     <div className={styles.acceptableWrap}>
