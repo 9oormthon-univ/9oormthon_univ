@@ -35,3 +35,9 @@
 .searchInput {
   width: 15.75rem;
 }
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
+}
