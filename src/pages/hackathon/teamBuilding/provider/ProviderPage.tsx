@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { Text, Button, toast, Skeleton } from '@goorm-dev/vapor-components';
+import { Text, Button, toast, Skeleton, Badge } from '@goorm-dev/vapor-components';
 import TeamInformation from '../../../../components/hackathon/teamBuilding/TeamInformation';
 import ApplyStatusTable from '../../../../components/hackathon/teamBuilding/applyStatusTable/ApplyStatusTable';
 import TeamBuildingPhaseSelector from '../../../../components/hackathon/teamBuilding/TeamBuildingPhaseSelector';
@@ -48,6 +48,7 @@ export default function ProviderPage() {
         type: 'primary',
       });
       toggle();
+      fetchTeamInfo();
     } catch (error) {
       console.error('팀 빌딩 확정 실패:', error);
       toast('팀 빌딩 확정에 실패했습니다.', {
@@ -57,22 +58,25 @@ export default function ProviderPage() {
   };
 
   // 팀 정보 불러오기
+  const fetchTeamInfo = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getTeamInfo(GENERATION);
+      setTeamInfo(res.data);
+    } catch (error: any) {
+      console.error('팀 정보 불러오기 실패:', error);
+      toast('팀 정보 불러오기 실패', { type: 'danger' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 팀 정보 불러오기
   useEffect(() => {
-    const fetchTeamInfo = async () => {
-      try {
-        setIsLoading(true);
-        const res = await getTeamInfo(GENERATION);
-        setTeamInfo(res.data);
-      } catch (error: any) {
-        console.error('팀 정보 불러오기 실패:', error);
-        toast('팀 정보 불러오기 실패', { type: 'danger' });
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchTeamInfo();
   }, []);
 
+  // 팀 빌딩 기간 조회
   useEffect(() => {
     const fetch = async () => {
       setIsLoading(true);
@@ -83,6 +87,7 @@ export default function ProviderPage() {
     fetch();
   }, []);
 
+  // 지원 현황 불러오기
   useEffect(() => {
     fetchApplyStatus();
   }, [buttonIndex]);
@@ -91,10 +96,17 @@ export default function ProviderPage() {
     <div className={styles.container}>
       <div className={styles.teamInform}>
         <div className={styles.teamInformHeader}>
-          <Text as="h3" typography="heading3" color="text-normal">
-            팀 정보
-          </Text>
-          <Button size="md" color="primary" onClick={toggle}>
+          <div className={styles.teamInformHeaderTitle}>
+            <Text as="h3" typography="heading3" color="text-normal">
+              팀 정보
+            </Text>
+            {teamInfo?.team_building === 'END' && (
+              <Badge pill size="lg" color="hint">
+                확정 완료
+              </Badge>
+            )}
+          </div>
+          <Button size="md" color="primary" onClick={toggle} disabled={teamInfo?.team_building === 'END'}>
             팀 빌딩 확정
           </Button>
         </div>

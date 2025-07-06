@@ -32,3 +32,9 @@
   align-items: center;
   width: 100%;
 }
+
+.teamInformHeaderTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
+}

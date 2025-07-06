@@ -51,6 +51,9 @@ export const TopicModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
         type: 'primary',
       });
     } catch (error) {
+      toast('주제 삭제에 실패했습니다. 이미 사용된 주제는 삭제할 수 없습니다.', {
+        type: 'danger',
+      });
       console.error('주제 삭제 실패:', error);
     }
   };

@@ -1,5 +1,5 @@
 import MDEditor, { bold, commands, hr, italic, strikethrough } from '@uiw/react-md-editor';
-import { Button, FormGroup, Spinner, Text } from '@goorm-dev/vapor-components';
+import { Button, FormGroup, Spinner, Text, toast } from '@goorm-dev/vapor-components';
 import FormLabel from './FormLabel';
 import styles from './styles.module.scss';
 import { useEffect, useRef, useState } from 'react';
@@ -47,8 +47,20 @@ export default function FormEditor({
     ),
   };
 
+  // 지원하지 않는 이미지 타입 체크
+  const isUnsupportedImage = (file: File) => {
+    const unsupportedTypes = ['image/heic', 'image/heif'];
+    return unsupportedTypes.includes(file.type);
+  };
+
   // 파일 업로드
   const handleFileUpload = async (file: File) => {
+    if (isUnsupportedImage(file)) {
+      toast('지원하지 않는 이미지 타입입니다. PNG 또는 JPG 파일만 업로드할 수 있습니다.', {
+        type: 'danger',
+      });
+      return;
+    }
     setIsUploading(true);
 
     const fileName = file.name;

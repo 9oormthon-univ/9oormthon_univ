@@ -5,7 +5,7 @@ import { TopicModal } from '../../../components/admin/ideaManagement/topicModal/
 import { useEffect, useState } from 'react';
 import { GENERATION } from '../../../constants/common';
 import { fetchIdeaSummaries } from '../../../api/admin/idea';
-import { Idea, Sorting, SortOrder } from '../../../types/admin/idea';
+import { Idea, Sorting, SortType } from '../../../types/admin/idea';
 import { PageInfo } from '../../../types/admin/idea';
 import { useDebounce } from '../../../hooks/useDebounce';
 
@@ -21,30 +21,30 @@ export default function IdeaManagement() {
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
-  const [sortOrder, setSortOrder] = useState<SortOrder | undefined>(undefined);
+  const [sortType, setSortType] = useState<SortType | undefined>(undefined);
   const toggleTopicModal = () => {
     setIsTopicModalOpen(!isTopicModalOpen);
   };
 
   // 아이디어 목록 조회
-  const getIdeaList = async (page: number, sorting?: Sorting, sortOrder?: SortOrder, search?: string) => {
+  const getIdeaList = async (page: number, sorting?: Sorting, sortType?: SortType, search?: string) => {
     const searchParam = search?.trim() === '' ? undefined : search;
-    const res = await fetchIdeaSummaries(page, 10, GENERATION, sorting, sortOrder, searchParam);
+    const res = await fetchIdeaSummaries(page, 10, GENERATION, sorting, sortType, searchParam);
     setIdeaList(res.data.ideas);
     setPageInfo(res.data.page_info);
   };
 
   useEffect(() => {
-    getIdeaList(pageInfo.current_page, sorting, sortOrder, debouncedSearchQuery);
-  }, [pageInfo.current_page, debouncedSearchQuery, sorting, sortOrder]);
+    getIdeaList(pageInfo.current_page, sorting, sortType, debouncedSearchQuery);
+  }, [pageInfo.current_page, debouncedSearchQuery, sorting, sortType]);
 
   // 정렬 콜백
   const handleSorting = (newSorting: Sorting) => {
     if (sorting !== newSorting) {
       setSorting(newSorting);
-      setSortOrder('ASC');
+      setSortType('ASC');
     } else {
-      setSortOrder(sortOrder === 'ASC' ? 'DESC' : 'ASC');
+      setSortType(sortType === 'ASC' ? 'DESC' : 'ASC');
     }
     setPageInfo({ ...pageInfo, current_page: 1 });
   };
@@ -75,7 +75,7 @@ export default function IdeaManagement() {
         pageInfo={pageInfo}
         onSortChange={handleSorting}
         onPageChange={(page: number) => setPageInfo({ ...pageInfo, current_page: page })}
-        onUpdate={() => getIdeaList(pageInfo.current_page, sorting, sortOrder, debouncedSearchQuery)}
+        onUpdate={() => getIdeaList(pageInfo.current_page, sorting, sortType, debouncedSearchQuery)}
       />
       <TopicModal isOpen={isTopicModalOpen} toggle={toggleTopicModal} />
     </div>
