@@ -1,5 +1,5 @@
 export type Sorting = 'TITLE' | 'SUBJECT' | 'TEAM_BUILDING' | 'PROVIDER';
-export type SortOrder = 'ASC' | 'DESC';
+export type SortType = 'ASC' | 'DESC';
 export type TeamBuilding = 'RECRUITING' | 'END';
 
 export interface Idea {

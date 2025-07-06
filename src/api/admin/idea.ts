@@ -1,4 +1,4 @@
-import { Sorting, SortOrder } from '../../types/admin/idea';
+import { Sorting, SortType } from '../../types/admin/idea';
 import instance from '../instance';
 
 // 3.18 어드민 아이디어 주제 간단 리스트 조회
@@ -36,7 +36,7 @@ export const fetchIdeaSummaries = async (
   size: number,
   generation: number,
   sorting?: Sorting,
-  sortOrder?: SortOrder,
+  sortType?: SortType,
   search?: string,
 ) => {
   const queryParams = new URLSearchParams({
@@ -49,8 +49,8 @@ export const fetchIdeaSummaries = async (
     queryParams.append('sorting', sorting);
   }
 
-  if (sortOrder !== undefined) {
-    queryParams.append('sort-order', sortOrder);
+  if (sortType !== undefined) {
+    queryParams.append('sort-type', sortType);
   }
 
   if (search !== undefined) {
