@@ -8,9 +8,11 @@ import { fetchIdeaSummaries } from '../../../api/admin/idea';
 import { Idea, Sorting, SortType } from '../../../types/admin/idea';
 import { PageInfo } from '../../../types/admin/idea';
 import { useDebounce } from '../../../hooks/useDebounce';
+import IdeaCountModal from '../../../components/admin/ideaManagement/ideaCountModal/IdeaCountModal';
 
 export default function IdeaManagement() {
   const [isTopicModalOpen, setIsTopicModalOpen] = useState(false);
+  const [isIdeaCountModalOpen, setIsIdeaCountModalOpen] = useState(false);
   const [ideaList, setIdeaList] = useState<Idea[]>([]);
   const [pageInfo, setPageInfo] = useState<PageInfo>({
     current_page: 1,
@@ -22,9 +24,8 @@ export default function IdeaManagement() {
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
   const [sortType, setSortType] = useState<SortType | undefined>(undefined);
-  const toggleTopicModal = () => {
-    setIsTopicModalOpen(!isTopicModalOpen);
-  };
+  const toggleTopicModal = () => setIsTopicModalOpen(!isTopicModalOpen);
+  const toggleIdeaCountModal = () => setIsIdeaCountModalOpen(!isIdeaCountModalOpen);
 
   // 아이디어 목록 조회
   const getIdeaList = async (page: number, sorting?: Sorting, sortType?: SortType, search?: string) => {
@@ -66,9 +67,14 @@ export default function IdeaManagement() {
           value={searchQuery}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
         />
-        <Button type="button" size="md" color="primary" onClick={() => setIsTopicModalOpen(true)}>
-          주제 관리
-        </Button>
+        <div className={styles.buttonContainer}>
+          <Button type="button" size="md" color="secondary" onClick={toggleIdeaCountModal}>
+            아이디어 개수 설정
+          </Button>
+          <Button type="button" size="md" color="primary" onClick={() => setIsTopicModalOpen(true)}>
+            주제 관리
+          </Button>
+        </div>
       </div>
       <IdeaManageTable
         ideaList={ideaList}
@@ -78,6 +84,7 @@ export default function IdeaManagement() {
         onUpdate={() => getIdeaList(pageInfo.current_page, sorting, sortType, debouncedSearchQuery)}
       />
       <TopicModal isOpen={isTopicModalOpen} toggle={toggleTopicModal} />
+      <IdeaCountModal isOpen={isIdeaCountModalOpen} toggle={toggleIdeaCountModal} />
     </div>
   );
 }
