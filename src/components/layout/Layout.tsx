@@ -3,6 +3,9 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import CustomFooter from './footer/CustomFooter';
 import CustomNavbar from './navbar/CustomNavbar';
+import { useEffect } from 'react';
+import useAuthStore from '../../store/useAuthStore';
+import usePeriodStore from '../../store/usePeriodStore';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -15,6 +18,14 @@ const Wrapper = styled.div`
 `;
 
 const Layout = () => {
+  const { fetchUserStatus } = useAuthStore();
+  const { fetchPeriodData } = usePeriodStore();
+
+  useEffect(() => {
+    fetchUserStatus();
+    fetchPeriodData();
+  }, [fetchUserStatus, fetchPeriodData]);
+
   return (
     <>
       <CustomNavbar />
