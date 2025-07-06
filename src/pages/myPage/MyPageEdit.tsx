@@ -117,12 +117,12 @@ export default function MyPageEdit() {
 
       // 아이디 값 제외
       const filteredLinks = userInfo.links.map(({ linkType, url }) => ({
-        type: linkType,
+        type: linkType!,
         url,
       }));
 
       const updatedData = {
-        img_url: uploadedImageUrl,
+        img_url: uploadedImageUrl || '',
         introduction: userInfo.introduction,
         stacks: userInfo.stacks,
         links: filteredLinks,

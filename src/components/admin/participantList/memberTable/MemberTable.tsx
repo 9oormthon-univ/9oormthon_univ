@@ -5,12 +5,12 @@ import { Button, Input, Text } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
 import { MemberCreateModal } from '../modal/MemberCreateModal';
 import { Univ } from '../../../../types/admin/univ';
-import { Sorting } from '../../../../types/admin/user';
+import { PageInfo, Sorting, UserSummary } from '../../../../types/admin/user';
 import { ControlCommonIcon } from '@goorm-dev/vapor-icons';
 
 interface MemberTableProps {
-  members: any[];
-  pageInfo: any;
+  members: UserSummary[];
+  pageInfo: PageInfo;
   onPageChange: (page: number) => void;
   selectedUniv: Univ | null;
   onSearchChange: (query: string) => void;

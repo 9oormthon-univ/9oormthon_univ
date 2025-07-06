@@ -15,6 +15,7 @@ import useAuthStore from '../../../store/useAuthStore';
 import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
 import IdeaListSkeleton from '../../../components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
+import { Ideas, PageInfo } from '../../../types/user/idea';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE' | 'APPLICANT_REJECTED'> | 'ADMIN', string> = {
@@ -42,12 +43,9 @@ export default function IdeaList() {
 
   // 주제 가져오기
   const [hackathonTopics, setHackathonTopics] = useState<{ id: number; name: string }[]>([]);
-  const [ideaList, setIdeaList] = useState<{ ideas: any[]; page_info: any }>({
+  const [ideaList, setIdeaList] = useState<{ ideas: Ideas[]; page_info: PageInfo }>({
     ideas: [],
-    page_info: {
-      current_page: 1,
-      total_pages: 1,
-    },
+    page_info: { current_page: 1, page_size: 1, total_pages: 1, total_items: 1 },
   });
   const { ideas, page_info } = ideaList;
   const [loading, setLoading] = useState(false);
@@ -216,9 +214,9 @@ export default function IdeaList() {
 
   // 북마크 토글 이벤트
   const handleBookmarkToggle = async (ideaId: number) => {
-    setIdeaList((prevState: any) => ({
+    setIdeaList((prevState: { ideas: Ideas[]; page_info: PageInfo }) => ({
       ...prevState,
-      ideas: prevState.ideas.map((idea: any) =>
+      ideas: prevState.ideas.map((idea: Ideas) =>
         idea.id === ideaId ? { ...idea, is_bookmarked: !idea.is_bookmarked } : idea,
       ),
     }));
@@ -240,9 +238,9 @@ export default function IdeaList() {
         }
       }
 
-      setIdeaList((prevState: any) => ({
+      setIdeaList((prevState: { ideas: Ideas[]; page_info: PageInfo }) => ({
         ...prevState,
-        ideas: prevState.ideas.map((idea: any) =>
+        ideas: prevState.ideas.map((idea: Ideas) =>
           idea.id === ideaId ? { ...idea, is_bookmarked: !idea.is_bookmarked } : idea,
         ),
       }));
@@ -353,7 +351,7 @@ export default function IdeaList() {
             <NoAccess heading1="아이디어가 없어요 :(" />
           ) : (
             <div className={styles.ideaListWrap}>
-              {ideas?.map((idea: any) => (
+              {ideas?.map((idea: Ideas) => (
                 <IdeaListItem
                   key={idea.id}
                   topic={idea.subject}
