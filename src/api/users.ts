@@ -1,4 +1,5 @@
 import instance from './instance';
+import { UserInfo } from '../types/user/users';
 
 // 내 정보 조회
 export const getMyInfo = async () => {
@@ -12,8 +13,8 @@ export const getUserInfo = async (userId: string) => {
   return response.data;
 };
 
-// 유저정보 수정
-export const updateUserInfo = async (data: any) => {
+// 2.8 유저정보 수정
+export const updateUserInfo = async (data: UserInfo) => {
   const response = await instance.put(`/api/v1/users`, data);
   return response.data;
 };

@@ -24,12 +24,8 @@ interface AuthStore {
   fetchUserStatus: () => Promise<void>;
 }
 
-// if (!localStorage.getItem('role')) {
-//   localStorage.setItem('role', Role.GUEST);
-// }
-
 const useAuthStore = create<AuthStore>((set) => ({
-  role: parseEnumValue(Role, localStorage.getItem('role'), Role.GUEST),
+  role: Role.GUEST,
   status: null,
   img_url: localStorage.getItem('img_url') || null,
 
@@ -45,9 +41,6 @@ const useAuthStore = create<AuthStore>((set) => ({
       // Enum 값으로 변환 후 저장
       const parsedRole = parseEnumValue(Role, role, Role.GUEST);
       const parsedStatus = parseEnumValue(UserStatus, status, UserStatus.NONE);
-
-      // localStorage.setItem('role', parsedRole);
-      // localStorage.setItem('status', parsedStatus);
 
       if (img_url) {
         localStorage.setItem('img_url', img_url);
@@ -93,26 +86,19 @@ const useAuthStore = create<AuthStore>((set) => ({
 
     if (shouldClearCookies) {
       clearAuthCookies();
-      console.log('clearAuthCookies');
       toast('로그아웃에 실패했습니다.', {
         type: 'danger',
       });
     }
 
-    // localStorage.setItem('role', Role.GUEST);
-    // localStorage.removeItem('status');
     localStorage.removeItem('img_url');
     localStorage.removeItem('idea_form');
-
-    console.log('logout');
 
     set({ role: Role.GUEST, status: null, img_url: null });
   },
 
   // 게스트로 초기화
   resetToGuest: () => {
-    // localStorage.setItem('role', Role.GUEST);
-    // localStorage.removeItem('status');
     localStorage.removeItem('img_url');
     localStorage.removeItem('idea_form');
 
@@ -129,9 +115,7 @@ const useAuthStore = create<AuthStore>((set) => ({
       const parsedRole = parseEnumValue(Role, role, Role.GUEST);
       const parsedImgUrl = img_url || null;
 
-      // localStorage.setItem('role', parsedRole);
       localStorage.setItem('img_url', parsedImgUrl);
-      // localStorage.setItem('status', parsedStatus);
 
       set({ status: parsedStatus, role: parsedRole, img_url: parsedImgUrl });
     } catch (error) {

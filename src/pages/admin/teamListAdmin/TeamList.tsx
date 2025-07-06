@@ -7,7 +7,7 @@ import { Sorting, SortType, TeamOverview } from '../../../types/admin/team';
 import { assignTeamNumberAPI, fetchTeamSummaryListAPI } from '../../../api/admin/teams';
 import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
-import { DownloadOutlineIcon, ReloadOutlineIcon } from '@goorm-dev/vapor-icons';
+import { DownloadIcon, ReloadOutlineIcon } from '@goorm-dev/vapor-icons';
 
 export default function TeamList() {
   const [isCreateTeamOpen, setIsCreateTeamOpen] = useState(false);
@@ -83,7 +83,7 @@ export default function TeamList() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
         />
         <div className={styles.buttonContainer}>
-          <Button size="md" color="secondary" onClick={() => {}} icon={DownloadOutlineIcon}>
+          <Button size="md" color="secondary" onClick={() => {}} icon={DownloadIcon}>
             엑셀 내보내기
           </Button>
           <Button size="md" color="secondary" onClick={handleAssignTeamNumber} icon={ReloadOutlineIcon}>

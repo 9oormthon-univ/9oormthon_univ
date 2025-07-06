@@ -26,3 +26,20 @@ export enum SortType {
   ASC = 'ASC',
   DESC = 'DESC',
 }
+
+export interface UserSummary {
+  id: number;
+  role: 'USER' | 'ADMIN';
+  name: string;
+  email: string;
+  team_building: boolean;
+  generations: string;
+}
+
+export interface PageInfo {
+  current_page: number;
+  current_items: number;
+  page_size: number;
+  total_pages: number;
+  total_items: number;
+}
