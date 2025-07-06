@@ -21,6 +21,7 @@ export interface TeamRole {
 }
 
 export interface TeamInfo {
+  team_building: 'RECRUITING' | 'END';
   number?: number;
   name?: string;
   role: TeamRole;

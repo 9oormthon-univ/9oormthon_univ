@@ -1,6 +1,6 @@
 import TeamInformation from '../../../../components/hackathon/teamBuilding/TeamInformation';
 import styles from './styles.module.scss';
-import { Text, Button, toast } from '@goorm-dev/vapor-components';
+import { Text, Button, toast, Badge } from '@goorm-dev/vapor-components';
 import useAuthStore from '../../../../store/useAuthStore';
 import { UserStatus } from '../../../../constants/role';
 import InformationModal from '../../../../components/common/modal/InformationModal';
@@ -11,12 +11,16 @@ import TeamInformationSkeleton from '../../../../components/hackathon/teamBuildi
 import { TeamInfo } from '../../../../types/user/team';
 
 export default function ApplicantTeamPage() {
-  const { status } = useAuthStore();
+  const { fetchUserStatus, status } = useAuthStore();
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchUserStatus();
+  }, []);
 
   let viewer = true;
 
@@ -50,7 +54,7 @@ export default function ApplicantTeamPage() {
       toggle();
     } catch (error) {
       console.error('팀 빌딩 확정 실패:', error);
-      toast('팀 빌딩 확정에 실패했습니다.', {
+      toast('팀 빌딩 확정에 실패했습니다. 팀 빌딩 조건을 다시 확인해주세요.', {
         type: 'danger',
       });
     }
@@ -60,11 +64,19 @@ export default function ApplicantTeamPage() {
     <div className={styles.teamPageContainer}>
       <div className={styles.teamPageContent}>
         <div className={styles.teamInformHeader}>
-          <Text as="h3" typography="heading3" color="text-normal">
-            팀 정보
-          </Text>
+          <div className={styles.teamInformHeaderTitle}>
+            <Text as="h3" typography="heading3" color="text-normal">
+              팀 정보
+            </Text>
+            {teamInfo?.team_building === 'END' && (
+              <Badge pill size="lg" color="hint">
+                확정 완료
+              </Badge>
+            )}
+          </div>
+
           {!viewer && (
-            <Button size="md" color="primary" onClick={toggle}>
+            <Button size="md" color="primary" onClick={toggle} disabled={teamInfo?.team_building === 'END'}>
               팀 빌딩 확정
             </Button>
           )}
