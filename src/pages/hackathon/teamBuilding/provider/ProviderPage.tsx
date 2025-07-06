@@ -12,12 +12,17 @@ import InformationModal from '../../../../components/common/modal/InformationMod
 import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
 import TeamInformationSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
 import TeamBuildingTableSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamBuildingTableSkeleton';
+import AcceptableCountIndicator from '../../../../components/hackathon/teamBuilding/AcceptableCountIndicator';
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
   const { current_phase, fetchPeriodData } = usePeriodStore();
   const [buttonIndex, setButtonIndex] = useState<number>(0);
   const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
+  const [currentPhaseApplyStatus, setCurrentPhaseApplyStatus] = useState<{ counts: number; applies: Applies[] }>({
+    counts: 0,
+    applies: [],
+  });
   const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
 
   // 팀 빌딩 확정 모달
@@ -35,6 +40,20 @@ export default function ProviderPage() {
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
       setApplyStatus({ counts: 0, applies: [] });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 현재 차시 지원 현황 불러오기
+  const fetchCurrentPhaseApplyStatus = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getIdeaApplyStatus(GENERATION, current_phase);
+      setCurrentPhaseApplyStatus(response.data);
+    } catch (error) {
+      console.error('지원 현황 불러오기 실패:', error);
+      setCurrentPhaseApplyStatus({ counts: 0, applies: [] });
     } finally {
       setIsLoading(false);
     }
@@ -74,6 +93,7 @@ export default function ProviderPage() {
   // 팀 정보 불러오기
   useEffect(() => {
     fetchTeamInfo();
+    fetchCurrentPhaseApplyStatus();
   }, []);
 
   // 팀 빌딩 기간 조회
@@ -127,6 +147,8 @@ export default function ProviderPage() {
             {applyStatus?.counts}명
           </Text>
         </div>
+
+        {teamInfo && <AcceptableCountIndicator teamInfo={teamInfo} applies={currentPhaseApplyStatus.applies} />}
 
         {isLoading ? (
           <Skeleton width="23.4375rem" height="3rem" />

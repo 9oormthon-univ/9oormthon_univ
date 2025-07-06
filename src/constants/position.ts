@@ -6,6 +6,8 @@ export enum Position {
   BE = 'BE',
 }
 
+export const PositionList = [Position.PM, Position.PD, Position.FE, Position.BE];
+
 // Null 없는 포지션들 리스트
 export type PositionWithoutNull = Exclude<Position, Position.NULL>;
 

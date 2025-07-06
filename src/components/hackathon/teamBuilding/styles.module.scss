@@ -103,3 +103,24 @@
     text-decoration: underline;
   }
 }
+
+.acceptableWrap {
+  display: flex;
+  padding: var(--space-150) var(--dimension-250);
+  align-items: center;
+  gap: var(--space-100);
+  border-radius: var(--border-radius-200);
+  border: 1px solid var(--border-color);
+  background: var(--background-normal);
+}
+
+.acceptableItem {
+  display: flex;
+  gap: var(--space-100);
+}
+
+.line {
+  width: 0.0625rem;
+  height: 1.375rem;
+  background: var(--border-color);
+}
