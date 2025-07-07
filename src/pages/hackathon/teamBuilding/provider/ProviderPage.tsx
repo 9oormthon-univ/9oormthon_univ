@@ -16,7 +16,7 @@ import AcceptableCountIndicator from '../../../../components/hackathon/teamBuild
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
-  const { current_phase, fetchPeriodData, isFetched } = usePeriodStore();
+  const { current_phase, isFetched } = usePeriodStore();
   const [buttonIndex, setButtonIndex] = useState<number>(0);
   const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
   const [currentPhaseApplyStatus, setCurrentPhaseApplyStatus] = useState<{ counts: number; applies: Applies[] }>({
@@ -94,17 +94,6 @@ export default function ProviderPage() {
   useEffect(() => {
     fetchTeamInfo();
     fetchCurrentPhaseApplyStatus();
-  }, []);
-
-  // 팀 빌딩 기간 조회
-  useEffect(() => {
-    const fetch = async () => {
-      setIsLoading(true);
-      await fetchPeriodData();
-
-      setIsLoading(false);
-    };
-    fetch();
   }, []);
 
   // current_phase 변경 시 buttonIndex 업데이트
