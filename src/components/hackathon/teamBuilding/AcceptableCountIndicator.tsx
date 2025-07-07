@@ -18,6 +18,7 @@ const getRemaining = (role: string, teamInfo: TeamInfo, applies: Applies[]) => {
 };
 
 export default function AcceptableCountIndicator({ teamInfo, applies }: AcceptableCountIndicatorProps) {
+  console.log(teamInfo, applies);
   if (!teamInfo || !applies) return null;
 
   return (
