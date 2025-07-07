@@ -17,6 +17,7 @@ interface AuthStore {
   role: Role;
   status: UserStatus | null;
   img_url: string | null;
+  isFetched: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   resetToGuest: () => void;
@@ -27,6 +28,7 @@ interface AuthStore {
 const useAuthStore = create<AuthStore>((set) => ({
   role: Role.GUEST,
   status: null,
+  isFetched: false,
   img_url: localStorage.getItem('img_url') || null,
 
   // 로그인
@@ -117,9 +119,10 @@ const useAuthStore = create<AuthStore>((set) => ({
 
       localStorage.setItem('img_url', parsedImgUrl);
 
-      set({ status: parsedStatus, role: parsedRole, img_url: parsedImgUrl });
+      set({ status: parsedStatus, role: parsedRole, img_url: parsedImgUrl, isFetched: true });
     } catch (error) {
       console.error('Error fetching user status:', error);
+      set({ isFetched: true });
       throw error;
     }
   },
