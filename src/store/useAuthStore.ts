@@ -81,7 +81,6 @@ const useAuthStore = create<AuthStore>((set) => ({
         type: 'primary',
       });
     } catch (error: any) {
-      console.log(error);
       console.warn('Logout error', error);
       shouldClearCookies = true;
     }

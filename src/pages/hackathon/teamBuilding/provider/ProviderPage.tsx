@@ -51,7 +51,6 @@ export default function ProviderPage() {
       setIsLoading(true);
       const response = await getIdeaApplyStatus(GENERATION, current_phase);
       setCurrentPhaseApplyStatus(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
       setCurrentPhaseApplyStatus({ counts: 0, applies: [] });

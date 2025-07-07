@@ -86,7 +86,6 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
     } catch (error: any) {
       if (error.response) {
         const serverMessage = error.response.data.error?.code;
-        console.log(serverMessage);
         setErrorMessage(IDEA_ADD_ERROR_MESSAGES[serverMessage] || '알 수 없는 오류가 발생하였습니다.');
       } else {
         console.error('Error submitting form:', error);

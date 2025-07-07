@@ -32,7 +32,6 @@ export default function SearchDropdown({
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen((prev) => {
-      console.log('[Dropdown toggle] prev:', prev);
       return !prev;
     });
   };
