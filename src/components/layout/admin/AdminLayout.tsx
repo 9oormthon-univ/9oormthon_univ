@@ -3,9 +3,14 @@ import styles from './admin.module.scss';
 import useAuthStore from '../../../store/useAuthStore';
 import { Role } from '../../../constants/role';
 import { Outlet, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function AdminLayout() {
-  const { role } = useAuthStore();
+  const { role, fetchUserStatus } = useAuthStore();
+
+  useEffect(() => {
+    fetchUserStatus();
+  }, [fetchUserStatus]);
 
   if (role !== Role.ADMIN) {
     return <Navigate to="/" />;
