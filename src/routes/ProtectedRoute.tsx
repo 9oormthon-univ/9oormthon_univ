@@ -4,10 +4,10 @@ import { Role } from '../constants/role';
 
 // 유저 상태에 따라 접근가능
 export default function ProtectedRoute({ allowedRoles }: { allowedRoles: string[] }) {
-  const { role } = useAuthStore();
+  const { role, isFetched } = useAuthStore();
 
-  if (role === null) {
-    return null;
+  if (!isFetched) {
+    return null; // 로딩 중일 때는 아무것도 렌더링하지 않음
   }
 
   if (!allowedRoles.includes(role as Role)) {
