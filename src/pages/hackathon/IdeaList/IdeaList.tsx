@@ -48,7 +48,10 @@ export default function IdeaList() {
     page_info: { current_page: 1, page_size: 1, total_pages: 1, total_items: 1 },
   });
   const { ideas, page_info } = ideaList;
-  const [loading, setLoading] = useState(false);
+
+  // 로딩 상태
+  const [ideasLoading, setIdeasLoading] = useState(false); // 아이디어 리스트
+
   const {
     current_period,
     idea_submission_period,
@@ -59,6 +62,7 @@ export default function IdeaList() {
     phase3_team_building_period,
     phase3_confirmation_period,
     hackathon_period,
+    isLoading,
   } = usePeriodStore(); // 기간 정보
   const { status, role } = useAuthStore();
 
@@ -124,7 +128,7 @@ export default function IdeaList() {
   useEffect(() => {
     if (isTeamBuilding) {
       const loadIdeas = async () => {
-        setLoading(true);
+        setIdeasLoading(true);
         try {
           const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
           const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
@@ -143,7 +147,7 @@ export default function IdeaList() {
         } catch (error) {
           console.error('Error fetching ideas:', error);
         } finally {
-          setLoading(false);
+          setIdeasLoading(false);
         }
       };
       loadIdeas();
@@ -273,7 +277,7 @@ export default function IdeaList() {
     <div className={styles.mainContainer}>
       <div className={styles.listContainer}>
         {/* 현재 기간이 어떤 기간인지 나타냄 */}
-        {!loading && (
+        {!isLoading && (
           <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
             {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
           </Alert>
@@ -336,7 +340,7 @@ export default function IdeaList() {
           </div>
         </div>
         {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
-        {loading ? (
+        {ideasLoading ? (
           <IdeaListSkeleton />
         ) : (
           isTeamBuilding &&

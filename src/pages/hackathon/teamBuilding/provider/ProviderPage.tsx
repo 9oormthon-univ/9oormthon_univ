@@ -16,7 +16,7 @@ import AcceptableCountIndicator from '../../../../components/hackathon/teamBuild
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
-  const { current_phase, isFetched } = usePeriodStore();
+  const { current_phase, isLoading, isFetched } = usePeriodStore();
   const [buttonIndex, setButtonIndex] = useState<number>(0);
   const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
   const [currentPhaseApplyStatus, setCurrentPhaseApplyStatus] = useState<{ counts: number; applies: Applies[] }>({
@@ -29,33 +29,35 @@ export default function ProviderPage() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const [isLoading, setIsLoading] = useState(false);
+  // 로딩 상태
+  const [isTeamInfoLoading, setIsTeamInfoLoading] = useState(false);
+  const [isApplyStatusLoading, setIsApplyStatusLoading] = useState(false);
 
   // fetchApplyStatus를 컴포넌트 레벨로 올리고 재사용 가능하게 만듦
   const fetchApplyStatus = async () => {
     try {
-      setIsLoading(true);
+      setIsApplyStatusLoading(true);
       const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1);
       setApplyStatus(response.data);
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
       setApplyStatus({ counts: 0, applies: [] });
     } finally {
-      setIsLoading(false);
+      setIsApplyStatusLoading(false);
     }
   };
 
   // 현재 차시 지원 현황 불러오기
   const fetchCurrentPhaseApplyStatus = async () => {
     try {
-      setIsLoading(true);
+      setIsApplyStatusLoading(true);
       const response = await getIdeaApplyStatus(GENERATION, current_phase);
       setCurrentPhaseApplyStatus(response.data);
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
       setCurrentPhaseApplyStatus({ counts: 0, applies: [] });
     } finally {
-      setIsLoading(false);
+      setIsApplyStatusLoading(false);
     }
   };
 
@@ -79,14 +81,14 @@ export default function ProviderPage() {
   // 팀 정보 불러오기
   const fetchTeamInfo = async () => {
     try {
-      setIsLoading(true);
+      setIsTeamInfoLoading(true);
       const res = await getTeamInfo(GENERATION);
       setTeamInfo(res.data);
     } catch (error: any) {
       console.error('팀 정보 불러오기 실패:', error);
       toast('팀 정보 불러오기 실패', { type: 'danger' });
     } finally {
-      setIsLoading(false);
+      setIsTeamInfoLoading(false);
     }
   };
 
@@ -129,7 +131,7 @@ export default function ProviderPage() {
           </Button>
         </div>
 
-        {isLoading ? <TeamInformationSkeleton /> : <TeamInformation viewer={false} teamInfo={teamInfo} />}
+        {isTeamInfoLoading ? <TeamInformationSkeleton /> : <TeamInformation viewer={false} teamInfo={teamInfo} />}
       </div>
       <div className={styles.applyStatus}>
         <div className={styles.applyStatusHeader}>
@@ -152,7 +154,7 @@ export default function ProviderPage() {
           )
         )}
 
-        {isLoading ? (
+        {isApplyStatusLoading ? (
           <TeamBuildingTableSkeleton />
         ) : applyStatus?.applies?.length > 0 ? (
           <ApplyStatusTable applicants={applyStatus.applies} refetchApplyStatus={fetchApplyStatus} />

@@ -10,33 +10,23 @@ import IdeaApplyListSkeleton from '../../../../components/hackathon/teamBuilding
 
 export default function ApplicantPage() {
   // 현재 팀빌딩 기간 조회
-  const { current_phase, fetchPeriodData } = usePeriodStore();
+  const { current_phase, isLoading } = usePeriodStore();
   const [buttonIndex, setButtonIndex] = useState<number>(current_phase ? current_phase - 1 : 0);
   const [applySummary, setApplySummary] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isApplySummaryLoading, setIsApplySummaryLoading] = useState(false);
 
   // 지원 내역 조회
   const fetchApplySummary = async () => {
     try {
-      setIsLoading(true);
+      setIsApplySummaryLoading(true);
       const response = await getMyApplySummary(GENERATION, buttonIndex + 1);
       setApplySummary(response.data);
     } catch (error) {
       console.error('Error fetching apply summary:', error);
     } finally {
-      setIsLoading(false);
+      setIsApplySummaryLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetch = async () => {
-      setIsLoading(true);
-      await fetchPeriodData();
-      setButtonIndex(current_phase ? current_phase - 1 : 0);
-      setIsLoading(false);
-    };
-    fetch();
-  }, []);
 
   useEffect(() => {
     fetchApplySummary();
@@ -52,7 +42,7 @@ export default function ApplicantPage() {
       ) : (
         <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
       )}
-      {isLoading ? (
+      {isApplySummaryLoading ? (
         <IdeaApplyListSkeleton />
       ) : applySummary?.applies?.length > 0 ? (
         [...applySummary.applies]
