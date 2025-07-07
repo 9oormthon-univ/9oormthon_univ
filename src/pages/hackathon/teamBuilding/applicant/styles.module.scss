@@ -6,22 +6,3 @@
   margin-top: 4rem;
   width: 57.5rem;
 }
-
-.buttonToggleGroup {
-  width: fit-content;
-}
-
-.teamPageContainer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-400);
-  padding: var(--space-400) 0 12.5rem 0;
-  margin-top: 4rem;
-  width: 45rem;
-}
-
-.teamPageContent {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-200);
-}
