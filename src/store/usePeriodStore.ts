@@ -27,6 +27,7 @@ interface PeriodState {
   isTeamBuildingPeriod: () => boolean;
   isConfirmationPeriod: () => boolean;
   fetchPeriodData: () => Promise<void>;
+  isLoading: boolean;
   isFetched: boolean;
 }
 
@@ -44,6 +45,7 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
   phase3_confirmation_period: '',
   hackathon_period: '',
   current_phase: 0,
+  isLoading: false,
   isFetched: false,
   // 팀 빌딩 기간인지 확인
   isTeamBuildingPeriod: () => {
@@ -58,6 +60,7 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
   },
 
   fetchPeriodData: async () => {
+    set({ isLoading: true });
     try {
       const response = await fetchPeriod();
       const currentPeriod = response.data.current_period;
@@ -86,11 +89,12 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
         phase3_team_building_period: `${response.data.phase3_team_building_period}`,
         phase3_confirmation_period: `${response.data.phase3_confirmation_period}`,
         hackathon_period: `${response.data.hackathon_period}`,
+        isLoading: false,
         isFetched: true,
       });
     } catch (error) {
       console.error('Error fetching period:', error);
-      set({ isFetched: true });
+      set({ isLoading: false, isFetched: true });
     }
   },
 }));
