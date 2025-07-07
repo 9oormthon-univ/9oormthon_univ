@@ -13,4 +13,6 @@ export interface PeriodSettingPayload {
   phase3_team_building_end: string;
   phase3_confirmation_start: string;
   phase3_confirmation_end: string;
+  hackathon_start: string;
+  hackathon_end: string;
 }

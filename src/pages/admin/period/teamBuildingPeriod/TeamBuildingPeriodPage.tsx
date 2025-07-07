@@ -18,6 +18,11 @@ export default function TeamBuildingPeriodPage() {
     { id: 3, supportPeriod: { startDate: '', endDate: '' }, confirmPeriod: { startDate: '', endDate: '' } },
   ]);
 
+  const [hackathonPeriod, setHackathonPeriod] = useState<{ startDate: string; endDate: string }>({
+    startDate: '',
+    endDate: '',
+  });
+
   const toISOStringWithTime = (dateStr: string, isStart: boolean) => {
     if (!dateStr) return null;
     return `${dateStr}T${isStart ? '00:00:00' : '23:59:59'}`;
@@ -42,6 +47,9 @@ export default function TeamBuildingPeriodPage() {
       phase3_team_building_end: toISOStringWithTime(phase[2].supportPeriod.endDate, false) || '',
       phase3_confirmation_start: toISOStringWithTime(phase[2].confirmPeriod.startDate, true) || '',
       phase3_confirmation_end: toISOStringWithTime(phase[2].confirmPeriod.endDate, false) || '',
+
+      hackathon_start: toISOStringWithTime(hackathonPeriod.startDate, true) || '',
+      hackathon_end: toISOStringWithTime(hackathonPeriod.endDate, false) || '',
     };
     try {
       await setPeriod(payload);
@@ -105,6 +113,10 @@ export default function TeamBuildingPeriodPage() {
             },
           },
         ]);
+        setHackathonPeriod({
+          startDate: formatDateInput(data.hackathon_start),
+          endDate: formatDateInput(data.hackathon_end),
+        });
       } catch (error) {
         console.error(error);
         toast('기간 조회에 실패했습니다.', {
@@ -136,6 +148,14 @@ export default function TeamBuildingPeriodPage() {
       {phase.map((item) => (
         <TeamBuildingPhase key={item.id} phase={item} setPhase={setPhase} />
       ))}
+      <PeriodRangeRow
+        label="해커톤 기간(팀 빌딩 종료)"
+        startDate={hackathonPeriod.startDate}
+        endDate={hackathonPeriod.endDate}
+        onChange={(startDate, endDate) => {
+          setHackathonPeriod({ startDate: formatDateInput(startDate), endDate: formatDateInput(endDate) });
+        }}
+      />
     </div>
   );
 }
