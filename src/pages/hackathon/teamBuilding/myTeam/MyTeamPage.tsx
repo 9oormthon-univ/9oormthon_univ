@@ -11,7 +11,7 @@ import TeamInformationSkeleton from '../../../../components/hackathon/teamBuildi
 import { TeamInfo } from '../../../../types/user/team';
 
 export default function ApplicantTeamPage() {
-  const { fetchUserStatus, status } = useAuthStore();
+  const { status } = useAuthStore();
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -32,9 +32,8 @@ export default function ApplicantTeamPage() {
   }, []);
 
   useEffect(() => {
-    fetchUserStatus();
     fetchTeamInfo();
-  }, [fetchUserStatus, fetchTeamInfo]);
+  }, [fetchTeamInfo]);
 
   let viewer = true;
 

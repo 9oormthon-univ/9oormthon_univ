@@ -16,7 +16,7 @@ import AcceptableCountIndicator from '../../../../components/hackathon/teamBuild
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
-  const { current_phase, fetchPeriodData } = usePeriodStore();
+  const { current_phase, isFetched } = usePeriodStore();
   const [buttonIndex, setButtonIndex] = useState<number>(0);
   const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
   const [currentPhaseApplyStatus, setCurrentPhaseApplyStatus] = useState<{ counts: number; applies: Applies[] }>({
@@ -51,7 +51,6 @@ export default function ProviderPage() {
       setIsLoading(true);
       const response = await getIdeaApplyStatus(GENERATION, current_phase);
       setCurrentPhaseApplyStatus(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
       setCurrentPhaseApplyStatus({ counts: 0, applies: [] });
@@ -97,26 +96,19 @@ export default function ProviderPage() {
     fetchCurrentPhaseApplyStatus();
   }, []);
 
-  // 팀 빌딩 기간 조회
-  useEffect(() => {
-    const fetch = async () => {
-      setIsLoading(true);
-      await fetchPeriodData();
-
-      setIsLoading(false);
-    };
-    fetch();
-  }, []);
-
   // current_phase 변경 시 buttonIndex 업데이트
   useEffect(() => {
-    setButtonIndex(current_phase ? current_phase - 1 : 0);
-  }, [current_phase]);
+    if (isFetched && typeof current_phase === 'number') {
+      setButtonIndex(current_phase ? current_phase - 1 : 0);
+    }
+  }, [current_phase, isFetched]);
 
   // 지원 현황 불러오기
   useEffect(() => {
-    fetchApplyStatus();
-  }, [buttonIndex]);
+    if (isFetched) {
+      fetchApplyStatus();
+    }
+  }, [buttonIndex, isFetched]);
 
   return (
     <div className={styles.container}>
@@ -154,6 +146,7 @@ export default function ProviderPage() {
         {isLoading ? (
           <Skeleton width="23.4375rem" height="3rem" />
         ) : (
+          isFetched &&
           typeof current_phase === 'number' && (
             <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
           )

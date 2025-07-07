@@ -59,9 +59,8 @@ export default function IdeaList() {
     phase3_team_building_period,
     phase3_confirmation_period,
     hackathon_period,
-    fetchPeriodData,
   } = usePeriodStore(); // 기간 정보
-  const { status, role, fetchUserStatus } = useAuthStore();
+  const { status, role } = useAuthStore();
 
   // 기간 정보 문구
   const PHASE_INFO = {
@@ -100,12 +99,6 @@ export default function IdeaList() {
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  // 기간 정보 갱신 및 사용자 상태 조회
-  useEffect(() => {
-    fetchPeriodData();
-    fetchUserStatus();
   }, []);
 
   // 주제 가져오는 api (팀빌딩 기간일 때만)

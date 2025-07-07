@@ -5,21 +5,22 @@ import styles from './styles.module.scss';
 
 interface AcceptableCountIndicatorProps {
   teamInfo: TeamInfo;
-  applies: Applies[];
+  applies?: Applies[];
 }
-const getRemaining = (role: string, teamInfo: TeamInfo, applies: Applies[]) => {
+const getRemaining = (role: string, teamInfo: TeamInfo, applies?: Applies[]) => {
   const roleKey = role.toLowerCase() as keyof typeof teamInfo.role;
   const max = teamInfo.role[roleKey]?.max_count || 0;
   const current = teamInfo.role[roleKey]?.current_count || 0;
+  if (!applies) return max - current;
+  else {
+    const confirmedCount = applies?.filter((a) => a.role === role && a.status === 'CONFIRMED').length || 0;
 
-  const confirmedCount = applies?.filter((a) => a.role === role && a.status === 'CONFIRMED').length || 0;
-
-  return Math.max(0, max - current - confirmedCount);
+    return Math.max(0, max - current - confirmedCount);
+  }
 };
 
 export default function AcceptableCountIndicator({ teamInfo, applies }: AcceptableCountIndicatorProps) {
-  console.log(teamInfo, applies);
-  if (!teamInfo || !applies) return null;
+  if (!teamInfo) return null;
 
   return (
     <div className={styles.acceptableWrap}>

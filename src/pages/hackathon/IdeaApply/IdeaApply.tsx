@@ -76,7 +76,6 @@ export default function IdeaApply() {
     } catch (error: any) {
       if (error.response) {
         const errorCode = error.response.data?.error?.code;
-        console.log(error.response);
         setErrorMessage(ERROR_MESSAGES[errorCode] || '알 수 없는 오류가 발생했습니다.');
       } else {
         console.error('Error applying idea:', error);

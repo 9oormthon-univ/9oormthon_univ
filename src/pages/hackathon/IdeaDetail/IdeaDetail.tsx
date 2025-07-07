@@ -11,7 +11,6 @@ import { toast } from '@goorm-dev/vapor-components';
 import IdeaHeaderSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaHeaderSkeleton';
 import IdeaContentSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaContentSkeleton';
 import IdeaTeamContentSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaTeamContentSkeleton';
-import usePeriodStore from '../../../store/usePeriodStore';
 
 export default function IdeaDetail() {
   const { idea_id } = useParams();
@@ -20,15 +19,9 @@ export default function IdeaDetail() {
   const { idea_info, provider_info, requirements } = ideaDetail || {};
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const { fetchPeriodData } = usePeriodStore();
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  // 페이지 이동 시 기간 데이터 조회
-  useEffect(() => {
-    fetchPeriodData();
   }, []);
 
   // 아이디어 조회

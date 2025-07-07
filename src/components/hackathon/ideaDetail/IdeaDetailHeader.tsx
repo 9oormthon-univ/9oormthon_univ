@@ -10,7 +10,7 @@ import {
 } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon, OutOutlineIcon } from '@goorm-dev/vapor-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useBreakPoint from '../../../hooks/useBreakPoint';
 import usePeriodStore from '../../../store/usePeriodStore';
@@ -52,11 +52,6 @@ export default function IdeaDetailHeader({
   const { current_period, isTeamBuildingPeriod } = usePeriodStore();
   const { status, fetchUserStatus } = useAuthStore();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  // 사용자 상태 조회
-  useEffect(() => {
-    fetchUserStatus();
-  }, []);
 
   // 아이디어 지원 이동
   const handleApplyIdea = () => {
