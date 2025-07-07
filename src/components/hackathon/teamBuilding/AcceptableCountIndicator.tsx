@@ -1,4 +1,4 @@
-import { Applies, TeamInfo } from '../../../types/user/team';
+import { Applies, ApplyStatus, TeamInfo } from '../../../types/user/team';
 import { Text } from '@goorm-dev/vapor-components';
 import { POSITION_NAME, PositionList, Position } from '../../../constants/position';
 import styles from './styles.module.scss';
@@ -13,7 +13,7 @@ const getRemaining = (role: string, teamInfo: TeamInfo, applies?: Applies[]) => 
   const current = teamInfo.role[roleKey]?.current_count || 0;
   if (!applies) return max - current;
   else {
-    const confirmedCount = applies?.filter((a) => a.role === role && a.status === 'CONFIRMED').length || 0;
+    const confirmedCount = applies?.filter((a) => a.role === role && a.status === ApplyStatus.ACCEPTED).length || 0;
 
     return Math.max(0, max - current - confirmedCount);
   }
