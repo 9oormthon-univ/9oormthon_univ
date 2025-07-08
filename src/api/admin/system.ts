@@ -12,3 +12,9 @@ export const getPeriod = async () => {
   const response = await instance.get('/api/v1/admins/system-settings/details');
   return response.data;
 };
+
+// 0.4 어드민 아이디어 최대 개수 수정
+export const setIdeaCount = async (max_idea_number: number) => {
+  const response = await instance.patch('/api/v1/admins/system-settings/max-idea-number', { max_idea_number });
+  return response.data;
+};
