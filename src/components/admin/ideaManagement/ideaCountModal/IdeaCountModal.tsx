@@ -1,9 +1,18 @@
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Text, toast } from '@goorm-dev/vapor-components';
-import { useState } from 'react';
-import { setIdeaCount } from '../../../../api/admin/system';
+import { useEffect, useState } from 'react';
+import { getPeriod, setIdeaCount } from '../../../../api/admin/system';
 
 export default function IdeaCountModal({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) {
   const [count, setCount] = useState<number>(0);
+
+  // 아이디어 개수 조회
+  useEffect(() => {
+    const fetchPeriod = async () => {
+      const response = await getPeriod();
+      setCount(response.data.max_idea_number);
+    };
+    fetchPeriod();
+  }, []);
 
   const handleSubmit = async () => {
     try {
