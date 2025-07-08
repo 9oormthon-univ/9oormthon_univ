@@ -6,11 +6,15 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export default function AdminLayout() {
-  const { role, fetchUserStatus } = useAuthStore();
+  const { role, fetchUserStatus, isFetched } = useAuthStore();
 
   useEffect(() => {
     fetchUserStatus();
   }, [fetchUserStatus]);
+
+  if (!isFetched) {
+    return null;
+  }
 
   if (role !== Role.ADMIN) {
     return <Navigate to="/" />;
