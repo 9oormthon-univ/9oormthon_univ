@@ -33,7 +33,7 @@ const statusMap = {
   ACCEPTED: { text: '수락 완료', color: 'text-success' },
   REJECTED: { text: '거절 완료', color: 'text-danger' },
   CONFIRMED: { text: '확정', color: 'text-success' },
-  ACCEPTED_NOT_JOINED: { text: '도난 당함', color: 'text-hint' },
+  ACCEPTED_NOT_JOINED: { text: '타 팀 합류', color: 'text-hint' },
 } as const;
 
 export default function ApplicantRow({ applicant, refetchApplyStatus }: ApplicantRowProps) {
@@ -98,7 +98,7 @@ export default function ApplicantRow({ applicant, refetchApplyStatus }: Applican
               {statusMap[applicant.status].text}
             </Text>
           )}
-          {/* 도난 당함 시 */}
+          {/* 타 팀 합류 시 */}
           {applicant.status === 'ACCEPTED_NOT_JOINED' && (
             <Text typography="subtitle1" color={statusMap[applicant.status].color}>
               {statusMap[applicant.status].text}
