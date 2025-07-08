@@ -23,9 +23,14 @@ interface Applicant {
 interface ApplyStatusTableProps {
   applicants: Applicant[];
   refetchApplyStatus: () => Promise<void>;
+  refetchCurrentPhaseApplyStatus: () => Promise<void>;
 }
 
-export default function ApplyStatusTable({ applicants, refetchApplyStatus }: ApplyStatusTableProps) {
+export default function ApplyStatusTable({
+  applicants,
+  refetchApplyStatus,
+  refetchCurrentPhaseApplyStatus,
+}: ApplyStatusTableProps) {
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -61,7 +66,12 @@ export default function ApplyStatusTable({ applicants, refetchApplyStatus }: App
         </thead>
         <tbody>
           {applicants.map((applicant) => (
-            <ApplicantRow key={applicant.id} applicant={applicant} refetchApplyStatus={refetchApplyStatus} />
+            <ApplicantRow
+              key={applicant.id}
+              applicant={applicant}
+              refetchApplyStatus={refetchApplyStatus}
+              refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
+            />
           ))}
         </tbody>
       </table>

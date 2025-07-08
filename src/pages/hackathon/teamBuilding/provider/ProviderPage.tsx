@@ -157,7 +157,11 @@ export default function ProviderPage() {
         {isApplyStatusLoading ? (
           <TeamBuildingTableSkeleton />
         ) : applyStatus?.applies?.length > 0 ? (
-          <ApplyStatusTable applicants={applyStatus.applies} refetchApplyStatus={fetchApplyStatus} />
+          <ApplyStatusTable
+            applicants={applyStatus.applies}
+            refetchApplyStatus={fetchApplyStatus}
+            refetchCurrentPhaseApplyStatus={fetchCurrentPhaseApplyStatus}
+          />
         ) : (
           <div className={styles.noApplyStatus}>
             <Text as="p" typography="body2" color="text-hint">
