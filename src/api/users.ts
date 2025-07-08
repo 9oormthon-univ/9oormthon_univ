@@ -1,5 +1,6 @@
 import instance from './instance';
 import { UserInfo } from '../types/user/users';
+import { Sorting, SortType } from '../types/user/idea';
 
 // 내 정보 조회
 export const getMyInfo = async () => {
@@ -26,8 +27,26 @@ export const getMyApplySummary = async (generation: number, phase: number) => {
 };
 
 // 3.12 아이디어에 대한 지원 현황 리스트 조회
-export const getIdeaApplyStatus = async (generation: number, phase: number) => {
-  const response = await instance.get(`/api/v1/users/teams/applies/overviews?generation=${generation}&phase=${phase}`);
+export const getIdeaApplyStatus = async (
+  generation: number,
+  phase: number,
+  sorting?: Sorting,
+  sort_type?: SortType,
+) => {
+  const queryParams = new URLSearchParams({
+    generation: generation.toString(),
+    phase: phase.toString(),
+  });
+
+  if (sorting) {
+    queryParams.append('sorting', sorting);
+  }
+
+  if (sort_type) {
+    queryParams.append('sort-type', sort_type);
+  }
+
+  const response = await instance.get(`/api/v1/users/teams/applies/overviews?${queryParams.toString()}`);
   return response.data;
 };
 

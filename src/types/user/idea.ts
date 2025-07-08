@@ -14,3 +14,8 @@ export interface PageInfo {
   total_pages: number;
   total_items: number;
 }
+
+
+// (Provider) 아이디어 지원 현황 조회
+export type Sorting = 'UNIV' | 'ROLE' | 'PREFERENCE';
+export type SortType = 'ASC' | 'DESC';

@@ -13,6 +13,7 @@ import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
 import TeamInformationSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
 import TeamBuildingTableSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamBuildingTableSkeleton';
 import AcceptableCountIndicator from '../../../../components/hackathon/teamBuilding/AcceptableCountIndicator';
+import { Sorting, SortType } from '../../../../types/user/idea';
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
@@ -24,6 +25,8 @@ export default function ProviderPage() {
     applies: [],
   });
   const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
+  const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
+  const [sortType, setSortType] = useState<SortType | undefined>(undefined);
 
   // 팀 빌딩 확정 모달
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +54,7 @@ export default function ProviderPage() {
   const fetchCurrentPhaseApplyStatus = async () => {
     try {
       setIsApplyStatusLoading(true);
-      const response = await getIdeaApplyStatus(GENERATION, current_phase);
+      const response = await getIdeaApplyStatus(GENERATION, current_phase, undefined, undefined);
       setCurrentPhaseApplyStatus(response.data);
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
@@ -110,7 +113,16 @@ export default function ProviderPage() {
     if (isFetched) {
       fetchApplyStatus();
     }
-  }, [buttonIndex, isFetched]);
+  }, [buttonIndex, isFetched, sorting, sortType]);
+
+  const handleSortChange = (newSorting: Sorting) => {
+    if (sorting !== newSorting) {
+      setSorting(newSorting);
+      setSortType('ASC');
+    } else {
+      setSortType(sortType === 'ASC' ? 'DESC' : 'ASC');
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -161,6 +173,7 @@ export default function ProviderPage() {
             applicants={applyStatus.applies}
             refetchApplyStatus={fetchApplyStatus}
             refetchCurrentPhaseApplyStatus={fetchCurrentPhaseApplyStatus}
+            onSortChange={handleSortChange}
           />
         ) : (
           <div className={styles.noApplyStatus}>
