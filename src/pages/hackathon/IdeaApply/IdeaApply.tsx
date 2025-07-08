@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { Alert, Button, Text } from '@goorm-dev/vapor-components';
+import { Alert, Button, Text, toast } from '@goorm-dev/vapor-components';
 import FormDropdown from '../../../components/hackathon/ideaForm/FormDropdown';
 import { useState, useEffect } from 'react';
 import FormTextarea from '../../../components/hackathon/ideaForm/FormTextarea';
@@ -73,6 +73,7 @@ export default function IdeaApply() {
         );
       }
       navigate(`/hackathon`);
+      toast('아이디어 지원이 완료되었습니다.', { type: 'primary' });
     } catch (error: any) {
       if (error.response) {
         const errorCode = error.response.data?.error?.code;
