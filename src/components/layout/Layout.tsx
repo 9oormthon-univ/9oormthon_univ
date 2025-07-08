@@ -6,7 +6,6 @@ import CustomNavbar from './navbar/CustomNavbar';
 import { useEffect } from 'react';
 import useAuthStore from '../../store/useAuthStore';
 import usePeriodStore from '../../store/usePeriodStore';
-import styles from './layout.module.scss';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -31,9 +30,7 @@ const Layout = () => {
     <>
       <CustomNavbar />
       <Wrapper>
-        <div className={styles.layoutContainer}>
-          <Outlet />
-        </div>
+        <Outlet />
       </Wrapper>
       <CustomFooter />
       <StyledFooter localeListGroup={[]} />
