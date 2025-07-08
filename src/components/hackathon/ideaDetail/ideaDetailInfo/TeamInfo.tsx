@@ -2,31 +2,9 @@ import styles from './styles.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
 import TeamInfoCard from './teamInfo/TeamInfoCard';
 import { RequirementKey } from '../../../../constants/position';
+import { Member, Requirements } from '../../../../types/user/idea';
 
-interface TeamMember {
-  id: number;
-  img_url: string;
-  name: string;
-  univ: string;
-  is_leader: boolean;
-}
-
-interface PositionRequirement {
-  requirement: string;
-  current_count: number;
-  max_count: number;
-  required_tech_stacks: string[];
-  current_members: TeamMember[];
-  ratio: string;
-}
-
-interface TeamInfoProps {
-  requirements?: {
-    [key in RequirementKey]: PositionRequirement;
-  };
-}
-
-export default function TeamInfo({ requirements }: TeamInfoProps) {
+export default function TeamInfo({ requirements }: { requirements: Requirements }) {
   return (
     <div className={styles.container}>
       <Text as="h5" typography="heading5" color="gray-900">
@@ -41,7 +19,7 @@ export default function TeamInfo({ requirements }: TeamInfoProps) {
             maxCount={info.max_count}
             description={info.requirement}
             skills={info.required_tech_stacks}
-            currentMembers={info.current_members.map((member) => ({
+            currentMembers={info.current_members.map((member: Member) => ({
               id: member.id,
               name: member.name,
               imgUrl: member.img_url,

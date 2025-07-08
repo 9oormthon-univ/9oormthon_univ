@@ -11,11 +11,18 @@ import { toast } from '@goorm-dev/vapor-components';
 import IdeaHeaderSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaHeaderSkeleton';
 import IdeaContentSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaContentSkeleton';
 import IdeaTeamContentSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaTeamContentSkeleton';
+import { IdeaInfoData, ProviderInfo, Requirements } from '../../../types/user/idea';
+
+interface IdeaDetail {
+  idea_info: IdeaInfoData;
+  provider_info: ProviderInfo;
+  requirements: Requirements;
+}
 
 export default function IdeaDetail() {
   const { idea_id } = useParams();
   const [activeTab, setActiveTab] = useState<'basic' | 'team'>('basic');
-  const [ideaDetail, setIdeaDetail] = useState<any>(null);
+  const [ideaDetail, setIdeaDetail] = useState<IdeaDetail | null>(null);
   const { idea_info, provider_info, requirements } = ideaDetail || {};
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -84,27 +91,33 @@ export default function IdeaDetail() {
       {isLoading ? (
         <IdeaHeaderSkeleton />
       ) : (
-        <IdeaDetailHeader
-          id={idea_info?.id}
-          subject={idea_info?.subject}
-          title={idea_info?.title}
-          is_active={idea_info?.is_active}
-          summary={idea_info?.summary}
-          name={provider_info?.name}
-          university={provider_info?.univ}
-          is_provider={provider_info?.is_provider}
-          is_bookmarked={idea_info?.is_bookmarked}
-          provider_id={provider_info?.id}
-          onBookmarkToggle={handleBookmarkToggle}
-        />
+        !isLoading &&
+        idea_info &&
+        provider_info && (
+          <IdeaDetailHeader
+            id={idea_info?.id || 0}
+            subject={idea_info?.subject || '-'}
+            title={idea_info?.title || '-'}
+            is_active={idea_info?.is_active || false}
+            summary={idea_info?.summary || '-'}
+            is_bookmarked={idea_info?.is_bookmarked || false}
+            name={provider_info?.name || '-'}
+            university={provider_info?.univ || '-'}
+            is_provider={provider_info?.is_provider || false}
+            provider_id={provider_info?.id || 0}
+            onBookmarkToggle={handleBookmarkToggle}
+          />
+        )
       )}
 
       <div className={styles.contentContainer}>
         <IdeaDetailTab activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <div className={styles.tabContent}>
-          {activeTab === 'basic' && (isLoading ? <IdeaContentSkeleton /> : <IdeaInfo ideaInfo={idea_info?.content} />)}
-          {activeTab === 'team' && (isLoading ? <IdeaTeamContentSkeleton /> : <TeamInfo requirements={requirements} />)}
+          {activeTab === 'basic' &&
+            (isLoading ? <IdeaContentSkeleton /> : <IdeaInfo ideaInfo={idea_info?.content || ''} />)}
+          {activeTab === 'team' &&
+            (isLoading ? <IdeaTeamContentSkeleton /> : requirements && <TeamInfo requirements={requirements} />)}
         </div>
       </div>
       <BackLinkNavigation backLink="/hackathon" />
