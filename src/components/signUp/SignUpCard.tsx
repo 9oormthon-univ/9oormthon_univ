@@ -55,10 +55,14 @@ export default function SignUpCard() {
         navigate('/');
       }
     } catch (error: any) {
-      console.error(error);
-      setErrorMessage('아이디 또는 비밀번호가 일치하지 않습니다.');
+      console.error('로그인 실패:', error);
+      if (error.response.data?.error?.code === 40100) {
+        setErrorMessage('아이디 또는 비밀번호가 일치하지 않습니다.');
+      } else {
+        setErrorMessage('로그인 중 문제가 발생했습니다.');
+      }
     }
-  }, [email, password, login, navigate]);
+  }, [email, password, login, navigate, fetchPeriodData, fetchUserStatus]);
 
   // 엔터 키 눌렀을 때 로그인
   const handleKeyDown = (e: KeyboardEvent) => {
