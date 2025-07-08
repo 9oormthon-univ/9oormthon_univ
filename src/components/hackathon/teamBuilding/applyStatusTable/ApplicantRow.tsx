@@ -133,7 +133,8 @@ export default function ApplicantRow({
           toggle={() => setIsAcceptOpen(false)}
           name={applicant.user.name}
           decision="accept"
-          refetchApplyStatus={refetchCurrentPhaseApplyStatus}
+          refetchApplyStatus={refetchApplyStatus}
+          refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
         />
       )}
       {isRejectOpen && (

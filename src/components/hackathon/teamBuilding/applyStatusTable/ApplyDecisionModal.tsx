@@ -10,6 +10,7 @@ interface ApplyDecisionModalProps {
   name: string;
   decision: 'accept' | 'reject';
   refetchApplyStatus: () => Promise<void>;
+  refetchCurrentPhaseApplyStatus?: () => Promise<void>;
 }
 
 export default function ApplyDecisionModal({
@@ -19,12 +20,16 @@ export default function ApplyDecisionModal({
   name,
   decision,
   refetchApplyStatus,
+  refetchCurrentPhaseApplyStatus = () => Promise.resolve(),
 }: ApplyDecisionModalProps) {
   const handleDecision = async (decision: 'accept' | 'reject') => {
     if (decision === 'accept') {
       try {
         await acceptApply(id);
         await refetchApplyStatus();
+        if (refetchCurrentPhaseApplyStatus) {
+          await refetchCurrentPhaseApplyStatus();
+        }
         toggle();
       } catch (error) {
         console.error('Error accepting apply:', error);
