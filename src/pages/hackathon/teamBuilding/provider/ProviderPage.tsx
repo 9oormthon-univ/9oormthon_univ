@@ -37,10 +37,10 @@ export default function ProviderPage() {
   const [isApplyStatusLoading, setIsApplyStatusLoading] = useState(false);
 
   // fetchApplyStatus를 컴포넌트 레벨로 올리고 재사용 가능하게 만듦
-  const fetchApplyStatus = async () => {
+  const fetchApplyStatus = async (sorting?: Sorting, sortType?: SortType) => {
     try {
       setIsApplyStatusLoading(true);
-      const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1);
+      const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1, sorting, sortType);
       setApplyStatus(response.data);
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
@@ -111,7 +111,7 @@ export default function ProviderPage() {
   // 지원 현황 불러오기
   useEffect(() => {
     if (isFetched) {
-      fetchApplyStatus();
+      fetchApplyStatus(sorting, sortType);
     }
   }, [buttonIndex, isFetched, sorting, sortType]);
 
