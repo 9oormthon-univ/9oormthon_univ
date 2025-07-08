@@ -2,6 +2,8 @@ import { Text } from '@goorm-dev/vapor-components';
 import ApplicantRow from './ApplicantRow';
 import styles from './styles.module.scss';
 import { PositionWithoutNull } from '../../../../constants/position';
+import { Sorting } from '../../../../types/user/idea';
+import { ControlCommonIcon } from '@goorm-dev/vapor-icons';
 
 // 지원자 개별 정보
 interface User {
@@ -23,9 +25,16 @@ interface Applicant {
 interface ApplyStatusTableProps {
   applicants: Applicant[];
   refetchApplyStatus: () => Promise<void>;
+  refetchCurrentPhaseApplyStatus: () => Promise<void>;
+  onSortChange: (sorting: Sorting) => void;
 }
 
-export default function ApplyStatusTable({ applicants, refetchApplyStatus }: ApplyStatusTableProps) {
+export default function ApplyStatusTable({
+  applicants,
+  refetchApplyStatus,
+  refetchCurrentPhaseApplyStatus,
+  onSortChange,
+}: ApplyStatusTableProps) {
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -35,6 +44,7 @@ export default function ApplyStatusTable({ applicants, refetchApplyStatus }: App
               <Text typography="subtitle1" color="text-alternative">
                 지망
               </Text>
+              <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange('PREFERENCE')} />
             </th>
             <th>
               <Text typography="subtitle1" color="text-alternative">
@@ -45,6 +55,7 @@ export default function ApplyStatusTable({ applicants, refetchApplyStatus }: App
               <Text typography="subtitle1" color="text-alternative">
                 이름
               </Text>
+              <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange('ROLE')} />
             </th>
             <th>
               <Text typography="subtitle1" color="text-alternative">
@@ -55,13 +66,19 @@ export default function ApplyStatusTable({ applicants, refetchApplyStatus }: App
               <Text typography="subtitle1" color="text-alternative">
                 대학명
               </Text>
+              <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange('UNIV')} />
             </th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           {applicants.map((applicant) => (
-            <ApplicantRow key={applicant.id} applicant={applicant} refetchApplyStatus={refetchApplyStatus} />
+            <ApplicantRow
+              key={applicant.id}
+              applicant={applicant}
+              refetchApplyStatus={refetchApplyStatus}
+              refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
+            />
           ))}
         </tbody>
       </table>

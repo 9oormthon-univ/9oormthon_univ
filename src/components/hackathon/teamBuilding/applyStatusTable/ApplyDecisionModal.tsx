@@ -1,4 +1,4 @@
-import { Modal, ModalBody, Text, Button, ModalFooter } from '@goorm-dev/vapor-components';
+import { Modal, ModalBody, Text, Button, ModalFooter, toast } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { WarningIcon, CheckCircleIcon } from '@goorm-dev/vapor-icons';
 import { acceptApply, rejectApply } from '../../../../api/users';
@@ -10,6 +10,7 @@ interface ApplyDecisionModalProps {
   name: string;
   decision: 'accept' | 'reject';
   refetchApplyStatus: () => Promise<void>;
+  refetchCurrentPhaseApplyStatus?: () => Promise<void>;
 }
 
 export default function ApplyDecisionModal({
@@ -19,21 +20,32 @@ export default function ApplyDecisionModal({
   name,
   decision,
   refetchApplyStatus,
+  refetchCurrentPhaseApplyStatus = () => Promise.resolve(),
 }: ApplyDecisionModalProps) {
   const handleDecision = async (decision: 'accept' | 'reject') => {
     if (decision === 'accept') {
       try {
         await acceptApply(id);
         await refetchApplyStatus();
+        if (refetchCurrentPhaseApplyStatus) {
+          await refetchCurrentPhaseApplyStatus();
+        }
         toggle();
+        toast('지원을 수락했습니다.', { type: 'primary' });
       } catch (error) {
+        toggle();
+        toast('지원 수락에 실패했습니다. 조건을 확인해주세요.', { type: 'danger' });
         console.error('Error accepting apply:', error);
       }
     } else {
       try {
         await rejectApply(id);
         await refetchApplyStatus();
+        if (refetchCurrentPhaseApplyStatus) {
+          await refetchCurrentPhaseApplyStatus();
+        }
         toggle();
+        toast('지원을 거절했습니다.', { type: 'primary' });
       } catch (error) {
         console.error('Error rejecting apply:', error);
       }

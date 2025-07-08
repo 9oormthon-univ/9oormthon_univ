@@ -48,6 +48,8 @@ export default function IdeaList() {
     page_info: { current_page: 1, page_size: 1, total_pages: 1, total_items: 1 },
   });
   const { ideas, page_info } = ideaList;
+  const [max_idea_count, setMaxIdeaCount] = useState<number>(0);
+  const [current_idea_count, setCurrentIdeaCount] = useState<number>(0);
 
   // 로딩 상태
   const [ideasLoading, setIdeasLoading] = useState(false); // 아이디어 리스트
@@ -144,6 +146,9 @@ export default function IdeaList() {
             debouncedSearchQuery,
           );
           setIdeaList(response.data);
+          // 최대 아이디어 개수
+          setMaxIdeaCount(response.data.max_idea_count);
+          setCurrentIdeaCount(response.data.current_idea_count);
         } catch (error) {
           console.error('Error fetching ideas:', error);
         } finally {
@@ -260,6 +265,12 @@ export default function IdeaList() {
       return;
     }
 
+    // 최대 아이디어 개수 초과 시 등록 불가
+    if (max_idea_count - current_idea_count <= 0) {
+      toast('더 이상 아이디어를 등록할 수 없습니다.', { type: 'danger' });
+      return;
+    }
+
     navigate('/hackathon/create/step1');
   };
 
@@ -290,7 +301,7 @@ export default function IdeaList() {
                 아이디어 리스트
               </Text>
               <Text typography="body2" as="p" color="text-hint">
-                90개 등록 가능
+                {max_idea_count - current_idea_count}개 등록 가능
               </Text>
             </div>
 
