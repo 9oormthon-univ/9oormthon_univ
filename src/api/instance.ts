@@ -8,6 +8,12 @@ const instance = axios.create({
   withCredentials: true,
 });
 
+export const authLessInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
+});
+
 let isRefreshing = false; // 토큰 재발급 중인지 여부
 let refreshSubscribers: ((token: string) => void)[] = []; // 토큰 갱신 중인 요청 보관 (요청이 여러 개일 수 있으니 배열로 저장)
 

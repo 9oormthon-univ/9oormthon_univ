@@ -1,7 +1,7 @@
 // 회원 관련 api
 
 import { GENERATION } from '../constants/common';
-import instance from './instance';
+import instance, { authLessInstance } from './instance';
 
 // JWT 토큰 재발급
 export const reissueAPI = async () => {
@@ -12,7 +12,7 @@ export const reissueAPI = async () => {
 
 // 로그인 api
 export const loginAPI = async (serial_id: string, password: string) => {
-  const response = await instance.post('/api/v1/auth/login', { serial_id, password });
+  const response = await authLessInstance.post('/api/v1/auth/login', { serial_id, password });
 
   return response.data;
 };
@@ -20,7 +20,6 @@ export const loginAPI = async (serial_id: string, password: string) => {
 // 로그아웃 api
 export const logoutAPI = async () => {
   const response = await instance.post('/api/v1/auth/logout');
-
   return response.data;
 };
 

@@ -48,8 +48,8 @@ export default function IdeaList() {
     page_info: { current_page: 1, page_size: 1, total_pages: 1, total_items: 1 },
   });
   const { ideas, page_info } = ideaList;
-  const [max_idea_count, setMaxIdeaCount] = useState<number>(0);
-  const [current_idea_count, setCurrentIdeaCount] = useState<number>(0);
+  const [max_idea_number, setMaxIdeaNumber] = useState<number>(0);
+  const [current_idea_number, setCurrentIdeaNumber] = useState<number>(0);
 
   // 로딩 상태
   const [ideasLoading, setIdeasLoading] = useState(false); // 아이디어 리스트
@@ -145,12 +145,8 @@ export default function IdeaList() {
           debouncedSearchQuery,
         );
         setIdeaList(response.data);
-        // 최대 아이디어 개수
-        console.log('API Response:', response.data); // 디버깅용
-        console.log('max_idea_count:', response.data.max_idea_count, typeof response.data.max_idea_count);
-        console.log('current_idea_count:', response.data.current_idea_count, typeof response.data.current_idea_count);
-        setMaxIdeaCount(response.data.max_idea_count ?? 0);
-        setCurrentIdeaCount(response.data.current_idea_count ?? 0);
+        setMaxIdeaNumber(response.data.max_idea_number || 0);
+        setCurrentIdeaNumber(response.data.current_idea_number || 0);
       } catch (error) {
         console.error('Error fetching ideas:', error);
       } finally {
@@ -267,7 +263,7 @@ export default function IdeaList() {
     }
 
     // 최대 아이디어 개수 초과 시 등록 불가
-    if (max_idea_count - current_idea_count <= 0) {
+    if (max_idea_number - current_idea_number <= 0) {
       toast('더 이상 아이디어를 등록할 수 없습니다.', { type: 'danger' });
       return;
     }
@@ -301,16 +297,11 @@ export default function IdeaList() {
               <Text typography="heading4" as="h4" color="text-normal">
                 아이디어 리스트
               </Text>
-              {!ideasLoading &&
-                isTeamBuilding &&
-                typeof max_idea_count === 'number' &&
-                typeof current_idea_count === 'number' &&
-                !isNaN(max_idea_count) &&
-                !isNaN(current_idea_count) && (
-                  <Text typography="body2" as="p" color="text-hint">
-                    {max_idea_count - current_idea_count}개 등록 가능
-                  </Text>
-                )}
+              {!ideasLoading && (
+                <Text typography="body2" as="p" color="text-hint">
+                  {max_idea_number - current_idea_number}개 등록 가능
+                </Text>
+              )}
             </div>
 
             <div className={styles.buttonContainer}>
