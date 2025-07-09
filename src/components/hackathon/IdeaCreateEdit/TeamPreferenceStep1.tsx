@@ -76,7 +76,6 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     return Object.values(formStatus).every((value) => value === true);
   };
 
-  // 이름으로 확인
   const selectedTopic = topics.find((topic) => topic.id === formData.idea_info.idea_subject_id);
 
   return (

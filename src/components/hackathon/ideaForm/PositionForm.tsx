@@ -5,7 +5,7 @@ import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import FormTextarea from './FormTextarea';
 import FormDropdown from './FormDropdown';
 import StackSelector from './StackSelector';
-import { POSITIONS, PositionLowerKey } from '../../../constants/position';
+import { PositionLowerKey } from '../../../constants/position';
 import { useEffect } from 'react';
 
 interface PositionFormProps {
@@ -56,7 +56,7 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
   return (
     <div className={isDisabled ? styles.positionFormContainerDisabled : styles.positionFormContainer}>
       <Text as="h6" typography="heading6" color="text-normal" style={{ marginBottom: 'var(--space-200)' }}>
-        {`${position.index + 1}. ${POSITIONS[position.key as keyof typeof POSITIONS].name}`}
+        {`${position.index + 1}. ${position.name}`}
       </Text>
       <FormDropdown
         label="필요 인원 (본인 포함)"

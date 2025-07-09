@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { PositionKey, PositionLowerKey } from '../constants/position';
+import { PositionKey, PositionLowerKey, POSITIONS } from '../constants/position';
 import { GENERATION } from '../constants/common';
 
 interface PositionRequirement {
@@ -67,18 +67,17 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
             const newRole = value as PositionKey;
             const updatedRequirements = { ...state.requirements };
 
-            if (previousRole && updatedRequirements[previousRole.toLowerCase() as PositionLowerKey]) {
-              updatedRequirements[previousRole.toLowerCase() as PositionLowerKey]!.capacity = Math.max(
-                updatedRequirements[previousRole.toLowerCase() as PositionLowerKey]!.capacity - 1,
+            if (previousRole && POSITIONS[previousRole]) {
+              const previousLowerKey = POSITIONS[previousRole].lowerKey;
+              updatedRequirements[previousLowerKey].capacity = Math.max(
+                updatedRequirements[previousLowerKey].capacity - 1,
                 0,
               );
             }
 
-            if (newRole && updatedRequirements[newRole.toLowerCase() as PositionLowerKey]) {
-              updatedRequirements[newRole.toLowerCase() as PositionLowerKey]!.capacity = Math.max(
-                updatedRequirements[newRole.toLowerCase() as PositionLowerKey]!.capacity + 1,
-                1,
-              );
+            if (newRole && POSITIONS[newRole]) {
+              const newLowerKey = POSITIONS[newRole].lowerKey;
+              updatedRequirements[newLowerKey].capacity = Math.max(updatedRequirements[newLowerKey].capacity + 1, 1);
             }
 
             return {
