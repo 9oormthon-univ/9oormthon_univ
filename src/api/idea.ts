@@ -1,4 +1,5 @@
 import instance from './instance';
+import { PositionKey } from '../constants/position';
 
 // 아이디어 생성 API
 export const createIdeaAPI = async (idea: {
@@ -8,7 +9,7 @@ export const createIdeaAPI = async (idea: {
     summary: string;
     content: string;
     generation: number;
-    provider_role: 'PM' | 'PD' | 'FE' | 'BE' | '';
+    provider_role: PositionKey | null;
   };
   requirements: {
     pm?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
@@ -41,7 +42,7 @@ export const updateIdeaAPI = async (
       summary: string;
       content: string;
       generation: number;
-      provider_role: 'PM' | 'PD' | 'FE' | 'BE' | '';
+      provider_role: PositionKey | null;
     };
     requirements: {
       pm?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
@@ -106,7 +107,7 @@ export const applyIdea = async (
   phase: number,
   preference: number,
   motivation: string,
-  role: 'PM' | 'PD' | 'FE' | 'BE' | '',
+  role: PositionKey,
 ) => {
   const response = await instance.post(`/api/v1/users/ideas/${idea_id}/applies`, {
     phase,

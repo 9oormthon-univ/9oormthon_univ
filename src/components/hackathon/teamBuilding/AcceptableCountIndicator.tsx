@@ -1,13 +1,13 @@
 import { Applies, ApplyStatus, TeamInfo } from '../../../types/user/team';
 import { Text } from '@goorm-dev/vapor-components';
-import { POSITION_NAME, PositionList, Position } from '../../../constants/position';
+import { getPositionName, PositionKey, POSITIONS } from '../../../constants/position';
 import styles from './styles.module.scss';
 
 interface AcceptableCountIndicatorProps {
   teamInfo: TeamInfo;
   applies?: Applies[];
 }
-const getRemaining = (role: string, teamInfo: TeamInfo, applies?: Applies[]) => {
+const getRemaining = (role: PositionKey, teamInfo: TeamInfo, applies?: Applies[]) => {
   const roleKey = role.toLowerCase() as keyof typeof teamInfo.role;
   const max = teamInfo.role[roleKey]?.max_count || 0;
   const current = teamInfo.role[roleKey]?.current_count || 0;
@@ -24,23 +24,21 @@ export default function AcceptableCountIndicator({ teamInfo, applies }: Acceptab
 
   return (
     <div className={styles.acceptableWrap}>
-      {PositionList.filter((role) => role !== Position.NULL).map((role, index) => (
+      {Object.values(POSITIONS).map((role, index) => (
         <>
-          <div className={styles.acceptableItem} key={role}>
-            <Text key={role} as="span" typography="subtitle1" color="text-normal">
-              {POSITION_NAME[role]}
+          <div className={styles.acceptableItem} key={role.key}>
+            <Text key={role.key} as="span" typography="subtitle1" color="text-normal">
+              {getPositionName(role.key)}
             </Text>
             <Text
-              key={role}
+              key={role.key}
               as="span"
               typography="body2"
-              color={getRemaining(role, teamInfo, applies) > 0 ? 'text-primary' : 'text-hint'}>
-              {getRemaining(role, teamInfo, applies)}명 수락 가능
+              color={getRemaining(role.key, teamInfo, applies) > 0 ? 'text-primary' : 'text-hint'}>
+              {getRemaining(role.key, teamInfo, applies)}명 수락 가능
             </Text>
           </div>
-          {index !== PositionList.filter((role) => role !== Position.NULL).length - 1 && (
-            <div className={styles.line} />
-          )}
+          {index !== Object.values(POSITIONS).length - 1 && <div className={styles.line} />}
         </>
       ))}
     </div>

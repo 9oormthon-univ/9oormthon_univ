@@ -1,4 +1,4 @@
-import { PositionWithoutNull } from '../../constants/position';
+import { PositionKey } from '../../constants/position';
 
 export interface TeamMember {
   id: number;
@@ -48,7 +48,7 @@ export interface Applies {
   id: number;
   preference: number;
   motivation: string;
-  role: PositionWithoutNull;
+  role: PositionKey;
   status: ApplyStatus;
   user: ApplyUser;
 }

@@ -3,8 +3,7 @@ import styles from './form.module.scss';
 import FormField from '../../../common/formField/FormField';
 import { useState } from 'react';
 import { Member } from '../../../../types/admin/member';
-import { POSITION_NAME } from '../../../../constants/position';
-import { Position, PositionWithoutNull } from '../../../../constants/position';
+import { getPositionName, PositionKey, POSITIONS } from '../../../../constants/position';
 
 const formatGeneration = (generation: number) => `${generation}기`;
 
@@ -12,7 +11,7 @@ interface MemberInfoViewProps {
   isTeamInform?: boolean;
   isPartEditMode?: boolean;
   member?: Member | null;
-  onRoleChange?: (role: Position) => void;
+  onRoleChange?: (role: PositionKey) => void;
 }
 
 export default function MemberInfoView({
@@ -21,7 +20,7 @@ export default function MemberInfoView({
   member,
   onRoleChange,
 }: MemberInfoViewProps) {
-  const [role, setRole] = useState(member?.role || Position.PM);
+  const [role, setRole] = useState<PositionKey>(member?.role || 'PM');
 
   return (
     <div className={styles.infoContainer}>
@@ -47,61 +46,29 @@ export default function MemberInfoView({
         {isTeamInform && !isPartEditMode && (
           <FormField label="지원 파트">
             <Text typography="heading6" as="p" color="text-normal">
-              {POSITION_NAME[member?.role as PositionWithoutNull] || '희망 파트 없음'}
+              {member?.role ? getPositionName(member.role) : '희망 파트 없음'}
             </Text>
           </FormField>
         )}
 
-        {/* {isTeamInform && (
-          <FormField label="희망 파트">
-            <Text typography="heading6" as="p" color="text-normal">
-              기획
-            </Text>
-          </FormField>
-        )} */}
         {isPartEditMode && (
           <FormField label="지원 파트">
             <div className={styles.radioGroup}>
-              <Radio
-                label="기획"
-                id="PM"
-                name="role"
-                checked={role === Position.PM}
-                onChange={() => {
-                  setRole(Position.PM);
-                  onRoleChange?.(Position.PM);
-                }}
-              />
-              <Radio
-                label="디자인"
-                id="PD"
-                name="role"
-                checked={role === Position.PD}
-                onChange={() => {
-                  setRole(Position.PD);
-                  onRoleChange?.(Position.PD);
-                }}
-              />
-              <Radio
-                label="프론트엔드"
-                id="FE"
-                name="role"
-                checked={role === Position.FE}
-                onChange={() => {
-                  setRole(Position.FE);
-                  onRoleChange?.(Position.FE);
-                }}
-              />
-              <Radio
-                label="백엔드"
-                id="BE"
-                name="role"
-                checked={role === Position.BE}
-                onChange={() => {
-                  setRole(Position.BE);
-                  onRoleChange?.(Position.BE);
-                }}
-              />
+              {Object.values(POSITIONS)
+                .sort((a, b) => a.index - b.index)
+                .map((position) => (
+                  <Radio
+                    key={position.key}
+                    label={position.name}
+                    id={position.key}
+                    name="role"
+                    checked={role === position.key}
+                    onChange={() => {
+                      setRole(position.key);
+                      onRoleChange?.(position.key);
+                    }}
+                  />
+                ))}
             </div>
           </FormField>
         )}

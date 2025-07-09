@@ -4,7 +4,7 @@ import styles from './teamMemberCreateModal.module.scss';
 import { useEffect, useState } from 'react';
 import { addTeamMemberAPI } from '../../../../api/admin/teams';
 import { useParams } from 'react-router-dom';
-import { Position } from '../../../../constants/position';
+import { PositionKey, POSITIONS } from '../../../../constants/position';
 import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
 import { fetchUserListAPI } from '../../../../api/admin/users';
 import { GENERATION } from '../../../../constants/common';
@@ -17,10 +17,10 @@ interface TeamMemberCreateModalProps {
 }
 
 export default function TeamMemberCreateModal({ isOpen, toggle, onUpdate }: TeamMemberCreateModalProps) {
-  const [role, setRole] = useState<Position>(Position.NULL);
+  const [role, setRole] = useState<PositionKey | null>(null);
   const [userList, setUserList] = useState<{ id: number; description: string }[]>([]);
   const [selectedUser, setSelectedUser] = useState<{ id: number; description: string } | null>(null);
-  const isDisabled = role === Position.NULL || selectedUser === null;
+  const isDisabled = role === null || selectedUser === null;
 
   const { team_id } = useParams();
 
@@ -29,11 +29,11 @@ export default function TeamMemberCreateModal({ isOpen, toggle, onUpdate }: Team
     if (!team_id) return;
 
     try {
-      await addTeamMemberAPI(Number(team_id), selectedUser?.id ?? 0, role as Position);
+      await addTeamMemberAPI(Number(team_id), selectedUser?.id ?? 0, role as PositionKey);
       toast('성공적으로 팀원을 추가하였습니다.', {
         type: 'primary',
       });
-      setRole(Position.NULL);
+      setRole(null);
       setSelectedUser(null);
       toggle();
       onUpdate();
@@ -61,7 +61,7 @@ export default function TeamMemberCreateModal({ isOpen, toggle, onUpdate }: Team
   // 모달이 열릴 때마다 입력값 리셋
   useEffect(() => {
     if (isOpen) {
-      setRole(Position.NULL);
+      setRole(null);
       setSelectedUser(null);
     }
   }, [isOpen]);
@@ -88,34 +88,18 @@ export default function TeamMemberCreateModal({ isOpen, toggle, onUpdate }: Team
         </FormField>
         <FormField label="파트 선택" required>
           <div className={styles.radioGroup}>
-            <Radio
-              label="기획"
-              id="PM"
-              name="role"
-              checked={role === Position.PM}
-              onChange={() => setRole(Position.PM)}
-            />
-            <Radio
-              label="디자인"
-              id="PD"
-              name="role"
-              checked={role === Position.PD}
-              onChange={() => setRole(Position.PD)}
-            />
-            <Radio
-              label="프론트엔드"
-              id="FE"
-              name="role"
-              checked={role === Position.FE}
-              onChange={() => setRole(Position.FE)}
-            />
-            <Radio
-              label="백엔드"
-              id="BE"
-              name="role"
-              checked={role === Position.BE}
-              onChange={() => setRole(Position.BE)}
-            />
+            {Object.values(POSITIONS)
+              .sort((a, b) => a.index - b.index)
+              .map((position) => (
+                <Radio
+                  key={position.key}
+                  label={position.name}
+                  id={position.key}
+                  name="role"
+                  checked={role === position.key}
+                  onChange={() => setRole(position.key)}
+                />
+              ))}
           </div>
         </FormField>
       </ModalBody>

@@ -1,6 +1,7 @@
 import { FormGroup, Radio } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import FormLabel from './FormLabel';
+import { POSITIONS } from '../../../constants/position';
 
 interface FormRadioProps {
   label: string;
@@ -14,10 +15,18 @@ export default function FormRadio({ label, nullable, value, onChange }: FormRadi
     <FormGroup>
       <FormLabel label={label} nullable={nullable} />
       <div className={styles.radioContainer}>
-        <Radio label="기획" id="PM" name="role" checked={value === 'PM'} onChange={onChange} />
-        <Radio label="디자인" id="PD" name="role" checked={value === 'PD'} onChange={onChange} />
-        <Radio label="프론트엔드" id="FE" name="role" checked={value === 'FE'} onChange={onChange} />
-        <Radio label="백엔드" id="BE" name="role" checked={value === 'BE'} onChange={onChange} />
+        {Object.values(POSITIONS)
+          .sort((a, b) => a.index - b.index)
+          .map((position) => (
+            <Radio
+              key={position.key}
+              label={position.name}
+              id={position.key}
+              name="role"
+              checked={value === position.key}
+              onChange={onChange}
+            />
+          ))}
       </div>
     </FormGroup>
   );

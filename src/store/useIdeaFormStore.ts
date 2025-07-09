@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { Position, RequirementKey } from '../constants/position';
+import { PositionKey, PositionLowerKey } from '../constants/position';
 import { GENERATION } from '../constants/common';
 
 interface PositionRequirement {
@@ -16,10 +16,10 @@ interface IdeaFormStore {
     summary: string;
     content: string;
     generation: number; // 현 기수
-    provider_role: Position;
+    provider_role: PositionKey | null;
   };
   requirements: {
-    [key in RequirementKey]: PositionRequirement;
+    [key in PositionLowerKey]: PositionRequirement;
   };
 
   updateIdeaInfo: (key: keyof IdeaFormStore['idea_info'], value: any) => void;
@@ -36,7 +36,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
         summary: '',
         content: '',
         generation: GENERATION,
-        provider_role: Position.NULL,
+        provider_role: null,
       },
       requirements: {
         pm: {
@@ -64,19 +64,19 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
         set((state) => {
           if (key === 'provider_role') {
             const previousRole = state.idea_info.provider_role;
-            const newRole = value as Position;
+            const newRole = value as PositionKey;
             const updatedRequirements = { ...state.requirements };
 
-            if (previousRole && updatedRequirements[previousRole.toLowerCase() as RequirementKey]) {
-              updatedRequirements[previousRole.toLowerCase() as RequirementKey]!.capacity = Math.max(
-                updatedRequirements[previousRole.toLowerCase() as RequirementKey]!.capacity - 1,
+            if (previousRole && updatedRequirements[previousRole.toLowerCase() as PositionLowerKey]) {
+              updatedRequirements[previousRole.toLowerCase() as PositionLowerKey]!.capacity = Math.max(
+                updatedRequirements[previousRole.toLowerCase() as PositionLowerKey]!.capacity - 1,
                 0,
               );
             }
 
-            if (newRole && updatedRequirements[newRole.toLowerCase() as RequirementKey]) {
-              updatedRequirements[newRole.toLowerCase() as RequirementKey]!.capacity = Math.max(
-                updatedRequirements[newRole.toLowerCase() as RequirementKey]!.capacity + 1,
+            if (newRole && updatedRequirements[newRole.toLowerCase() as PositionLowerKey]) {
+              updatedRequirements[newRole.toLowerCase() as PositionLowerKey]!.capacity = Math.max(
+                updatedRequirements[newRole.toLowerCase() as PositionLowerKey]!.capacity + 1,
                 1,
               );
             }
@@ -105,7 +105,7 @@ export const useIdeaFormStore = create<IdeaFormStore>()(
             summary: '',
             content: '',
             generation: GENERATION,
-            provider_role: Position.NULL,
+            provider_role: null,
           },
           requirements: {
             pm: {

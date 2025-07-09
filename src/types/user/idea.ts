@@ -1,4 +1,4 @@
-import { PositionWithoutNull } from '../../constants/position';
+import { PositionKey } from '../../constants/position';
 
 // 아이디어 요약 조회
 export interface Ideas {
@@ -26,7 +26,7 @@ export interface ProviderInfo {
   id: number;
   name: string;
   univ: string;
-  role: PositionWithoutNull;
+  role: PositionKey;
   is_provider: boolean;
 }
 

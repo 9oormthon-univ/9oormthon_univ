@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 import ApplyDecisionModal from './ApplyDecisionModal';
 import { useNavigate } from 'react-router-dom';
 import usePeriodStore from '../../../../store/usePeriodStore';
-import { POSITION_NAME, PositionWithoutNull } from '../../../../constants/position';
+import { getPositionName, PositionKey } from '../../../../constants/position';
 
 interface User {
   id: number;
@@ -19,7 +19,7 @@ interface Applicant {
   id: number;
   preference: number; // 지망 순위
   motivation: string; // 지원 동기
-  role: PositionWithoutNull; // 역할
+  role: PositionKey; // 역할
   status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED'; // 현재 상태
   user: User; // 지원자의 유저 정보 포함
 }
@@ -68,7 +68,7 @@ export default function ApplicantRow({
           <OutOutlineIcon />
         </td>
         <td>
-          <Text typography="body3">{POSITION_NAME[applicant.role as PositionWithoutNull]}</Text>
+          <Text typography="body3">{getPositionName(applicant.role)}</Text>
         </td>
         <td>
           <Text typography="body3">{applicant.user.univ}</Text>
@@ -121,7 +121,7 @@ export default function ApplicantRow({
             id: applicant.id,
             motivation: applicant.motivation,
             name: applicant.user.name,
-            role: applicant.role as PositionWithoutNull,
+            role: applicant.role,
             univ: applicant.user.univ,
           }}
         />
