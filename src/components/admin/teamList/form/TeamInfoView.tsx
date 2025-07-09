@@ -82,7 +82,8 @@ export default function TeamInfoView({ teamDetail }: TeamInfoViewProps) {
           className={styles.ideaInfoButton}
           onClick={() => {
             navigate(`/hackathon/detail/${teamDetail?.idea_id}`);
-          }}>
+          }}
+          disabled={!teamDetail?.idea_id}>
           아이디어 정보 보기
         </Button>
       </div>

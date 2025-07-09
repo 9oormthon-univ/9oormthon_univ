@@ -27,7 +27,8 @@ instance.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // 401에러 코드
+    if (error.response?.data?.error?.code === 40100 && !originalRequest._retry) {
       if (isRefreshing) {
         // 토큰 재발급 시, 새 토큰 받을 때까지 대기
         return new Promise((resolve) => {
