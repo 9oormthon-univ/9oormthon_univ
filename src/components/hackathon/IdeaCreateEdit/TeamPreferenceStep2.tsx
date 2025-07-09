@@ -3,7 +3,7 @@ import { Alert, Button, Text } from '@goorm-dev/vapor-components';
 import PositionForm from '../ideaForm/PositionForm';
 import BackLinkNavigation from '../common/BackLinkNavigation';
 import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
-import { POSITIONS, PositionLowerKey } from '../../../constants/position';
+import { POSITIONS } from '../../../constants/position';
 import { useEffect } from 'react';
 
 interface TeamPreferenceStep2Props {
@@ -20,11 +20,13 @@ export default function TeamPreferenceStep2({
   errorMessage,
   goToPreviousStep,
 }: TeamPreferenceStep2Props) {
-  const positions = Object.entries(POSITIONS).map(([key, value]) => ({
-    key: key as PositionLowerKey,
-    name: value.name,
-    index: value.index,
-  }));
+  const positions = Object.values(POSITIONS)
+    .sort((a, b) => a.index - b.index)
+    .map((value) => ({
+      key: value.lowerKey,
+      name: value.name,
+      index: value.index,
+    }));
 
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {

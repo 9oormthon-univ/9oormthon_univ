@@ -146,8 +146,11 @@ export default function IdeaList() {
         );
         setIdeaList(response.data);
         // 최대 아이디어 개수
-        setMaxIdeaCount(response.data.max_idea_count);
-        setCurrentIdeaCount(response.data.current_idea_count);
+        console.log('API Response:', response.data); // 디버깅용
+        console.log('max_idea_count:', response.data.max_idea_count, typeof response.data.max_idea_count);
+        console.log('current_idea_count:', response.data.current_idea_count, typeof response.data.current_idea_count);
+        setMaxIdeaCount(response.data.max_idea_count ?? 0);
+        setCurrentIdeaCount(response.data.current_idea_count ?? 0);
       } catch (error) {
         console.error('Error fetching ideas:', error);
       } finally {
@@ -298,11 +301,16 @@ export default function IdeaList() {
               <Text typography="heading4" as="h4" color="text-normal">
                 아이디어 리스트
               </Text>
-              {!ideasLoading && (
-                <Text typography="body2" as="p" color="text-hint">
-                  {max_idea_count - current_idea_count}개 등록 가능
-                </Text>
-              )}
+              {!ideasLoading &&
+                isTeamBuilding &&
+                typeof max_idea_count === 'number' &&
+                typeof current_idea_count === 'number' &&
+                !isNaN(max_idea_count) &&
+                !isNaN(current_idea_count) && (
+                  <Text typography="body2" as="p" color="text-hint">
+                    {max_idea_count - current_idea_count}개 등록 가능
+                  </Text>
+                )}
             </div>
 
             <div className={styles.buttonContainer}>
