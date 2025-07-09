@@ -126,38 +126,36 @@ export default function IdeaList() {
     }
   }, [isTeamBuilding, current_period]);
 
-  // 아이디어 가져오는 api (팀빌딩 기간일 때만)
+  // 아이디어 가져오는 api
   useEffect(() => {
-    if (isTeamBuilding) {
-      const loadIdeas = async () => {
-        setIdeasLoading(true);
-        try {
-          const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
-          const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
-          const isBookmarked = selectedBookmark === true ? true : undefined;
+    const loadIdeas = async () => {
+      setIdeasLoading(true);
+      try {
+        const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
+        const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
+        const isBookmarked = selectedBookmark === true ? true : undefined;
 
-          const response = await fetchIdeas(
-            currentPage,
-            projectsPerPage,
-            GENERATION,
-            subjectId,
-            isActive,
-            isBookmarked,
-            debouncedSearchQuery,
-          );
-          setIdeaList(response.data);
-          // 최대 아이디어 개수
-          setMaxIdeaCount(response.data.max_idea_count);
-          setCurrentIdeaCount(response.data.current_idea_count);
-        } catch (error) {
-          console.error('Error fetching ideas:', error);
-        } finally {
-          setIdeasLoading(false);
-        }
-      };
-      loadIdeas();
-    }
-  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark, debouncedSearchQuery, isTeamBuilding]);
+        const response = await fetchIdeas(
+          currentPage,
+          projectsPerPage,
+          GENERATION,
+          subjectId,
+          isActive,
+          isBookmarked,
+          debouncedSearchQuery,
+        );
+        setIdeaList(response.data);
+        // 최대 아이디어 개수
+        setMaxIdeaCount(response.data.max_idea_count);
+        setCurrentIdeaCount(response.data.current_idea_count);
+      } catch (error) {
+        console.error('Error fetching ideas:', error);
+      } finally {
+        setIdeasLoading(false);
+      }
+    };
+    loadIdeas();
+  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark, debouncedSearchQuery]);
 
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {
@@ -300,9 +298,11 @@ export default function IdeaList() {
               <Text typography="heading4" as="h4" color="text-normal">
                 아이디어 리스트
               </Text>
-              <Text typography="body2" as="p" color="text-hint">
-                {max_idea_count - current_idea_count}개 등록 가능
-              </Text>
+              {!ideasLoading && (
+                <Text typography="body2" as="p" color="text-hint">
+                  {max_idea_count - current_idea_count}개 등록 가능
+                </Text>
+              )}
             </div>
 
             <div className={styles.buttonContainer}>
