@@ -1,21 +1,18 @@
 import StackItem from '../../../common/team/StackItem';
 import styles from './styles.module.scss';
 import { Badge, Text } from '@goorm-dev/vapor-components';
-import { RequirementKey, POSITIONS } from '../../../../../constants/position';
+import { POSITIONS, PositionKey, PositionLowerKey } from '../../../../../constants/position';
 import MemberInfoItem from '../../../common/team/MemberInfoItem';
 import useBreakPoint from '../../../../../hooks/useBreakPoint';
+import { Member } from '../../../../../types/user/idea';
+
 interface TeamInfoCardProps {
-  role: RequirementKey;
+  role: PositionLowerKey;
   currentCount: number;
   maxCount: number;
   description: string;
   skills: string[];
-  currentMembers: {
-    id: number;
-    name: string;
-    imgUrl: string;
-    is_leader: boolean;
-  }[];
+  currentMembers: Omit<Member, 'univ'>[];
   ratio: string;
 }
 
@@ -39,7 +36,7 @@ export default function TeamInfoCard({
       <div className={styles.teamInfoLeftItem}>
         <div className={styles.teamInfoPosition}>
           <Text as="h5" typography="heading5" color="text-normal">
-            {POSITIONS[role].name}
+            {POSITIONS[role as PositionKey].name}
           </Text>
           <Badge color={isFull ? 'success' : 'primary'} pill>
             {currentCount}/{maxCount}
@@ -56,7 +53,7 @@ export default function TeamInfoCard({
                   key={member.id}
                   id={member.id}
                   name={member.name}
-                  imgUrl={member.imgUrl}
+                  imgUrl={member.img_url}
                   is_leader={member.is_leader}
                 />
               ))}
@@ -85,7 +82,7 @@ export default function TeamInfoCard({
                 key={member.id}
                 id={member.id}
                 name={member.name}
-                imgUrl={member.imgUrl}
+                imgUrl={member.img_url}
                 is_leader={member.is_leader}
               />
             ))}

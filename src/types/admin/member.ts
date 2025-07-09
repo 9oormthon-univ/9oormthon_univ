@@ -1,10 +1,10 @@
-import { PositionWithoutNull } from '../../constants/position';
+import { PositionKey } from '../../constants/position';
 
 export interface Member {
   name: string;
   img_url: string;
   team?: string;
-  role: PositionWithoutNull;
+  role: PositionKey;
   univ: {
     id: number;
     name: string;

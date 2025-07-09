@@ -5,7 +5,7 @@ import { createIdeaAPI, fetchMyIdeaDetail, updateIdeaAPI } from '../../../api/id
 import TeamPreferenceStep1 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep1';
 import TeamPreferenceStep2 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep2';
 import { IDEA_ADD_ERROR_MESSAGES } from '../../../constants/errorMessage';
-import { RequirementKey } from '../../../constants/position';
+import { PositionLowerKey } from '../../../constants/position';
 
 interface TeamPreferenceFormProps {
   isEditMode: boolean;
@@ -60,7 +60,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
             updateIdeaInfo(key as keyof typeof idea_info, value);
           });
           Object.entries(mappedRequirements).forEach(([key, value]) => {
-            updateRequirements(key as RequirementKey, value);
+            updateRequirements(key as PositionLowerKey, value);
           });
         } catch (error) {
           console.error('Error fetching idea details:', error);

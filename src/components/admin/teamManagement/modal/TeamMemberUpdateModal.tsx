@@ -5,7 +5,7 @@ import { fetchUserDetailAPI } from '../../../../api/admin/users';
 import { GENERATION } from '../../../../constants/common';
 import { Member } from '../../../../types/admin/member';
 import { updateTeamMemberPartAPI } from '../../../../api/admin/teams';
-import { Position } from '../../../../constants/position';
+import { PositionKey } from '../../../../constants/position';
 
 interface TeamMemberUpdateModalProps {
   isOpen: boolean;
@@ -15,11 +15,17 @@ interface TeamMemberUpdateModalProps {
   onUpdate: () => void;
 }
 
-export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, memberId, onUpdate }: TeamMemberUpdateModalProps) {
+export default function TeamMemberUpdateModal({
+  isOpen,
+  toggle,
+  memberUserId,
+  memberId,
+  onUpdate,
+}: TeamMemberUpdateModalProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
   const [memberDetail, setMemberDetail] = useState<Member | null>(null);
-  const [handleRoleChange, setHandleRoleChange] = useState<Position | null>(memberDetail?.role || null);
+  const [handleRoleChange, setHandleRoleChange] = useState<PositionKey | null>(memberDetail?.role || null);
 
   // 팀원 상세 정보 조회
   useEffect(() => {
@@ -33,7 +39,7 @@ export default function TeamMemberUpdateModal({ isOpen, toggle, memberUserId, me
   // 팀원 지원파트 수정
   const handleUpdateTeamMemberPart = async () => {
     try {
-      await updateTeamMemberPartAPI(memberId, handleRoleChange || memberDetail?.role || Position.PM);
+      await updateTeamMemberPartAPI(memberId, handleRoleChange || memberDetail?.role || ('PM' as PositionKey));
       toast('지원파트가 수정되었습니다', {
         type: 'primary',
       });

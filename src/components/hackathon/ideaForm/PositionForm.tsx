@@ -5,12 +5,12 @@ import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import FormTextarea from './FormTextarea';
 import FormDropdown from './FormDropdown';
 import StackSelector from './StackSelector';
-import { POSITIONS, RequirementKey } from '../../../constants/position';
+import { POSITIONS, PositionLowerKey } from '../../../constants/position';
 import { useEffect } from 'react';
 
 interface PositionFormProps {
   position: {
-    key: RequirementKey;
+    key: PositionLowerKey;
     name: string;
     index: number;
   };

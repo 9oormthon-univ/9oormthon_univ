@@ -1,7 +1,7 @@
 import { Text } from '@goorm-dev/vapor-components';
 import ApplicantRow from './ApplicantRow';
 import styles from './styles.module.scss';
-import { PositionWithoutNull } from '../../../../constants/position';
+import { PositionKey } from '../../../../constants/position';
 import { Sorting } from '../../../../types/user/idea';
 import { ControlCommonIcon } from '@goorm-dev/vapor-icons';
 
@@ -17,7 +17,7 @@ interface Applicant {
   id: number;
   preference: number; // 지망 순위
   motivation: string; // 지원 동기
-  role: PositionWithoutNull; // 역할
+  role: PositionKey; // 역할
   status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED'; // 현재 상태
   user: User; // 지원자의 유저 정보 포함
 }

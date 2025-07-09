@@ -5,7 +5,7 @@ import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
 import TeamMemberUpdateModal from '../modal/TeamMemberUpdateModal';
 import { TeamMemberSummary } from '../../../../types/admin/team';
-import { POSITION_NAME, POSITION_COLOR } from '../../../../constants/position';
+import { getPositionName, getPositionColor } from '../../../../constants/position';
 import { deleteTeamMemberAPI, updateTeamLeaderAPI } from '../../../../api/admin/teams';
 
 interface TeamManageRowProps {
@@ -104,8 +104,11 @@ export default function TeamManageRow({ member, onUpdate }: TeamManageRowProps) 
           </Dropdown>
         </td>
         <td className={styles.roleCell}>
-          <Badge color={POSITION_COLOR[member.role] || 'primary'} size="md" pill>
-            {POSITION_NAME[member.role]}
+          <Badge
+            color={getPositionColor(member.role) as 'primary' | 'success' | 'warning' | 'danger' | 'hint' | 'contrast'}
+            size="md"
+            pill>
+            {getPositionName(member.role)}
           </Badge>
         </td>
         <td>

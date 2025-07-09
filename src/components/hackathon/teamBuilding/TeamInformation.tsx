@@ -5,19 +5,13 @@ import MemberInfoItem from '../common/team/MemberInfoItem';
 import { useEffect, useRef, useState } from 'react';
 import { GENERATION } from '../../../constants/common';
 import { updateTeamInfo } from '../../../api/teams';
-import { TeamInfo, TeamRole } from '../../../types/user/team';
+import { TeamInfo, TeamMember, TeamRole } from '../../../types/user/team';
+import { POSITIONS } from '../../../constants/position';
 
 interface TeamInformationProps {
   viewer: boolean; // 보기 전용인지
   teamInfo: TeamInfo | null;
 }
-
-const roleMap = {
-  pm: '기획',
-  pd: '디자인',
-  fe: '프론트엔드',
-  be: '백엔드',
-};
 
 export default function TeamInformation({ viewer, teamInfo }: TeamInformationProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,11 +61,13 @@ export default function TeamInformation({ viewer, teamInfo }: TeamInformationPro
   };
 
   // 역할 정렬
-  const orderedRoles = ['pm', 'pd', 'fe', 'be']; // 기획 → 디자인 → 프론트엔드 → 백엔드
-  const sortedRoles = orderedRoles.map((key) => ({
-    key,
-    roleInfo: teamInfo?.role?.[key as keyof TeamRole] ?? { max_count: 0, current_count: 0 },
-  }));
+  const sortedRoles = Object.values(POSITIONS)
+    .sort((a, b) => a.index - b.index)
+    .map((position) => ({
+      key: position.lowerKey,
+      name: position.name,
+      roleInfo: teamInfo?.role?.[position.lowerKey as keyof TeamRole] ?? { max_count: 0, current_count: 0 },
+    }));
 
   return (
     <div className={styles.container}>
@@ -107,11 +103,11 @@ export default function TeamInformation({ viewer, teamInfo }: TeamInformationPro
           </Dropdown>
         )}
       </div>
-      {sortedRoles.map(({ key, roleInfo }) => (
+      {sortedRoles.map(({ key, name, roleInfo }) => (
         <div key={key} className={styles.teamInformContent}>
           <div className={styles.teamInformContentText}>
             <Text typography="body2" color="text-normal">
-              {roleMap[key as keyof typeof roleMap]}
+              {name}
             </Text>
             <Badge color={roleInfo?.current_count === roleInfo?.max_count ? 'success' : 'primary'} size="sm">
               {roleInfo?.current_count}/{roleInfo?.max_count}
@@ -119,7 +115,7 @@ export default function TeamInformation({ viewer, teamInfo }: TeamInformationPro
           </div>
           <div className={styles.teamInformContentItem}>
             {roleInfo?.members && roleInfo.members.length > 0 ? (
-              roleInfo.members.map((member: any) => (
+              roleInfo.members.map((member: TeamMember) => (
                 <MemberInfoItem
                   key={member.id}
                   id={member.id}

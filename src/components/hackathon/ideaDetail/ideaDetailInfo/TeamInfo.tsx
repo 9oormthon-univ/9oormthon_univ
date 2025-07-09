@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { Text } from '@goorm-dev/vapor-components';
 import TeamInfoCard from './teamInfo/TeamInfoCard';
-import { RequirementKey } from '../../../../constants/position';
+import { PositionLowerKey } from '../../../../constants/position';
 import { Member, Requirements } from '../../../../types/user/idea';
 
 export default function TeamInfo({ requirements }: { requirements: Requirements }) {
@@ -14,7 +14,7 @@ export default function TeamInfo({ requirements }: { requirements: Requirements 
         {Object.entries(requirements || {}).map(([position, info]) => (
           <TeamInfoCard
             key={position}
-            role={position as RequirementKey}
+            role={position as PositionLowerKey}
             currentCount={info.current_count}
             maxCount={info.max_count}
             description={info.requirement}

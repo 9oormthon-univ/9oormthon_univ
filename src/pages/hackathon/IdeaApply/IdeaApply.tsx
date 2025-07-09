@@ -10,7 +10,7 @@ import { applyIdea, fetchMyRemainingRanks } from '../../../api/idea';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GENERATION } from '../../../constants/common';
 import usePeriodStore from '../../../store/usePeriodStore';
-import { PositionWithoutNull } from '../../../constants/position';
+import { PositionKey } from '../../../constants/position';
 import { IDEA_APPLY_ERROR_MESSAGES } from '../../../constants/errorMessage';
 
 export default function IdeaApply() {
@@ -54,13 +54,7 @@ export default function IdeaApply() {
   const handleApply = async () => {
     try {
       if (selectedRank !== null) {
-        await applyIdea(
-          Number(idea_id),
-          current_phase,
-          selectedRank,
-          reason,
-          role.toUpperCase() as PositionWithoutNull,
-        );
+        await applyIdea(Number(idea_id), current_phase, selectedRank, reason, role.toUpperCase() as PositionKey);
       }
       navigate(`/hackathon`);
       toast('아이디어 지원이 완료되었습니다.', { type: 'primary' });

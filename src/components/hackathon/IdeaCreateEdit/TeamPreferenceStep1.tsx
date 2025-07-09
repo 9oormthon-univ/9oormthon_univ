@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import BackLinkNavigation from '../common/BackLinkNavigation';
 import { fetchIdeaSubjects } from '../../../api/idea';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
-import { PositionWithoutNull } from '../../../constants/position';
+import { PositionKey } from '../../../constants/position';
 import { GENERATION } from '../../../constants/common';
 interface TeamPreferenceStep1Props {
   formData: any;
@@ -46,7 +46,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   }, []);
 
   // 파트 선택시 제한 인원 체크
-  const handleRoleChange = (role: PositionWithoutNull) => {
+  const handleRoleChange = (role: PositionKey) => {
     if (role === 'PM' || role === 'PD') {
       if (formData.requirements[role.toLowerCase()]?.capacity === 1) {
         // 기획, 디자인은 1명일 경우 선택 불가
@@ -122,7 +122,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
             label="본인 파트를 선택해 주세요"
             nullable={false}
             value={formData.idea_info.provider_role}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRoleChange(e.target.id as PositionWithoutNull)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRoleChange(e.target.id as PositionKey)}
           />
           {isAlertVisible && (
             <Alert color="danger" leftIcon={InfoCircleIcon} fade>

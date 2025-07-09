@@ -1,5 +1,5 @@
 import { User } from './member';
-import { PositionWithoutNull } from '../../constants/position';
+import { PositionKey } from '../../constants/position';
 
 export interface Team {
   name: string;
@@ -80,7 +80,7 @@ export interface TeamMemberSummary {
   id: number;
   user_id: number;
   name: string;
-  role: PositionWithoutNull;
+  role: PositionKey;
   univ: string;
   email: string;
   is_leader: boolean;
