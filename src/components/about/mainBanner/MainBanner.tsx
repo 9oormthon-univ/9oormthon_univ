@@ -17,6 +17,7 @@ export default function MainBanner() {
   const [muted, setMuted] = useState(true);
   const [hasError, setHasError] = useState(false);
   const { isMobile } = useIsMobile();
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   const onlyThumbnail = isMobile || hasError;
 
@@ -64,6 +65,9 @@ export default function MainBanner() {
               muted={muted}
               loop={true}
               controls={false}
+              onReady={() => {
+                setIsVideoReady(true);
+              }}
               config={{
                 attributes: {
                   style: {
@@ -78,6 +82,15 @@ export default function MainBanner() {
             />
           )}
         </div>
+        {!isVideoReady && (
+          <div className={styles.loadingOverlay}>
+            <Text typography={isMobile ? 'heading3' : 'heading1'} color="gray-000" className={styles.loadingText}>
+              Being All Seasons With
+            </Text>
+            <img src={playerThumbnail} alt="thumbnail" />
+          </div>
+        )}
+
         {onlyThumbnail && (
           <div className={styles.thumbnailWrapper}>
             <img className="w-100" src={playerThumbnail} alt="playerThumbnail" />
