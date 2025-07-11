@@ -5,16 +5,16 @@ import { Badge, Text } from '@goorm-dev/vapor-components';
 
 interface MemberInfoItemProps {
   name: string;
-  imgUrl?: string;
+  img_url?: string;
   id?: number;
   is_leader?: boolean;
 }
 
-export default function MemberInfoItem({ name, imgUrl, id, is_leader }: MemberInfoItemProps) {
+export default function MemberInfoItem({ name, img_url, id, is_leader }: MemberInfoItemProps) {
   const breakpoint = useBreakPoint();
   const navigate = useNavigate();
   const isNoMember = name === '팀원 없음';
-  console.log(imgUrl, 'imgUrl');
+  console.log(img_url, 'img_url');
 
   return (
     <div
@@ -27,9 +27,9 @@ export default function MemberInfoItem({ name, imgUrl, id, is_leader }: MemberIn
           navigate(`/user/${id}`);
         }
       }}>
-      {imgUrl && (
+      {img_url && (
         <div className={styles.memberInfoImg}>
-          <img src={imgUrl} alt="memberImg" />
+          <img src={img_url} alt="memberImg" />
         </div>
       )}
       <div className={styles.memberInfoName}>

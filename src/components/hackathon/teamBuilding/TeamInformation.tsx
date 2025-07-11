@@ -120,7 +120,7 @@ export default function TeamInformation({ viewer, teamInfo }: TeamInformationPro
                   key={member.id}
                   id={member.id}
                   name={member.name}
-                  imgUrl={member.img_url}
+                  img_url={member.img_url}
                   is_leader={member.is_leader}
                 />
               ))

@@ -19,12 +19,17 @@ export default function TeamInfo({ requirements }: { requirements: Requirements 
             maxCount={info.max_count}
             description={info.requirement}
             skills={info.required_tech_stacks}
-            currentMembers={info.current_members.map((member: Member) => ({
-              id: member.id,
-              name: member.name,
-              imgUrl: member.img_url,
-              is_leader: member.is_leader,
-            }))}
+            currentMembers={info.current_members.map(
+              (member: Member) => (
+                console.log(member, 'member'),
+                {
+                  id: member.id,
+                  name: member.name,
+                  img_url: member.img_url,
+                  is_leader: member.is_leader,
+                }
+              ),
+            )}
             ratio={info.ratio}
           />
         ))}
