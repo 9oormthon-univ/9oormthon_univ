@@ -14,6 +14,7 @@ export default function MemberInfoItem({ name, imgUrl, id, is_leader }: MemberIn
   const breakpoint = useBreakPoint();
   const navigate = useNavigate();
   const isNoMember = name === '팀원 없음';
+  console.log(imgUrl, 'imgUrl');
 
   return (
     <div
