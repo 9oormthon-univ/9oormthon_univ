@@ -71,7 +71,9 @@ export default function ApplicantRow({
           <Text typography="body3">{getPositionName(applicant.role)}</Text>
         </td>
         <td>
-          <Text typography="body3">{applicant.user.univ}</Text>
+          <Text typography="body3" className={styles.univ}>
+            {applicant.user.univ}
+          </Text>
         </td>
         <td className={styles.actionButtons}>
           {/* 대기 시 / 팀 빌딩 기간이면 수락 거절 불가 */}

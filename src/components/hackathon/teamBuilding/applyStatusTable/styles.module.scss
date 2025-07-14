@@ -16,6 +16,15 @@ td {
   &:first-child {
     border-right: 1px solid var(--border-hover);
   }
+  &:nth-child(2) {
+    width: 7.625rem;
+  }
+  &:nth-child(4) {
+    width: 7rem;
+  }
+  &:last-child {
+    padding: 0 var(--space-200);
+  }
 }
 
 td {
@@ -99,4 +108,10 @@ th {
   height: 1rem;
   margin-left: var(--space-050);
   cursor: pointer;
+}
+
+.univ {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
