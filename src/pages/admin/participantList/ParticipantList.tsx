@@ -1,14 +1,16 @@
 import styles from './participantList.module.scss';
-import { Text } from '@goorm-dev/vapor-components';
+import { Button, Text, toast } from '@goorm-dev/vapor-components';
 import { UnivListSidebar } from '../../../components/admin/participantList/univListSideBar/UnivListSidebar';
 import { MemberTable } from '../../../components/admin/participantList/memberTable/MemberTable';
-import { useEffect, useState } from 'react';
-import { fetchUserSummaryListAPI } from '../../../api/admin/users';
+import { useEffect, useRef, useState } from 'react';
+import { createUserExcelAPI, fetchUserSummaryListAPI } from '../../../api/admin/users';
 import { GENERATION } from '../../../constants/common';
 import { fetchUnivListAPI } from '../../../api/admin/univs';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { Univ } from '../../../types/admin/univ';
 import { PageInfo, Sorting, SortType, UserOverview } from '../../../types/admin/user';
+import { AttachFileOutlineIcon } from '@goorm-dev/vapor-icons';
+import { USER_EXCEL_UPLOAD_ERROR_MESSAGES } from '../../../constants/errorMessage';
 
 export default function ParticipantList() {
   const [selectedUnivId, setSelectedUnivId] = useState<number | null>(null);
@@ -28,6 +30,7 @@ export default function ParticipantList() {
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
   const [sortType, setSortType] = useState<SortType | undefined>(undefined);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 유니브 리스트 간단 조회
   const fetchUnivList = async () => {
@@ -84,12 +87,55 @@ export default function ParticipantList() {
     setCurrentPage(1);
   };
 
+  // 파일 첨부 콜백
+  const handleFileButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      await createUserExcelAPI(formData);
+      toast('유저 정보 업로드에 성공했습니다.', { type: 'success' });
+    } catch (error: any) {
+      const errorCode = error.response.data.error?.code;
+      toast(USER_EXCEL_UPLOAD_ERROR_MESSAGES[errorCode] || '유저 정보 업로드에 실패했습니다.', {
+        type: 'danger',
+      });
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.listContainer}>
-        <Text typography="heading4" as="h4">
-          미르미 리스트
-        </Text>
+        <div className={styles.listHeader}>
+          <Text typography="heading4" as="h4">
+            미르미 리스트
+          </Text>
+          <>
+            <Button
+              icon={AttachFileOutlineIcon}
+              color="secondary"
+              size="md"
+              type="button"
+              onClick={handleFileButtonClick}>
+              파일 첨부
+            </Button>
+            <input
+              type="file"
+              accept=".xlsx, .xls"
+              style={{ display: 'none' }}
+              ref={fileInputRef}
+              onChange={handleFileChange}
+            />
+          </>
+        </div>
+
         <div className={styles.listContent}>
           <UnivListSidebar
             onSelectUniv={handleSelectUniv}

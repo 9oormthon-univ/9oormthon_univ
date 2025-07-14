@@ -2,6 +2,7 @@ import { Modal, ModalBody, Text, Button, ModalFooter, toast } from '@goorm-dev/v
 import styles from './styles.module.scss';
 import { WarningIcon, CheckCircleIcon } from '@goorm-dev/vapor-icons';
 import { acceptApply, rejectApply } from '../../../../api/users';
+import { TEAM_BUILDING_ACCEPT_ERROR_MESSAGES } from '../../../../constants/errorMessage';
 
 interface ApplyDecisionModalProps {
   id: number;
@@ -32,10 +33,12 @@ export default function ApplyDecisionModal({
         }
         toggle();
         toast('지원을 수락했습니다.', { type: 'primary' });
-      } catch (error) {
+      } catch (error: any) {
+        const errorCode = error.response.data.error?.code;
         toggle();
-        toast('지원 수락에 실패했습니다. 조건을 확인해주세요.', { type: 'danger' });
-        console.error('Error accepting apply:', error);
+        toast(TEAM_BUILDING_ACCEPT_ERROR_MESSAGES[errorCode] || '지원 수락에 실패했습니다.', {
+          type: 'danger',
+        });
       }
     } else {
       try {

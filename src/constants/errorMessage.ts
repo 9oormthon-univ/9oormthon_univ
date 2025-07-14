@@ -9,6 +9,7 @@ export const IDEA_ADD_ERROR_MESSAGES: Record<number, string> = {
   40019: '프론트엔드는 3명을 초과할 수 없습니다. 다시 확인해주세요.',
   40020: '백엔드는 3명을 초과할 수 없습니다. 다시 확인해주세요.',
   40025: '팀원 수는 최소 3명 이상이어야 합니다. 다시 확인해주세요.',
+  40908: '특정 파트 멤버 수보다 더 적은 수로 파트 정원을 변경할 수 없습니다.',
 };
 
 export const IDEA_APPLY_ERROR_MESSAGES: Record<number, string> = {
@@ -19,4 +20,12 @@ export const IDEA_APPLY_ERROR_MESSAGES: Record<number, string> = {
   40022: '해당 아이디어는 이미 지원한 아이디어입니다.',
   40023: '현재 아이디어 지원 기간이 아닙니다.',
   40410: '시스템 설정을 찾을 수 없습니다. 운영진에게 문의하세요.',
+};
+
+export const TEAM_BUILDING_ACCEPT_ERROR_MESSAGES: Record<number, string> = {
+  40045: '한 팀당 같은 대학 소속 인원은 2명까지만 가능합니다.',
+};
+
+export const USER_EXCEL_UPLOAD_ERROR_MESSAGES: Record<number, string> = {
+  40405: '특정 대학이 데이터베이스 상에 존재하지 않습니다.',
 };

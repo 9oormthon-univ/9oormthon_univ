@@ -55,12 +55,12 @@ export default function ApplyStatusTable({
               <Text typography="subtitle1" color="text-alternative">
                 이름
               </Text>
-              <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange('ROLE')} />
             </th>
             <th>
               <Text typography="subtitle1" color="text-alternative">
                 파트
               </Text>
+              <ControlCommonIcon className={styles.tableHeaderIcon} onClick={() => onSortChange('ROLE')} />
             </th>
             <th>
               <Text typography="subtitle1" color="text-alternative">
