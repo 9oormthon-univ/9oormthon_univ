@@ -19,3 +19,9 @@
   background: var(--background-normal);
   height: fit-content;
 }
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

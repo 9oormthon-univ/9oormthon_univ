@@ -100,3 +100,9 @@ export const deleteUserAPI = async (user_id: number) => {
   const response = await instance.delete(`/api/v1/admins/users/${user_id}`);
   return response.data;
 };
+
+// 2.2 어드민 유저 엑셀로 생성
+export const createUserExcelAPI = async (formData: FormData) => {
+  const response = await instance.post('/api/v1/admins/users/excel', formData);
+  return response.data;
+};

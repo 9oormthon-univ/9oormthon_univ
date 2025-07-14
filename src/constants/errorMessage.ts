@@ -25,3 +25,7 @@ export const IDEA_APPLY_ERROR_MESSAGES: Record<number, string> = {
 export const TEAM_BUILDING_ACCEPT_ERROR_MESSAGES: Record<number, string> = {
   40045: '한 팀당 같은 대학 소속 인원은 2명까지만 가능합니다.',
 };
+
+export const USER_EXCEL_UPLOAD_ERROR_MESSAGES: Record<number, string> = {
+  40405: '특정 대학이 데이터베이스 상에 존재하지 않습니다.',
+};
