@@ -21,3 +21,7 @@ export const IDEA_APPLY_ERROR_MESSAGES: Record<number, string> = {
   40023: '현재 아이디어 지원 기간이 아닙니다.',
   40410: '시스템 설정을 찾을 수 없습니다. 운영진에게 문의하세요.',
 };
+
+export const TEAM_BUILDING_ACCEPT_ERROR_MESSAGES: Record<number, string> = {
+  40045: '한 팀당 같은 대학 소속 인원은 2명까지만 가능합니다.',
+};
