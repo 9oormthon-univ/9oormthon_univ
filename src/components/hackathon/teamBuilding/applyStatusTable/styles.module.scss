@@ -10,7 +10,7 @@
 
 th,
 td {
-  padding: 0 var(--space-300);
+  padding: 0 var(--space-200);
   text-align: left;
   border-bottom: 1px solid var(--border-color);
   &:first-child {
@@ -21,9 +21,6 @@ td {
   }
   &:nth-child(4) {
     width: 7rem;
-  }
-  &:last-child {
-    padding: 0 var(--space-200);
   }
 }
 
