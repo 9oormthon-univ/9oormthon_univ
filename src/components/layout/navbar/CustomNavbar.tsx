@@ -93,7 +93,11 @@ function CustomNavbar() {
   return (
     <GoormNavbar className={isAbout ? styles.navBarStyle : ''} isOpened={isOpened} setIsOpened={setIsOpened}>
       <GoormNavbar.Brand href="/" className="ml-2">
-        {isAbout && !isOpened ? <GoormWhiteBI /> : <GoormBlackBI />}
+        {isAbout && !isOpened ? (
+          <GoormWhiteBI aria-label="구름톤 유니브 로고" />
+        ) : (
+          <GoormBlackBI aria-label="구름톤 유니브 로고" />
+        )}
       </GoormNavbar.Brand>
       <GoormNavbar.Collapse isOpened={isOpened} className={styles.collapse}>
         <Nav navbar className={styles.navbar}>
@@ -137,7 +141,7 @@ function CustomNavbar() {
               href="https://9oormthonuniv.tistory.com/"
               target="_blank"
               rel="noopener noreferrer">
-              UNIV-LOG <OutOutlineIcon className="mx-1" />
+              UNIV-LOG <OutOutlineIcon className="mx-1" aria-label="UNIV-LOG 링크" />
             </NavLink>
           </NavItem>
         </Nav>
