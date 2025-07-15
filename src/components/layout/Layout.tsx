@@ -30,7 +30,9 @@ const Layout = () => {
     <>
       <CustomNavbar />
       <Wrapper>
-        <Outlet />
+        <div style={{ minHeight: '80vh', width: '100%' }}>
+          <Outlet />
+        </div>
       </Wrapper>
       <CustomFooter />
       <StyledFooter localeListGroup={[]} />
