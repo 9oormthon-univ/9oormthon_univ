@@ -94,15 +94,10 @@ export default function ParticipantList() {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
     if (!file) return;
 
     const formData = new FormData();
     formData.append('file', file);
-
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
 
     try {
       await createUserExcelAPI(formData);

@@ -123,3 +123,7 @@ export const STACKS_WITH_NAMES = [
 ] as const;
 
 export type Stack = (typeof STACKS_WITH_NAMES)[number];
+
+export function getStackName(stack: string) {
+  return STACKS_WITH_NAMES.find((s) => s.id === stack)?.name;
+}

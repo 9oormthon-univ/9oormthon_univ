@@ -4,13 +4,11 @@ import useAuthStore from '../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
-  headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
 
 export const authLessInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
-  headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
 

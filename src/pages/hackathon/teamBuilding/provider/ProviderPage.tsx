@@ -14,6 +14,7 @@ import TeamInformationSkeleton from '../../../../components/hackathon/teamBuildi
 import TeamBuildingTableSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamBuildingTableSkeleton';
 import AcceptableCountIndicator from '../../../../components/hackathon/teamBuilding/AcceptableCountIndicator';
 import { Sorting, SortType } from '../../../../types/user/idea';
+import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '../../../../constants/errorMessage';
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
@@ -73,11 +74,13 @@ export default function ProviderPage() {
       });
       toggle();
       fetchTeamInfo();
-    } catch (error) {
-      console.error('팀 빌딩 확정 실패:', error);
-      toast('팀 빌딩 확정에 실패했습니다.', {
-        type: 'danger',
-      });
+    } catch (error: any) {
+      const errorCode = error.response.data.error?.code;
+      if (errorCode) {
+        toast(TEAM_BUILDING_CONFIRM_ERROR_MESSAGES[errorCode] || '팀 빌딩 확정에 실패했습니다.', {
+          type: 'danger',
+        });
+      }
     }
   };
 

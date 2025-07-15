@@ -29,3 +29,7 @@ export const TEAM_BUILDING_ACCEPT_ERROR_MESSAGES: Record<number, string> = {
 export const USER_EXCEL_UPLOAD_ERROR_MESSAGES: Record<number, string> = {
   40405: '특정 대학이 데이터베이스 상에 존재하지 않습니다.',
 };
+
+export const TEAM_BUILDING_CONFIRM_ERROR_MESSAGES: Record<number, string> = {
+  40025: '팀원 수는 최소 3명 이상이어야 합니다.',
+};
