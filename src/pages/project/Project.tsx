@@ -42,7 +42,7 @@ export default function Project() {
   const pageLength = activeIndex !== 4 ? Math.ceil(PROJECTS[activeIndex].length / projectsPerPage) : NaN;
 
   return (
-    <>
+    <div className={styles.container}>
       <Text className={styles.titleText} color="gray-900" isInheritColor={false} typography="heading1">
         프로젝트 둘러보기
       </Text>
@@ -71,6 +71,6 @@ export default function Project() {
       ) : (
         <NoneProject type="upload" />
       )}
-    </>
+    </div>
   );
 }
