@@ -1,16 +1,15 @@
 import { OutOutlineIcon, PauseIcon, PlayIcon, SoundOffIcon, SoundOnIcon } from '@goorm-dev/vapor-icons';
 import { Button, Text } from '@goorm-dev/vapor-components';
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
-import ReactPlayer from 'react-player/file';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { MainBannerSlogan } from '../../../assets';
-import mainVideo from '../../../assets/etc/구름톤유니브_벚꽃톤_v8.mp4';
 import playerThumbnail from '../../../assets/images/about/danPungThon.png';
 
 import useIsMobile from '../../../hooks/useIsMobile';
 import styles from './MainBanner.module.scss';
 
 const cx = classNames.bind(styles);
+const LazyPlayer = lazy(() => import('react-player/file'));
 
 export default function MainBanner() {
   const [playing, setPlaying] = useState(true);
@@ -18,6 +17,30 @@ export default function MainBanner() {
   const [hasError, setHasError] = useState(false);
   const { isMobile } = useIsMobile();
   const [isVideoReady, setIsVideoReady] = useState(false);
+
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  useEffect(() => {
+    import('../../../assets/etc/구름톤유니브_벚꽃톤_v8.mp4').then((mod) => {
+      setVideoUrl(mod.default);
+    });
+  }, []);
+
+  const ref = useRef<HTMLDivElement>(null);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
 
   const onlyThumbnail = isMobile || hasError;
 
@@ -56,30 +79,32 @@ export default function MainBanner() {
   return (
     <div className={styles.playerUpper}>
       <div className={styles.playerFitter}>
-        <div className={styles.playerWrapper}>
-          {!onlyThumbnail && (
-            <ReactPlayer
-              onError={handleError}
-              url={mainVideo}
-              playing={playing}
-              muted={muted}
-              loop={true}
-              controls={false}
-              onReady={() => {
-                setIsVideoReady(true);
-              }}
-              config={{
-                attributes: {
-                  style: {
-                    objectFit: 'cover',
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.32)',
+        <div className={styles.playerWrapper} ref={ref}>
+          {shouldLoadVideo && videoUrl && (
+            <Suspense fallback={null}>
+              <LazyPlayer
+                onError={handleError}
+                url={videoUrl}
+                playing={playing}
+                muted={muted}
+                loop={true}
+                controls={false}
+                onReady={() => {
+                  setIsVideoReady(true);
+                }}
+                config={{
+                  attributes: {
+                    style: {
+                      objectFit: 'cover',
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: 'rgba(0, 0, 0, 0.32)',
+                    },
                   },
-                },
-              }}
-            />
+                }}
+              />
+            </Suspense>
           )}
         </div>
         {!isVideoReady && (

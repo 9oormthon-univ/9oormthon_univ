@@ -75,7 +75,7 @@ export default function CardProject({ project, key, activeIndex, currentPage }: 
         onClick={handleOpenModal}
         animate={isVisible ? 'visible' : 'hidden'}>
         <article className={styles.cardImg}>
-          <img className={styles.cardImg} src={image} />
+          <img className={styles.cardImg} src={image} alt={title} />
           {award && (
             <div className={styles.badge}>
               <DarkBadge>{award}</DarkBadge>
