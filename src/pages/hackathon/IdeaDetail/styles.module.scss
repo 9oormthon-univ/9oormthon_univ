@@ -6,7 +6,7 @@
   flex-direction: column;
   gap: var(--space-250);
   padding: var(--space-400) 0 12.5rem 0;
-  margin-top: 4rem;
+  margin: 4rem auto 0;
 
   @include container-xs {
     width: 23.4375rem;
