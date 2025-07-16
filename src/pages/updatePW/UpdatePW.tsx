@@ -28,8 +28,10 @@ export default function SignUp() {
         type: 'primary',
       });
     } catch (error: any) {
-      console.error('비밀번호 변경 실패', error);
-      setAlertMessage(error?.response?.data?.error?.message || '비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+      const errorMessage = error.response.data.error?.message;
+      toast(errorMessage || '비밀번호 변경에 실패했습니다. 운영진에게 문의해주세요.', {
+        type: 'danger',
+      });
     }
   };
 

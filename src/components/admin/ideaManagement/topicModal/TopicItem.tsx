@@ -1,4 +1,4 @@
-import { Button, Input, Text } from '@goorm-dev/vapor-components';
+import { Button, Input, Text, toast } from '@goorm-dev/vapor-components';
 import styles from './topicItem.module.scss';
 import { EditIcon, TrashIcon } from '@goorm-dev/vapor-icons';
 import { useRef, useState } from 'react';
@@ -44,8 +44,9 @@ export const TopicItem = ({
 
       onUpdate(updatedTopic);
       setIsEditing(false);
-    } catch (error) {
-      console.error('주제 저장 실패:', error);
+    } catch (error: any) {
+      const errorMessage = error.response.data.error?.message;
+      toast(errorMessage || '주제 저장에 실패했습니다.', { type: 'danger' });
     } finally {
       isLoadingRef.current = false;
     }

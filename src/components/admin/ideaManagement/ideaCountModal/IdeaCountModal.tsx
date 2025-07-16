@@ -20,7 +20,7 @@ export default function IdeaCountModal({ isOpen, toggle }: { isOpen: boolean; to
       toast('아이디어 개수가 설정되었습니다.', { type: 'primary' });
       toggle();
     } catch (error: any) {
-      toast(error.response.data.error?.message, { type: 'danger' });
+      toast(error.response.data.error?.message || '아이디어 개수 설정에 실패했습니다.', { type: 'danger' });
       toggle();
     }
   };

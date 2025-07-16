@@ -37,8 +37,11 @@ export default function IdeaManageTable({
       toast('아이디어를 삭제했습니다.', {
         type: 'primary',
       });
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      const errorMessage = error.response.data.error?.message;
+      toast(errorMessage || '아이디어 삭제에 실패했습니다.', {
+        type: 'danger',
+      });
     }
   };
 
