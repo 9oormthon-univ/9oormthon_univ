@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import IdeaInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/IdeaInfo';
 import TeamInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/TeamInfo';
 import { addIdeaBookmark, fetchIdeaDetailById, fetchMyIdeaDetail } from '../../../api/idea';
+import { getMockIdeaDetailById, getMockMyIdeaDetail, updateMockIdeaDetailBookmark } from '../../../utilities/mockUtils';
 import { useNavigate, useParams } from 'react-router-dom';
 import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
 import { toast } from '@goorm-dev/vapor-components';
@@ -36,7 +37,15 @@ export default function IdeaDetail() {
     setIsLoading(true);
     const fetchIdeaDetail = async () => {
       try {
-        const response = idea_id ? await fetchIdeaDetailById(idea_id) : await fetchMyIdeaDetail();
+        let response;
+
+        if (import.meta.env.DEV) {
+          // 개발 환경에서는 mock 데이터 사용
+          response = idea_id ? getMockIdeaDetailById(idea_id) : getMockMyIdeaDetail();
+        } else {
+          response = idea_id ? await fetchIdeaDetailById(idea_id) : await fetchMyIdeaDetail();
+        }
+
         setIdeaDetail(response.data);
       } catch (error: any) {
         toast('아이디어 조회 기간이 아닙니다.', {
@@ -65,10 +74,18 @@ export default function IdeaDetail() {
     }));
 
     try {
-      await addIdeaBookmark(idea_info.id);
-      toast('북마크 상태가 변경되었습니다.', {
-        type: 'primary',
-      });
+      if (import.meta.env.DEV) {
+        // 개발 환경에서는 mock 데이터 업데이트
+        updateMockIdeaDetailBookmark(idea_info.id);
+        toast('북마크 상태가 변경되었습니다.', {
+          type: 'primary',
+        });
+      } else {
+        await addIdeaBookmark(idea_info.id);
+        toast('북마크 상태가 변경되었습니다.', {
+          type: 'primary',
+        });
+      }
     } catch (error) {
       console.error('Error toggling bookmark:', error);
 

@@ -58,7 +58,7 @@ export default function TeamInfoCard({
                 />
               ))}
             </div>
-            <Text as="span" typography="subtitle2" color="text-hint">
+            <Text typography="subtitle2" color="text-hint">
               경쟁률 {ratio}
             </Text>
           </>
@@ -87,6 +87,9 @@ export default function TeamInfoCard({
               />
             ))}
           </div>
+          <Text typography="subtitle2" color="text-hint">
+            경쟁률 {ratio}
+          </Text>
         </>
       )}
 
