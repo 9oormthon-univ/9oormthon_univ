@@ -1,7 +1,10 @@
 import { AvatarSkeleton, Skeleton } from '@goorm-dev/vapor-components';
 import styles from './myPageSkeleton.module.scss';
+import useBreakpoint from '../../../hooks/useBreakPoint';
 
 export default function MyPageSkeleton() {
+  const breakpoint = useBreakpoint();
+
   return (
     <div className={styles.skeletonContainer}>
       <div className={styles.skeletonHeader}>
@@ -10,8 +13,17 @@ export default function MyPageSkeleton() {
           <div className={styles.skeletonHeaderRightTop}>
             <Skeleton width="3rem" height="1.25rem" />
             <div className={styles.skeletonHeaderRightTopBottom}>
-              <Skeleton width="15rem" height="1.25rem" />
-              <Skeleton width="6rem" height="1.25rem" />
+              {breakpoint === 'xs' ? (
+                <>
+                  <Skeleton width="9rem" height="1.25rem" />
+                  <Skeleton width="6rem" height="1.25rem" />
+                </>
+              ) : (
+                <>
+                  <Skeleton width="15rem" height="1.25rem" />
+                  <Skeleton width="6rem" height="1.25rem" />
+                </>
+              )}
             </div>
           </div>
           <div className={styles.skeletonHeaderRightBottom}>
@@ -23,9 +35,19 @@ export default function MyPageSkeleton() {
 
       <div className={styles.skeletonContent}>
         <div className={styles.skeletonContentItem}>
-          <Skeleton width="29.375rem" height="1.25rem" />
-          <Skeleton width="100%" height="1.25rem" />
-          <Skeleton width="16.625rem" height="1.25rem" />
+          {breakpoint === 'xs' ? (
+            <>
+              <Skeleton width="80%" height="1.25rem" />
+              <Skeleton width="100%" height="1.25rem" />
+              <Skeleton width="60%" height="1.25rem" />
+            </>
+          ) : (
+            <>
+              <Skeleton width="29.375rem" height="1.25rem" />
+              <Skeleton width="100%" height="1.25rem" />
+              <Skeleton width="16.625rem" height="1.25rem" />
+            </>
+          )}
         </div>
         <div className={styles.skeletonContentItem}>
           <Skeleton width="4rem" height="1.25rem" />

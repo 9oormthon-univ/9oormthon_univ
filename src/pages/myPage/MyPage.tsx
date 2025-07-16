@@ -62,7 +62,7 @@ export default function MyPage() {
 
   return (
     <div className={styles.container}>
-      {!isLoading ? (
+      {isLoading ? (
         <MyPageSkeleton />
       ) : (
         <>
