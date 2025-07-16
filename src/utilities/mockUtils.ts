@@ -10,6 +10,8 @@ import {
   mockPeriod,
   mockUserInfo,
   mockOtherUsers,
+  mockMyApplySummary,
+  mockMyApplySummaryByPhase,
 } from '../constants/mockData';
 
 // Mock 데이터 필터링 함수
@@ -283,5 +285,47 @@ export const getMockUserInfo = (userId: string): Promise<{ data: typeof mockUser
         reject(new Error(`사용자 ID ${userId}를 찾을 수 없습니다.`));
       }
     }, 300);
+  });
+};
+
+// ===== ApplicantPage 관련 Mock Utils =====
+
+// Mock 내 지원 현황 조회
+export const getMockMyApplySummary = (
+  generation: number,
+  phase: number,
+): Promise<{ data: typeof mockMyApplySummary }> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const applySummary = mockMyApplySummaryByPhase[phase] || { applies: [] };
+      resolve({
+        data: applySummary,
+      });
+    }, 300);
+  });
+};
+
+// Mock 지원 취소
+export const deleteMockApply = (applyId: number): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // 지원 취소 가능한 조건 확인 (예: WAITING 상태인지)
+      const allApplies = Object.values(mockMyApplySummaryByPhase).flatMap((phase) => phase.applies);
+      const applyToDelete = allApplies.find((apply) => apply.apply_info.id === applyId);
+
+      if (!applyToDelete) {
+        reject(new Error('지원 내역을 찾을 수 없습니다.'));
+        return;
+      }
+
+      if (applyToDelete.apply_info.status !== ApplyStatus.WAITING) {
+        reject(new Error('대기 중인 지원만 취소할 수 있습니다.'));
+        return;
+      }
+
+      // 실제로는 목업 데이터에서 해당 지원을 제거해야 하지만,
+      // 여기서는 단순히 성공 응답만 반환
+      resolve();
+    }, 500);
   });
 };

@@ -60,7 +60,9 @@ function CustomNavbar() {
     // 현재 상태 업데이트
     await fetchUserStatus();
 
-    const currentStatus = import.meta.env.DEV ? UserStatus.PROVIDER : useAuthStore.getState().status ?? UserStatus.NONE;
+    const currentStatus = import.meta.env.DEV
+      ? UserStatus.APPLICANT
+      : useAuthStore.getState().status ?? UserStatus.NONE;
 
     switch (currentStatus) {
       case UserStatus.PROVIDER:

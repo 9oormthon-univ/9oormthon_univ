@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import { Skeleton, Text } from '@goorm-dev/vapor-components';
 import IdeaApplyListItem from '../../../../components/hackathon/teamBuilding/IdeaApplyListItem';
 import { getMyApplySummary } from '../../../../api/users';
+import { getMockMyApplySummary } from '../../../../utilities/mockUtils';
 import usePeriodStore from '../../../../store/usePeriodStore';
 import TeamBuildingPhaseSelector from '../../../../components/hackathon/teamBuilding/TeamBuildingPhaseSelector';
 import { GENERATION } from '../../../../constants/common';
@@ -19,10 +20,18 @@ export default function ApplicantPage() {
   const fetchApplySummary = async () => {
     try {
       setIsApplySummaryLoading(true);
-      const response = await getMyApplySummary(GENERATION, buttonIndex + 1);
-      setApplySummary(response.data);
+      if (import.meta.env.DEV) {
+        // 개발 환경에서는 목업 데이터 사용
+        const response = await getMockMyApplySummary(GENERATION, buttonIndex + 1);
+        setApplySummary(response.data);
+      } else {
+        // 프로덕션 환경에서는 실제 API 호출
+        const response = await getMyApplySummary(GENERATION, buttonIndex + 1);
+        setApplySummary(response.data);
+      }
     } catch (error) {
       console.error('Error fetching apply summary:', error);
+      setApplySummary(null);
     } finally {
       setIsApplySummaryLoading(false);
     }

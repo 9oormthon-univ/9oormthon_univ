@@ -1274,3 +1274,145 @@ export const mockOtherUsers: Record<string, typeof mockUserInfo> = {
     is_me: false,
   },
 };
+
+// Mock 지원 현황 데이터 (사용자가 지원한 아이디어들)
+export const mockMyApplySummary = {
+  applies: [
+    {
+      apply_info: {
+        id: 1,
+        status: ApplyStatus.WAITING,
+        ratio: '1:2',
+        preference: 1,
+        motivation:
+          'AI 기반 교육 플랫폼에 관심이 많고, 사용자 경험을 개선하는 PM 역할을 맡고 싶습니다. 교육 분야에서의 혁신을 통해 더 나은 학습 환경을 만들고 싶습니다.',
+        role: 'PM' as const,
+      },
+      idea_info: {
+        id: 1,
+        title: '🤖 AI 기반 개인 맞춤형 학습 플랫폼',
+      },
+    },
+    {
+      apply_info: {
+        id: 2,
+        status: ApplyStatus.ACCEPTED,
+        ratio: '1:1',
+        preference: 2,
+        motivation:
+          '실시간 협업 도구의 기획과 사용자 경험 설계에 관심이 있습니다. 개발자들의 협업 효율성을 높이는 서비스를 만들고 싶습니다.',
+        role: 'PM' as const,
+      },
+      idea_info: {
+        id: 2,
+        title: '🌐 실시간 협업 코딩 플랫폼',
+      },
+    },
+    {
+      apply_info: {
+        id: 3,
+        status: ApplyStatus.REJECTED,
+        ratio: '3:1',
+        preference: 3,
+        motivation:
+          '게임화된 교육 콘텐츠 기획에 도전해보고 싶습니다. 어린이들이 즐겁게 코딩을 배울 수 있는 환경을 만들어보고 싶습니다.',
+        role: 'PM' as const,
+      },
+      idea_info: {
+        id: 4,
+        title: '🎮 교육용 코딩 게임',
+      },
+    },
+  ],
+};
+
+// 각 차수별 지원 현황 데이터
+export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary> = {
+  1: {
+    applies: [
+      {
+        apply_info: {
+          id: 1,
+          status: ApplyStatus.WAITING,
+          ratio: '1:2',
+          preference: 1,
+          motivation:
+            'AI 기반 교육 플랫폼에 관심이 많고, 사용자 경험을 개선하는 PM 역할을 맡고 싶습니다. 교육 분야에서의 혁신을 통해 더 나은 학습 환경을 만들고 싶습니다.',
+          role: 'PM' as const,
+        },
+        idea_info: {
+          id: 1,
+          title: '🤖 AI 기반 개인 맞춤형 학습 플랫폼',
+        },
+      },
+      {
+        apply_info: {
+          id: 2,
+          status: ApplyStatus.ACCEPTED,
+          ratio: '1:1',
+          preference: 2,
+          motivation:
+            '실시간 협업 도구의 기획과 사용자 경험 설계에 관심이 있습니다. 개발자들의 협업 효율성을 높이는 서비스를 만들고 싶습니다.',
+          role: 'PM' as const,
+        },
+        idea_info: {
+          id: 2,
+          title: '🌐 실시간 협업 코딩 플랫폼',
+        },
+      },
+    ],
+  },
+  2: {
+    applies: [
+      {
+        apply_info: {
+          id: 3,
+          status: ApplyStatus.REJECTED,
+          ratio: '3:1',
+          preference: 1,
+          motivation:
+            '게임화된 교육 콘텐츠 기획에 도전해보고 싶습니다. 어린이들이 즐겁게 코딩을 배울 수 있는 환경을 만들어보고 싶습니다.',
+          role: 'PM' as const,
+        },
+        idea_info: {
+          id: 4,
+          title: '🎮 교육용 코딩 게임',
+        },
+      },
+      {
+        apply_info: {
+          id: 4,
+          status: ApplyStatus.CONFIRMED,
+          ratio: '1:1',
+          preference: 2,
+          motivation:
+            '데이터 분석 도구의 사용자 경험을 개선하는 PM 역할을 맡고 싶습니다. 소상공인들이 쉽게 사용할 수 있는 인터페이스를 만들고 싶습니다.',
+          role: 'PM' as const,
+        },
+        idea_info: {
+          id: 5,
+          title: '📊 소상공인을 위한 매출 분석 도구',
+        },
+      },
+    ],
+  },
+  3: {
+    applies: [
+      {
+        apply_info: {
+          id: 5,
+          status: ApplyStatus.WAITING,
+          ratio: '2:1',
+          preference: 1,
+          motivation:
+            '개인 가계부 관리 플랫폼의 기획과 사용자 경험 설계에 관심이 있습니다. 개인 재정 관리의 접근성을 높이는 서비스를 만들고 싶습니다.',
+          role: 'PM' as const,
+        },
+        idea_info: {
+          id: 7,
+          title: '💰 개인 가계부 관리 플랫폼',
+        },
+      },
+    ],
+  },
+};
