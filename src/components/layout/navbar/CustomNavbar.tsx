@@ -27,7 +27,9 @@ function CustomNavbar() {
   const isAbout = useIsAbout();
   const navigate = useNavigate();
 
-  const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
+  // const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
+  const isLoggedIn = true;
+
   const profileImg = useAuthStore((state) => state.img_url);
 
   const { fetchPeriodData } = usePeriodStore();
@@ -129,9 +131,27 @@ function CustomNavbar() {
                 Hackathon
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem onClick={() => navigate('/hackathon')}>아이디어</DropdownItem>
-                <DropdownItem onClick={handleClickHackathon}>지원 현황</DropdownItem>
-                <DropdownItem onClick={handleClickMyTeam}>나의 팀</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    navigate('/hackathon');
+                    setIsOpened(false);
+                  }}>
+                  아이디어
+                </DropdownItem>
+                <DropdownItem
+                  onClick={async () => {
+                    await handleClickHackathon();
+                    setIsOpened(false);
+                  }}>
+                  지원 현황
+                </DropdownItem>
+                <DropdownItem
+                  onClick={async () => {
+                    await handleClickMyTeam();
+                    setIsOpened(false);
+                  }}>
+                  나의 팀
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}
