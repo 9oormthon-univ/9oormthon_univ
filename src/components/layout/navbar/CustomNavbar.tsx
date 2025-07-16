@@ -185,13 +185,25 @@ function CustomNavbar() {
                 )}
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem className={styles.dropdownItem} onClick={() => navigate('/my-page')}>
+                <DropdownItem
+                  className={styles.dropdownItem}
+                  onClick={() => {
+                    navigate('/my-page');
+                    setIsMyPageOpened(false);
+                    setIsOpened(false);
+                  }}>
                   <div className={styles.iconAddLink}>
                     <UserIcon width={16} height={16} />
                     마이페이지
                   </div>
                 </DropdownItem>
-                <DropdownItem className={styles.dropdownItem} onClick={() => navigate('/update-password')}>
+                <DropdownItem
+                  className={styles.dropdownItem}
+                  onClick={() => {
+                    navigate('/update-password');
+                    setIsMyPageOpened(false);
+                    setIsOpened(false);
+                  }}>
                   <div className={styles.iconAddLink}>
                     <LockIcon width={16} height={16} />
                     비밀번호 변경
