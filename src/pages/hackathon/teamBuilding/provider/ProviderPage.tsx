@@ -15,10 +15,16 @@ import TeamBuildingTableSkeleton from '../../../../components/hackathon/teamBuil
 import AcceptableCountIndicator from '../../../../components/hackathon/teamBuilding/AcceptableCountIndicator';
 import { Sorting, SortType } from '../../../../types/user/idea';
 import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '../../../../constants/errorMessage';
+import {
+  getMockTeamInfo,
+  getMockIdeaApplyStatus,
+  confirmMockTeamBuilding,
+  getMockPeriod,
+} from '../../../../utilities/mockUtils';
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
-  const { current_phase, isLoading, isFetched } = usePeriodStore();
+  const { current_phase, isLoading, isFetched, fetchPeriodData } = usePeriodStore();
   const [buttonIndex, setButtonIndex] = useState<number>(0);
   const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
   const [currentPhaseApplyStatus, setCurrentPhaseApplyStatus] = useState<{ counts: number; applies: Applies[] }>({
@@ -41,8 +47,13 @@ export default function ProviderPage() {
   const fetchApplyStatus = async (sorting?: Sorting, sortType?: SortType) => {
     try {
       setIsApplyStatusLoading(true);
-      const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1, sorting, sortType);
-      setApplyStatus(response.data);
+      if (import.meta.env.DEV) {
+        const response = await getMockIdeaApplyStatus(GENERATION, buttonIndex + 1, sorting, sortType);
+        setApplyStatus(response.data);
+      } else {
+        const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1, sorting, sortType);
+        setApplyStatus(response.data);
+      }
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
       setApplyStatus({ counts: 0, applies: [] });
@@ -55,8 +66,13 @@ export default function ProviderPage() {
   const fetchCurrentPhaseApplyStatus = async () => {
     try {
       setIsApplyStatusLoading(true);
-      const response = await getIdeaApplyStatus(GENERATION, current_phase, undefined, undefined);
-      setCurrentPhaseApplyStatus(response.data);
+      if (import.meta.env.DEV) {
+        const response = await getMockIdeaApplyStatus(GENERATION, current_phase, undefined, undefined);
+        setCurrentPhaseApplyStatus(response.data);
+      } else {
+        const response = await getIdeaApplyStatus(GENERATION, current_phase, undefined, undefined);
+        setCurrentPhaseApplyStatus(response.data);
+      }
     } catch (error) {
       console.error('지원 현황 불러오기 실패:', error);
       setCurrentPhaseApplyStatus({ counts: 0, applies: [] });
@@ -68,14 +84,18 @@ export default function ProviderPage() {
   // 팀 빌딩 확정
   const handleConfirmTeamBuilding = async () => {
     try {
-      await confirmTeamBuilding(GENERATION);
+      if (import.meta.env.DEV) {
+        await confirmMockTeamBuilding();
+      } else {
+        await confirmTeamBuilding(GENERATION);
+      }
       toast('팀 빌딩이 확정되었습니다.', {
         type: 'primary',
       });
       toggle();
       fetchTeamInfo();
     } catch (error: any) {
-      const errorCode = error.response.data.error?.code;
+      const errorCode = error.response?.data?.error?.code;
       if (errorCode) {
         toast(TEAM_BUILDING_CONFIRM_ERROR_MESSAGES[errorCode] || '팀 빌딩 확정에 실패했습니다.', {
           type: 'danger',
@@ -88,8 +108,13 @@ export default function ProviderPage() {
   const fetchTeamInfo = async () => {
     try {
       setIsTeamInfoLoading(true);
-      const res = await getTeamInfo(GENERATION);
-      setTeamInfo(res.data);
+      if (import.meta.env.DEV) {
+        const res = await getMockTeamInfo();
+        setTeamInfo(res.data);
+      } else {
+        const res = await getTeamInfo(GENERATION);
+        setTeamInfo(res.data);
+      }
     } catch (error: any) {
       console.error('팀 정보 불러오기 실패:', error);
       toast('팀 정보 불러오기 실패', { type: 'danger' });
@@ -97,6 +122,19 @@ export default function ProviderPage() {
       setIsTeamInfoLoading(false);
     }
   };
+
+  // 개발 환경에서 Period Store 초기화
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      // 개발 환경에서는 목업 데이터로 Period Store 초기화
+      getMockPeriod().then(() => {
+        // Period Store를 직접 업데이트하는 대신 fetchPeriodData를 호출
+        fetchPeriodData();
+      });
+    } else {
+      fetchPeriodData();
+    }
+  }, []);
 
   // 팀 정보 불러오기
   useEffect(() => {

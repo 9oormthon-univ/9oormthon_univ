@@ -114,6 +114,17 @@
   background: var(--background-normal);
 }
 
+.acceptableWrapMobile {
+  width: 100%;
+  flex-direction: column;
+}
+
+.acceptableRow {
+  display: flex;
+  width: 100%;
+  gap: var(--space-100);
+}
+
 .acceptableItem {
   display: flex;
   gap: var(--space-100);

@@ -60,7 +60,7 @@ function CustomNavbar() {
     // 현재 상태 업데이트
     await fetchUserStatus();
 
-    const currentStatus = useAuthStore.getState().status ?? UserStatus.NONE;
+    const currentStatus = import.meta.env.DEV ? UserStatus.PROVIDER : useAuthStore.getState().status ?? UserStatus.NONE;
 
     switch (currentStatus) {
       case UserStatus.PROVIDER:
@@ -84,7 +84,7 @@ function CustomNavbar() {
     await fetchPeriodData();
     await fetchUserStatus();
 
-    const currentStatus = useAuthStore.getState().status ?? UserStatus.NONE;
+    const currentStatus = import.meta.env.DEV ? UserStatus.PROVIDER : useAuthStore.getState().status ?? UserStatus.NONE;
 
     if (currentStatus === UserStatus.PROVIDER || currentStatus === UserStatus.MEMBER) {
       navigate('/team/my-team');

@@ -1,3 +1,4 @@
+@import '/src/style/mixin.scss';
 .container {
   display: flex;
   flex-direction: column;
@@ -5,6 +6,18 @@
   width: 45rem;
   padding: var(--space-400) 0 12.5rem 0;
   margin: 4rem auto 0;
+
+  @include container-xs {
+    width: 23.5rem;
+  }
+
+  @include container-sm {
+    width: 36rem;
+  }
+
+  @include container-md {
+    width: 45rem;
+  }
 }
 
 .teamInform {

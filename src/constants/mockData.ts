@@ -1,4 +1,5 @@
 import { Ideas, IdeaInfoData, ProviderInfo, Requirements, Member } from '../types/user/idea';
+import { TeamInfo, Applies, ApplyStatus, TeamMember } from '../types/user/team';
 
 // Mock 주제 데이터
 export const mockTopics = [
@@ -885,4 +886,191 @@ AI 음악 추천 서비스는 사용자의 음악 취향, 현재 상황, 감정 
       },
     },
   },
+};
+
+// Mock 팀 멤버 데이터
+const mockTeamMembers: TeamMember[] = [
+  {
+    id: 1,
+    name: '김다영',
+    img_url: 'https://via.placeholder.com/40',
+    is_leader: true,
+  },
+  {
+    id: 2,
+    name: '이준호',
+    img_url: 'https://via.placeholder.com/40',
+    is_leader: false,
+  },
+  {
+    id: 3,
+    name: '박서연',
+    img_url: 'https://via.placeholder.com/40',
+    is_leader: false,
+  },
+  {
+    id: 4,
+    name: '최민지',
+    img_url: 'https://via.placeholder.com/40',
+    is_leader: false,
+  },
+];
+
+// Mock 팀 정보 데이터
+export const mockTeamInfo: TeamInfo = {
+  team_building: 'RECRUITING',
+  number: 1,
+  name: 'AI 학습 플랫폼 팀',
+  role: {
+    pm: {
+      max_count: 1,
+      current_count: 1,
+      members: [mockTeamMembers[0]],
+    },
+    pd: {
+      max_count: 2,
+      current_count: 1,
+      members: [mockTeamMembers[1]],
+    },
+    fe: {
+      max_count: 2,
+      current_count: 0,
+      members: [],
+    },
+    be: {
+      max_count: 2,
+      current_count: 1,
+      members: [mockTeamMembers[2]],
+    },
+  },
+};
+
+// Mock 지원자 데이터
+export const mockApplies: Applies[] = [
+  {
+    id: 1,
+    preference: 1,
+    motivation:
+      'React와 TypeScript를 활용한 프론트엔드 개발 경험이 풍부하며, AI 기반 학습 플랫폼 개발에 관심이 많습니다.',
+    role: 'FE',
+    status: ApplyStatus.WAITING,
+    user: {
+      id: 101,
+      name: '한지민',
+      univ: '서울대학교',
+    },
+  },
+  {
+    id: 2,
+    preference: 2,
+    motivation: 'Vue.js와 Nuxt.js 경험이 있으며, 사용자 경험을 중시하는 프론트엔드 개발을 추구합니다.',
+    role: 'FE',
+    status: ApplyStatus.WAITING,
+    user: {
+      id: 102,
+      name: '정소영',
+      univ: '연세대학교',
+    },
+  },
+  {
+    id: 3,
+    preference: 1,
+    motivation: 'Python과 FastAPI를 활용한 백엔드 개발 경험이 있으며, 머신러닝 모델 서빙 경험도 있습니다.',
+    role: 'BE',
+    status: ApplyStatus.ACCEPTED,
+    user: {
+      id: 103,
+      name: '김태현',
+      univ: '고려대학교',
+    },
+  },
+  {
+    id: 4,
+    preference: 3,
+    motivation: 'Node.js와 Express를 주로 사용하며, 데이터베이스 설계 및 API 개발에 자신 있습니다.',
+    role: 'BE',
+    status: ApplyStatus.WAITING,
+    user: {
+      id: 104,
+      name: '오민수',
+      univ: '한양대학교',
+    },
+  },
+  {
+    id: 5,
+    preference: 1,
+    motivation: 'Adobe XD와 Figma를 활용한 UI/UX 디자인 경험이 있으며, 사용자 리서치에도 관심이 많습니다.',
+    role: 'PD',
+    status: ApplyStatus.WAITING,
+    user: {
+      id: 105,
+      name: '이유진',
+      univ: '성균관대학교',
+    },
+  },
+  {
+    id: 6,
+    preference: 2,
+    motivation: 'React Native 개발 경험이 있어 모바일 앱 개발도 가능하며, 반응형 웹 디자인에 능숙합니다.',
+    role: 'FE',
+    status: ApplyStatus.REJECTED,
+    user: {
+      id: 106,
+      name: '박진우',
+      univ: '중앙대학교',
+    },
+  },
+  {
+    id: 7,
+    preference: 1,
+    motivation: 'Spring Boot와 JPA를 활용한 백엔드 개발 경험이 있으며, 마이크로서비스 아키텍처에 관심이 많습니다.',
+    role: 'BE',
+    status: ApplyStatus.WAITING,
+    user: {
+      id: 107,
+      name: '강민호',
+      univ: '서강대학교',
+    },
+  },
+  {
+    id: 8,
+    preference: 2,
+    motivation: 'Sketch와 InVision을 활용한 프로토타이핑 경험이 있으며, 디자인 시스템 구축에 관심이 있습니다.',
+    role: 'PD',
+    status: ApplyStatus.WAITING,
+    user: {
+      id: 108,
+      name: '윤서현',
+      univ: '이화여자대학교',
+    },
+  },
+];
+
+// Mock 기간 정보 데이터
+export const mockPeriod = {
+  current_period: 'PHASE1_TEAM_BUILDING' as const,
+  current_phase: 1,
+  idea_submission_start: new Date('2024-02-15T00:00:00Z'),
+  idea_submission_end: new Date('2024-02-29T23:59:59Z'),
+  phase1_team_building_start: new Date('2024-03-01T00:00:00Z'),
+  phase1_team_building_end: new Date('2024-03-10T23:59:59Z'),
+  phase1_confirmation_start: new Date('2024-03-11T00:00:00Z'),
+  phase1_confirmation_end: new Date('2024-03-15T23:59:59Z'),
+  phase2_team_building_start: new Date('2024-03-16T00:00:00Z'),
+  phase2_team_building_end: new Date('2024-03-25T23:59:59Z'),
+  phase2_confirmation_start: new Date('2024-03-26T00:00:00Z'),
+  phase2_confirmation_end: new Date('2024-03-30T23:59:59Z'),
+  phase3_team_building_start: new Date('2024-04-01T00:00:00Z'),
+  phase3_team_building_end: new Date('2024-04-10T23:59:59Z'),
+  phase3_confirmation_start: new Date('2024-04-11T00:00:00Z'),
+  phase3_confirmation_end: new Date('2024-04-15T23:59:59Z'),
+  hackathon_start: new Date('2024-04-16T00:00:00Z'),
+  hackathon_end: new Date('2024-04-18T23:59:59Z'),
+};
+
+// 각 차수별 지원 현황 데이터
+export const mockAppliesByPhase: Record<number, Applies[]> = {
+  1: mockApplies.filter((apply) => [1, 2, 3, 5].includes(apply.id)), // 1차 지원자들
+  2: mockApplies.filter((apply) => [4, 6, 7].includes(apply.id)), // 2차 지원자들
+  3: mockApplies.filter((apply) => [8].includes(apply.id)), // 3차 지원자들
 };
