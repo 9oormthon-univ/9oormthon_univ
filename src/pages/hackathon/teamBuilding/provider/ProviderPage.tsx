@@ -43,8 +43,7 @@ export default function ProviderPage() {
       setIsApplyStatusLoading(true);
       const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1, sorting, sortType);
       setApplyStatus(response.data);
-    } catch (error) {
-      console.error('지원 현황 불러오기 실패:', error);
+    } catch {
       setApplyStatus({ counts: 0, applies: [] });
     } finally {
       setIsApplyStatusLoading(false);
@@ -57,8 +56,7 @@ export default function ProviderPage() {
       setIsApplyStatusLoading(true);
       const response = await getIdeaApplyStatus(GENERATION, current_phase, undefined, undefined);
       setCurrentPhaseApplyStatus(response.data);
-    } catch (error) {
-      console.error('지원 현황 불러오기 실패:', error);
+    } catch {
       setCurrentPhaseApplyStatus({ counts: 0, applies: [] });
     } finally {
       setIsApplyStatusLoading(false);
@@ -90,8 +88,7 @@ export default function ProviderPage() {
       setIsTeamInfoLoading(true);
       const res = await getTeamInfo(GENERATION);
       setTeamInfo(res.data);
-    } catch (error: any) {
-      console.error('팀 정보 불러오기 실패:', error);
+    } catch {
       toast('팀 정보 불러오기 실패', { type: 'danger' });
     } finally {
       setIsTeamInfoLoading(false);

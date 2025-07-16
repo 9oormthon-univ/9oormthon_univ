@@ -1,6 +1,15 @@
 import { MoreCommonOutlineIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Text } from '@goorm-dev/vapor-components';
+import {
+  Badge,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Input,
+  Text,
+  toast,
+} from '@goorm-dev/vapor-components';
 import MemberInfoItem from '../common/team/MemberInfoItem';
 import { useEffect, useRef, useState } from 'react';
 import { GENERATION } from '../../../constants/common';
@@ -47,8 +56,10 @@ export default function TeamInformation({ viewer, teamInfo }: TeamInformationPro
       setTeamName(teamName.trim());
       await updateTeamInfo(GENERATION, teamName);
       setIsEditing(false);
-    } catch (error) {
-      console.error('팀 이름 수정 실패:', error);
+    } catch {
+      toast('팀 이름 수정에 실패했습니다. 다시 시도해주세요.', {
+        type: 'danger',
+      });
       setTeamName(teamName);
     }
   };

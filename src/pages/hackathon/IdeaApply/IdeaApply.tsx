@@ -42,7 +42,9 @@ export default function IdeaApply() {
           const serverMessage = error.response.data.error?.code;
           setErrorMessage(serverMessage || '알 수 없는 오류가 발생했습니다.');
         } else {
-          console.error('Error fetching preferences:', error);
+          toast('알 수 없는 오류가 발생했습니다.', {
+            type: 'danger',
+          });
         }
       }
     };
@@ -62,8 +64,6 @@ export default function IdeaApply() {
       if (error.response) {
         const errorCode = error.response.data?.error?.code;
         setErrorMessage(IDEA_APPLY_ERROR_MESSAGES[errorCode] || '알 수 없는 오류가 발생했습니다.');
-      } else {
-        console.error('Error applying idea:', error);
       }
     }
   };

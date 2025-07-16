@@ -27,9 +27,7 @@ export default function TeamManagement() {
         try {
           const res = await fetchTeamMemberSummaryListAPI(Number(team_id));
           setTeamMemberSummaryList(res.data.members);
-        } catch (error) {
-          console.error(error);
-        }
+        } 
       };
       fetchTeamMemberSummaryList();
     }

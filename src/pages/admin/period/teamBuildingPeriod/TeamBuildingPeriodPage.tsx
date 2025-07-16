@@ -56,8 +56,7 @@ export default function TeamBuildingPeriodPage() {
       toast('기간 설정이 완료되었습니다.', {
         type: 'primary',
       });
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast('기간 설정에 실패했습니다.', {
         type: 'danger',
       });
@@ -117,8 +116,7 @@ export default function TeamBuildingPeriodPage() {
           startDate: formatDateInput(data.hackathon_start),
           endDate: formatDateInput(data.hackathon_end),
         });
-      } catch (error) {
-        console.error(error);
+      } catch {
         toast('기간 조회에 실패했습니다.', {
           type: 'error',
         });

@@ -9,6 +9,7 @@ import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
 import { GENERATION } from '../../../../constants/common';
 import TeamInformationSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
 import { TeamInfo } from '../../../../types/user/team';
+import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '../../../../constants/errorMessage';
 
 export default function ApplicantTeamPage() {
   const { status } = useAuthStore();
@@ -49,11 +50,13 @@ export default function ApplicantTeamPage() {
       });
       toggle();
       fetchTeamInfo();
-    } catch (error) {
-      console.error('팀 빌딩 확정 실패:', error);
-      toast('팀 빌딩 확정에 실패했습니다. 팀 빌딩 조건을 다시 확인해주세요.', {
-        type: 'danger',
-      });
+    } catch (error: any) {
+      const errorCode = error.response.data.error?.code;
+      if (errorCode) {
+        toast(TEAM_BUILDING_CONFIRM_ERROR_MESSAGES[errorCode] || '팀 빌딩 확정에 실패했습니다.', {
+          type: 'danger',
+        });
+      }
     }
   };
 
