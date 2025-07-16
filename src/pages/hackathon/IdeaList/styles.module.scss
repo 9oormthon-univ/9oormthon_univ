@@ -66,6 +66,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include container-xs {
+    flex-direction: column;
+    gap: var(--space-100);
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  @include container-sm {
+    flex-direction: row;
+  }
 }
 
 .searchInput {
@@ -75,14 +86,7 @@
 .dropdownWrap {
   display: flex;
   gap: var(--space-100);
-
-  @include container-xs {
-    flex-direction: column;
-  }
-
-  @include container-sm {
-    flex-direction: row;
-  }
+  flex-wrap: wrap;
 }
 
 .noneBtn {
@@ -92,6 +96,29 @@
 
   @include container-sm {
     display: inline-flex;
+  }
+}
+
+.mobileButtonContainer {
+  display: flex;
+  gap: var(--space-100);
+  align-items: center;
+
+  @include container-xs {
+    display: flex;
+  }
+  @include container-sm {
+    display: none;
+  }
+}
+
+.mobileAddButton {
+  @include container-xs {
+    display: inline-flex;
+  }
+
+  @include container-sm {
+    display: none;
   }
 }
 

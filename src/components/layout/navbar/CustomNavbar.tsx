@@ -27,8 +27,9 @@ function CustomNavbar() {
   const isAbout = useIsAbout();
   const navigate = useNavigate();
 
-  // const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
-  const isLoggedIn = true;
+  // 개발 환경에서는 로그인 상태로 설정
+  const userRole = useAuthStore((state) => state.role);
+  const isLoggedIn = import.meta.env.DEV ? true : userRole !== Role.GUEST;
 
   const profileImg = useAuthStore((state) => state.img_url);
 
