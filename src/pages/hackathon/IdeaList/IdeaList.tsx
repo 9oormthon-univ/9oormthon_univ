@@ -346,7 +346,7 @@ export default function IdeaList() {
                 size="lg"
                 onClick={handleCreateIdea}
                 className={styles.noneBtn}
-                disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
+                disabled={import.meta.env.DEV ? false : current_period === 'HACKATHON' || current_period === 'NONE'}>
                 아이디어 등록
               </Button>
             </div>
@@ -361,7 +361,7 @@ export default function IdeaList() {
               size="lg"
               onClick={handleCreateIdea}
               className={styles.mobileAddButton}
-              disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
+              disabled={import.meta.env.DEV ? false : current_period === 'HACKATHON' || current_period === 'NONE'}>
               아이디어 등록
             </Button>
           </div>
