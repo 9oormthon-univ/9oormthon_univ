@@ -6,6 +6,7 @@ import { MyPageHeader } from '../../components/myPage/MyPageHeader';
 import { Text } from '@goorm-dev/vapor-components';
 import { LinkType } from '../../constants/linkType';
 import { getMyInfo, getUserInfo } from '../../api/users';
+import { getMockMyInfo, getMockUserInfo } from '../../utilities/mockUtils';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MyPageSkeleton from '../../components/myPage/skeletonLoading/MyPageSkeleton';
@@ -39,8 +40,18 @@ export default function MyPage() {
     const fetchUserInfo = async () => {
       try {
         setIsLoading(true);
-        const response = user_id ? await getUserInfo(user_id) : await getMyInfo();
-        setUserInfo(response.data);
+        if (import.meta.env.DEV) {
+          // 개발 환경에서는 목업 데이터 사용
+          const response = user_id ? await getMockUserInfo(user_id) : await getMockMyInfo();
+          setUserInfo(response.data);
+        } else {
+          // 프로덕션 환경에서는 실제 API 호출
+          const response = user_id ? await getUserInfo(user_id) : await getMyInfo();
+          setUserInfo(response.data);
+        }
+      } catch (error) {
+        console.error('사용자 정보 조회 실패:', error);
+        setUserInfo(null);
       } finally {
         setIsLoading(false);
       }
@@ -51,7 +62,7 @@ export default function MyPage() {
 
   return (
     <div className={styles.container}>
-      {isLoading ? (
+      {!isLoading ? (
         <MyPageSkeleton />
       ) : (
         <>

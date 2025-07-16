@@ -12,6 +12,7 @@ import styles from './styles.module.scss';
 import { LinkType } from '../../constants/linkType';
 import { useNavigate } from 'react-router-dom';
 import notfound from '../../assets/images/notfound.png';
+
 export interface Link {
   type: LinkType;
   url: string;
@@ -44,37 +45,43 @@ const getLinkIcon = (type: LinkType) => {
 
 export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPageHeaderProps) => {
   const navigate = useNavigate();
+
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}>
         <img src={img_url || notfound} alt="profile" />
       </div>
       <div className={styles.headerRight}>
-        <div className={styles.headerRightTop}>
-          <div className={styles.headerInfo}>
-            <Text as="h6" typography="heading6" color="text-normal">
-              {name || '이름 없음'}
-            </Text>
-            <div className={styles.headerInfoEmailUniv}>
-              <div className={styles.headerInfoEmailUnivItem}>
-                <MailIcon />
-                <Text as="p" typography="body2" color="text-alternative">
-                  {email || '이메일 없음'}
-                </Text>
-              </div>
-              <div className={styles.headerInfoEmailUnivItem}>
-                <SchoolIcon />
-                <Text as="p" typography="body2" color="text-alternative">
-                  {univ || '학교 없음'}
-                </Text>
-              </div>
+        <div className={styles.headerInfo}>
+          {is_me && (
+            <div className={styles.headerInfoName}>
+              <Text as="h6" typography="heading6" color="text-normal">
+                {name || '이름 없음'}
+              </Text>
+              <Button color="secondary" size="sm" onClick={() => navigate('/my-page/edit')}>
+                내 정보 수정
+              </Button>
+            </div>
+          )}
+          <div className={styles.headerInfoEmailUniv}>
+            <div className={styles.headerInfoEmailUnivItem}>
+              <MailIcon width="0.875rem" height="0.875rem" />
+              <Text
+                as="p"
+                typography="body2"
+                color="text-alternative"
+                className={styles.headerInfoEmailUnivItemText}
+                title={email || '이메일 없음'}>
+                {email || '이메일 없음'}
+              </Text>
+            </div>
+            <div className={styles.headerInfoEmailUnivItem}>
+              <SchoolIcon width="0.875rem" height="0.875rem" />
+              <Text as="p" typography="body2" color="text-alternative">
+                {univ || '학교 없음'}
+              </Text>
             </div>
           </div>
-          {is_me && (
-            <Button color="secondary" size="sm" onClick={() => navigate('/my-page/edit')}>
-              내 정보 수정
-            </Button>
-          )}
         </div>
         <div className={styles.headerRightBottom}>
           {links.map((link) => (

@@ -1,5 +1,6 @@
 import { Ideas, IdeaInfoData, ProviderInfo, Requirements, Member } from '../types/user/idea';
 import { TeamInfo, Applies, ApplyStatus, TeamMember } from '../types/user/team';
+import { LinkType } from '../constants/linkType';
 
 // Mock 주제 데이터
 export const mockTopics = [
@@ -1073,4 +1074,203 @@ export const mockAppliesByPhase: Record<number, Applies[]> = {
   1: mockApplies.filter((apply) => [1, 2, 3, 5].includes(apply.id)), // 1차 지원자들
   2: mockApplies.filter((apply) => [4, 6, 7].includes(apply.id)), // 2차 지원자들
   3: mockApplies.filter((apply) => [8].includes(apply.id)), // 3차 지원자들
+};
+
+// Mock 사용자 정보 데이터
+export const mockUserInfo = {
+  name: '김다영',
+  email: 'dayoung.kim@example.comasdfasdfasdfasd',
+  univ: '서울대학교',
+  img_url: 'https://via.placeholder.com/150',
+  introduction: `# 안녕하세요! 👋
+
+저는 **프로덕트 매니저**로 활동하고 있으며, 사용자 중심의 서비스를 만드는 것에 열정을 가지고 있습니다.
+
+## 🎯 관심 분야
+- **AI/머신러닝** 기반 서비스 기획
+- **사용자 경험 설계**
+- **데이터 기반 의사결정**
+
+## 💼 경험
+- 구름톤 유니브 4기 참가
+- 교육 플랫폼 서비스 기획 경험
+- 사용자 리서치 및 분석
+
+## 🌟 목표
+혁신적인 기술과 사용자 경험을 결합하여 **사회에 긍정적인 영향**을 미치는 서비스를 만들고 싶습니다.
+
+함께 멋진 프로젝트를 만들어갈 팀원들을 찾고 있어요! 🚀`,
+  stacks: ['Figma', 'Notion', 'Google Analytics', 'Jira', 'Slack', 'Python', 'SQL'],
+  links: [
+    {
+      type: LinkType.GITHUB,
+      url: 'https://github.com/dayoung-kim',
+    },
+    {
+      type: LinkType.BLOG,
+      url: 'https://dayoung-kim.blog.com',
+    },
+    {
+      type: LinkType.NOTION,
+      url: 'https://notion.so/dayoung-kim',
+    },
+    {
+      type: LinkType.LINKEDIN,
+      url: 'https://linkedin.com/in/dayoung-kim',
+    },
+    {
+      type: LinkType.LINKEDIN,
+      url: 'https://linkedin.com/in/dayoung-kim',
+    },
+    {
+      type: LinkType.LINKEDIN,
+      url: 'https://linkedin.com/in/dayoung-kim',
+    },
+    {
+      type: LinkType.LINKEDIN,
+      url: 'https://linkedin.com/in/dayoung-kim',
+    },
+    {
+      type: LinkType.LINKEDIN,
+      url: 'https://linkedin.com/in/dayoung-kim',
+    },
+    {
+      type: LinkType.LINKEDIN,
+      url: 'https://linkedin.com/in/dayoung-kim',
+    },
+    {
+      type: LinkType.LINKEDIN,
+      url: 'https://linkedin.com/in/dayoung-kim',
+    },
+  ],
+  is_me: true,
+};
+
+// Mock 다른 사용자들 정보
+export const mockOtherUsers: Record<string, typeof mockUserInfo> = {
+  '1': {
+    name: '이준호',
+    email: 'junho.lee@example.com',
+    univ: '연세대학교',
+    img_url: 'https://via.placeholder.com/150',
+    introduction: `# 프론트엔드 개발자 이준호입니다! 💻
+
+**React**와 **TypeScript**를 주로 사용하며, 사용자 친화적인 인터페이스를 만드는 것을 좋아합니다.
+
+## 🛠️ 기술 스택
+- **Frontend**: React, TypeScript, Next.js
+- **Styling**: Styled-components, SCSS, Tailwind CSS
+- **State Management**: Redux, Zustand
+- **Testing**: Jest, React Testing Library
+
+## 🎨 디자인 시스템
+컴포넌트 재사용성과 일관성을 중시하며, **디자인 시스템** 구축에 관심이 많습니다.
+
+## 📱 최근 프로젝트
+- **실시간 협업 도구** 프론트엔드 개발
+- **반응형 웹 애플리케이션** 구현
+- **성능 최적화** 및 **접근성 개선**
+
+항상 새로운 기술을 배우고 도전하는 개발자가 되고 싶습니다! 🌟`,
+    stacks: ['React', 'TypeScript', 'Next.js', 'Styled-components', 'Redux', 'Jest', 'Figma'],
+    links: [
+      {
+        type: LinkType.GITHUB,
+        url: 'https://github.com/junho-lee',
+      },
+      {
+        type: LinkType.BLOG,
+        url: 'https://junho-dev.blog.com',
+      },
+    ],
+    is_me: false,
+  },
+  '2': {
+    name: '박서연',
+    email: 'seoyeon.park@example.com',
+    univ: '고려대학교',
+    img_url: 'https://via.placeholder.com/150',
+    introduction: `# UX/UI 디자이너 박서연입니다! 🎨
+
+사용자의 **진짜 문제**를 찾고 해결하는 디자인을 추구합니다.
+
+## 🎯 디자인 철학
+> "Good design is as little design as possible" - Dieter Rams
+
+사용자 중심의 **미니멀하고 직관적인** 디자인을 지향합니다.
+
+## 🔍 디자인 프로세스
+1. **User Research** - 사용자 인터뷰 및 설문조사
+2. **Information Architecture** - 정보 구조 설계
+3. **Wireframing & Prototyping** - 와이어프레임 및 프로토타입 제작
+4. **Visual Design** - 시각적 디자인 완성
+5. **Usability Testing** - 사용성 테스트 및 개선
+
+## 🏆 수상 경력
+- **대학생 UX 디자인 공모전** 대상 (2023)
+- **모바일 앱 디자인 경진대회** 우수상 (2023)
+
+함께 사용자에게 사랑받는 서비스를 만들어요! 💙`,
+    stacks: ['Figma', 'Adobe XD', 'Sketch', 'Principle', 'Photoshop', 'Illustrator', 'Miro'],
+    links: [
+      {
+        type: LinkType.NOTION,
+        url: 'https://notion.so/seoyeon-design',
+      },
+      {
+        type: LinkType.BLOG,
+        url: 'https://seoyeon-design.blog.com',
+      },
+      {
+        type: LinkType.LINKEDIN,
+        url: 'https://linkedin.com/in/seoyeon-park',
+      },
+    ],
+    is_me: false,
+  },
+  '3': {
+    name: '최민지',
+    email: 'minji.choi@example.com',
+    univ: '성균관대학교',
+    img_url: 'https://via.placeholder.com/150',
+    introduction: `# 백엔드 개발자 최민지입니다! ⚡
+
+**확장 가능한 시스템**을 설계하고 **안정적인 서비스**를 만드는 것을 좋아합니다.
+
+## 🏗️ 아키텍처 설계
+- **MSA**(Microservices Architecture) 설계 경험
+- **도커**를 활용한 컨테이너 환경 구축
+- **쿠버네티스**를 통한 오케스트레이션
+
+## 🗄️ 데이터베이스
+- **PostgreSQL**, **MongoDB** 운영 경험
+- **Redis**를 활용한 캐싱 전략
+- **데이터 모델링** 및 **쿼리 최적화**
+
+## 🔧 개발 환경
+- **CI/CD** 파이프라인 구축
+- **모니터링** 및 **로깅** 시스템 구축
+- **성능 테스트** 및 **부하 테스트**
+
+## 🎯 목표
+대규모 트래픽을 처리할 수 있는 **견고한 백엔드 시스템**을 만들고 싶습니다.
+
+좋은 코드는 **협업을 통해** 만들어진다고 생각합니다! 🤝`,
+    stacks: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'Redis', 'Docker', 'Kubernetes', 'AWS'],
+    links: [
+      {
+        type: LinkType.GITHUB,
+        url: 'https://github.com/minji-choi',
+      },
+      {
+        type: LinkType.BLOG,
+        url: 'https://minji-backend.blog.com',
+      },
+      {
+        type: LinkType.ETC,
+        url: 'https://minji-dev.portfolio.com',
+      },
+    ],
+    is_me: false,
+  },
 };

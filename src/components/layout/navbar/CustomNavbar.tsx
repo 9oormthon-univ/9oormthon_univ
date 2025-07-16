@@ -189,7 +189,7 @@ function CustomNavbar() {
                   className={styles.dropdownItem}
                   onClick={() => {
                     navigate('/my-page');
-                    setIsMyPageOpened(false);
+
                     setIsOpened(false);
                   }}>
                   <div className={styles.iconAddLink}>
@@ -201,7 +201,6 @@ function CustomNavbar() {
                   className={styles.dropdownItem}
                   onClick={() => {
                     navigate('/update-password');
-                    setIsMyPageOpened(false);
                     setIsOpened(false);
                   }}>
                   <div className={styles.iconAddLink}>
