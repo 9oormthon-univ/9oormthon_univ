@@ -41,8 +41,6 @@ export default function MyPage() {
         setIsLoading(true);
         const response = user_id ? await getUserInfo(user_id) : await getMyInfo();
         setUserInfo(response.data);
-      } catch (err) {
-        console.error('Error fetching user info:', err);
       } finally {
         setIsLoading(false);
       }

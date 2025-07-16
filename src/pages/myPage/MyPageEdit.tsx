@@ -64,8 +64,6 @@ export default function MyPageEdit() {
         });
 
         setImgPreview(data.img_url || notFound);
-      } catch (error) {
-        console.error('유저 정보 불러오기 실패:', error);
       } finally {
         setIsLoading(false);
       }

@@ -8,6 +8,7 @@ export const IDEA_ADD_ERROR_MESSAGES: Record<number, string> = {
   40018: '디자이너는 1명을 초과할 수 없습니다. 다시 확인해주세요.',
   40019: '프론트엔드는 3명을 초과할 수 없습니다. 다시 확인해주세요.',
   40020: '백엔드는 3명을 초과할 수 없습니다. 다시 확인해주세요.',
+  40021: '해당 직군에 잔여 인원이 없습니다.',
   40025: '팀원 수는 최소 3명 이상이어야 합니다. 다시 확인해주세요.',
   40908: '특정 파트 멤버 수보다 더 적은 수로 파트 정원을 변경할 수 없습니다.',
 };
@@ -23,6 +24,8 @@ export const IDEA_APPLY_ERROR_MESSAGES: Record<number, string> = {
 };
 
 export const TEAM_BUILDING_ACCEPT_ERROR_MESSAGES: Record<number, string> = {
+  40031: '지원 수락 또는 거절 기간이 아닙니다.',
+  40044: '해당 직군의 인원 수가 초과되었습니다.',
   40045: '한 팀당 같은 대학 소속 인원은 2명까지만 가능합니다.',
 };
 
@@ -32,4 +35,6 @@ export const USER_EXCEL_UPLOAD_ERROR_MESSAGES: Record<number, string> = {
 
 export const TEAM_BUILDING_CONFIRM_ERROR_MESSAGES: Record<number, string> = {
   40025: '팀원 수는 최소 3명 이상이어야 합니다.',
+  40039: '팀장이 아니므로 팀 빌딩 확정이 불가합니다.',
+  40041: '현재 차수에 이미 지원자가 존재해 확정이 불가합니다.',
 };
