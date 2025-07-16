@@ -55,7 +55,8 @@ export default function TeamList() {
       toast('팀 번호 부여가 완료되었습니다.', {
         type: 'primary',
       });
-    } catch {
+    } catch (error: any) {
+      console.error(error);
       toast('팀 번호 부여에 실패했습니다.', {
         type: 'danger',
       });

@@ -41,7 +41,8 @@ export function useS3Upload() {
 
       const uploadedUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${fileName}`;
       return uploadedUrl;
-    } catch {
+    } catch (error) {
+      console.error('S3 Upload Error:', error);
       setError('이미지 업로드 실패');
       return null;
     } finally {

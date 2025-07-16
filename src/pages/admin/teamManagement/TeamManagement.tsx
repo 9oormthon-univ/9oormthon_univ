@@ -1,4 +1,4 @@
-import { Button, Text, toast } from '@goorm-dev/vapor-components';
+import { Button, Text } from '@goorm-dev/vapor-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './teamManagement.module.scss';
 import { ChevronLeftOutlineIcon } from '@goorm-dev/vapor-icons';
@@ -27,10 +27,8 @@ export default function TeamManagement() {
         try {
           const res = await fetchTeamMemberSummaryListAPI(Number(team_id));
           setTeamMemberSummaryList(res.data.members);
-        } catch {
-          toast('팀원 리스트 조회에 실패했습니다.', {
-            type: 'danger',
-          });
+        } catch (error) {
+          console.error(error);
         }
       };
       fetchTeamMemberSummaryList();
