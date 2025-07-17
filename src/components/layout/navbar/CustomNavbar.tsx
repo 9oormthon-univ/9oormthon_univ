@@ -27,7 +27,10 @@ function CustomNavbar() {
   const isAbout = useIsAbout();
   const navigate = useNavigate();
 
-  const isLoggedIn = useAuthStore((state) => state.role !== Role.GUEST);
+  // 개발 환경에서는 로그인 상태로 설정
+  const userRole = useAuthStore((state) => state.role);
+  const isLoggedIn = import.meta.env.DEV ? true : userRole !== Role.GUEST;
+
   const profileImg = useAuthStore((state) => state.img_url);
 
   const { fetchPeriodData } = usePeriodStore();
@@ -57,7 +60,9 @@ function CustomNavbar() {
     // 현재 상태 업데이트
     await fetchUserStatus();
 
-    const currentStatus = useAuthStore.getState().status ?? UserStatus.NONE;
+    const currentStatus = import.meta.env.DEV
+      ? UserStatus.APPLICANT
+      : useAuthStore.getState().status ?? UserStatus.NONE;
 
     switch (currentStatus) {
       case UserStatus.PROVIDER:
@@ -81,7 +86,7 @@ function CustomNavbar() {
     await fetchPeriodData();
     await fetchUserStatus();
 
-    const currentStatus = useAuthStore.getState().status ?? UserStatus.NONE;
+    const currentStatus = import.meta.env.DEV ? UserStatus.PROVIDER : useAuthStore.getState().status ?? UserStatus.NONE;
 
     if (currentStatus === UserStatus.PROVIDER || currentStatus === UserStatus.MEMBER) {
       navigate('/team/my-team');
@@ -129,9 +134,27 @@ function CustomNavbar() {
                 Hackathon
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem onClick={() => navigate('/hackathon')}>아이디어</DropdownItem>
-                <DropdownItem onClick={handleClickHackathon}>지원 현황</DropdownItem>
-                <DropdownItem onClick={handleClickMyTeam}>나의 팀</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    navigate('/hackathon');
+                    setIsOpened(false);
+                  }}>
+                  아이디어
+                </DropdownItem>
+                <DropdownItem
+                  onClick={async () => {
+                    await handleClickHackathon();
+                    setIsOpened(false);
+                  }}>
+                  지원 현황
+                </DropdownItem>
+                <DropdownItem
+                  onClick={async () => {
+                    await handleClickMyTeam();
+                    setIsOpened(false);
+                  }}>
+                  나의 팀
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}
@@ -164,13 +187,24 @@ function CustomNavbar() {
                 )}
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem className={styles.dropdownItem} onClick={() => navigate('/my-page')}>
+                <DropdownItem
+                  className={styles.dropdownItem}
+                  onClick={() => {
+                    navigate('/my-page');
+
+                    setIsOpened(false);
+                  }}>
                   <div className={styles.iconAddLink}>
                     <UserIcon width={16} height={16} />
                     마이페이지
                   </div>
                 </DropdownItem>
-                <DropdownItem className={styles.dropdownItem} onClick={() => navigate('/update-password')}>
+                <DropdownItem
+                  className={styles.dropdownItem}
+                  onClick={() => {
+                    navigate('/update-password');
+                    setIsOpened(false);
+                  }}>
                   <div className={styles.iconAddLink}>
                     <LockIcon width={16} height={16} />
                     비밀번호 변경

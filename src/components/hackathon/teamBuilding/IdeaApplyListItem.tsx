@@ -2,6 +2,7 @@ import { Button, Text, toast } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { deleteApply } from '../../../api/users';
+import { deleteMockApply } from '../../../utilities/mockUtils';
 import usePeriodStore from '../../../store/usePeriodStore';
 import useAuthStore from '../../../store/useAuthStore';
 import { UserStatus } from '../../../constants/role';
@@ -55,7 +56,13 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
 
   const handleDeleteApply = async () => {
     try {
-      await deleteApply(apply_info.id);
+      if (import.meta.env.DEV) {
+        // 개발 환경에서는 목업 함수 사용
+        await deleteMockApply(apply_info.id);
+      } else {
+        // 프로덕션 환경에서는 실제 API 호출
+        await deleteApply(apply_info.id);
+      }
       toast('지원 취소가 완료되었습니다.', {
         type: 'primary',
       });

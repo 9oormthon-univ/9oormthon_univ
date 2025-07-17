@@ -1,7 +1,10 @@
 import { Skeleton, Text } from '@goorm-dev/vapor-components';
 import styles from './ideaTeamContentSkeleton.module.scss';
+import useBreakpoint from '../../../../hooks/useBreakPoint';
 
 export default function IdeaTeamContentSkeleton() {
+  const breakpoint = useBreakpoint();
+
   return (
     <div className={styles.container}>
       <Text typography="heading5" color="text-normal">
@@ -11,8 +14,17 @@ export default function IdeaTeamContentSkeleton() {
         <div className={styles.item}>
           <Skeleton width="5rem" height="1.25rem" />
           <div className={styles.info}>
-            <Skeleton width="46.875rem" height="1.25rem" />
-            <Skeleton width="34.5625rem" height="1.25rem" />
+            {breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' ? (
+              <>
+                <Skeleton width="100%" height="1.25rem" />
+                <Skeleton width="80%" height="1.25rem" />
+              </>
+            ) : (
+              <>
+                <Skeleton width="46.875rem" height="1.25rem" />
+                <Skeleton width="34.5625rem" height="1.25rem" />
+              </>
+            )}
           </div>
           <Skeleton width="5.625rem" height="2.5rem" />
         </div>

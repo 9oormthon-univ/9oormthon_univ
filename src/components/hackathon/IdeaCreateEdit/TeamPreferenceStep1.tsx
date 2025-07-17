@@ -12,6 +12,7 @@ import { fetchIdeaSubjects } from '../../../api/idea';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import { PositionKey } from '../../../constants/position';
 import { GENERATION } from '../../../constants/common';
+import { mockTopics } from '../../../constants/mockData';
 interface TeamPreferenceStep1Props {
   formData: any;
   nextStep: () => void;
@@ -31,6 +32,10 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   useEffect(() => {
     const loadTopics = async () => {
       try {
+        if (import.meta.env.DEV) {
+          setTopics(mockTopics);
+          return;
+        }
         const response = await fetchIdeaSubjects(GENERATION);
         const activeTopics = response.data.idea_subjects.map((topic: { id: number; name: string }) => ({
           id: topic.id,

@@ -16,6 +16,8 @@ import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
 import IdeaListSkeleton from '../../../components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
 import { Ideas, PageInfo } from '../../../types/user/idea';
+import { mockTopics, mockIdeas } from '../../../constants/mockData';
+import { filterMockIdeas, updateMockIdeaBookmark } from '../../../utilities/mockUtils';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE' | 'APPLICANT_REJECTED'> | 'ADMIN', string> = {
@@ -90,14 +92,16 @@ export default function IdeaList() {
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   // 팀빌딩 기간인지
-  const isTeamBuilding =
-    current_period === 'PHASE1_TEAM_BUILDING' ||
-    current_period === 'PHASE2_TEAM_BUILDING' ||
-    current_period === 'PHASE3_TEAM_BUILDING' ||
-    current_period === 'PHASE1_CONFIRMATION' ||
-    current_period === 'PHASE2_CONFIRMATION' ||
-    current_period === 'PHASE3_CONFIRMATION' ||
-    current_period === 'HACKATHON';
+  // 개발 환경에서는 항상 팀빌딩 기간으로 설정
+  const isTeamBuilding = import.meta.env.DEV
+    ? true
+    : current_period === 'PHASE1_TEAM_BUILDING' ||
+      current_period === 'PHASE2_TEAM_BUILDING' ||
+      current_period === 'PHASE3_TEAM_BUILDING' ||
+      current_period === 'PHASE1_CONFIRMATION' ||
+      current_period === 'PHASE2_CONFIRMATION' ||
+      current_period === 'PHASE3_CONFIRMATION' ||
+      current_period === 'HACKATHON';
 
   // 한 페이지당 보여질 페이지 수
   const projectsPerPage = 8;
@@ -112,12 +116,17 @@ export default function IdeaList() {
     if (isTeamBuilding) {
       const loadTopics = async () => {
         try {
-          const response = await fetchIdeaSubjects(GENERATION);
-          const activeTopics = response.data.idea_subjects.map((topic: { id: number; name: string }) => ({
-            id: topic.id,
-            name: topic.name,
-          }));
-          setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
+          if (import.meta.env.DEV) {
+            // 개발 환경에서는 mock 데이터 사용
+            setHackathonTopics(mockTopics);
+          } else {
+            const response = await fetchIdeaSubjects(GENERATION);
+            const activeTopics = response.data.idea_subjects.map((topic: { id: number; name: string }) => ({
+              id: topic.id,
+              name: topic.name,
+            }));
+            setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
+          }
         } catch (error) {
           console.error('Error fetching idea subjects:', error);
         }
@@ -131,22 +140,38 @@ export default function IdeaList() {
     const loadIdeas = async () => {
       setIdeasLoading(true);
       try {
-        const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
-        const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
-        const isBookmarked = selectedBookmark === true ? true : undefined;
+        if (import.meta.env.DEV) {
+          // 개발 환경에서는 mock 데이터 사용
+          const mockResult = filterMockIdeas(
+            mockIdeas,
+            selectedTopic,
+            selectedStatus,
+            selectedBookmark,
+            debouncedSearchQuery,
+            currentPage,
+            projectsPerPage,
+          );
+          setIdeaList(mockResult);
+          setMaxIdeaNumber(50); // mock 최대 아이디어 수
+          setCurrentIdeaNumber(8); // mock 현재 아이디어 수
+        } else {
+          const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
+          const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
+          const isBookmarked = selectedBookmark === true ? true : undefined;
 
-        const response = await fetchIdeas(
-          currentPage,
-          projectsPerPage,
-          GENERATION,
-          subjectId,
-          isActive,
-          isBookmarked,
-          debouncedSearchQuery,
-        );
-        setIdeaList(response.data);
-        setMaxIdeaNumber(response.data.max_idea_number || 0);
-        setCurrentIdeaNumber(response.data.current_idea_number || 0);
+          const response = await fetchIdeas(
+            currentPage,
+            projectsPerPage,
+            GENERATION,
+            subjectId,
+            isActive,
+            isBookmarked,
+            debouncedSearchQuery,
+          );
+          setIdeaList(response.data);
+          setMaxIdeaNumber(response.data.max_idea_number || 0);
+          setCurrentIdeaNumber(response.data.current_idea_number || 0);
+        }
       } catch (error) {
         console.error('Error fetching ideas:', error);
       } finally {
@@ -221,10 +246,18 @@ export default function IdeaList() {
     }));
 
     try {
-      await addIdeaBookmark(ideaId);
-      toast('북마크 상태가 변경되었습니다.', {
-        type: 'primary',
-      });
+      if (import.meta.env.DEV) {
+        updateMockIdeaBookmark(mockIdeas, ideaId);
+
+        toast('북마크 상태가 변경되었습니다.', {
+          type: 'primary',
+        });
+      } else {
+        await addIdeaBookmark(ideaId);
+        toast('북마크 상태가 변경되었습니다.', {
+          type: 'primary',
+        });
+      }
     } catch (error: any) {
       console.error('Error toggling bookmark:', error);
       if (error.response) {
@@ -313,10 +346,24 @@ export default function IdeaList() {
                 size="lg"
                 onClick={handleCreateIdea}
                 className={styles.noneBtn}
-                disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
+                disabled={import.meta.env.DEV ? false : current_period === 'HACKATHON' || current_period === 'NONE'}>
                 아이디어 등록
               </Button>
             </div>
+          </div>
+
+          <div className={styles.mobileButtonContainer}>
+            <Button size="lg" onClick={handleMyIdea} className={styles.mobileAddButton} color="secondary">
+              내 아이디어
+            </Button>
+            <Button
+              icon={EditIcon}
+              size="lg"
+              onClick={handleCreateIdea}
+              className={styles.mobileAddButton}
+              disabled={import.meta.env.DEV ? false : current_period === 'HACKATHON' || current_period === 'NONE'}>
+              아이디어 등록
+            </Button>
           </div>
           <div className={styles.searchContainer}>
             <div className={styles.dropdownWrap}>

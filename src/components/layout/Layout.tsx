@@ -1,4 +1,3 @@
-import { Footer } from '@goorm-dev/vapor-components';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import CustomFooter from './footer/CustomFooter';
@@ -35,15 +34,7 @@ const Layout = () => {
         </div>
       </Wrapper>
       <CustomFooter />
-      <StyledFooter localeListGroup={[]} />
     </>
   );
 };
 export default Layout;
-
-const StyledFooter = styled(Footer)`
-  position: absolute;
-  width: 100%;
-  padding-left: 3rem;
-  z-index: 2;
-`;

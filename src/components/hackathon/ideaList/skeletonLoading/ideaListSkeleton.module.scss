@@ -1,8 +1,26 @@
+@import '/src/style/mixin.scss';
+
 .container {
   display: flex;
   flex-direction: column;
   gap: var(--space-600);
   width: 59.5rem;
+
+  @include container-xs {
+    width: 23.375rem;
+  }
+
+  @include container-sm {
+    width: 36rem;
+  }
+
+  @include container-md {
+    width: 48rem;
+  }
+
+  @include container-lg {
+    width: 59.5rem;
+  }
 }
 
 .skeletonWrapper {
