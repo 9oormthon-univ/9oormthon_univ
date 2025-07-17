@@ -48,7 +48,8 @@ export default function IdeaDetail() {
 
         setIdeaDetail(response.data);
       } catch (error: any) {
-        toast('아이디어 조회 기간이 아닙니다.', {
+        const errorMessage = error.response.data.error?.message;
+        toast(errorMessage, {
           type: 'danger',
         });
         navigate('/hackathon');
