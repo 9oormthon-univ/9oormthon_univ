@@ -1,4 +1,4 @@
-import { Alert, BasicPagination, Button, Input, Text, toast } from '@goorm-dev/vapor-components';
+import { Alert, BasicPagination, Button, Input, Text, toast, Tooltip } from '@goorm-dev/vapor-components';
 import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
@@ -55,6 +55,9 @@ export default function IdeaList() {
 
   // 로딩 상태
   const [ideasLoading, setIdeasLoading] = useState(false); // 아이디어 리스트
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
 
   const {
     current_period,
@@ -331,9 +334,21 @@ export default function IdeaList() {
                 아이디어 리스트
               </Text>
               {!ideasLoading && (
-                <Text typography="body2" as="p" color="text-hint">
-                  {max_idea_number - current_idea_number}개 등록 가능
-                </Text>
+                <div className={styles.ideaNumberContainer}>
+                  <Text typography="heading5" as="p" color="text-primary">
+                    {current_idea_number}/{max_idea_number}
+                  </Text>
+                  <InfoCircleIcon
+                    id="idea-info-icon"
+                    className={styles.infoIcon}
+                    onMouseEnter={() => setTooltipOpen(true)}
+                    onMouseLeave={() => setTooltipOpen(false)}
+                  />
+                  <Tooltip id="idea-info-icon" placement="top" hideArrow={false} isOpen={tooltipOpen} toggle={toggle}>
+                    {max_idea_number - current_idea_number}개 등록 가능 ({max_idea_number}개 중 현재{' '}
+                    {current_idea_number}개 등록됨)
+                  </Tooltip>
+                </div>
               )}
             </div>
 
