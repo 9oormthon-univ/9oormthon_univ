@@ -142,3 +142,15 @@
   align-items: center;
   margin: 10rem 0;
 }
+
+.ideaNumberContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-050);
+}
+
+.infoIcon {
+  color: #448efe;
+  width: 1rem;
+  height: 1rem;
+}
