@@ -122,8 +122,7 @@ export const getMockTeamInfo = (): Promise<{ data: TeamInfo }> => {
 };
 
 // Mock 지원 현황 조회
-export const getMockIdeaApplyStatus = (
-  generation: number,
+export const getMockIdeaApplyStatus = ( 
   phase: number,
   sorting?: Sorting,
   sortType?: SortType,
@@ -291,10 +290,7 @@ export const getMockUserInfo = (userId: string): Promise<{ data: typeof mockUser
 // ===== ApplicantPage 관련 Mock Utils =====
 
 // Mock 내 지원 현황 조회
-export const getMockMyApplySummary = (
-  generation: number,
-  phase: number,
-): Promise<{ data: typeof mockMyApplySummary }> => {
+export const getMockMyApplySummary = (phase: number): Promise<{ data: typeof mockMyApplySummary }> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const applySummary = mockMyApplySummaryByPhase[phase] || { applies: [] };

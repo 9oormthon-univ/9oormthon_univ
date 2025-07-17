@@ -48,7 +48,7 @@ export default function ProviderPage() {
     try {
       setIsApplyStatusLoading(true);
       if (import.meta.env.DEV) {
-        const response = await getMockIdeaApplyStatus(GENERATION, buttonIndex + 1, sorting, sortType);
+        const response = await getMockIdeaApplyStatus(buttonIndex + 1, sorting, sortType);
         setApplyStatus(response.data);
       } else {
         const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1, sorting, sortType);
@@ -67,7 +67,7 @@ export default function ProviderPage() {
     try {
       setIsApplyStatusLoading(true);
       if (import.meta.env.DEV) {
-        const response = await getMockIdeaApplyStatus(GENERATION, current_phase, undefined, undefined);
+        const response = await getMockIdeaApplyStatus(current_phase, undefined, undefined);
         setCurrentPhaseApplyStatus(response.data);
       } else {
         const response = await getIdeaApplyStatus(GENERATION, current_phase, undefined, undefined);

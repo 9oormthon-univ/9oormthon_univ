@@ -22,7 +22,7 @@ export default function ApplicantPage() {
       setIsApplySummaryLoading(true);
       if (import.meta.env.DEV) {
         // 개발 환경에서는 목업 데이터 사용
-        const response = await getMockMyApplySummary(GENERATION, buttonIndex + 1);
+        const response = await getMockMyApplySummary(buttonIndex + 1);
         setApplySummary(response.data);
       } else {
         // 프로덕션 환경에서는 실제 API 호출
