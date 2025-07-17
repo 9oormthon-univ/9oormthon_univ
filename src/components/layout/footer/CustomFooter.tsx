@@ -94,7 +94,7 @@ function CustomFooter() {
       </div>
       <div className={styles.footerBottomContainer}>
         <p className={styles.footerBottomText}>goormthonuniv.official@gmail.com</p>
-        <p className={styles.footerBottomText}>ⓒ goorm Inc. All Rights Reserved.</p>
+        <p className={styles.footerBottomText}>ⓒ 9oormthonUNIV Inc. All Rights Reserved.</p>
       </div>
     </div>
   );
