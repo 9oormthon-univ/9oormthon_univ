@@ -106,3 +106,9 @@ export const createUserExcelAPI = async (formData: FormData) => {
   const response = await instance.post('/api/v1/admins/users/excel', formData);
   return response.data;
 };
+
+// 2.11 어드민 유저 비밀번호 초기화
+export const resetPasswordAPI = async (user_id: number) => {
+  const response = await instance.post(`/api/v1/admins/users/${user_id}/password/reset`);
+  return response.data;
+};
