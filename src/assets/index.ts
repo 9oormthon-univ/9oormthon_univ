@@ -11,11 +11,11 @@ import UnivList3 from './svgs/univList3.svg?react';
 import BlogIcon from './svgs/blogIcon.svg?react';
 import GithubIcon from './svgs/githubIcon.svg?react';
 import InstagramIcon from './svgs/instagramIcon.svg?react';
-import LinkedinIcon from './svgs/linkedinIcon.svg?react';
+import LinkedinIcon from './svgs/linkedInIcon.svg?react';
 import BlogColorIcon from './svgs/blogColorIcon.svg?react';
 import GithubColorIcon from './svgs/githubColorIcon.svg?react';
 import InstagramColorIcon from './svgs/instagramColorIcon.svg?react';
-import LinkedinColorIcon from './svgs/linkedinColorIcon.svg?react';
+import LinkedinColorIcon from './svgs/linkedInColorIcon.svg?react';
 
 export {
   DanpoongSmall,
