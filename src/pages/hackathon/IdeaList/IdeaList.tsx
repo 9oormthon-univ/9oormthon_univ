@@ -403,7 +403,7 @@ export default function IdeaList() {
             </div>
             <Input
               size="lg"
-              placeholder="아이디어 제목, 미르미 명으로 검색"
+              placeholder="아이디어 제목으로 검색"
               className={styles.searchInput}
               value={searchQuery}
               onChange={handleSearchChange}
