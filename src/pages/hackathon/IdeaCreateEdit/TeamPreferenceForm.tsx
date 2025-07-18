@@ -6,6 +6,8 @@ import TeamPreferenceStep1 from '../../../components/hackathon/IdeaCreateEdit/Te
 import TeamPreferenceStep2 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep2';
 import { IDEA_ADD_ERROR_MESSAGES } from '../../../constants/errorMessage';
 import { PositionLowerKey } from '../../../constants/position';
+import { toast } from '@goorm-dev/vapor-components';
+import useAuthStore from '../../../store/useAuthStore';
 
 interface TeamPreferenceFormProps {
   isEditMode: boolean;
@@ -18,7 +20,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   // create모드일 때 전역 관리 사용 / edit일 경우 step1 -> step2 이동시 사용
   const { idea_info, requirements, updateIdeaInfo, updateRequirements, resetIdeaForm } = useIdeaFormStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const { fetchUserStatus } = useAuthStore();
   useEffect(() => {
     if (isEditMode && idea_id) {
       const fetchData = async () => {
@@ -77,12 +79,20 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
       if (isEditMode) {
         await updateIdeaAPI({ idea_info, requirements }, Number(idea_id));
         resetIdeaForm();
+        navigate('/hackathon');
+        toast('아이디어 수정이 완료되었습니다.', {
+          type: 'primary',
+        });
       } else {
         // 생성모드
         await createIdeaAPI({ idea_info, requirements });
         resetIdeaForm();
+        navigate('/hackathon');
+        toast('아이디어 제출이 완료되었습니다.', {
+          type: 'primary',
+        });
+        fetchUserStatus();
       }
-      navigate('/hackathon');
     } catch (error: any) {
       if (error.response) {
         const serverMessage = error.response.data.error?.code;
