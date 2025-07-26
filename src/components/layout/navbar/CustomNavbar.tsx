@@ -182,11 +182,11 @@ function CustomNavbar() {
 
           {isLoggedIn ? (
             <Dropdown nav isOpen={isMyPageOpened} toggle={() => setIsMyPageOpened((prev) => !prev)}>
-              <DropdownToggle nav className={styles.grayCircle}>
+              <DropdownToggle nav className={styles.profileCircle}>
                 {profileImg ? (
                   <img src={profileImg} alt="profile" className={styles.profileImg} />
                 ) : (
-                  <Avatar name="미르미" />
+                  <Avatar name="Admin" />
                 )}
               </DropdownToggle>
               <DropdownMenu right>
