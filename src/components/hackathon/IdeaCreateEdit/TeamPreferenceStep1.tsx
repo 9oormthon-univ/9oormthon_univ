@@ -42,8 +42,10 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
           name: topic.name,
         }));
         setTopics(activeTopics);
-      } catch (error) {
-        console.error('Error fetching idea subjects:', error);
+      } catch (error: any) {
+        if (import.meta.env.DEV) {
+          console.log(error);
+        }
       }
     };
 

@@ -39,7 +39,9 @@ export const TeamRow = ({ team, onUpdate }: TeamRowProps) => {
       });
       onUpdate();
     } catch (error) {
-      console.error('팀 해체 실패:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       toast('팀 해체에 실패했습니다.', {
         type: 'danger',
       });

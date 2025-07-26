@@ -76,26 +76,24 @@
   }
 }
 
-.grayCircle {
-  width: 2rem;
-  height: 2rem;
-  background-color: var(--gray-200);
-  border-radius: 1.25rem;
-  margin-left: -0.1rem;
-
-  &:hover {
-    background-color: var(--gray-200) !important;
+.profileCircle {
+  @include container-xs {
+    padding: 0.5625rem 1rem !important;
   }
-
-  &:focus {
-    background-color: var(--gray-200) !important;
+  @include container-lg {
+    padding: 0 !important;
   }
-  padding: 0 !important;
 }
 
 .dropdownToggle {
+  @include container-xs {
+    padding: 0.5625rem 1rem !important;
+  }
+  @include container-lg {
+    padding: 0 0.5rem !important;
+  }
   border: none !important;
-  padding: 0.5625rem 0.5rem !important;
+
   font-size: 0.875rem;
   line-height: 1.375rem;
   color: var(--text-alternative);
@@ -110,19 +108,25 @@
 }
 
 .dropdownToggleWhite {
-  border: none !important;
-  padding: 0.5625rem 0.5rem !important;
-  font-size: 0.875rem;
-  line-height: 1.375rem;
-  color: var(--gray-000);
-  height: var(--dimension-400) !important;
-  font-weight: 500;
-  background: none;
-
-  &:hover {
-    background: var(--gray-400-transparent-16);
-    outline: 0;
+  @include container-xs {
+    border: none !important;
+    padding: 0.5625rem 1rem !important;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    height: var(--dimension-400) !important;
+    font-weight: 500;
+    background: none;
+    &:hover {
+      background: var(--gray-400-transparent-16);
+      outline: 0;
+    }
+  }
+  @include container-lg {
     color: var(--gray-000);
+
+    &:hover {
+      color: var(--gray-000);
+    }
   }
 }
 

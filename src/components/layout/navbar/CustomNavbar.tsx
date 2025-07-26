@@ -14,6 +14,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  toast,
 } from '@goorm-dev/vapor-components';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
@@ -74,11 +75,13 @@ function CustomNavbar() {
         navigate('/team/applicant');
         break;
       case UserStatus.NONE:
-        alert('아직 팀 빌딩을 진행하지 않았습니다.');
+        toast('아직 팀 빌딩을 진행하지 않았습니다.', { type: 'danger' });
         break;
       default:
-        console.error('Unknown status:', currentStatus);
-        alert('알 수 없는 오류가 발생했습니다.');
+        if (import.meta.env.DEV) {
+          console.log('Unknown status:', currentStatus);
+        }
+        toast('알 수 없는 오류가 발생했습니다.', { type: 'danger' });
     }
   };
 
@@ -91,7 +94,7 @@ function CustomNavbar() {
     if (currentStatus === UserStatus.PROVIDER || currentStatus === UserStatus.MEMBER) {
       navigate('/team/my-team');
     } else {
-      alert('아직 팀 빌딩을 진행하지 않았습니다.');
+      toast('아직 팀 빌딩을 진행하지 않았습니다.', { type: 'danger' });
     }
   };
 
@@ -179,11 +182,11 @@ function CustomNavbar() {
 
           {isLoggedIn ? (
             <Dropdown nav isOpen={isMyPageOpened} toggle={() => setIsMyPageOpened((prev) => !prev)}>
-              <DropdownToggle nav className={styles.grayCircle}>
+              <DropdownToggle nav className={styles.profileCircle}>
                 {profileImg ? (
                   <img src={profileImg} alt="profile" className={styles.profileImg} />
                 ) : (
-                  <Avatar name="미르미" />
+                  <Avatar name="Admin" />
                 )}
               </DropdownToggle>
               <DropdownMenu right>

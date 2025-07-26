@@ -64,8 +64,10 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
           Object.entries(mappedRequirements).forEach(([key, value]) => {
             updateRequirements(key as PositionLowerKey, value);
           });
-        } catch (error) {
-          console.error('Error fetching idea details:', error);
+        } catch (error: any) {
+          if (import.meta.env.DEV) {
+            console.log(error);
+          }
         }
       };
       fetchData();
@@ -98,7 +100,9 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
         const serverMessage = error.response.data.error?.code;
         setErrorMessage(IDEA_ADD_ERROR_MESSAGES[serverMessage] || '알 수 없는 오류가 발생하였습니다.');
       } else {
-        console.error('Error submitting form:', error);
+        if (import.meta.env.DEV) {
+          console.log(error);
+        }
       }
     }
   };

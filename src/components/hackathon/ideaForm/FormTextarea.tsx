@@ -11,6 +11,11 @@ interface FormTextareaProps {
 }
 
 export default function FormTextarea({ label, nullable, placeholder, value, onChange, disabled }: FormTextareaProps) {
+  const maxLength = 250;
+  const currentLength = value.length;
+  const isNearMax = currentLength >= maxLength * 0.8; // 80% 이상일 때
+  const isAtMax = currentLength >= maxLength; // 100%일 때
+
   return (
     <FormGroup>
       <Label className={styles.labelWrap}>
@@ -29,7 +34,13 @@ export default function FormTextarea({ label, nullable, placeholder, value, onCh
         value={value}
         onChange={onChange}
         disabled={disabled}
-        maxLength={255}></textarea>
+        maxLength={maxLength}
+      />
+      <div className={styles.characterCount}>
+        <Text typography="body3" color={isAtMax ? 'text-danger' : isNearMax ? 'text-warning' : 'text-hint'}>
+          {currentLength}/{maxLength}
+        </Text>
+      </div>
     </FormGroup>
   );
 }

@@ -53,7 +53,9 @@ export default function IdeaDetail() {
           type: 'danger',
         });
         navigate('/hackathon');
-        console.error('Error fetching idea details:', error);
+        if (import.meta.env.DEV) {
+          console.log(error);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -87,8 +89,10 @@ export default function IdeaDetail() {
           type: 'primary',
         });
       }
-    } catch (error) {
-      console.error('Error toggling bookmark:', error);
+    } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
 
       setIdeaDetail((prevState: any) => ({
         ...prevState,

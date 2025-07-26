@@ -55,7 +55,9 @@ export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps
         })),
       );
     } catch (error) {
-      console.error('Failed to fetch users:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
     }
   };
 

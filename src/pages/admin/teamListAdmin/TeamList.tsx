@@ -56,7 +56,9 @@ export default function TeamList() {
         type: 'primary',
       });
     } catch (error: any) {
-      console.error(error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       toast('팀 번호 부여에 실패했습니다.', {
         type: 'danger',
       });

@@ -67,8 +67,10 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
         type: 'primary',
       });
       onDeleteSuccess();
-    } catch (error) {
-      console.error('Error deleting apply:', error);
+    } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       toast('지원 취소에 실패했습니다.', {
         type: 'danger',
       });

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { reissueAPI } from './auth';
 import useAuthStore from '../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
+import { toast } from '@goorm-dev/vapor-components';
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   withCredentials: true,
@@ -58,7 +59,7 @@ instance.interceptors.response.use(
         isRefreshing = false;
         refreshSubscribers = [];
         useAuthStore.getState().resetToGuest(); // 로그인 풀리면 GUEST로 변경
-        alert('로그아웃 되었습니다. 다시 로그인해주세요.');
+        toast('로그아웃 되었습니다. 다시 로그인해주세요.', { type: 'danger' });
         if (navigate) {
           navigate('/login');
         }

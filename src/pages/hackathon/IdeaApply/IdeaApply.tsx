@@ -42,7 +42,9 @@ export default function IdeaApply() {
           const serverMessage = error.response.data.error?.code;
           setErrorMessage(serverMessage || '알 수 없는 오류가 발생했습니다.');
         } else {
-          console.error('Error fetching preferences:', error);
+          if (import.meta.env.DEV) {
+            console.log(error);
+          }
         }
       }
     };
@@ -63,7 +65,9 @@ export default function IdeaApply() {
         const errorCode = error.response.data?.error?.code;
         setErrorMessage(IDEA_APPLY_ERROR_MESSAGES[errorCode] || '알 수 없는 오류가 발생했습니다.');
       } else {
-        console.error('Error applying idea:', error);
+        if (import.meta.env.DEV) {
+          console.log(error);
+        }
       }
     }
   };
@@ -92,7 +96,7 @@ export default function IdeaApply() {
           <FormTextarea
             label="함께 하고 싶은 이유를 작성해주세요"
             nullable={false}
-            placeholder="n자 이내로 작성해주세요"
+            placeholder="250자 이내로 작성해주세요"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           />

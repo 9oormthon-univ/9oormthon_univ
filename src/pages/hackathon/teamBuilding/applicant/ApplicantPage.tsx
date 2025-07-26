@@ -29,8 +29,10 @@ export default function ApplicantPage() {
         const response = await getMyApplySummary(GENERATION, buttonIndex + 1);
         setApplySummary(response.data);
       }
-    } catch (error) {
-      console.error('Error fetching apply summary:', error);
+    } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       setApplySummary(null);
     } finally {
       setIsApplySummaryLoading(false);

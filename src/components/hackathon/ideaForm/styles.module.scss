@@ -1,3 +1,5 @@
+@import '../../../style/mixin.scss';
+
 .labelWrap {
   display: flex;
   gap: var(--size-050);
@@ -39,6 +41,13 @@
   &:focus {
     border-color: var(--primary);
   }
+}
+
+.characterCount {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-050);
+  padding-right: var(--space-050);
 }
 
 .formContainer {
@@ -171,6 +180,14 @@
   border: 1px solid var(--border-color);
   background: var(--background-alternative-01);
   cursor: pointer;
+  @include container-xs {
+    gap: var(--space-100);
+  }
+
+  @include container-sm {
+    gap: var(--space-050);
+  }
+
   &:hover {
     background: var(--secondary-hover);
   }
