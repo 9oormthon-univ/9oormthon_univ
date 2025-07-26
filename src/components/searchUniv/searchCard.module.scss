@@ -7,15 +7,26 @@
   justify-content: center;
   background-color: var(--gray-050);
   border-radius: 1.25rem;
-  margin-top: 8.37rem;
-  margin-bottom: 12.5rem;
+  width: 38.7rem;
+  margin: 8.37rem auto 12.5rem;
+  padding: var(--space-700) 5rem var(--space-500) 5rem;
 
   @include container-xs {
+    width: 20.75rem;
     padding: var(--space-500) var(--space-250);
   }
 
   @include container-sm {
+    width: 28.625rem;
     padding: var(--space-500) var(--space-500);
+  }
+
+  @include container-md {
+    width: 38.7rem;
+  }
+
+  @include container-lg {
+    padding: var(--space-700);
   }
 }
 
