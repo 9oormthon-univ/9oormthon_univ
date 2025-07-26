@@ -43,6 +43,13 @@
   }
 }
 
+.characterCount {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-050);
+  padding-right: var(--space-050);
+}
+
 .formContainer {
   display: flex;
   flex-direction: column;

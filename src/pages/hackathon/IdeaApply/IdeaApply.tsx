@@ -96,7 +96,7 @@ export default function IdeaApply() {
           <FormTextarea
             label="함께 하고 싶은 이유를 작성해주세요"
             nullable={false}
-            placeholder="n자 이내로 작성해주세요"
+            placeholder="250자 이내로 작성해주세요"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           />
