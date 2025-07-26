@@ -93,7 +93,9 @@ const usePeriodStore = create<PeriodState>((set, get) => ({
         isFetched: true,
       });
     } catch (error) {
-      console.error('Error fetching period:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       set({ isLoading: false, isFetched: true });
     }
   },

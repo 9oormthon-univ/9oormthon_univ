@@ -130,8 +130,10 @@ export default function IdeaList() {
             }));
             setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
           }
-        } catch (error) {
-          console.error('Error fetching idea subjects:', error);
+        } catch (error: any) {
+          if (import.meta.env.DEV) {
+            console.log(error);
+          }
         }
       };
       loadTopics();
@@ -175,8 +177,10 @@ export default function IdeaList() {
           setMaxIdeaNumber(response.data.max_idea_number || 0);
           setCurrentIdeaNumber(response.data.current_idea_number || 0);
         }
-      } catch (error) {
-        console.error('Error fetching ideas:', error);
+      } catch (error: any) {
+        if (import.meta.env.DEV) {
+          console.log(error);
+        }
       } finally {
         setIdeasLoading(false);
       }
@@ -262,7 +266,9 @@ export default function IdeaList() {
         });
       }
     } catch (error: any) {
-      console.error('Error toggling bookmark:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       if (error.response) {
         const errorCode = error.response.data.error?.code;
         if (errorCode === 40013) {

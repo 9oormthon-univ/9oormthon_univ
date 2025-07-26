@@ -77,7 +77,9 @@ function CustomNavbar() {
         alert('아직 팀 빌딩을 진행하지 않았습니다.');
         break;
       default:
-        console.error('Unknown status:', currentStatus);
+        if (import.meta.env.DEV) {
+          console.log('Unknown status:', currentStatus);
+        }
         alert('알 수 없는 오류가 발생했습니다.');
     }
   };

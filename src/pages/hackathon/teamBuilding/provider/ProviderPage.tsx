@@ -55,7 +55,9 @@ export default function ProviderPage() {
         setApplyStatus(response.data);
       }
     } catch (error) {
-      console.error('지원 현황 불러오기 실패:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       setApplyStatus({ counts: 0, applies: [] });
     } finally {
       setIsApplyStatusLoading(false);
@@ -74,7 +76,9 @@ export default function ProviderPage() {
         setCurrentPhaseApplyStatus(response.data);
       }
     } catch (error) {
-      console.error('지원 현황 불러오기 실패:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       setCurrentPhaseApplyStatus({ counts: 0, applies: [] });
     } finally {
       setIsApplyStatusLoading(false);
@@ -116,7 +120,9 @@ export default function ProviderPage() {
         setTeamInfo(res.data);
       }
     } catch (error: any) {
-      console.error('팀 정보 불러오기 실패:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       toast('팀 정보 불러오기 실패', { type: 'danger' });
     } finally {
       setIsTeamInfoLoading(false);

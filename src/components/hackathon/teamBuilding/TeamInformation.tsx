@@ -48,7 +48,9 @@ export default function TeamInformation({ viewer, teamInfo }: TeamInformationPro
       await updateTeamInfo(GENERATION, teamName);
       setIsEditing(false);
     } catch (error) {
-      console.error('팀 이름 수정 실패:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       setTeamName(teamName);
     }
   };

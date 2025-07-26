@@ -55,7 +55,9 @@ export default function SignUpCard() {
         navigate('/');
       }
     } catch (error: any) {
-      console.error('로그인 실패:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       if (error.response.data?.error?.code === 40100) {
         setErrorMessage('아이디 또는 비밀번호가 일치하지 않습니다.');
       } else {

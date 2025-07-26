@@ -36,7 +36,9 @@ export default function TeamUpdateModal({ isOpen, toggle, teamId, onUpdate }: Te
             status: res.data.team_building ?? TeamBuildingStatus.RECRUITING,
           }); // 수정
         } catch (error) {
-          console.error(error);
+          if (import.meta.env.DEV) {
+            console.log(error);
+          }
         }
       };
       fetchTeamDetail();

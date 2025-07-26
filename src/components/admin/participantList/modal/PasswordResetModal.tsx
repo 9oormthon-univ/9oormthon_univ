@@ -16,7 +16,9 @@ export const PasswordResetModal = ({ isOpen, toggle, password }: PasswordResetMo
         type: 'primary',
       });
     } catch (err) {
-      console.error('클립보드 복사 실패:', err);
+      if (import.meta.env.DEV) {
+        console.log(err);
+      }
     }
   };
 

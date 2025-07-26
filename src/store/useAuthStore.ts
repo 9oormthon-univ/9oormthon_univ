@@ -56,7 +56,9 @@ const useAuthStore = create<AuthStore>((set) => ({
         img_url: img_url || null,
       });
     } catch (error) {
-      console.error('Login failed', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       throw error;
     }
   },
@@ -81,7 +83,9 @@ const useAuthStore = create<AuthStore>((set) => ({
         type: 'primary',
       });
     } catch (error: any) {
-      console.error('Logout error', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       shouldClearCookies = true;
     }
 
@@ -120,7 +124,9 @@ const useAuthStore = create<AuthStore>((set) => ({
 
       set({ status: parsedStatus, role: parsedRole, img_url: parsedImgUrl, isFetched: true });
     } catch (error) {
-      console.error('Error fetching user status:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       set({ isFetched: true });
       throw error;
     }

@@ -49,8 +49,10 @@ export default function ApplyDecisionModal({
         }
         toggle();
         toast('지원을 거절했습니다.', { type: 'primary' });
-      } catch (error) {
-        console.error('Error rejecting apply:', error);
+      } catch (error: any) {
+        if (import.meta.env.DEV) {
+          console.log(error);
+        }
       }
     }
   };

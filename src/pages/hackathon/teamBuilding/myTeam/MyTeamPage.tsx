@@ -9,6 +9,7 @@ import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
 import { GENERATION } from '../../../../constants/common';
 import TeamInformationSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
 import { TeamInfo } from '../../../../types/user/team';
+import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '../../../../constants/errorMessage';
 
 export default function ApplicantTeamPage() {
   const { status } = useAuthStore();
@@ -24,7 +25,9 @@ export default function ApplicantTeamPage() {
       const res = await getTeamInfo(GENERATION);
       setTeamInfo(res.data);
     } catch (error: any) {
-      console.error('팀 정보 불러오기 실패:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
       toast('팀 정보 불러오기 실패', { type: 'danger' });
     } finally {
       setIsLoading(false);
@@ -49,11 +52,18 @@ export default function ApplicantTeamPage() {
       });
       toggle();
       fetchTeamInfo();
-    } catch (error) {
-      console.error('팀 빌딩 확정 실패:', error);
-      toast('팀 빌딩 확정에 실패했습니다. 팀 빌딩 조건을 다시 확인해주세요.', {
-        type: 'danger',
-      });
+    } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
+      const errorCode = error.response.data?.error?.code;
+      toast(
+        TEAM_BUILDING_CONFIRM_ERROR_MESSAGES[errorCode] ||
+          '팀 빌딩 확정에 실패했습니다. 팀 빌딩 조건을 다시 확인해주세요.',
+        {
+          type: 'danger',
+        },
+      );
     }
   };
 

@@ -28,7 +28,9 @@ export const TopicModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
           setTopics(res.data.idea_subjects.map((t: any) => ({ id: t.id, value: t.name, isEditing: false })));
         }
       } catch (err) {
-        console.error('조회 실패', err);
+        if (import.meta.env.DEV) {
+          console.log(err);
+        }
       }
     };
 
@@ -54,7 +56,9 @@ export const TopicModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
       toast('주제 삭제에 실패했습니다. 이미 사용된 주제는 삭제할 수 없습니다.', {
         type: 'danger',
       });
-      console.error('주제 삭제 실패:', error);
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
     }
   };
 
