@@ -1,6 +1,5 @@
 import styles from './styles.module.scss';
-import { Text, Button, toast, Skeleton, Badge } from '@goorm-dev/vapor-components';
-import TeamInformation from '../../../../components/hackathon/teamBuilding/TeamInformation';
+import { Text, toast, Skeleton } from '@goorm-dev/vapor-components';
 import ApplyStatusTable from '../../../../components/hackathon/teamBuilding/applyStatusTable/ApplyStatusTable';
 import TeamBuildingPhaseSelector from '../../../../components/hackathon/teamBuilding/TeamBuildingPhaseSelector';
 import { useEffect, useState } from 'react';
@@ -10,7 +9,6 @@ import { Applies, TeamInfo } from '../../../../types/user/team';
 import { GENERATION } from '../../../../constants/common';
 import InformationModal from '../../../../components/common/modal/InformationModal';
 import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
-import TeamInformationSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
 import TeamBuildingTableSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamBuildingTableSkeleton';
 import AcceptableCountIndicator from '../../../../components/hackathon/teamBuilding/AcceptableCountIndicator';
 import { Sorting, SortType } from '../../../../types/user/idea';
@@ -40,7 +38,6 @@ export default function ProviderPage() {
   const toggle = () => setIsOpen(!isOpen);
 
   // 로딩 상태
-  const [isTeamInfoLoading, setIsTeamInfoLoading] = useState(false);
   const [isApplyStatusLoading, setIsApplyStatusLoading] = useState(false);
 
   // fetchApplyStatus를 컴포넌트 레벨로 올리고 재사용 가능하게 만듦
@@ -111,7 +108,6 @@ export default function ProviderPage() {
   // 팀 정보 불러오기
   const fetchTeamInfo = async () => {
     try {
-      setIsTeamInfoLoading(true);
       if (import.meta.env.DEV) {
         const res = await getMockTeamInfo();
         setTeamInfo(res.data);
@@ -124,17 +120,13 @@ export default function ProviderPage() {
         console.log(error);
       }
       toast('팀 정보 불러오기 실패', { type: 'danger' });
-    } finally {
-      setIsTeamInfoLoading(false);
     }
   };
 
   // 개발 환경에서 Period Store 초기화
   useEffect(() => {
     if (import.meta.env.DEV) {
-      // 개발 환경에서는 목업 데이터로 Period Store 초기화
       getMockPeriod().then(() => {
-        // Period Store를 직접 업데이트하는 대신 fetchPeriodData를 호출
         fetchPeriodData();
       });
     } else {
@@ -173,25 +165,6 @@ export default function ProviderPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.teamInform}>
-        <div className={styles.teamInformHeader}>
-          <div className={styles.teamInformHeaderTitle}>
-            <Text as="h3" typography="heading3" color="text-normal">
-              팀 정보
-            </Text>
-            {teamInfo?.team_building === 'END' && (
-              <Badge pill size="lg" color="hint">
-                확정 완료
-              </Badge>
-            )}
-          </div>
-          <Button size="md" color="primary" onClick={toggle} disabled={teamInfo?.team_building === 'END'}>
-            팀 빌딩 확정
-          </Button>
-        </div>
-
-        {isTeamInfoLoading ? <TeamInformationSkeleton /> : <TeamInformation viewer={false} teamInfo={teamInfo} />}
-      </div>
       <div className={styles.applyStatus}>
         <div className={styles.applyStatusHeader}>
           <Text as="h3" typography="heading3" color="text-normal">
