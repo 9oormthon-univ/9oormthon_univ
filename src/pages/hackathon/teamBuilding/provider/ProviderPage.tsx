@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { Text, toast, Skeleton } from '@goorm-dev/vapor-components';
+import { Text, toast, Skeleton, Alert } from '@goorm-dev/vapor-components';
 import ApplyStatusTable from '../../../../components/hackathon/teamBuilding/applyStatusTable/ApplyStatusTable';
 import TeamBuildingPhaseSelector from '../../../../components/hackathon/teamBuilding/TeamBuildingPhaseSelector';
 import { useEffect, useState } from 'react';
@@ -19,10 +19,25 @@ import {
   confirmMockTeamBuilding,
   getMockPeriod,
 } from '../../../../utilities/mockUtils';
+import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
 
 export default function ProviderPage() {
   // 현재 팀빌딩 기간 조회
-  const { current_phase, isLoading, isFetched, fetchPeriodData } = usePeriodStore();
+  const {
+    current_phase,
+    isLoading,
+    isFetched,
+    fetchPeriodData,
+    current_period,
+    idea_submission_period,
+    phase1_team_building_period,
+    phase1_confirmation_period,
+    phase2_team_building_period,
+    phase2_confirmation_period,
+    phase3_team_building_period,
+    phase3_confirmation_period,
+    hackathon_period,
+  } = usePeriodStore();
   const [buttonIndex, setButtonIndex] = useState<number>(0);
   const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
   const [currentPhaseApplyStatus, setCurrentPhaseApplyStatus] = useState<{ counts: number; applies: Applies[] }>({
@@ -163,8 +178,25 @@ export default function ProviderPage() {
     }
   };
 
+  const PHASE_INFO = {
+    IDEA_SUBMISSION: `지금은 아이디어 제출 기간입니다. (${idea_submission_period})`,
+    PHASE1_TEAM_BUILDING: `지금은 1차 팀빌딩 지원 기간입니다. (${phase1_team_building_period})`,
+    PHASE1_CONFIRMATION: `지금은 1차 팀빌딩 합불 결정 기간입니다. (${phase1_confirmation_period})`,
+    PHASE2_TEAM_BUILDING: `지금은 2차 팀빌딩 지원 기간입니다. (${phase2_team_building_period})`,
+    PHASE2_CONFIRMATION: `지금은 2차 팀빌딩 합불 결정 기간입니다. (${phase2_confirmation_period})`,
+    PHASE3_TEAM_BUILDING: `지금은 3차 팀빌딩 지원 기간입니다. (${phase3_team_building_period})`,
+    PHASE3_CONFIRMATION: `지금은 3차 팀빌딩 합불 결정 기간입니다. (${phase3_confirmation_period})`,
+    HACKATHON: `팀 빌딩 기간이 종료되었습니다. (${hackathon_period})`,
+    NONE: '해커톤 또는 팀 빌딩 기간이 아닙니다.',
+  };
+
   return (
     <div className={styles.container}>
+      {!isLoading && (
+        <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
+          {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
+        </Alert>
+      )}
       <div className={styles.applyStatus}>
         <div className={styles.applyStatusHeader}>
           <Text as="h3" typography="heading3" color="text-normal">

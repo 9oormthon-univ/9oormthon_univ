@@ -61,7 +61,9 @@ function CustomNavbar() {
     // 현재 상태 업데이트
     await fetchUserStatus();
 
-    const currentStatus = import.meta.env.DEV ? UserStatus.PROVIDER : useAuthStore.getState().status ?? UserStatus.NONE;
+    const currentStatus = import.meta.env.DEV
+      ? UserStatus.APPLICANT
+      : useAuthStore.getState().status ?? UserStatus.NONE;
 
     switch (currentStatus) {
       case UserStatus.PROVIDER:
@@ -221,13 +223,11 @@ function CustomNavbar() {
             </Dropdown>
           ) : (
             <>
-              {/* <Button className={styles.loginButton} size="lg" href="/login"> */}
-              <Button className={styles.loginButton} size="lg" onClick={() => alert('준비 중인 기능입니다.')}>
+              <Button className={styles.loginButton} size="lg" href="/login">
                 로그인
               </Button>
-              <NavLink className={styles.loginText} onClick={() => alert('준비 중인 기능입니다.')} href="#">
+              <NavLink className={styles.loginText} href="/login">
                 로그인하기
-                {/* <Button onClick={() => alert('준비 중인 기능입니다.')}>로그인하기</Button> */}
                 <ChevronRightOutlineIcon className="ml-1" />
               </NavLink>
             </>
