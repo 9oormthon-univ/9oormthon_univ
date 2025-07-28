@@ -77,6 +77,8 @@
 }
 
 .profileCircle {
+  width: 2.5rem;
+  height: 2.5rem;
   @include container-xs {
     padding: 0.5625rem 1rem !important;
   }

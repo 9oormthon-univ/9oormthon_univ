@@ -2,7 +2,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-500);
+  gap: var(--space-250);
   width: 45rem;
   padding: var(--space-400) 0 12.5rem 0;
   margin: 4rem auto 0;
@@ -20,18 +20,6 @@
   }
 }
 
-.teamInform {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-200);
-}
-
-.teamInformHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .applyStatus {
   display: flex;
   flex-direction: column;
@@ -44,10 +32,4 @@
   gap: var(--space-100);
   align-items: center;
   width: 100%;
-}
-
-.teamInformHeaderTitle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-100);
 }

@@ -53,16 +53,16 @@ export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPag
       </div>
       <div className={styles.headerRight}>
         <div className={styles.headerInfo}>
-          {is_me && (
-            <div className={styles.headerInfoName}>
-              <Text as="h6" typography="heading6" color="text-normal">
-                {name || '이름 없음'}
-              </Text>
+          <div className={styles.headerInfoName}>
+            <Text as="h6" typography="heading6" color="text-normal">
+              {name || '이름 없음'}
+            </Text>
+            {is_me && (
               <Button color="secondary" size="sm" onClick={() => navigate('/my-page/edit')}>
                 내 정보 수정
               </Button>
-            </div>
-          )}
+            )}
+          </div>
           <div className={styles.headerInfoEmailUniv}>
             <div className={styles.headerInfoEmailUnivItem}>
               <MailIcon width="0.875rem" height="0.875rem" />
