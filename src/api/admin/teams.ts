@@ -97,3 +97,9 @@ export const updateTeamMemberPartAPI = async (member_id: number, role: PositionK
   });
   return response.data;
 };
+
+// 4.15. 어드민 팀 정보 엑셀 추출
+export const fetchTeamExcelAPI = async (generation: number) => {
+  const response = await instance.get(`/api/v1/admins/teams/excel?generation=${generation}`);
+  return response.data;
+};

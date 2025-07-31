@@ -4,7 +4,7 @@ import { Button, Input, Text, toast } from '@goorm-dev/vapor-components';
 import { TeamTable } from '../../../components/admin/teamList/teamTable/TeamTable';
 import TeamCreateModal from '../../../components/admin/teamList/modal/TeamCreateModal';
 import { Sorting, SortType, TeamOverview } from '../../../types/admin/team';
-import { assignTeamNumberAPI, fetchTeamSummaryListAPI } from '../../../api/admin/teams';
+import { assignTeamNumberAPI, fetchTeamExcelAPI, fetchTeamSummaryListAPI } from '../../../api/admin/teams';
 import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { DownloadIcon, ReloadOutlineIcon } from '@goorm-dev/vapor-icons';
@@ -66,6 +66,23 @@ export default function TeamList() {
     fetchTeamList();
   };
 
+  // 팀 정보 엑셀 내보내기
+  const handleDownloadExcel = async () => {
+    try {
+      await fetchTeamExcelAPI(GENERATION);
+      toast('팀 정보를 엑셀로 내보냅니다.', {
+        type: 'primary',
+      });
+    } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.log(error);
+      }
+      toast('팀 정보 엑셀 내보내기에 실패했습니다.', {
+        type: 'danger',
+      });
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
@@ -85,7 +102,7 @@ export default function TeamList() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
         />
         <div className={styles.buttonContainer}>
-          <Button size="md" color="secondary" onClick={() => {}} icon={DownloadIcon}>
+          <Button size="md" color="secondary" onClick={handleDownloadExcel} icon={DownloadIcon}>
             엑셀 내보내기
           </Button>
           <Button size="md" color="secondary" onClick={handleAssignTeamNumber} icon={ReloadOutlineIcon}>
