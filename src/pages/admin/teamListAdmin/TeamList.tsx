@@ -17,7 +17,7 @@ export default function TeamList() {
     current_page: 1,
     current_items: 0,
     page_size: 10,
-    total_pages: 0,
+    total_pages: 1,
     total_items: 0,
   });
   const [searchQuery, setSearchQuery] = useState('');
@@ -116,7 +116,7 @@ export default function TeamList() {
       <TeamTable
         teamList={teamList}
         pageInfo={pageInfo}
-        onPageChange={setCurrentPage}
+        onPageChange={(page: number) => setPageInfo({ ...pageInfo, current_page: page })}
         onSortChange={handleSorting}
         onUpdate={fetchTeamList}
       />

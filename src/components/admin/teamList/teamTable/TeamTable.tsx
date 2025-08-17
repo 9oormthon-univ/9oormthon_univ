@@ -74,7 +74,7 @@ export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUp
       <div className={styles.pagination}>
         <BasicPagination
           pageCount={pageInfo.total_pages}
-          currentPage={pageInfo.current_page}
+          page={pageInfo.current_page}
           onPageChangeHandler={(page: number) => onPageChange(page)}
         />
       </div>

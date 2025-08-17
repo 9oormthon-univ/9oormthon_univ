@@ -25,6 +25,15 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-050);
+  width: 80%;
+
+  @include container-xs {
+    width: 100%;
+  }
+
+  @include container-md {
+    width: 80%;
+  }
 }
 
 .titleStatus {
