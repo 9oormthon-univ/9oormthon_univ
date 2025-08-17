@@ -7,12 +7,20 @@ import { ControlCommonIcon } from '@goorm-dev/vapor-icons';
 interface TeamTableProps {
   teamList: TeamOverview['teams'];
   pageInfo: TeamOverview['page_info'];
+  currentPage: number;
   onPageChange: (page: number) => void;
   onSortChange: (sorting: Sorting) => void;
   onUpdate: () => void; // 삭제 후
 }
 
-export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUpdate }: TeamTableProps) => {
+export const TeamTable = ({
+  teamList,
+  pageInfo,
+  currentPage,
+  onPageChange,
+  onSortChange,
+  onUpdate,
+}: TeamTableProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.tableContainer}>
@@ -74,7 +82,7 @@ export const TeamTable = ({ teamList, pageInfo, onPageChange, onSortChange, onUp
       <div className={styles.pagination}>
         <BasicPagination
           pageCount={pageInfo.total_pages}
-          currentPage={pageInfo.current_page}
+          currentPage={currentPage}
           onPageChangeHandler={(page: number) => onPageChange(page)}
         />
       </div>
