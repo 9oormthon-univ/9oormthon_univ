@@ -32,8 +32,9 @@ instance.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // 401에러 코드
-    if (error.response?.data?.error?.code === 40100 && !originalRequest._retry) {
+    // 401에러 코드 - 토큰 재발급이 필요한 경우들
+    const retryableCodes = [40101, 40102, 40108]; // EXPIRED_TOKEN, INVALID_TOKEN, NOT_FOUND_AUTHORIZATION_COOKIE
+    if (retryableCodes.includes(error.response?.data?.error?.code) && !originalRequest._retry) {
       if (isRefreshing) {
         // 토큰 재발급 시, 새 토큰 받을 때까지 대기
         return new Promise((resolve) => {
