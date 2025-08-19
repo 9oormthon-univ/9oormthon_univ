@@ -67,19 +67,38 @@ export default function TeamList() {
   };
 
   // 팀 정보 엑셀 내보내기
-  const handleDownloadExcel = async () => {
+  const downloadExcel = async () => {
     try {
-      await fetchTeamExcelAPI(GENERATION);
+      const response = await fetchTeamExcelAPI(GENERATION);
+
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
       toast('팀 정보를 엑셀로 내보냅니다.', {
         type: 'primary',
       });
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+
+      // 파일명 설정
+      const contentDisposition = response.headers['content-disposition'];
+      let fileName = 'season_team_list.xlsx';
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+        if (match?.[1]) {
+          fileName = decodeURIComponent(match[1].replace(/['"]/g, ''));
+        }
       }
-      toast('팀 정보 엑셀 내보내기에 실패했습니다.', {
-        type: 'danger',
-      });
+
+      link.download = fileName;
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('엑셀 다운로드 실패:', error);
     }
   };
 
@@ -102,7 +121,7 @@ export default function TeamList() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
         />
         <div className={styles.buttonContainer}>
-          <Button size="md" color="secondary" onClick={handleDownloadExcel} icon={DownloadIcon}>
+          <Button size="md" color="secondary" onClick={downloadExcel} icon={DownloadIcon}>
             엑셀 내보내기
           </Button>
           <Button size="md" color="secondary" onClick={handleAssignTeamNumber} icon={ReloadOutlineIcon}>
