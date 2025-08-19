@@ -8,11 +8,11 @@ import { assignTeamNumberAPI, fetchTeamExcelAPI, fetchTeamSummaryListAPI } from 
 import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { DownloadIcon, ReloadOutlineIcon } from '@goorm-dev/vapor-icons';
+import { useSearchParams } from 'react-router-dom';
 
 export default function TeamList() {
   const [isCreateTeamOpen, setIsCreateTeamOpen] = useState(false);
   const toggleCreateTeam = () => setIsCreateTeamOpen((prev) => !prev);
-  const [currentPage, setCurrentPage] = useState(1);
   const [pageInfo, setPageInfo] = useState<TeamOverview['page_info']>({
     current_page: 1,
     current_items: 0,
@@ -22,7 +22,9 @@ export default function TeamList() {
   });
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const [currentPage, setCurrentPage] = useState(page);
   const [teamList, setTeamList] = useState<TeamOverview['teams']>([]);
   const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
   const [sortType, setSortType] = useState<SortType | undefined>(undefined);
@@ -102,6 +104,16 @@ export default function TeamList() {
     }
   };
 
+  // 페이지 변경 시 파라미터 업데이트
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('page', page.toString());
+      return newParams;
+    });
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
@@ -135,7 +147,7 @@ export default function TeamList() {
       <TeamTable
         teamList={teamList}
         pageInfo={pageInfo}
-        onPageChange={(page: number) => setPageInfo({ ...pageInfo, current_page: page })}
+        onPageChange={handlePageChange}
         onSortChange={handleSorting}
         onUpdate={fetchTeamList}
       />
