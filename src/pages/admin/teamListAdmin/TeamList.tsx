@@ -8,11 +8,11 @@ import { assignTeamNumberAPI, fetchTeamExcelAPI, fetchTeamSummaryListAPI } from 
 import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { DownloadIcon, ReloadOutlineIcon } from '@goorm-dev/vapor-icons';
+import { useSearchParams } from 'react-router-dom';
 
 export default function TeamList() {
   const [isCreateTeamOpen, setIsCreateTeamOpen] = useState(false);
   const toggleCreateTeam = () => setIsCreateTeamOpen((prev) => !prev);
-  const [currentPage, setCurrentPage] = useState(1);
   const [pageInfo, setPageInfo] = useState<TeamOverview['page_info']>({
     current_page: 1,
     current_items: 0,
@@ -22,7 +22,9 @@ export default function TeamList() {
   });
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const [currentPage, setCurrentPage] = useState(page);
   const [teamList, setTeamList] = useState<TeamOverview['teams']>([]);
   const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
   const [sortType, setSortType] = useState<SortType | undefined>(undefined);
@@ -67,20 +69,49 @@ export default function TeamList() {
   };
 
   // 팀 정보 엑셀 내보내기
-  const handleDownloadExcel = async () => {
+  const downloadExcel = async () => {
     try {
-      await fetchTeamExcelAPI(GENERATION);
+      const response = await fetchTeamExcelAPI(GENERATION);
+
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
       toast('팀 정보를 엑셀로 내보냅니다.', {
         type: 'primary',
       });
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+
+      // 파일명 설정
+      const contentDisposition = response.headers['content-disposition'];
+      let fileName = 'season_team_list.xlsx';
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+        if (match?.[1]) {
+          fileName = decodeURIComponent(match[1].replace(/['"]/g, ''));
+        }
       }
-      toast('팀 정보 엑셀 내보내기에 실패했습니다.', {
-        type: 'danger',
-      });
+
+      link.download = fileName;
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('엑셀 다운로드 실패:', error);
     }
+  };
+
+  // 페이지 변경 시 파라미터 업데이트
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('page', page.toString());
+      return newParams;
+    });
   };
 
   return (
@@ -102,7 +133,7 @@ export default function TeamList() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
         />
         <div className={styles.buttonContainer}>
-          <Button size="md" color="secondary" onClick={handleDownloadExcel} icon={DownloadIcon}>
+          <Button size="md" color="secondary" onClick={downloadExcel} icon={DownloadIcon}>
             엑셀 내보내기
           </Button>
           <Button size="md" color="secondary" onClick={handleAssignTeamNumber} icon={ReloadOutlineIcon}>
@@ -116,7 +147,7 @@ export default function TeamList() {
       <TeamTable
         teamList={teamList}
         pageInfo={pageInfo}
-        onPageChange={(page: number) => setPageInfo({ ...pageInfo, current_page: page })}
+        onPageChange={handlePageChange}
         onSortChange={handleSorting}
         onUpdate={fetchTeamList}
       />
