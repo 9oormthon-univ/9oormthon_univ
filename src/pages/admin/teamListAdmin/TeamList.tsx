@@ -77,10 +77,6 @@ export default function TeamList() {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
 
-      toast('팀 정보를 엑셀로 내보냅니다.', {
-        type: 'primary',
-      });
-
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -94,11 +90,14 @@ export default function TeamList() {
           fileName = decodeURIComponent(match[1].replace(/['"]/g, ''));
         }
       }
-
       link.download = fileName;
       link.click();
 
       window.URL.revokeObjectURL(url);
+
+      toast('팀 정보를 엑셀로 내보냅니다.', {
+        type: 'primary',
+      });
     } catch (error) {
       console.error('엑셀 다운로드 실패:', error);
     }
