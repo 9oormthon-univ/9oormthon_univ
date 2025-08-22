@@ -103,5 +103,5 @@ export const fetchTeamExcelAPI = async (generation: number) => {
   const response = await instance.post(`/api/v1/admins/teams/excel?generation=${generation}`, null, {
     responseType: 'blob',
   });
-  return response.data;
+  return response;
 };
