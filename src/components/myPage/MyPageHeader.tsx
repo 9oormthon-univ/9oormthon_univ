@@ -11,7 +11,9 @@ import {
 import styles from './styles.module.scss';
 import { LinkType } from '../../constants/linkType';
 import { useNavigate } from 'react-router-dom';
-import notfound from '../../assets/images/notfound.png';
+import { QRCheckInModal } from './QRCheckInModal';
+import avatar from '../../assets/images/avatar.png';
+import { useState } from 'react';
 
 export interface Link {
   type: LinkType;
@@ -45,11 +47,19 @@ const getLinkIcon = (type: LinkType) => {
 
 export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPageHeaderProps) => {
   const navigate = useNavigate();
-
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen((prev) => !prev);
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}>
-        <img src={img_url || notfound} alt="profile" />
+        <div className={styles.headerLeftImage}>
+          {img_url ? <img src={img_url} alt="profile" /> : <img src={avatar} alt="profile" />}
+        </div>
+        {is_me && (
+          <Button size="md" color="secondary" onClick={toggle}>
+            현장 QR 체크인
+          </Button>
+        )}
       </div>
       <div className={styles.headerRight}>
         <div className={styles.headerInfo}>
@@ -94,6 +104,7 @@ export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPag
           ))}
         </div>
       </div>
+      {isOpen && <QRCheckInModal isOpen={isOpen} toggle={toggle} name={name} univ={univ} />}
     </div>
   );
 };
