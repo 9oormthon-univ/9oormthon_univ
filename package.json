@@ -25,6 +25,7 @@
     "react-cookie": "^7.2.2",
     "react-dom": "^18.3.1",
     "react-player": "^2.16.0",
+    "react-qr-code": "^2.0.18",
     "react-router-dom": "^6.26.0",
     "react-scroll-percentage": "^4.3.2",
     "reactstrap": "8.10.1",

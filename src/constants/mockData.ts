@@ -1080,9 +1080,9 @@ export const mockAppliesByPhase: Record<number, Applies[]> = {
 // Mock 사용자 정보 데이터
 export const mockUserInfo = {
   name: '김다영',
-  email: 'dayoung.kim@example.comasdfasdfasdfasd',
+  email: 'dayoung.kim@example.com',
   univ: '서울대학교',
-  img_url: 'https://via.placeholder.com/150',
+  img_url: 'https://1000logos.net/wp-content/uploads/2017/02/Apple-Logosu.png',
   introduction: `# 안녕하세요! 👋
 
 저는 **프로덕트 매니저**로 활동하고 있으며, 사용자 중심의 서비스를 만드는 것에 열정을 가지고 있습니다.

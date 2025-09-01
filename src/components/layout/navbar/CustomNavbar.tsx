@@ -5,7 +5,6 @@ import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
 import { useIsAbout } from '../../../hooks/useIsAbout';
 import styles from './customNavbar.module.scss';
 import {
-  Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -20,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
 import { Role, UserStatus } from '../../../constants/role';
 import usePeriodStore from '../../../store/usePeriodStore';
+import avatar from '../../../assets/images/avatar.png';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
@@ -186,7 +186,7 @@ function CustomNavbar() {
                 {profileImg ? (
                   <img src={profileImg} alt="profile" className={styles.profileImg} />
                 ) : (
-                  <Avatar name="Admin" />
+                  <img src={avatar} alt="profile" className={styles.profileImg} />
                 )}
               </DropdownToggle>
               <DropdownMenu right>
