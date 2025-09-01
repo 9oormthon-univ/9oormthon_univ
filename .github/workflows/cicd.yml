@@ -33,6 +33,12 @@ jobs:
         run: |
           echo "${{ secrets.ENV }}" | base64 --decode > .env
 
+      # 노드 모듈 삭제
+      - name: Clean install dependencies (npm)
+        run: |
+          rm -rf node_modules package-lock.json
+          npm cache clean --force
+
       # 프로젝트 의존성 설치
       - name: Install Dependencies
         run: |
