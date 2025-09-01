@@ -23,7 +23,7 @@ export const QRCheckInModal = ({ isOpen, toggle, name, univ }: QRCheckInModalPro
         <Text typography="body2" color="text-normal">
           스태프에게 해당 QR을 보여주세요.
         </Text>
-        <QRCode size={256} style={{ height: 'auto', width: '12rem' }} value={qrData} viewBox={`0 0 256 256`} />
+        <QRCode size={256} style={{ height: 'auto', width: '16rem' }} value={qrData} viewBox={`0 0 256 256`} />
       </ModalBody>
       <ModalFooter>
         <Button size="lg" color="secondary" onClick={toggle}>
