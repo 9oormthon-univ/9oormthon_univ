@@ -12,8 +12,8 @@ interface QRCheckInModalProps {
 
 export const QRCheckInModal = ({ isOpen, toggle, name, univ }: QRCheckInModalProps) => {
   console.log('QRCheckInModal props:', { isOpen, name, univ });
-  const qrData = useQRUserInfo(name, univ);
-  console.log('QRCheckInModal qrData:', qrData);
+  const { qrData, isLoading } = useQRUserInfo(name, univ);
+  console.log('QRCheckInModal qrData:', qrData, 'isLoading:', isLoading);
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader>
@@ -25,13 +25,23 @@ export const QRCheckInModal = ({ isOpen, toggle, name, univ }: QRCheckInModalPro
         <Text typography="body2" color="text-normal">
           스태프에게 해당 QR을 보여주세요.
         </Text>
-        <QRCode
-          size={256}
-          style={{ height: 'auto', width: '16rem' }}
-          value={qrData}
-          viewBox={`0 0 256 256`}
-          level="M"
-        />
+        {isLoading ? (
+          <Text typography="body2" color="text-alternative">
+            QR 코드 생성 중...
+          </Text>
+        ) : qrData ? (
+          <QRCode
+            size={256}
+            style={{ height: 'auto', width: '16rem' }}
+            value={qrData}
+            viewBox={`0 0 256 256`}
+            level="M"
+          />
+        ) : (
+          <Text typography="body2" color="text-alternative">
+            QR 코드 생성 실패
+          </Text>
+        )}
       </ModalBody>
       <ModalFooter>
         <Button size="lg" color="secondary" onClick={toggle}>
