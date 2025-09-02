@@ -14,10 +14,7 @@ export const useQRUserInfo = (name: string, univ: string) => {
   const [qrData, setQrData] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  console.log('useQRUserInfo called with:', { name, univ });
-
   useEffect(() => {
-    console.log('useQRUserInfo useEffect triggered');
     const fetchTeamInfo = async () => {
       try {
         if (import.meta.env.DEV) {
@@ -30,22 +27,18 @@ export const useQRUserInfo = (name: string, univ: string) => {
             teamName: encodeURIComponent(teamInfo.data.name ?? ''),
           };
           const jsonData = JSON.stringify(qrPayload);
-          console.log('Setting QR data:', jsonData);
           setQrData(jsonData);
           setIsLoading(false);
         } else {
           const teamInfo = await getTeamInfo(GENERATION);
-          console.log('팀 정보:', teamInfo);
-
           const qrPayload: QRUserInfo = {
             name: encodeURIComponent(name),
             univ: encodeURIComponent(univ),
-            teamId: teamInfo?.number?.toString() ?? 'N/A',
-            teamName: encodeURIComponent(teamInfo?.name ?? '팀 정보 없음'),
+            teamId: teamInfo?.data?.number?.toString() ?? 'N/A',
+            teamName: encodeURIComponent(teamInfo?.data?.name ?? '팀 정보 없음'),
           };
 
           const jsonData = JSON.stringify(qrPayload);
-          console.log('Setting QR data:', jsonData);
           setQrData(jsonData);
           setIsLoading(false);
         }
