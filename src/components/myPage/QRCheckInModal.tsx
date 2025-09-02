@@ -12,6 +12,7 @@ interface QRCheckInModalProps {
 
 export const QRCheckInModal = ({ isOpen, toggle, name, univ }: QRCheckInModalProps) => {
   const qrData = useQRUserInfo(name, univ);
+  console.log(qrData);
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader>
