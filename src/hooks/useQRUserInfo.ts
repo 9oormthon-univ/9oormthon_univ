@@ -12,6 +12,7 @@ interface QRUserInfo {
 
 export const useQRUserInfo = (name: string, univ: string) => {
   const [qrData, setQrData] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   console.log('useQRUserInfo called with:', { name, univ });
 
@@ -31,27 +32,31 @@ export const useQRUserInfo = (name: string, univ: string) => {
           const jsonData = JSON.stringify(qrPayload);
           console.log('Setting QR data:', jsonData);
           setQrData(jsonData);
+          setIsLoading(false);
         } else {
           const teamInfo = await getTeamInfo(GENERATION);
+          console.log('팀 정보:', teamInfo);
 
           const qrPayload: QRUserInfo = {
             name: encodeURIComponent(name),
             univ: encodeURIComponent(univ),
-            teamId: teamInfo.number.toString(),
-            teamName: encodeURIComponent(teamInfo.name),
+            teamId: teamInfo?.number?.toString() ?? 'N/A',
+            teamName: encodeURIComponent(teamInfo?.name ?? '팀 정보 없음'),
           };
 
           const jsonData = JSON.stringify(qrPayload);
           console.log('Setting QR data:', jsonData);
           setQrData(jsonData);
+          setIsLoading(false);
         }
       } catch (err) {
         console.error('QR team info fetch failed', err);
+        setIsLoading(false);
       }
     };
 
     fetchTeamInfo();
   }, [name, univ]);
 
-  return qrData;
+  return { qrData, isLoading };
 };
