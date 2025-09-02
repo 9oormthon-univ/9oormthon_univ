@@ -13,7 +13,10 @@ interface QRUserInfo {
 export const useQRUserInfo = (name: string, univ: string) => {
   const [qrData, setQrData] = useState<string>('');
 
+  console.log('useQRUserInfo called with:', { name, univ });
+
   useEffect(() => {
+    console.log('useQRUserInfo useEffect triggered');
     const fetchTeamInfo = async () => {
       try {
         if (import.meta.env.DEV) {
@@ -25,7 +28,9 @@ export const useQRUserInfo = (name: string, univ: string) => {
             teamId: teamInfo.data.number?.toString() ?? '',
             teamName: encodeURIComponent(teamInfo.data.name ?? ''),
           };
-          setQrData(JSON.stringify(qrPayload));
+          const jsonData = JSON.stringify(qrPayload);
+          console.log('Setting QR data:', jsonData);
+          setQrData(jsonData);
         } else {
           const teamInfo = await getTeamInfo(GENERATION);
 
@@ -36,12 +41,12 @@ export const useQRUserInfo = (name: string, univ: string) => {
             teamName: encodeURIComponent(teamInfo.name),
           };
 
-          setQrData(JSON.stringify(qrPayload));
+          const jsonData = JSON.stringify(qrPayload);
+          console.log('Setting QR data:', jsonData);
+          setQrData(jsonData);
         }
       } catch (err) {
-        if (import.meta.env.DEV) {
-          console.error('QR team info fetch failed', err);
-        }
+        console.error('QR team info fetch failed', err);
       }
     };
 
