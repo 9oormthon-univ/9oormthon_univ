@@ -20,20 +20,20 @@ export const useQRUserInfo = (name: string, univ: string) => {
           const teamInfo = await getMockTeamInfo();
 
           const qrPayload: QRUserInfo = {
-            name,
-            univ,
+            name: encodeURIComponent(name),
+            univ: encodeURIComponent(univ),
             teamId: teamInfo.data.number?.toString() ?? '',
-            teamName: teamInfo.data.name ?? '',
+            teamName: encodeURIComponent(teamInfo.data.name ?? ''),
           };
           setQrData(JSON.stringify(qrPayload));
         } else {
           const teamInfo = await getTeamInfo(GENERATION);
 
           const qrPayload: QRUserInfo = {
-            name,
-            univ,
+            name: encodeURIComponent(name),
+            univ: encodeURIComponent(univ),
             teamId: teamInfo.number.toString(),
-            teamName: teamInfo.name,
+            teamName: encodeURIComponent(teamInfo.name),
           };
 
           setQrData(JSON.stringify(qrPayload));
