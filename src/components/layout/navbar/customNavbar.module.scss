@@ -85,12 +85,6 @@
 }
 
 .dropdownToggle {
-  @include container-xs {
-    padding: 0.5625rem 1rem !important;
-  }
-  @include container-lg {
-    padding: 0 0.5rem !important;
-  }
   border: none !important;
 
   font-size: 0.875rem;
@@ -99,6 +93,13 @@
   height: var(--dimension-400) !important;
   font-weight: 500;
   background: none;
+
+  @include container-xs {
+    padding: 0.5625rem 1rem !important;
+  }
+  @include container-lg {
+    padding: 0 0.5rem !important;
+  }
 
   &:hover {
     background: var(--gray-400-transparent-16);

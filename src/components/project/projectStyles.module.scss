@@ -2,6 +2,7 @@
 
 .cardContainer {
   height: 19.375rem;
+  cursor: pointer;
 
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -9,7 +10,6 @@
   &:hover {
     transform: translateY(-30px);
   }
-  cursor: pointer;
 }
 
 .cardImg {
