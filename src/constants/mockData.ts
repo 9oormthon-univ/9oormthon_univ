@@ -3,14 +3,16 @@ import { TeamInfo, Applies, ApplyStatus, TeamMember } from '../types/user/team';
 import { LinkType } from '../constants/linkType';
 
 // Mock 주제 데이터
-export const mockTopics = [
-  { id: 0, name: '전체 주제' },
-  { id: 1, name: 'AI/머신러닝' },
-  { id: 2, name: '웹 개발' },
-  { id: 3, name: '모바일 개발' },
-  { id: 4, name: '게임' },
-  { id: 5, name: '데이터 분석' },
-];
+export const mockTopics = {
+  idea_subjects: [
+    { id: 0, name: '전체 주제' },
+    { id: 1, name: 'AI/머신러닝' },
+    { id: 2, name: '웹 개발' },
+    { id: 3, name: '모바일 개발' },
+    { id: 4, name: '게임' },
+    { id: 5, name: '데이터 분석' },
+  ],
+};
 
 // Mock 아이디어 데이터
 export const mockIdeas: Ideas[] = [

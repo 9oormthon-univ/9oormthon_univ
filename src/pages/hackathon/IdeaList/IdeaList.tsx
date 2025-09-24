@@ -3,7 +3,7 @@ import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
 import { useEffect, useState } from 'react';
-import { fetchIdeas, fetchIdeaSubjects, addIdeaBookmark } from '../../../api/idea';
+import { fetchIdeas, addIdeaBookmark } from '../../../api/idea';
 import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/ActiveFilterDropdown';
 import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -16,8 +16,9 @@ import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
 import IdeaListSkeleton from '../../../components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
 import { Ideas, PageInfo } from '../../../types/user/idea';
-import { mockTopics, mockIdeas } from '../../../constants/mockData';
+import { mockIdeas } from '../../../constants/mockData';
 import { filterMockIdeas, updateMockIdeaBookmark } from '../../../utilities/mockUtils';
+import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE' | 'APPLICANT_REJECTED'> | 'ADMIN', string> = {
@@ -44,7 +45,6 @@ export default function IdeaList() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // 주제 가져오기
-  const [hackathonTopics, setHackathonTopics] = useState<{ id: number; name: string }[]>([]);
   const [ideaList, setIdeaList] = useState<{ ideas: Ideas[]; page_info: PageInfo }>({
     ideas: [],
     page_info: { current_page: 1, page_size: 1, total_pages: 1, total_items: 1 },
@@ -115,30 +115,7 @@ export default function IdeaList() {
   }, []);
 
   // 주제 가져오는 api (팀빌딩 기간일 때만)
-  useEffect(() => {
-    if (isTeamBuilding) {
-      const loadTopics = async () => {
-        try {
-          if (import.meta.env.DEV) {
-            // 개발 환경에서는 mock 데이터 사용
-            setHackathonTopics(mockTopics);
-          } else {
-            const response = await fetchIdeaSubjects(GENERATION);
-            const activeTopics = response.data.idea_subjects.map((topic: { id: number; name: string }) => ({
-              id: topic.id,
-              name: topic.name,
-            }));
-            setHackathonTopics([{ id: 0, name: '전체 주제' }, ...activeTopics]); // "전체" 옵션 추가
-          }
-        } catch (error: any) {
-          if (import.meta.env.DEV) {
-            console.log(error);
-          }
-        }
-      };
-      loadTopics();
-    }
-  }, [isTeamBuilding, current_period]);
+  const { data: topics, isLoading: isTopicsLoading } = useIdeaSubjects(true, isTeamBuilding);
 
   // 아이디어 가져오는 api
   useEffect(() => {
@@ -389,10 +366,10 @@ export default function IdeaList() {
           <div className={styles.searchContainer}>
             <div className={styles.dropdownWrap}>
               <SubjectFilterDropdown
-                options={hackathonTopics.map((topic) => ({ id: topic.id, name: topic.name }))}
+                options={topics || []}
                 selectedValue={selectedTopic}
                 onChange={handleTopicChange}
-                disabled={!isTeamBuilding}
+                disabled={!isTeamBuilding || isTopicsLoading}
               />
               <ActiveFilterDropdown
                 options={statusOptions}

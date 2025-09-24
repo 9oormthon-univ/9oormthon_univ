@@ -1,6 +1,6 @@
 import { ChevronRightOutlineIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import { Alert, Button, Form, Text } from '@goorm-dev/vapor-components';
+import { Alert, Button, Form, Spinner, Text } from '@goorm-dev/vapor-components';
 import FormDropdown from '../ideaForm/FormDropdown';
 import FormInput from '../ideaForm/FormInput';
 import FormTextarea from '../ideaForm/FormTextarea';
@@ -8,48 +8,23 @@ import FormEditor from '../ideaForm/FormEditor';
 import FormRadio from '../ideaForm/FormRadio';
 import { useEffect, useState } from 'react';
 import BackLinkNavigation from '../common/BackLinkNavigation';
-import { fetchIdeaSubjects } from '../../../api/idea';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import { PositionKey } from '../../../constants/position';
-import { GENERATION } from '../../../constants/common';
-import { mockTopics } from '../../../constants/mockData';
+import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
 interface TeamPreferenceStep1Props {
   formData: any;
   nextStep: () => void;
 }
 
 export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferenceStep1Props) {
-  const [topics, setTopics] = useState<{ id: number; name: string }[]>([]);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const { updateIdeaInfo } = useIdeaFormStore();
+  // 주제 조회
+  const { data: topics, isLoading: isTopicsLoading } = useIdeaSubjects();
 
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  // 아이디어 주제 조회
-  useEffect(() => {
-    const loadTopics = async () => {
-      try {
-        if (import.meta.env.DEV) {
-          setTopics(mockTopics);
-          return;
-        }
-        const response = await fetchIdeaSubjects(GENERATION);
-        const activeTopics = response.data.idea_subjects.map((topic: { id: number; name: string }) => ({
-          id: topic.id,
-          name: topic.name,
-        }));
-        setTopics(activeTopics);
-      } catch (error: any) {
-        if (import.meta.env.DEV) {
-          console.log(error);
-        }
-      }
-    };
-
-    loadTopics();
   }, []);
 
   // 파트 선택시 제한 인원 체크
@@ -83,7 +58,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
     return Object.values(formStatus).every((value) => value === true);
   };
 
-  const selectedTopic = topics.find((topic) => topic.id === formData.idea_info.idea_subject_id);
+  const selectedTopic = topics?.find((topic: { id: number }) => topic.id === formData.idea_info.idea_subject_id);
 
   return (
     <div className={styles.container}>
@@ -93,14 +68,19 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
       </Text>
       <Form style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-500)' }}>
         <div className={styles.formWrap}>
-          <FormDropdown
-            label="어떤 주제에 해당 되나요?"
-            nullable={false}
-            selectedValue={selectedTopic?.name || ''}
-            placeholder="주제를 선택해주세요"
-            options={topics}
-            onChange={(e) => updateIdeaInfo('idea_subject_id', parseInt(e.target.value))}
-          />
+          {isTopicsLoading ? (
+            <Spinner />
+          ) : (
+            <FormDropdown
+              label="어떤 주제에 해당 되나요?"
+              nullable={false}
+              selectedValue={selectedTopic?.name || ''}
+              placeholder="주제를 선택해주세요"
+              options={topics || []}
+              onChange={(e) => updateIdeaInfo('idea_subject_id', parseInt(e.target.value))}
+            />
+          )}
+
           <FormInput
             label="아이디어 제목"
             nullable={false}

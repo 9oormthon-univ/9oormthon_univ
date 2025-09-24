@@ -2206,6 +2206,30 @@
     "@svgr/hast-util-to-babel-ast" "8.0.0"
     svg-parser "^2.0.4"
 
+"@tanstack/query-core@5.90.1":
+  version "5.90.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.90.1.tgz#53c2e1a59ca2607d2ae0c6403cd13de04c1f161a"
+  integrity sha512-hmi8i+mWP3QnD8yq3+6LWri9IEZAlFbpbM/UVB+TJtp5RIxUfzuARqyW39b+HCfBKKnFKSHWMXNB5YN8lo/E/Q==
+
+"@tanstack/query-devtools@5.90.1":
+  version "5.90.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.90.1.tgz#c57a739a5293f4960a4a6b6fb4b7e4a56e6bd932"
+  integrity sha512-GtINOPjPUH0OegJExZ70UahT9ykmAhmtNVcmtdnOZbxLwT7R5OmRztR5Ahe3/Cu7LArEmR6/588tAycuaWb1xQ==
+
+"@tanstack/react-query-devtools@^5.90.1":
+  version "5.90.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.90.1.tgz#a6f6e717bd534298528d0c85aa569a1866b4936a"
+  integrity sha512-otOjczcUft13RZlWi8JHIWei1MLuRf0AK+hyEEAm0/IqKUbs/0ZXj0wlc+P1XdE0nYcOMuHK69496FvP/9g3LQ==
+  dependencies:
+    "@tanstack/query-devtools" "5.90.1"
+
+"@tanstack/react-query@^5.90.1":
+  version "5.90.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.90.1.tgz#46f90bafd0b98fa5e2f3212722c2e8dc171ee93d"
+  integrity sha512-tN7Fx2HuV2SBhl+STgL8enbfSInRoNU1B1+5LIU62klcMElE4lFzol4aReuRSUeD6ntzPayK0KrM6w9+ZlHEkw==
+  dependencies:
+    "@tanstack/query-core" "5.90.1"
+
 "@types/babel__core@^7.20.5":
   version "7.20.5"
   resolved "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.20.5.tgz"

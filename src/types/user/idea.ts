@@ -1,5 +1,11 @@
 import { PositionKey } from '../../constants/position';
 
+// 아이디어 주제 조회
+export interface IdeaSubject {
+  id: number;
+  name: string;
+}
+
 // 아이디어 요약 조회
 export interface Ideas {
   id: number;
