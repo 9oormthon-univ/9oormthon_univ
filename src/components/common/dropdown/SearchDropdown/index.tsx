@@ -1,3 +1,5 @@
+// src/components/common/dropdown/SearchDropdown/index.tsx
+
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text } from '@goorm-dev/vapor-components';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import styles from './searchDropdown.module.scss';

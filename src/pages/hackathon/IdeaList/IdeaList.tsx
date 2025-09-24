@@ -4,10 +4,7 @@ import styles from './styles.module.scss';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
 import { useEffect, useState } from 'react';
 import { fetchIdeas, addIdeaBookmark } from '../../../api/idea';
-import ActiveFilterDropdown from '../../../components/hackathon/ideaList/filter/ActiveFilterDropdown';
-import SubjectFilterDropdown from '../../../components/hackathon/ideaList/filter/SubjectFilterDropdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import BookmarkedFilterDropdown from '../../../components/hackathon/ideaList/filter/BookmarkedFilterDropdown';
 import { EditIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import usePeriodStore from '../../../store/usePeriodStore';
 import { UserStatus, Role } from '../../../constants/role';
@@ -19,6 +16,7 @@ import { Ideas, PageInfo } from '../../../types/user/idea';
 import { mockIdeas } from '../../../constants/mockData';
 import { filterMockIdeas, updateMockIdeaBookmark } from '../../../utilities/mockUtils';
 import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
+import FilterDropdown from '@/components/common/dropdown/FilterDropdown';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE' | 'APPLICANT_REJECTED'> | 'ADMIN', string> = {
@@ -177,41 +175,34 @@ export default function IdeaList() {
   };
 
   // 필터 변경 핸들러들
-  const handleTopicChange = (value: number) => {
-    if (value === 0) {
-      searchParams.delete('topic');
+  const updateSearchParam = (key: string, value: string | undefined) => {
+    if (value === undefined || value === '0') {
+      searchParams.delete(key);
     } else {
-      searchParams.set('topic', String(value));
+      searchParams.set(key, value);
     }
-    searchParams.set('page', '1');
     setSearchParams(searchParams);
   };
 
-  const handleStatusChange = (value: boolean | undefined) => {
-    if (value === undefined) {
-      searchParams.delete('status');
-    } else {
-      searchParams.set('status', String(value));
-    }
-    searchParams.set('page', '1');
-    setSearchParams(searchParams);
+  const handleTopicChange = (value: number | boolean | undefined) => {
+    const topicValue = typeof value === 'number' ? value : undefined;
+    updateSearchParam('topic', topicValue !== undefined ? String(topicValue) : undefined);
   };
 
-  const handleBookmarkChange = (value: boolean | undefined) => {
-    if (value === undefined) {
-      searchParams.delete('bookmark');
-    } else {
-      searchParams.set('bookmark', String(value));
-    }
-    searchParams.set('page', '1');
-    setSearchParams(searchParams);
+  const handleStatusChange = (value: number | boolean | undefined) => {
+    const boolValue = typeof value === 'boolean' ? value : undefined;
+    updateSearchParam('status', boolValue !== undefined ? String(boolValue) : undefined);
+  };
+
+  const handleBookmarkChange = (value: number | boolean | undefined) => {
+    const boolValue = typeof value === 'boolean' ? value : undefined;
+    updateSearchParam('bookmark', boolValue !== undefined ? String(boolValue) : undefined);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
     searchParams.set('query', query);
-    searchParams.set('page', '1');
     setSearchParams(searchParams);
   };
 
@@ -365,19 +356,19 @@ export default function IdeaList() {
           </div>
           <div className={styles.searchContainer}>
             <div className={styles.dropdownWrap}>
-              <SubjectFilterDropdown
-                options={topics || []}
+              <FilterDropdown
+                options={topics?.map((topic) => ({ label: topic.name, value: topic.id })) || []}
                 selectedValue={selectedTopic}
                 onChange={handleTopicChange}
                 disabled={!isTeamBuilding || isTopicsLoading}
               />
-              <ActiveFilterDropdown
+              <FilterDropdown
                 options={statusOptions}
                 selectedValue={selectedStatus}
                 onChange={handleStatusChange}
                 disabled={!isTeamBuilding}
               />
-              <BookmarkedFilterDropdown
+              <FilterDropdown
                 options={bookmarkOptions}
                 selectedValue={selectedBookmark}
                 onChange={handleBookmarkChange}

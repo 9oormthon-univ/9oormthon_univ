@@ -1,6 +1,6 @@
 import FormField from '../../../common/formField/FormField';
 import { Input } from '@goorm-dev/vapor-components';
-import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
+import SearchDropdown from '../../../common/dropdown/SearchDropdown';
 import styles from './form.module.scss';
 import type { UnivFormPayload } from '../../../../types/admin/univ';
 import { fetchUserListAPI } from '../../../../api/admin/users';

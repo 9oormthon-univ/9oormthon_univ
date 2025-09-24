@@ -1,31 +1,26 @@
+// src/components/common/dropdown/FilterDropdown/index.tsx
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Text } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
-import styles from './styles.module.scss';
+import styles from './style.module.scss';
 
-interface BookmarkedFilterDropdownProps {
-  options: { label: string; value: boolean | undefined }[];
-  selectedValue: boolean | undefined;
-  onChange: (value: boolean | undefined) => void;
+interface FilterDropdownProps {
+  options: { label: string; value: number | boolean | undefined }[];
+  selectedValue: number | boolean | undefined;
+  onChange: (value: number | boolean | undefined) => void;
   disabled?: boolean;
 }
 
-export default function BookmarkedFilterDropdown({
-  options,
-  selectedValue,
-  onChange,
-  disabled = false,
-}: BookmarkedFilterDropdownProps) {
+export default function FilterDropdown({ options, selectedValue, onChange, disabled = false }: FilterDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => !disabled && setIsOpen(!isOpen);
 
-  // 현재 선택된 옵션 표시
-  const selectedOptionName = options.find((option) => option.value === selectedValue)?.label || '전체';
+  const selectedLabel = options.find((option) => option.value === selectedValue)?.label;
 
   return (
     <Dropdown direction="down" size="lg" isOpen={isOpen} toggle={toggle} disabled={disabled}>
       <DropdownToggle caret color="select" className={styles.dropdown} disabled={disabled}>
         <Text typography="body2" fontWeight="medium" className={styles.textSelect}>
-          {selectedOptionName}
+          {selectedLabel}
         </Text>
       </DropdownToggle>
       <DropdownMenu>

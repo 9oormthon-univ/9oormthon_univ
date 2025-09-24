@@ -3,7 +3,7 @@ import FormField from '../../../common/formField/FormField';
 import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
 import { useState, useEffect, useRef } from 'react';
-import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
+import SearchDropdown from '../../../common/dropdown/SearchDropdown';
 import { Team, TeamBuildingStatus, TeamUpdateForm } from '../../../../types/admin/team';
 import { User } from '../../../../types/admin/member';
 import { fetchUserListAPI } from '../../../../api/admin/users';

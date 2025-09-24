@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { addTeamMemberAPI } from '../../../../api/admin/teams';
 import { useParams } from 'react-router-dom';
 import { PositionKey, POSITIONS } from '../../../../constants/position';
-import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
+import SearchDropdown from '../../../common/dropdown/SearchDropdown';
 import { fetchUserListAPI } from '../../../../api/admin/users';
 import { GENERATION } from '../../../../constants/common';
 import { User } from '../../../../types/admin/member';

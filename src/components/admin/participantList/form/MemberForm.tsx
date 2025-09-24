@@ -10,7 +10,7 @@ import { Univ } from '../../../../types/admin/univ';
 import { fetchUnivListAPI } from '../../../../api/admin/univs';
 import { GENERATION } from '../../../../constants/common';
 import { UserForm } from '../../../../types/admin/member';
-import SearchDropdown from '../../../common/searchDropdown/SearchDropdown';
+import SearchDropdown from '../../../common/dropdown/SearchDropdown';
 
 interface MemberFormProps {
   showProfileEdit?: boolean;
