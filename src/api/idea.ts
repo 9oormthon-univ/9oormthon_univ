@@ -1,23 +1,9 @@
 import instance from './instance';
 import { PositionKey } from '../constants/position';
+import { IdeaCreateEdit } from '@/types/user/idea';
 
 // 아이디어 생성 API
-export const createIdeaAPI = async (idea: {
-  idea_info: {
-    idea_subject_id: number;
-    title: string;
-    summary: string;
-    content: string;
-    generation: number;
-    provider_role: PositionKey | null;
-  };
-  requirements: {
-    pm?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-    pd?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-    fe?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-    be?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-  };
-}) => {
+export const createIdeaAPI = async (idea: IdeaCreateEdit) => {
   await instance.post('/api/v1/users/ideas', idea);
 };
 
@@ -34,25 +20,7 @@ export const fetchIdeaDetailById = async (idea_id: string) => {
 };
 
 // 3.13 아이디어 수정 API
-export const updateIdeaAPI = async (
-  idea: {
-    idea_info: {
-      idea_subject_id: number;
-      title: string;
-      summary: string;
-      content: string;
-      generation: number;
-      provider_role: PositionKey | null;
-    };
-    requirements: {
-      pm?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-      pd?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-      fe?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-      be?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-    };
-  },
-  idea_id: number,
-) => {
+export const updateIdeaAPI = async (idea: IdeaCreateEdit, idea_id: number) => {
   await instance.put(`/api/v1/users/ideas/${idea_id}`, idea);
 };
 
