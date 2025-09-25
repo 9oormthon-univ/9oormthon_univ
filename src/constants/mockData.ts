@@ -1049,26 +1049,42 @@ export const mockApplies: Applies[] = [
   },
 ];
 
+// 기간 불러올 때 데이터
+export const mockPeriodData = {
+  idea_submission_period: '2025.09.15 ~ 2025.09.16',
+  phase1_period: '2025.09.16 ~ 2025.09.17',
+  phase1_team_building_period: '2025.09.16 ~ 2025.09.17',
+  phase1_confirmation_period: '2025.09.18 ~ 2025.09.19',
+  phase2_period: '2025.03.16 ~ 2025.09.25',
+  phase2_team_building_period: '2025.09.26 ~ 2025.09.30',
+  phase2_confirmation_period: '2025.09.31 ~ 2025.10.04',
+  phase3_period: '2025.04.01 ~ 2025.09.10',
+  phase3_team_building_period: '2025.04.01 ~ 2025.09.10',
+  phase3_confirmation_period: '2025.09.11 ~ 2025.09.15',
+  hackathon_period: '2025.09.16 ~ 2025.09.18',
+  current_period: 'PHASE1_TEAM_BUILDING' as const,
+};
+
 // Mock 기간 정보 데이터
 export const mockPeriod = {
   current_period: 'PHASE1_TEAM_BUILDING' as const,
   current_phase: 1,
-  idea_submission_start: new Date('2024-02-15T00:00:00Z'),
-  idea_submission_end: new Date('2024-02-29T23:59:59Z'),
-  phase1_team_building_start: new Date('2024-03-01T00:00:00Z'),
-  phase1_team_building_end: new Date('2024-03-10T23:59:59Z'),
-  phase1_confirmation_start: new Date('2024-03-11T00:00:00Z'),
-  phase1_confirmation_end: new Date('2024-03-15T23:59:59Z'),
-  phase2_team_building_start: new Date('2024-03-16T00:00:00Z'),
-  phase2_team_building_end: new Date('2024-03-25T23:59:59Z'),
-  phase2_confirmation_start: new Date('2024-03-26T00:00:00Z'),
-  phase2_confirmation_end: new Date('2024-03-30T23:59:59Z'),
-  phase3_team_building_start: new Date('2024-04-01T00:00:00Z'),
-  phase3_team_building_end: new Date('2024-04-10T23:59:59Z'),
-  phase3_confirmation_start: new Date('2024-04-11T00:00:00Z'),
-  phase3_confirmation_end: new Date('2024-04-15T23:59:59Z'),
-  hackathon_start: new Date('2024-04-16T00:00:00Z'),
-  hackathon_end: new Date('2024-04-18T23:59:59Z'),
+  idea_submission_start: new Date('2025-09-15T00:00:00Z'),
+  idea_submission_end: new Date('2025-09-16T23:59:59Z'),
+  phase1_team_building_start: new Date('2025-09-16T00:00:00Z'),
+  phase1_team_building_end: new Date('2025-09-17T23:59:59Z'),
+  phase1_confirmation_start: new Date('2025-09-18T00:00:00Z'),
+  phase1_confirmation_end: new Date('2025-09-19T23:59:59Z'),
+  phase2_team_building_start: new Date('2025-03-16T00:00:00Z'),
+  phase2_team_building_end: new Date('2025-09-25T23:59:59Z'),
+  phase2_confirmation_start: new Date('2025-09-26T00:00:00Z'),
+  phase2_confirmation_end: new Date('2025-09-30T23:59:59Z'),
+  phase3_team_building_start: new Date('2025-04-01T00:00:00Z'),
+  phase3_team_building_end: new Date('2025-09-10T23:59:59Z'),
+  phase3_confirmation_start: new Date('2025-09-11T00:00:00Z'),
+  phase3_confirmation_end: new Date('2025-09-15T23:59:59Z'),
+  hackathon_start: new Date('2025-09-16T00:00:00Z'),
+  hackathon_end: new Date('2025-09-18T23:59:59Z'),
 };
 
 // 각 차수별 지원 현황 데이터

@@ -5,7 +5,6 @@ import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaLi
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { EditIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
-import usePeriodStore from '../../../store/usePeriodStore';
 import { UserStatus, Role } from '../../../constants/role';
 import useAuthStore from '../../../store/useAuthStore';
 import { GENERATION } from '../../../constants/common';
@@ -16,6 +15,7 @@ import FilterDropdown from '@/components/common/dropdown/FilterDropdown';
 import { useIdeas } from '@/hooks/queries/useIdea';
 import { useBookmarkToggle } from '@/hooks/mutations/useBookmarkToggle';
 import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
+import { usePeriod } from '@/hooks/queries/system/usePeriod';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE' | 'APPLICANT_REJECTED'> | 'ADMIN', string> = {
@@ -42,41 +42,8 @@ const PROJECT_PER_PAGE = 8;
 export default function IdeaList() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
-
-  // 페이지 이동 시 스크롤 초기화
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const {
-    current_period,
-    idea_submission_period,
-    phase1_team_building_period,
-    phase1_confirmation_period,
-    phase2_team_building_period,
-    phase2_confirmation_period,
-    phase3_team_building_period,
-    phase3_confirmation_period,
-    hackathon_period,
-    isLoading,
-  } = usePeriodStore(); // 기간 정보
-  const { status, role } = useAuthStore();
-
-  // 기간 정보 문구
-  const PHASE_INFO = {
-    IDEA_SUBMISSION: `지금은 아이디어 제출 기간입니다. (${idea_submission_period})`,
-    PHASE1_TEAM_BUILDING: `지금은 1차 팀빌딩 지원 기간입니다. (${phase1_team_building_period})`,
-    PHASE1_CONFIRMATION: `지금은 1차 팀빌딩 합불 결정 기간입니다. (${phase1_confirmation_period})`,
-    PHASE2_TEAM_BUILDING: `지금은 2차 팀빌딩 지원 기간입니다. (${phase2_team_building_period})`,
-    PHASE2_CONFIRMATION: `지금은 2차 팀빌딩 합불 결정 기간입니다. (${phase2_confirmation_period})`,
-    PHASE3_TEAM_BUILDING: `지금은 3차 팀빌딩 지원 기간입니다. (${phase3_team_building_period})`,
-    PHASE3_CONFIRMATION: `지금은 3차 팀빌딩 합불 결정 기간입니다. (${phase3_confirmation_period})`,
-    HACKATHON: `팀 빌딩 기간이 종료되었습니다. (${hackathon_period})`,
-    NONE: '해커톤 또는 팀 빌딩 기간이 아닙니다.',
-  };
 
   // 필터링
   const selectedTopic = Number(searchParams.get('topic')) || 0;
@@ -87,20 +54,11 @@ export default function IdeaList() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || undefined);
   const debouncedSearchQuery = useDebounce(searchQuery || '', 500);
 
-  // 팀빌딩 기간인지
-  // 개발 환경에서는 항상 팀빌딩 기간으로 설정
-  const isTeamBuilding = import.meta.env.DEV
-    ? true
-    : current_period === 'PHASE1_TEAM_BUILDING' ||
-      current_period === 'PHASE2_TEAM_BUILDING' ||
-      current_period === 'PHASE3_TEAM_BUILDING' ||
-      current_period === 'PHASE1_CONFIRMATION' ||
-      current_period === 'PHASE2_CONFIRMATION' ||
-      current_period === 'PHASE3_CONFIRMATION' ||
-      current_period === 'HACKATHON';
+  // 기간 정보
+  const { periodData, isAccessibility, PHASE_INFO, isLoading } = usePeriod();
 
   // 주제 가져오는 api (팀빌딩 기간일 때만)
-  const { data: topics, isLoading: isTopicsLoading } = useIdeaSubjects(true, isTeamBuilding);
+  const { data: topics, isLoading: isTopicsLoading } = useIdeaSubjects(true, isAccessibility);
 
   // 아이디어 가져오는 api
   const { data: ideas, isLoading: isIdeasLoading } = useIdeas(
@@ -113,7 +71,15 @@ export default function IdeaList() {
     debouncedSearchQuery,
   );
 
+  // 북마크 토글
   const { mutate: toggleBookmark } = useBookmarkToggle();
+
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const { status, role } = useAuthStore();
 
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {
@@ -211,7 +177,7 @@ export default function IdeaList() {
         {/* 현재 기간이 어떤 기간인지 나타냄 */}
         {!isLoading && (
           <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
-            {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
+            {PHASE_INFO[periodData?.current_period as keyof typeof PHASE_INFO]}
           </Alert>
         )}
         {/* 필터링, 아이디어 등록 버튼 */}
@@ -249,7 +215,11 @@ export default function IdeaList() {
                 size="lg"
                 onClick={handleCreateIdea}
                 className={styles.noneBtn}
-                disabled={import.meta.env.DEV ? false : current_period === 'HACKATHON' || current_period === 'NONE'}>
+                disabled={
+                  import.meta.env.DEV
+                    ? false
+                    : periodData?.current_period === 'HACKATHON' || periodData?.current_period === 'NONE'
+                }>
                 아이디어 등록
               </Button>
             </div>
@@ -264,7 +234,11 @@ export default function IdeaList() {
               size="lg"
               onClick={handleCreateIdea}
               className={styles.mobileAddButton}
-              disabled={import.meta.env.DEV ? false : current_period === 'HACKATHON' || current_period === 'NONE'}>
+              disabled={
+                import.meta.env.DEV
+                  ? false
+                  : periodData?.current_period === 'HACKATHON' || periodData?.current_period === 'NONE'
+              }>
               아이디어 등록
             </Button>
           </div>
@@ -274,19 +248,19 @@ export default function IdeaList() {
                 options={topics?.map((topic) => ({ label: topic.name, value: topic.id })) || []}
                 selectedValue={selectedTopic}
                 onChange={handleTopicChange}
-                disabled={!isTeamBuilding || isTopicsLoading}
+                disabled={!isAccessibility || isTopicsLoading}
               />
               <FilterDropdown
                 options={statusOptions}
                 selectedValue={selectedStatus}
                 onChange={handleStatusChange}
-                disabled={!isTeamBuilding}
+                disabled={!isAccessibility}
               />
               <FilterDropdown
                 options={bookmarkOptions}
                 selectedValue={selectedBookmark}
                 onChange={handleBookmarkChange}
-                disabled={!isTeamBuilding}
+                disabled={!isAccessibility}
               />
             </div>
             <Input
@@ -295,16 +269,16 @@ export default function IdeaList() {
               className={styles.searchInput}
               value={searchQuery}
               onChange={handleSearchChange}
-              disabled={!isTeamBuilding}
+              disabled={!isAccessibility}
             />
           </div>
         </div>
 
         {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
-        {isIdeasLoading ? (
+        {isIdeasLoading || isLoading ? (
           <IdeaListSkeleton />
         ) : (
-          isTeamBuilding &&
+          isAccessibility &&
           (ideas?.ideas.length === 0 ? (
             <NoAccess heading1="아이디어가 없어요 :(" />
           ) : (
@@ -332,7 +306,7 @@ export default function IdeaList() {
             </div>
           ))
         )}
-        {!isTeamBuilding && <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />}
+        {!isAccessibility && <NoAccess heading1="아직 볼 수 없어요 :(" heading2="팀빌딩 기간 시작 후 오픈됩니다." />}
       </div>
     </div>
   );
