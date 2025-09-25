@@ -5,7 +5,6 @@ import { LinkType } from '../constants/linkType';
 // Mock 주제 데이터
 export const mockTopics = {
   idea_subjects: [
-    { id: 0, name: '전체 주제' },
     { id: 1, name: 'AI/머신러닝' },
     { id: 2, name: '웹 개발' },
     { id: 3, name: '모바일 개발' },

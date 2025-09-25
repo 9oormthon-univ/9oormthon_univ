@@ -28,7 +28,7 @@ export const filterMockIdeas = (
 
   // 주제 필터링
   if (topicId !== 0) {
-    const selectedTopicName = mockTopics.find((topic) => topic.id === topicId)?.name;
+    const selectedTopicName = mockTopics.idea_subjects.find((topic) => topic.id === topicId)?.name;
     filteredIdeas = filteredIdeas.filter((idea) => idea.subject === selectedTopicName);
   }
 
@@ -122,7 +122,7 @@ export const getMockTeamInfo = (): Promise<{ data: TeamInfo }> => {
 };
 
 // Mock 지원 현황 조회
-export const getMockIdeaApplyStatus = ( 
+export const getMockIdeaApplyStatus = (
   phase: number,
   sorting?: Sorting,
   sortType?: SortType,

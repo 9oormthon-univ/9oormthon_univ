@@ -3,7 +3,6 @@ import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
 import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
 import { useEffect, useState } from 'react';
-import { fetchIdeas, addIdeaBookmark } from '../../../api/idea';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { EditIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import usePeriodStore from '../../../store/usePeriodStore';
@@ -12,11 +11,11 @@ import useAuthStore from '../../../store/useAuthStore';
 import { GENERATION } from '../../../constants/common';
 import { useDebounce } from '../../../hooks/useDebounce';
 import IdeaListSkeleton from '../../../components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
-import { Ideas, PageInfo } from '../../../types/user/idea';
-import { mockIdeas } from '../../../constants/mockData';
-import { filterMockIdeas, updateMockIdeaBookmark } from '../../../utilities/mockUtils';
-import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
+import { Ideas } from '../../../types/user/idea';
 import FilterDropdown from '@/components/common/dropdown/FilterDropdown';
+import { useIdeas } from '@/hooks/queries/useIdea';
+import { useBookmarkToggle } from '@/hooks/mutations/useBookmarkToggle';
+import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE' | 'APPLICANT_REJECTED'> | 'ADMIN', string> = {
@@ -34,28 +33,23 @@ const statusOptions = [
 
 // 북마크 옵션
 const bookmarkOptions = [
-  { label: '전체 아이디어', value: undefined },
+  { label: '전체 아이디어', value: false },
   { label: '찜한 아이디어', value: true },
 ];
+
+const PROJECT_PER_PAGE = 8;
 
 export default function IdeaList() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // 주제 가져오기
-  const [ideaList, setIdeaList] = useState<{ ideas: Ideas[]; page_info: PageInfo }>({
-    ideas: [],
-    page_info: { current_page: 1, page_size: 1, total_pages: 1, total_items: 1 },
-  });
-  const { ideas, page_info } = ideaList;
-  const [max_idea_number, setMaxIdeaNumber] = useState<number>(0);
-  const [current_idea_number, setCurrentIdeaNumber] = useState<number>(0);
-
-  // 로딩 상태
-  const [ideasLoading, setIdeasLoading] = useState(false); // 아이디어 리스트
-
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
+
+  // 페이지 이동 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const {
     current_period,
@@ -86,11 +80,12 @@ export default function IdeaList() {
 
   // 필터링
   const selectedTopic = Number(searchParams.get('topic')) || 0;
+  const normalizedTopic = selectedTopic === 0 ? undefined : selectedTopic;
   const selectedStatus = searchParams.get('status') !== null ? searchParams.get('status') === 'true' : true;
-  const selectedBookmark = searchParams.get('bookmark') !== null ? searchParams.get('bookmark') === 'true' : undefined;
+  const selectedBookmark = searchParams.get('bookmark') !== null ? searchParams.get('bookmark') === 'true' : false;
   const currentPage = Number(searchParams.get('page')) || 1;
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || '');
-  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || undefined);
+  const debouncedSearchQuery = useDebounce(searchQuery || '', 500);
 
   // 팀빌딩 기간인지
   // 개발 환경에서는 항상 팀빌딩 기간으로 설정
@@ -104,64 +99,21 @@ export default function IdeaList() {
       current_period === 'PHASE3_CONFIRMATION' ||
       current_period === 'HACKATHON';
 
-  // 한 페이지당 보여질 페이지 수
-  const projectsPerPage = 8;
-
-  // 페이지 이동 시 스크롤 초기화
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // 주제 가져오는 api (팀빌딩 기간일 때만)
   const { data: topics, isLoading: isTopicsLoading } = useIdeaSubjects(true, isTeamBuilding);
 
   // 아이디어 가져오는 api
-  useEffect(() => {
-    const loadIdeas = async () => {
-      setIdeasLoading(true);
-      try {
-        if (import.meta.env.DEV) {
-          // 개발 환경에서는 mock 데이터 사용
-          const mockResult = filterMockIdeas(
-            mockIdeas,
-            selectedTopic,
-            selectedStatus,
-            selectedBookmark,
-            debouncedSearchQuery,
-            currentPage,
-            projectsPerPage,
-          );
-          setIdeaList(mockResult);
-          setMaxIdeaNumber(50); // mock 최대 아이디어 수
-          setCurrentIdeaNumber(8); // mock 현재 아이디어 수
-        } else {
-          const subjectId = selectedTopic === 0 ? undefined : selectedTopic;
-          const isActive = selectedStatus === true ? true : selectedStatus === false ? false : undefined;
-          const isBookmarked = selectedBookmark === true ? true : undefined;
+  const { data: ideas, isLoading: isIdeasLoading } = useIdeas(
+    currentPage,
+    PROJECT_PER_PAGE,
+    GENERATION,
+    normalizedTopic,
+    selectedStatus,
+    selectedBookmark,
+    debouncedSearchQuery,
+  );
 
-          const response = await fetchIdeas(
-            currentPage,
-            projectsPerPage,
-            GENERATION,
-            subjectId,
-            isActive,
-            isBookmarked,
-            debouncedSearchQuery,
-          );
-          setIdeaList(response.data);
-          setMaxIdeaNumber(response.data.max_idea_number || 0);
-          setCurrentIdeaNumber(response.data.current_idea_number || 0);
-        }
-      } catch (error: any) {
-        if (import.meta.env.DEV) {
-          console.log(error);
-        }
-      } finally {
-        setIdeasLoading(false);
-      }
-    };
-    loadIdeas();
-  }, [selectedTopic, selectedStatus, currentPage, selectedBookmark, debouncedSearchQuery]);
+  const { mutate: toggleBookmark } = useBookmarkToggle();
 
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {
@@ -192,6 +144,7 @@ export default function IdeaList() {
   const handleStatusChange = (value: number | boolean | undefined) => {
     const boolValue = typeof value === 'boolean' ? value : undefined;
     updateSearchParam('status', boolValue !== undefined ? String(boolValue) : undefined);
+    console.log(boolValue);
   };
 
   const handleBookmarkChange = (value: number | boolean | undefined) => {
@@ -213,50 +166,7 @@ export default function IdeaList() {
 
   // 북마크 토글 이벤트
   const handleBookmarkToggle = async (ideaId: number) => {
-    setIdeaList((prevState: { ideas: Ideas[]; page_info: PageInfo }) => ({
-      ...prevState,
-      ideas: prevState.ideas.map((idea: Ideas) =>
-        idea.id === ideaId ? { ...idea, is_bookmarked: !idea.is_bookmarked } : idea,
-      ),
-    }));
-
-    try {
-      if (import.meta.env.DEV) {
-        updateMockIdeaBookmark(mockIdeas, ideaId);
-
-        toast('북마크 상태가 변경되었습니다.', {
-          type: 'primary',
-        });
-      } else {
-        await addIdeaBookmark(ideaId);
-        toast('북마크 상태가 변경되었습니다.', {
-          type: 'primary',
-        });
-      }
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      if (error.response) {
-        const errorCode = error.response.data.error?.code;
-        if (errorCode === 40013) {
-          toast('본인 아이디어는 북마크 할 수 없습니다.', {
-            type: 'danger',
-          });
-          return;
-        }
-      }
-
-      setIdeaList((prevState: { ideas: Ideas[]; page_info: PageInfo }) => ({
-        ...prevState,
-        ideas: prevState.ideas.map((idea: Ideas) =>
-          idea.id === ideaId ? { ...idea, is_bookmarked: !idea.is_bookmarked } : idea,
-        ),
-      }));
-      toast('북마크 상태 변경에 실패했습니다.', {
-        type: 'danger',
-      });
-    }
+    toggleBookmark(ideaId);
   };
 
   // 아이디어 등록 버튼 클릭 시 예외처리
@@ -273,7 +183,11 @@ export default function IdeaList() {
     }
 
     // 최대 아이디어 개수 초과 시 등록 불가
-    if (max_idea_number - current_idea_number <= 0) {
+    if (
+      ideas?.max_idea_number &&
+      ideas?.current_idea_number &&
+      ideas?.max_idea_number - ideas?.current_idea_number <= 0
+    ) {
       toast('더 이상 아이디어를 등록할 수 없습니다.', { type: 'danger' });
       return;
     }
@@ -307,10 +221,10 @@ export default function IdeaList() {
               <Text typography="heading4" as="h4" color="text-normal">
                 아이디어 리스트
               </Text>
-              {!ideasLoading && (
+              {!isIdeasLoading && ideas && (
                 <div className={styles.ideaNumberContainer}>
                   <Text typography="heading5" as="p" color="text-primary">
-                    {current_idea_number}/{max_idea_number}
+                    {ideas?.current_idea_number}/{ideas?.max_idea_number}
                   </Text>
                   <InfoCircleIcon
                     id="idea-info-icon"
@@ -319,8 +233,8 @@ export default function IdeaList() {
                     onMouseLeave={() => setTooltipOpen(false)}
                   />
                   <Tooltip id="idea-info-icon" placement="top" hideArrow={false} isOpen={tooltipOpen} toggle={toggle}>
-                    {max_idea_number - current_idea_number}개 등록 가능 ({max_idea_number}개 중 현재{' '}
-                    {current_idea_number}개 등록됨)
+                    {ideas?.max_idea_number - ideas?.current_idea_number}개 등록 가능 ({ideas?.max_idea_number}개 중
+                    현재 {ideas?.current_idea_number}개 등록됨)
                   </Tooltip>
                 </div>
               )}
@@ -385,16 +299,17 @@ export default function IdeaList() {
             />
           </div>
         </div>
+
         {/* 팀 빌딩 기간인지에 따라 달라지는 뷰 */}
-        {ideasLoading ? (
+        {isIdeasLoading ? (
           <IdeaListSkeleton />
         ) : (
           isTeamBuilding &&
-          (ideaList.ideas.length === 0 ? (
+          (ideas?.ideas.length === 0 ? (
             <NoAccess heading1="아이디어가 없어요 :(" />
           ) : (
             <div className={styles.ideaListWrap}>
-              {ideas?.map((idea: Ideas) => (
+              {ideas?.ideas.map((idea: Ideas) => (
                 <IdeaListItem
                   key={idea.id}
                   topic={idea.subject}
@@ -408,9 +323,9 @@ export default function IdeaList() {
               ))}
 
               <BasicPagination
-                page={page_info?.current_page}
-                limitCount={projectsPerPage}
-                pageCount={page_info?.total_pages}
+                page={ideas?.page_info?.current_page}
+                limitCount={PROJECT_PER_PAGE}
+                pageCount={ideas?.page_info?.total_pages || 1}
                 onPageChangeHandler={(currentPage: number) => handlePageChange(currentPage)}
                 className={styles.basicPagination}
               />

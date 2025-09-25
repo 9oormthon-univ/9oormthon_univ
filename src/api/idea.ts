@@ -79,10 +79,10 @@ export const fetchIdeas = async (
   });
 
   // undefined인 경우 쿼리 파라미터에 추가하지 않음
-  if (subjectId !== undefined) queryParams.append('subject-id', subjectId.toString());
+  if (subjectId !== undefined) queryParams.append('subject-id', subjectId?.toString() || '');
   if (isActive !== undefined) queryParams.append('is-active', isActive.toString());
   if (isBookmarked !== undefined) queryParams.append('is-bookmarked', isBookmarked.toString());
-  if (search !== undefined) queryParams.append('search', search);
+  if (search) queryParams.append('search', search);
 
   const requestUrl = `/api/v1/users/ideas/overviews?${queryParams.toString()}`;
   const response = await instance.get(requestUrl);
