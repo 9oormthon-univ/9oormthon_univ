@@ -2,15 +2,7 @@ import { create } from 'zustand';
 import { getUserBriefAPI, loginAPI, logoutAPI } from '../api/auth';
 import { Role, UserStatus } from '../constants/role';
 import { toast } from '@goorm-dev/vapor-components';
-
-// Enum 변환 유틸 함수
-const parseEnumValue = <T extends Record<string, string>>(
-  enumObj: T,
-  value: string | null,
-  defaultValue: T[keyof T],
-) => {
-  return Object.values(enumObj).includes(value as T[keyof T]) ? (value as T[keyof T]) : defaultValue;
-};
+import { UserBrief } from '@/types/user/users';
 
 interface AuthStore {
   role: Role;
@@ -21,7 +13,7 @@ interface AuthStore {
   logout: () => Promise<void>;
   resetToGuest: () => void;
   updateProfileImage: (imgUrl: string | null) => void;
-  fetchUserStatus: () => Promise<void>;
+  updateUserFromQuery: (data: UserBrief) => void;
 }
 
 const useAuthStore = create<AuthStore>((set) => ({
@@ -40,8 +32,8 @@ const useAuthStore = create<AuthStore>((set) => ({
       const { role, img_url, status } = response.data;
 
       // Enum 값으로 변환 후 저장
-      const parsedRole = parseEnumValue(Role, role, Role.GUEST);
-      const parsedStatus = parseEnumValue(UserStatus, status, UserStatus.NONE);
+      const parsedRole = Role[role as keyof typeof Role] || Role.GUEST;
+      const parsedStatus = UserStatus[status as keyof typeof UserStatus] || UserStatus.NONE;
 
       if (img_url) {
         localStorage.setItem('img_url', img_url);
@@ -84,7 +76,6 @@ const useAuthStore = create<AuthStore>((set) => ({
         console.log(error);
       }
     }
-
     localStorage.removeItem('img_url');
     localStorage.removeItem('idea_form');
 
@@ -99,26 +90,19 @@ const useAuthStore = create<AuthStore>((set) => ({
     set({ role: Role.GUEST, status: null, img_url: null });
   },
 
-  // 사용자 상태 조회
-  fetchUserStatus: async () => {
-    try {
-      const response = await getUserBriefAPI();
-      const { role, img_url, status } = response.data;
+  // 쿼리에서 사용자 데이터 업데이트
+  updateUserFromQuery: (data: UserBrief) => {
+    const parsedRole = Role[data.role as keyof typeof Role] || Role.GUEST;
+    const parsedStatus = UserStatus[data.status as keyof typeof UserStatus] || UserStatus.NONE;
+    const parsedImgUrl = data.img_url || null;
 
-      const parsedStatus = parseEnumValue(UserStatus, status, UserStatus.NONE);
-      const parsedRole = parseEnumValue(Role, role, Role.GUEST);
-      const parsedImgUrl = img_url || null;
-
+    if (parsedImgUrl) {
       localStorage.setItem('img_url', parsedImgUrl);
-
-      set({ status: parsedStatus, role: parsedRole, img_url: parsedImgUrl, isFetched: true });
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      set({ isFetched: true });
-      throw error;
+    } else {
+      localStorage.removeItem('img_url');
     }
+
+    set({ role: parsedRole, status: parsedStatus, img_url: parsedImgUrl, isFetched: true });
   },
 }));
 

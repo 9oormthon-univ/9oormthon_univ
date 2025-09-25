@@ -10,3 +10,9 @@ export interface UserInfo {
   stacks: string[];
   links: Link[];
 }
+
+export interface UserBrief {
+  role: string;
+  status: string;
+  img_url: string;
+}

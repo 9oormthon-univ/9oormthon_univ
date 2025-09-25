@@ -33,7 +33,6 @@ export const refreshAPI = async () => {
 // 1.5 인증 정보 간단 조회
 export const getUserBriefAPI = async () => {
   const response = await instance.get(`/api/v1/auth/briefs?generation=${GENERATION}`);
-
   return response.data;
 };
 

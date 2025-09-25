@@ -18,7 +18,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
 import { Role, UserStatus } from '../../../constants/role';
-import usePeriodStore from '../../../store/usePeriodStore';
 import avatar from '../../../assets/images/avatar.png';
 
 function CustomNavbar() {
@@ -28,14 +27,13 @@ function CustomNavbar() {
   const isAbout = useIsAbout();
   const navigate = useNavigate();
 
+  // 유저 정보
+  const { role, status } = useAuthStore();
+
   // 개발 환경에서는 로그인 상태로 설정
-  const userRole = useAuthStore((state) => state.role);
-  const isLoggedIn = import.meta.env.DEV ? true : userRole !== Role.GUEST;
+  const isLoggedIn = import.meta.env.DEV ? true : role !== Role.GUEST;
 
   const profileImg = useAuthStore((state) => state.img_url);
-
-  const { fetchPeriodData } = usePeriodStore();
-  const { fetchUserStatus } = useAuthStore();
 
   const NAV_ITEMS = [
     {
@@ -48,22 +46,17 @@ function CustomNavbar() {
     },
   ];
 
+  // 로그아웃
   const handleLogout = () => {
     useAuthStore.getState().logout();
     navigate('/');
-    useAuthStore.getState().resetToGuest();
     window.location.reload();
+    useAuthStore.getState().resetToGuest();
   };
 
   // 팀 빌딩 기간 데이터 업데이트 필요
   const handleClickHackathon = async () => {
-    await fetchPeriodData();
-    // 현재 상태 업데이트
-    await fetchUserStatus();
-
-    const currentStatus = import.meta.env.DEV
-      ? UserStatus.APPLICANT
-      : useAuthStore.getState().status ?? UserStatus.NONE;
+    const currentStatus = import.meta.env.DEV ? UserStatus.APPLICANT : status ?? UserStatus.NONE;
 
     switch (currentStatus) {
       case UserStatus.PROVIDER:
@@ -86,9 +79,6 @@ function CustomNavbar() {
   };
 
   const handleClickMyTeam = async () => {
-    await fetchPeriodData();
-    await fetchUserStatus();
-
     const currentStatus = import.meta.env.DEV ? UserStatus.PROVIDER : useAuthStore.getState().status ?? UserStatus.NONE;
 
     if (currentStatus === UserStatus.PROVIDER || currentStatus === UserStatus.MEMBER) {

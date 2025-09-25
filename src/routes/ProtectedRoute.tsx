@@ -6,8 +6,12 @@ import { Role } from '../constants/role';
 export default function ProtectedRoute({ allowedRoles }: { allowedRoles: string[] }) {
   const { role, isFetched } = useAuthStore();
 
-  if (!isFetched) {
-    return null; // 로딩 중일 때는 아무것도 렌더링하지 않음
+  if (import.meta.env.DEV) {
+    return <Outlet />;
+  } else {
+    if (!isFetched) {
+      return null; // 로딩 중일 때는 아무것도 렌더링하지 않음
+    }
   }
 
   // 개발 환경에서는 모든 유저 접근 가능

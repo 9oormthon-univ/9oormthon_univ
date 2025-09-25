@@ -1,16 +1,16 @@
 import { Alert, BasicPagination, Button, Input, Text, toast, Tooltip } from '@goorm-dev/vapor-components';
-import NoAccess from '../../../components/hackathon/ideaList/noAccess/NoAccess';
+import NoAccess from '@/components/hackathon/ideaList/noAccess/NoAccess';
 import styles from './styles.module.scss';
-import IdeaListItem from '../../../components/hackathon/ideaList/ideaItem/IdeaListItem';
+import IdeaListItem from '@/components/hackathon/ideaList/ideaItem/IdeaListItem';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { EditIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
-import { UserStatus, Role } from '../../../constants/role';
-import useAuthStore from '../../../store/useAuthStore';
-import { GENERATION } from '../../../constants/common';
-import { useDebounce } from '../../../hooks/useDebounce';
-import IdeaListSkeleton from '../../../components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
-import { Ideas } from '../../../types/user/idea';
+import { UserStatus, Role } from '@/constants/role';
+import useAuthStore from '@/store/useAuthStore';
+import { GENERATION } from '@/constants/common';
+import { useDebounce } from '@/hooks/useDebounce';
+import IdeaListSkeleton from '@/components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
+import { Ideas } from '@/types/user/idea';
 import FilterDropdown from '@/components/common/dropdown/FilterDropdown';
 import { useIdeas } from '@/hooks/queries/useIdea';
 import { useBookmarkToggle } from '@/hooks/mutations/useBookmarkToggle';
@@ -57,6 +57,9 @@ export default function IdeaList() {
   // 기간 정보
   const { periodData, isAccessibility, PHASE_INFO, isLoading } = usePeriod();
 
+  // 유저 정보
+  const { status, role } = useAuthStore();
+
   // 주제 가져오는 api (팀빌딩 기간일 때만)
   const { data: topics, isLoading: isTopicsLoading } = useIdeaSubjects(true, isAccessibility);
 
@@ -78,8 +81,6 @@ export default function IdeaList() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const { status, role } = useAuthStore();
 
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {

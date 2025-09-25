@@ -13,6 +13,14 @@ export const mockTopics = {
   ],
 };
 
+// Mock 사용자 정보 데이터
+export const mockUserBriefData = {
+  role: 'USER',
+  status: 'MEMBER',
+  img_url:
+    'https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630',
+};
+
 // Mock 아이디어 데이터
 export const mockIdeas: Ideas[] = [
   {
