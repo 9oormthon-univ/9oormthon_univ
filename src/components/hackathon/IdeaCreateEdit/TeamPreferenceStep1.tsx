@@ -1,8 +1,7 @@
 import { ChevronRightOutlineIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import { Alert, Button, Form, Spinner, Text } from '@goorm-dev/vapor-components';
+import { Alert, Button, Form, Input, Spinner, Text } from '@goorm-dev/vapor-components';
 import FormDropdown from '../ideaForm/FormDropdown';
-import FormInput from '../ideaForm/FormInput';
 import FormTextarea from '../ideaForm/FormTextarea';
 import FormEditor from '../ideaForm/FormEditor';
 import FormRadio from '../ideaForm/FormRadio';
@@ -11,6 +10,7 @@ import BackLinkNavigation from '../common/BackLinkNavigation';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
 import { PositionKey } from '../../../constants/position';
 import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
+import FormField from '@/components/common/formField/FormField';
 interface TeamPreferenceStep1Props {
   formData: any;
   nextStep: () => void;
@@ -71,23 +71,24 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
           {isTopicsLoading ? (
             <Spinner />
           ) : (
-            <FormDropdown
-              label="어떤 주제에 해당 되나요?"
-              nullable={false}
-              selectedValue={selectedTopic?.name || ''}
-              placeholder="주제를 선택해주세요"
-              options={topics || []}
-              onChange={(e) => updateIdeaInfo('idea_subject_id', parseInt(e.target.value))}
-            />
+            <FormField label="어떤 주제에 해당 되나요?" required>
+              <FormDropdown
+                selectedValue={selectedTopic?.name || ''}
+                placeholder="주제를 선택해주세요"
+                options={topics || []}
+                onChange={(e) => updateIdeaInfo('idea_subject_id', parseInt(e.target.value))}
+              />
+            </FormField>
           )}
 
-          <FormInput
-            label="아이디어 제목"
-            nullable={false}
-            placeholder="제목을 입력해주세요"
-            value={formData.idea_info.title}
-            onChange={(e) => updateIdeaInfo('title', e.target.value)}
-          />
+          <FormField label="아이디어 제목" required>
+            <Input
+              size="lg"
+              placeholder="제목을 입력해주세요"
+              value={formData.idea_info.title}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateIdeaInfo('title', e.target.value)}
+            />
+          </FormField>
           <FormTextarea
             label="한 줄 소개"
             nullable={false}

@@ -7,6 +7,7 @@ import FormDropdown from './FormDropdown';
 import StackSelector from './StackSelector';
 import { PositionLowerKey } from '../../../constants/position';
 import { useEffect } from 'react';
+import FormField from '@/components/common/formField/FormField';
 
 interface PositionFormProps {
   position: {
@@ -58,16 +59,16 @@ export default function PositionForm({ position, isDisabled }: PositionFormProps
       <Text as="h6" typography="heading6" color="text-normal" style={{ marginBottom: 'var(--space-200)' }}>
         {`${position.index + 1}. ${position.name}`}
       </Text>
-      <FormDropdown
-        label="필요 인원 (본인 포함)"
-        nullable={false}
-        selectedValue={currentValue?.capacity?.toString() || '0'}
-        placeholder="인원을 선택해주세요"
-        // 직군에 따라 최대 팀원 수 다름
-        options={Array.from({ length: getMaxCapacity(position.key) + 1 }, (_, i) => ({ id: i, name: i.toString() }))}
-        onChange={(e) => handleChange({ capacity: parseInt(e.target.value) })}
-        disabled={isDisabled}
-      />
+      <FormField label="필요 인원 (본인 포함)" required>
+        <FormDropdown
+          selectedValue={currentValue?.capacity?.toString() || '0'}
+          placeholder="인원을 선택해주세요"
+          // 직군에 따라 최대 팀원 수 다름
+          options={Array.from({ length: getMaxCapacity(position.key) + 1 }, (_, i) => ({ id: i, name: i.toString() }))}
+          onChange={(e) => handleChange({ capacity: parseInt(e.target.value) })}
+          disabled={isDisabled}
+        />
+      </FormField>
       <FormTextarea
         label="원하는 팀원상"
         nullable={true}
