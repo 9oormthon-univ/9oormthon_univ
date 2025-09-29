@@ -7,12 +7,13 @@ import Editor from '../../common/input/Editor';
 import RadioGroup from '../../common/input/RadioGroup';
 import { useEffect, useState } from 'react';
 import BackLinkNavigation from '../common/BackLinkNavigation';
-import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
-import { PositionKey } from '../../../constants/position';
+import { useIdeaFormStore } from '@/store/useIdeaFormStore';
+import { PositionKey, PositionLowerKey } from '@/constants/position';
 import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
 import FormField from '@/components/common/formField/FormField';
+import { IdeaCreateEdit } from '@/types/user/idea';
 interface TeamPreferenceStep1Props {
-  formData: any;
+  formData: IdeaCreateEdit;
   nextStep: () => void;
 }
 
@@ -30,13 +31,13 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
   // 파트 선택시 제한 인원 체크
   const handleRoleChange = (role: PositionKey) => {
     if (role === 'PM' || role === 'PD') {
-      if (formData.requirements[role.toLowerCase()]?.capacity === 1) {
+      if (formData.requirements[role.toLowerCase() as PositionLowerKey]?.capacity === 1) {
         // 기획, 디자인은 1명일 경우 선택 불가
         setIsAlertVisible(true);
         return;
       }
     } else if (role === 'FE' || role === 'BE') {
-      if (formData.requirements[role.toLowerCase()]?.capacity === 3) {
+      if (formData.requirements[role.toLowerCase() as PositionLowerKey]?.capacity === 3) {
         // 프, 백도 3명일 경우 선택 불가
         setIsAlertVisible(true);
         return;
@@ -53,7 +54,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
       title: formData.idea_info.title.trim() !== '',
       summary: formData.idea_info.summary.trim() !== '',
       content: formData.idea_info.content.trim() !== '',
-      provider_role: formData.idea_info.provider_role !== '',
+      provider_role: formData.idea_info.provider_role !== null,
     };
     return Object.values(formStatus).every((value) => value === true);
   };
@@ -108,7 +109,7 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
         <div className={styles.radioContainer}>
           <FormField label="본인 파트를 선택해 주세요" required>
             <RadioGroup
-              value={formData.idea_info.provider_role}
+              value={formData.idea_info.provider_role || ''}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRoleChange(e.target.id as PositionKey)}
             />
           </FormField>

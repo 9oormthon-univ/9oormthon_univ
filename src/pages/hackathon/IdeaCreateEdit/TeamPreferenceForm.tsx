@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
-import TeamPreferenceStep1 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep1';
-import TeamPreferenceStep2 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep2';
-import { PositionLowerKey } from '../../../constants/position';
+import { useIdeaFormStore } from '@/store/useIdeaFormStore';
+import TeamPreferenceStep1 from '@/components/hackathon/IdeaCreateEdit/TeamPreferenceStep1';
+import TeamPreferenceStep2 from '@/components/hackathon/IdeaCreateEdit/TeamPreferenceStep2';
+import { PositionLowerKey } from '@/constants/position';
 import { toast } from '@goorm-dev/vapor-components';
 import { useIdeaDetail } from '@/hooks/queries/useIdeaDetail';
 import { useCreateIdeaMutation, useUpdateIdeaMutation } from '@/hooks/mutations/useIdeaMutations';
