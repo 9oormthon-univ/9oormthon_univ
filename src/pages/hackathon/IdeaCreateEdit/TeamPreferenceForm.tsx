@@ -7,6 +7,7 @@ import { PositionLowerKey } from '../../../constants/position';
 import { toast } from '@goorm-dev/vapor-components';
 import { useIdeaDetail } from '@/hooks/queries/useIdeaDetail';
 import { useCreateIdeaMutation, useUpdateIdeaMutation } from '@/hooks/mutations/useIdeaMutations';
+import { useUser } from '@/hooks/queries/useUser';
 
 interface TeamPreferenceFormProps {
   isEditMode: boolean;
@@ -21,6 +22,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { data: ideaDetail, isSuccess } = useIdeaDetail();
+  const { refetch: refetchUser } = useUser();
   const createIdea = useCreateIdeaMutation();
   const updateIdea = useUpdateIdeaMutation();
 
@@ -61,6 +63,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
             toast('아이디어 수정이 완료되었습니다.', {
               type: 'primary',
             });
+            refetchUser();
           },
         },
       );
@@ -72,6 +75,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
           toast('아이디어 생성이 완료되었습니다.', {
             type: 'primary',
           });
+          refetchUser();
         },
       });
     }

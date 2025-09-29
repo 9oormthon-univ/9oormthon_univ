@@ -1,0 +1,73 @@
+// src/components/common/input/Editor/style.module.scss
+
+@use '../../../../style/mixin.scss' as *;
+
+:global(.w-md-editor-toolbar) {
+  height: 2rem !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  background: none !important;
+  padding: 0 var(--space-100) !important;
+
+  svg {
+    color: var(--text-secondary) !important;
+  }
+
+  svg:hover {
+    color: var(--text-normal) !important;
+  }
+}
+
+.editPreviewButton {
+  border-radius: var(--border-radius-300) !important;
+  background-color: var(--secondary-hover) !important;
+  height: var(--dimension-300) !important;
+  padding: 0rem var(--space-100) !important;
+}
+
+:global(.w-md-editor) {
+  border-radius: 0.5rem !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: none !important;
+  background-color: var(--background-normal);
+  background-clip: padding-box;
+}
+
+:global(.w-md-editor-text) {
+  padding: var(--space-100) var(--space-200) !important;
+}
+
+:global(.w-md-editor-toolbar li > button:disabled) {
+  opacity: 0.5 !important;
+}
+.positionFormContainerDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.editorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+
+.uploadBox {
+  display: flex;
+  align-items: center;
+  padding: var(--space-200);
+  gap: var(--space-050);
+  border-radius: var(--space-100);
+  border: 1px solid var(--border-color);
+  background: var(--background-alternative-01);
+  cursor: pointer;
+  @include container-xs {
+    gap: var(--space-100);
+  }
+
+  @include container-sm {
+    gap: var(--space-050);
+  }
+
+  &:hover {
+    background: var(--secondary-hover);
+  }
+}

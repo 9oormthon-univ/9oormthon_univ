@@ -1,8 +1,8 @@
 import styles from './styles.module.scss';
 import { Button, Text } from '@goorm-dev/vapor-components';
 import { ImageIcon, MailIcon, SchoolIcon } from '@goorm-dev/vapor-icons';
-import FormEditor from '../../components/hackathon/ideaForm/FormEditor';
-import StackSelector from '../../components/hackathon/ideaForm/StackSelector';
+import SearchDropdown from '../../components/common/dropdown/SearchDropdown';
+
 import FormLinkInput from '../../components/hackathon/ideaForm/FormLinkInput';
 import notFound from '../../assets/images/notfound.png';
 import { useEffect, useRef, useState } from 'react';
@@ -12,6 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import { LinkType } from '../../constants/linkType';
 import useAuthStore from '../../store/useAuthStore';
 import MyPageSkeleton from '../../components/myPage/skeletonLoading/MyPageSkeleton';
+import { STACKS_WITH_NAMES } from '@/constants/Stacks';
+import FormField from '@/components/common/formField/FormField';
+import Editor from '../../components/common/input/Editor';
 
 export default function MyPageEdit() {
   const [userInfo, setUserInfo] = useState({
@@ -202,24 +205,29 @@ export default function MyPageEdit() {
             <Text as="h6" typography="heading6" color="text-normal">
               세부 정보
             </Text>
-            <FormEditor
-              label="자기소개"
-              nullable
-              value={userInfo.introduction}
-              onChange={handleIntroductionChange}
-              placeholder="자기소개를 입력해주세요."
-            />
+            <FormField label="자기소개" required>
+              <Editor
+                value={userInfo.introduction}
+                onChange={handleIntroductionChange}
+                placeholder="자기소개를 입력해주세요."
+              />
+            </FormField>
             <FormLinkInput
               links={userInfo.links}
               setLinks={updateLinks}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
             />
-            <StackSelector
-              selectedStacks={userInfo.stacks}
-              setSelectedStacks={(val) => setUserInfo({ ...userInfo, stacks: val })}
-              label="기술 스택"
-            />
+            <FormField label="기술 스택">
+              <SearchDropdown
+                multiple
+                items={STACKS_WITH_NAMES.map((stack) => ({ id: stack.id, label: stack.name }))}
+                selectedIds={userInfo.stacks || []}
+                onChange={(val) => setUserInfo({ ...userInfo, stacks: val as string[] })}
+                inPlaceholder="기술 스택을 검색해주세요"
+                outPlaceholder="기술 스택을 선택해주세요"
+              />
+            </FormField>
           </div>
         </div>
         <Button size="xl" onClick={handleSubmit}>

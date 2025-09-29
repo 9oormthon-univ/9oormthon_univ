@@ -2,9 +2,9 @@ import { ChevronRightOutlineIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons'
 import styles from './styles.module.scss';
 import { Alert, Button, Form, Input, Spinner, Text } from '@goorm-dev/vapor-components';
 import FormDropdown from '../ideaForm/FormDropdown';
-import FormTextarea from '../ideaForm/FormTextarea';
-import FormEditor from '../ideaForm/FormEditor';
-import FormRadio from '../ideaForm/FormRadio';
+import TextArea from '../../common/input/TextArea';
+import Editor from '../../common/input/Editor';
+import RadioGroup from '../../common/input/RadioGroup';
 import { useEffect, useState } from 'react';
 import BackLinkNavigation from '../common/BackLinkNavigation';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
@@ -89,28 +89,29 @@ export default function TeamPreferenceStep1({ formData, nextStep }: TeamPreferen
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateIdeaInfo('title', e.target.value)}
             />
           </FormField>
-          <FormTextarea
-            label="한 줄 소개"
-            nullable={false}
-            placeholder="아이디어를 잘 표현할 수 있는 소개 글을 입력해주세요"
-            value={formData.idea_info.summary}
-            onChange={(e) => updateIdeaInfo('summary', e.target.value)}
-          />
-          <FormEditor
-            label="아이디어 설명"
-            nullable={false}
-            placeholder="아이디어에 대해 자유롭게 설명해주세요"
-            value={formData.idea_info.content}
-            onChange={(val) => updateIdeaInfo('content', val)}
-          />
+          <FormField label="한 줄 소개" required>
+            <TextArea
+              placeholder="아이디어를 잘 표현할 수 있는 소개 글을 입력해주세요"
+              value={formData.idea_info.summary}
+              onChange={(e) => updateIdeaInfo('summary', e.target.value)}
+            />
+          </FormField>
+
+          <FormField label="아이디어 설명" required>
+            <Editor
+              placeholder="아이디어에 대해 자유롭게 설명해주세요"
+              value={formData.idea_info.content}
+              onChange={(val) => updateIdeaInfo('content', val)}
+            />
+          </FormField>
         </div>
         <div className={styles.radioContainer}>
-          <FormRadio
-            label="본인 파트를 선택해 주세요"
-            nullable={false}
-            value={formData.idea_info.provider_role}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRoleChange(e.target.id as PositionKey)}
-          />
+          <FormField label="본인 파트를 선택해 주세요" required>
+            <RadioGroup
+              value={formData.idea_info.provider_role}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRoleChange(e.target.id as PositionKey)}
+            />
+          </FormField>
           {isAlertVisible && (
             <Alert color="danger" leftIcon={InfoCircleIcon} fade>
               이미 해당 역할이 최대 인원으로 설정되어 있어 변경할 수 없습니다.

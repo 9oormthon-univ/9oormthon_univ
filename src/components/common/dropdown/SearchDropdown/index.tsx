@@ -1,36 +1,53 @@
 // src/components/common/dropdown/SearchDropdown/index.tsx
 
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text } from '@goorm-dev/vapor-components';
-import { useEffect, useRef, useState, useCallback } from 'react';
-import styles from './searchDropdown.module.scss';
-import { SearchOutlineIcon, ErrorCircleIcon } from '@goorm-dev/vapor-icons';
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Text,
+  UncontrolledBadge,
+} from '@goorm-dev/vapor-components';
+import { ErrorCircleIcon, SearchOutlineIcon } from '@goorm-dev/vapor-icons';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import styles from './style.module.scss';
 
-interface SearchDropdownItem {
-  id: number;
-  description: string;
+export interface SearchSelectItem {
+  id: string | number;
+  label: string;
 }
 
-interface SearchDropdownProps {
+interface BaseProps {
   disabled?: boolean;
   inPlaceholder?: string;
   outPlaceholder?: string;
-  items: SearchDropdownItem[];
-  selectedItem?: SearchDropdownItem | null;
-  onSelect?: (item: SearchDropdownItem) => void;
+  items: SearchSelectItem[];
   onSearch?: (searchTerm: string) => void;
-  generation?: number;
-  univId?: number;
+  className?: string;
 }
 
-export default function SearchDropdown({
-  disabled,
-  inPlaceholder,
-  outPlaceholder,
-  items,
-  selectedItem: controlledSelectedItem,
-  onSelect,
-  onSearch,
-}: SearchDropdownProps) {
+interface SingleSelectProps extends BaseProps {
+  multiple?: false;
+  selectedId?: string | number | null;
+  onChange?: (selectedId: string | number | null) => void;
+}
+
+interface MultipleSelectProps extends BaseProps {
+  multiple: true;
+  selectedIds: Array<string | number>;
+  onChange: (selectedIds: Array<string | number>) => void;
+  maxSelected?: number;
+  renderSelectedMultiple?: (
+    selectedItems: SearchSelectItem[],
+    remove: (id: string | number) => void,
+  ) => React.ReactNode;
+}
+
+type SearchSelectProps = SingleSelectProps | MultipleSelectProps;
+
+const SearchDropdown: React.FC<SearchSelectProps> = (props) => {
+  const { disabled, inPlaceholder, outPlaceholder, items, onSearch, className } = props;
+
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen((prev) => {
@@ -41,24 +58,12 @@ export default function SearchDropdown({
   const inputRef = useRef<HTMLInputElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
-  // 내부적으로 선택된 아이템을 관리 (uncontrolled 지원)
-  const [internalSelectedItem, setInternalSelectedItem] = useState<SearchDropdownItem | null>(null);
-
-  // controlledSelectedItem이 바뀌면 내부 상태도 동기화
-  useEffect(() => {
-    if (controlledSelectedItem !== undefined) {
-      setInternalSelectedItem(controlledSelectedItem);
-    }
-  }, [controlledSelectedItem]);
-
-  // 드롭다운이 열리면 입력 필드로 포커스
   useEffect(() => {
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
     }
   }, [isOpen]);
 
-  // 입력 필드 초기화
   const handleClearInput = () => {
     setSearchTerm('');
     if (inputRef.current) {
@@ -66,7 +71,6 @@ export default function SearchDropdown({
     }
   };
 
-  // 디바운스된 검색 처리
   const debouncedSearch = useCallback(
     (value: string) => {
       if (searchTimeoutRef.current) {
@@ -80,31 +84,12 @@ export default function SearchDropdown({
     [onSearch],
   );
 
-  // 검색어 변경 핸들러
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
     debouncedSearch(value);
   };
 
-  // 검색어에 따른 필터링된 아이템 목록
-  const filteredItems = items.filter((item) => item.description.toLowerCase().includes(searchTerm.toLowerCase()));
-
-  // 아이템 선택 핸들러
-  const handleItemSelect = (item: SearchDropdownItem) => {
-    if (controlledSelectedItem === undefined) {
-      setInternalSelectedItem(item);
-    }
-    onSelect?.(item);
-    setIsOpen(false);
-    toggle();
-    setSearchTerm('');
-  };
-
-  // 실제로 표시할 선택된 아이템
-  const selectedItemToShow = controlledSelectedItem !== undefined ? controlledSelectedItem : internalSelectedItem;
-
-  // 컴포넌트 언마운트 시 타이머 정리
   useEffect(() => {
     return () => {
       if (searchTimeoutRef.current) {
@@ -113,10 +98,86 @@ export default function SearchDropdown({
     };
   }, []);
 
+  const filteredItems = useMemo(() => {
+    return items.filter((item) => item.label.toLowerCase().includes(searchTerm.toLowerCase()));
+  }, [items, searchTerm]);
+
+  const availableItems = useMemo(() => {
+    if (props.multiple) {
+      return filteredItems.filter((item) => !props.selectedIds.includes(item.id));
+    }
+    return props.selectedId == null ? filteredItems : filteredItems.filter((item) => item.id !== props.selectedId);
+  }, [filteredItems, props]);
+
+  const selectedItems = useMemo(() => {
+    if (props.multiple) {
+      return items.filter((i) => props.selectedIds.includes(i.id));
+    } else {
+      return props.selectedId == null ? [] : items.filter((i) => i.id === props.selectedId);
+    }
+  }, [items, props]);
+
+  const handleSelectSingle = (itemId: string | number) => {
+    if (!('multiple' in props) || props.multiple === false) {
+      props.onChange?.(itemId);
+      setIsOpen(false);
+      toggle();
+      setSearchTerm('');
+    }
+  };
+
+  const handleSelectMultiple = (itemId: string | number) => {
+    if (props.multiple) {
+      const already = props.selectedIds.includes(itemId);
+      if (already) {
+        const next = props.selectedIds.filter((id) => id !== itemId);
+        props.onChange(next);
+      } else {
+        if (props.maxSelected !== undefined && props.selectedIds.length >= props.maxSelected) {
+          return;
+        }
+        const next = [...props.selectedIds, itemId];
+        props.onChange(next);
+      }
+      setSearchTerm('');
+    }
+  };
+
+  const removeFromMultiple = (id: string | number) => {
+    if (props.multiple) {
+      props.onChange(props.selectedIds.filter((sid) => sid !== id));
+    }
+  };
+
+  const renderSelectedContent = () => {
+    if (props.multiple) {
+      if (selectedItems.length === 0) {
+        return outPlaceholder;
+      }
+      if (props.renderSelectedMultiple) {
+        return props.renderSelectedMultiple(selectedItems, removeFromMultiple);
+      }
+      return (
+        <div className={styles.selectedItems}>
+          {selectedItems.map((item) => (
+            <UncontrolledBadge
+              key={item.id}
+              size="md"
+              onClick={() => removeFromMultiple(item.id)}
+              className={styles.badge}>
+              {item.label}
+            </UncontrolledBadge>
+          ))}
+        </div>
+      );
+    }
+    return selectedItems[0]?.label ?? outPlaceholder;
+  };
+
   return (
     <Dropdown size="lg" isOpen={isOpen} toggle={toggle} disabled={disabled}>
-      <DropdownToggle caret color="select" className={styles.dropdown}>
-        {selectedItemToShow ? selectedItemToShow.description : outPlaceholder}
+      <DropdownToggle caret color="select" className={`${styles.dropdown} ${className ?? ''}`}>
+        {renderSelectedContent()}
       </DropdownToggle>
       <DropdownMenu className={styles.dropdownMenu}>
         <div className={styles.searchInputContainer}>
@@ -133,12 +194,14 @@ export default function SearchDropdown({
         </div>
 
         <DropdownItem divider />
-        <div className={styles.filterItemMenu}>
-          {filteredItems.length > 0 ? (
-            filteredItems.map((item) => (
-              <DropdownItem key={item.id} onClick={() => handleItemSelect(item)}>
+        <div className={styles.itemMenu}>
+          {availableItems.length > 0 ? (
+            availableItems.map((item) => (
+              <DropdownItem
+                key={item.id}
+                onClick={() => (props.multiple ? handleSelectMultiple(item.id) : handleSelectSingle(item.id))}>
                 <Text typography="body2" as="p">
-                  {item.description}
+                  {item.label}
                 </Text>
               </DropdownItem>
             ))
@@ -153,4 +216,6 @@ export default function SearchDropdown({
       </DropdownMenu>
     </Dropdown>
   );
-}
+};
+
+export default SearchDropdown;

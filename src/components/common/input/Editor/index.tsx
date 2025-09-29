@@ -1,27 +1,24 @@
+// src/components/common/input/Editor/index.tsx
+
 import MDEditor, { bold, commands, hr, italic, strikethrough } from '@uiw/react-md-editor';
-import { Button, FormGroup, Spinner, Text, toast } from '@goorm-dev/vapor-components';
-import FormLabel from './FormLabel';
-import styles from './styles.module.scss';
+import { Button, Spinner, Text, toast } from '@goorm-dev/vapor-components';
+import styles from './style.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { EditIcon, ImageOutlineIcon, ViewOnIcon } from '@goorm-dev/vapor-icons';
-import { useS3Upload } from '../../../hooks/useS3Upload';
-import useUpload from '../../../hooks/useUpload';
+import { useS3Upload } from '@/hooks/useS3Upload';
+import useUpload from '@/hooks/useUpload';
 
-interface FormEditorProps {
-  label: string;
-  nullable: boolean;
+interface EditorProps {
   value: string;
   onChange: (val: string) => void;
   placeholder: string;
 }
 
-export default function FormEditor({
-  label,
-  nullable,
+export default function Editor({
   value,
   onChange,
   placeholder = '아이디어에 대해 자유롭게 설명해주세요',
-}: FormEditorProps) {
+}: EditorProps) {
   const [isEditing, setIsEditing] = useState(true);
   const [markdownContent, setMarkdownContent] = useState(value);
   const { uploadToS3 } = useS3Upload();
@@ -152,8 +149,7 @@ export default function FormEditor({
   }, [value]);
 
   return (
-    <FormGroup data-color-mode="light" onDragOver={(e) => e.preventDefault()}>
-      <FormLabel label={label} nullable={nullable} />
+    <div data-color-mode="light" onDragOver={(e) => e.preventDefault()}>
       <div className={styles.editorContainer}>
         <MDEditor
           className={styles.editor}
@@ -214,6 +210,6 @@ export default function FormEditor({
           </div>
         )}
       </div>
-    </FormGroup>
+    </div>
   );
 }
