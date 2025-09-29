@@ -5,7 +5,7 @@ interface IdeaInfoProps {
   ideaInfo: string;
 }
 
-export default function IdeaInfo({ ideaInfo }: IdeaInfoProps) {
+export default function IdeaInfoTab({ ideaInfo }: IdeaInfoProps) {
   return (
     <div className={styles.ideaInfoContainer} data-color-mode="light">
       <MDEditor.Markdown source={ideaInfo} className={styles.ideaInfo} />

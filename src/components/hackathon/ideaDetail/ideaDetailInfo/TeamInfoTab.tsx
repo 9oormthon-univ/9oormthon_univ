@@ -4,7 +4,7 @@ import TeamInfoCard from './teamInfo/TeamInfoCard';
 import { PositionLowerKey } from '../../../../constants/position';
 import { Member, Requirements } from '../../../../types/user/idea';
 
-export default function TeamInfo({ requirements }: { requirements: Requirements }) {
+export default function TeamInfoTab({ requirements }: { requirements: Requirements }) {
   return (
     <div className={styles.container}>
       <Text as="h5" typography="heading5" color="gray-900">

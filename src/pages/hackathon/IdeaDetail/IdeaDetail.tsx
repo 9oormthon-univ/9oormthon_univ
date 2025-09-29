@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
-import IdeaDetailHeader from '../../../components/hackathon/ideaDetail/IdeaDetailHeader';
-import IdeaDetailTab from '../../../components/hackathon/ideaDetail/IdeaDetailTab';
+import IdeaDetailHeader from '@/components/hackathon/ideaDetail/IdeaDetailHeader';
+import IdeaDetailTab from '@/components/hackathon/ideaDetail/IdeaDetailTab';
 import styles from './styles.module.scss';
-import IdeaInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/IdeaInfo';
-import TeamInfo from '../../../components/hackathon/ideaDetail/ideaDetailInfo/TeamInfo';
-import { addIdeaBookmark, fetchIdeaDetailById, fetchMyIdeaDetail } from '../../../api/idea';
-import { getMockIdeaDetailById, getMockMyIdeaDetail, updateMockIdeaDetailBookmark } from '../../../utilities/mockUtils';
+import IdeaInfoTab from '@/components/hackathon/ideaDetail/ideaDetailInfo/IdeaInfoTab';
+import TeamInfoTab from '@/components/hackathon/ideaDetail/ideaDetailInfo/TeamInfoTab';
 import { useNavigate, useParams } from 'react-router-dom';
-import BackLinkNavigation from '../../../components/hackathon/common/BackLinkNavigation';
+import BackLinkNavigation from '@/components/hackathon/common/BackLinkNavigation';
 import { toast } from '@goorm-dev/vapor-components';
-import IdeaHeaderSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaHeaderSkeleton';
-import IdeaContentSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaContentSkeleton';
-import IdeaTeamContentSkeleton from '../../../components/hackathon/ideaDetail/skeletonLoading/IdeaTeamContentSkeleton';
-import { IdeaInfoData, ProviderInfo, Requirements } from '../../../types/user/idea';
+import IdeaHeaderSkeleton from '@/components/hackathon/ideaDetail/skeletonLoading/IdeaHeaderSkeleton';
+import IdeaContentSkeleton from '@/components/hackathon/ideaDetail/skeletonLoading/IdeaContentSkeleton';
+import IdeaTeamContentSkeleton from '@/components/hackathon/ideaDetail/skeletonLoading/IdeaTeamContentSkeleton';
+import { IdeaInfoDetail, ProviderInfo, Requirements } from '@/types/user/idea';
+import { useIdeaDetail } from '@/hooks/queries/useIdeaDetail';
+import { useBookmarkToggle } from '@/hooks/mutations/useBookmarkToggle';
 
 interface IdeaDetail {
-  idea_info: IdeaInfoData;
+  idea_info: IdeaInfoDetail;
   provider_info: ProviderInfo;
   requirements: Requirements;
 }
@@ -23,88 +23,34 @@ interface IdeaDetail {
 export default function IdeaDetail() {
   const { idea_id } = useParams();
   const [activeTab, setActiveTab] = useState<'basic' | 'team'>('basic');
-  const [ideaDetail, setIdeaDetail] = useState<IdeaDetail | null>(null);
-  const { idea_info, provider_info, requirements } = ideaDetail || {};
-  const [isLoading, setIsLoading] = useState(true);
+
+  const { data: ideaDetail, isLoading, isError, error } = useIdeaDetail(idea_id || '');
+  const idea_info = ideaDetail?.idea_info;
+  const provider_info = ideaDetail?.provider_info;
+  const requirements = ideaDetail?.requirements;
+
   const navigate = useNavigate();
   // 페이지 이동 시 스크롤 초기화
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // 아이디어 조회
   useEffect(() => {
-    setIsLoading(true);
-    const fetchIdeaDetail = async () => {
-      try {
-        let response;
-
-        if (import.meta.env.DEV) {
-          // 개발 환경에서는 mock 데이터 사용
-          response = idea_id ? getMockIdeaDetailById(idea_id) : getMockMyIdeaDetail();
-        } else {
-          response = idea_id ? await fetchIdeaDetailById(idea_id) : await fetchMyIdeaDetail();
-        }
-
-        setIdeaDetail(response.data);
-      } catch (error: any) {
-        const errorMessage = error.response.data.error?.message;
-        toast(errorMessage, {
-          type: 'danger',
-        });
-        navigate('/hackathon');
-        if (import.meta.env.DEV) {
-          console.log(error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchIdeaDetail();
-  }, [idea_id]);
-
-  // 북마크 토글
-  const handleBookmarkToggle = async () => {
-    if (!idea_info) return;
-
-    setIdeaDetail((prevState: any) => ({
-      ...prevState,
-      idea_info: {
-        ...prevState.idea_info,
-        is_bookmarked: !prevState.idea_info.is_bookmarked,
-      },
-    }));
-
-    try {
-      if (import.meta.env.DEV) {
-        // 개발 환경에서는 mock 데이터 업데이트
-        updateMockIdeaDetailBookmark(idea_info.id);
-        toast('북마크 상태가 변경되었습니다.', {
-          type: 'primary',
-        });
-      } else {
-        await addIdeaBookmark(idea_info.id);
-        toast('북마크 상태가 변경되었습니다.', {
-          type: 'primary',
-        });
-      }
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-
-      setIdeaDetail((prevState: any) => ({
-        ...prevState,
-        idea_info: {
-          ...prevState.idea_info,
-          is_bookmarked: !prevState.idea_info.is_bookmarked,
-        },
-      }));
-      toast('북마크 상태 변경에 실패했습니다.', {
+    if (isError) {
+      const err = error as any;
+      const errorMessage = err?.response?.data?.error?.message;
+      toast(errorMessage, {
         type: 'danger',
       });
+      navigate('/hackathon');
     }
+  }, [isError, error, navigate]);
+
+  const { mutate: toggleBookmark } = useBookmarkToggle();
+
+  // 북마크 토글
+  const handleBookmarkToggle = async (ideaId: number) => {
+    toggleBookmark(ideaId);
   };
 
   return (
@@ -114,10 +60,10 @@ export default function IdeaDetail() {
         <IdeaHeaderSkeleton />
       ) : (
         !isLoading &&
-        idea_info &&
+        ideaDetail?.idea_info &&
         provider_info && (
           <IdeaDetailHeader
-            id={idea_info?.id || 0}
+            id={ideaDetail?.idea_info?.id || 0}
             subject={idea_info?.subject || '-'}
             title={idea_info?.title || '-'}
             is_active={idea_info?.is_active || false}
@@ -127,7 +73,7 @@ export default function IdeaDetail() {
             university={provider_info?.univ || '-'}
             is_provider={provider_info?.is_provider || false}
             provider_id={provider_info?.id || 0}
-            onBookmarkToggle={handleBookmarkToggle}
+            onBookmarkToggle={() => handleBookmarkToggle(idea_info?.id || 0)}
           />
         )
       )}
@@ -137,9 +83,9 @@ export default function IdeaDetail() {
 
         <div className={styles.tabContent}>
           {activeTab === 'basic' &&
-            (isLoading ? <IdeaContentSkeleton /> : <IdeaInfo ideaInfo={idea_info?.content || ''} />)}
+            (isLoading ? <IdeaContentSkeleton /> : <IdeaInfoTab ideaInfo={idea_info?.content || ''} />)}
           {activeTab === 'team' &&
-            (isLoading ? <IdeaTeamContentSkeleton /> : requirements && <TeamInfo requirements={requirements} />)}
+            (isLoading ? <IdeaTeamContentSkeleton /> : requirements && <TeamInfoTab requirements={requirements} />)}
         </div>
       </div>
       <BackLinkNavigation backLink="/hackathon" />

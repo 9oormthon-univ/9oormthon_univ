@@ -111,7 +111,6 @@ export default function IdeaList() {
   const handleStatusChange = (value: number | boolean | undefined) => {
     const boolValue = typeof value === 'boolean' ? value : undefined;
     updateSearchParam('status', boolValue !== undefined ? String(boolValue) : undefined);
-    console.log(boolValue);
   };
 
   const handleBookmarkChange = (value: number | boolean | undefined) => {

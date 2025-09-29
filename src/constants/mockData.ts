@@ -1,4 +1,4 @@
-import { Ideas, IdeaInfoData, ProviderInfo, Requirements, Member } from '../types/user/idea';
+import { Ideas, IdeaInfoDetail, ProviderInfo, Requirements, Member } from '../types/user/idea';
 import { TeamInfo, Applies, ApplyStatus, TeamMember } from '../types/user/team';
 import { LinkType } from '../constants/linkType';
 
@@ -125,7 +125,7 @@ const mockMembers: Member[] = [
 export const mockIdeaDetails: Record<
   number,
   {
-    idea_info: IdeaInfoData;
+    idea_info: IdeaInfoDetail;
     provider_info: ProviderInfo;
     requirements: Requirements;
   }
@@ -182,7 +182,7 @@ AI 기반 개인 맞춤형 학습 플랫폼은 사용자의 학습 패턴, 선�
       name: '김다영',
       univ: '서울대학교',
       role: 'PM',
-      is_provider: true,
+      is_provider: false,
     },
     requirements: {
       pm: {

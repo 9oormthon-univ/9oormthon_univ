@@ -35,7 +35,7 @@ export interface ProviderInfo {
   is_provider: boolean;
 }
 
-export interface IdeaInfo {
+export interface IdeaInfoDetail {
   id: number;
   subject: string;
   subject_id: number;

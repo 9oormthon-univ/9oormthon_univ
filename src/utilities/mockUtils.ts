@@ -86,16 +86,12 @@ export const getMockIdeaDetailById = (ideaId: string) => {
     throw new Error(`아이디어 ID ${ideaId}를 찾을 수 없습니다.`);
   }
 
-  return {
-    data: ideaDetail,
-  };
+  return ideaDetail;
 };
 
 // Mock 내 아이디어 상세 정보 가져오기 (임시로 첫 번째 아이디어 반환)
 export const getMockMyIdeaDetail = () => {
-  return {
-    data: mockIdeaDetails[1], // 첫 번째 아이디어를 내 아이디어로 가정
-  };
+  return mockIdeaDetails[1]; // 첫 번째 아이디어를 내 아이디어로 가정
 };
 
 // Mock 아이디어 상세 북마크 상태 업데이트
