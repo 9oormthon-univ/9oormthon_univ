@@ -1095,6 +1095,15 @@ export const mockPeriod = {
   hackathon_end: new Date('2025-09-18T23:59:59Z'),
 };
 
+// 내 잔여 지망 데이터
+export const mockMyRemainingRanks = {
+  preferences: [
+    { number: 1, is_active: true },
+    { number: 2, is_active: true },
+    { number: 3, is_active: true },
+  ],
+};
+
 // 각 차수별 지원 현황 데이터
 export const mockAppliesByPhase: Record<number, Applies[]> = {
   1: mockApplies.filter((apply) => [1, 2, 3, 5].includes(apply.id)), // 1차 지원자들

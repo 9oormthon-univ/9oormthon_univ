@@ -1,6 +1,7 @@
 import instance from './instance';
 import { PositionKey } from '../constants/position';
 import { IdeaCreateEdit } from '@/types/user/idea';
+import { GENERATION } from '@/constants/common';
 
 // 아이디어 생성 API
 export const createIdeaAPI = async (idea: IdeaCreateEdit) => {
@@ -64,14 +65,14 @@ export const addIdeaBookmark = async (idea_id: number) => {
 };
 
 // 3.11 내 잔여 지망 간단 리스트 조회 API
-export const fetchMyRemainingRanks = async (generation: number, phase: number) => {
-  const response = await instance.get(`/api/v1/users/applies/briefs?generation=${generation}&phase=${phase}`);
+export const fetchMyRemainingRanks = async (phase: number) => {
+  const response = await instance.get(`/api/v1/users/applies/briefs?generation=${GENERATION}&phase=${phase}`);
   return response.data;
 };
 
 // 아이디어 지원
 export const applyIdea = async (
-  idea_id: number,
+  idea_id: string,
   phase: number,
   preference: number,
   motivation: string,

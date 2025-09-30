@@ -15,9 +15,9 @@ export const usePeriod = () => {
 
   const currentPhase = useMemo(() => {
     const period = data?.current_period;
-    if (period?.startsWith('phase1')) return 1;
-    if (period?.startsWith('phase2')) return 2;
-    if (period?.startsWith('phase3')) return 3;
+    if (period?.startsWith('PHASE1')) return 1;
+    if (period?.startsWith('PHASE2')) return 2;
+    if (period?.startsWith('PHASE3')) return 3;
     return 0;
   }, [data]);
 

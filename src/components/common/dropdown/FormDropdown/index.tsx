@@ -1,6 +1,8 @@
+// src/components/common/dropdown/FormDropdown/index.tsx
+
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Text } from '@goorm-dev/vapor-components';
 import { useState } from 'react';
-import styles from './styles.module.scss';
+import styles from './style.module.scss';
 
 interface FormDropdownProps {
   selectedValue: string;
