@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { Alert, Button, Text } from '@goorm-dev/vapor-components';
-import PositionForm from '../ideaForm/PositionForm';
-import BackLinkNavigation from '../common/BackLinkNavigation';
+import PositionForm from '@/components/hackathon/ideaForm/PositionForm';
+import BackLinkNavigation from '@/components/hackathon/common/BackLinkNavigation';
 import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import { POSITIONS } from '@/constants/position';
 import { useEffect } from 'react';

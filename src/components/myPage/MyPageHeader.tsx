@@ -7,42 +7,29 @@ import {
   LinkedinIcon,
   LinkOutlineIcon,
   NotionIcon,
+  IconType,
 } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
-import { LinkType } from '../../constants/linkType';
+import { LinkType } from '@/constants/linkType';
 import { useNavigate } from 'react-router-dom';
 import { QRCheckInModal } from './QRCheckInModal';
-import avatar from '../../assets/images/avatar.png';
+import avatar from '@/assets/images/avatar.png';
 import { useState } from 'react';
+import { UserInfoResponse } from '@/types/user/users';
 
-export interface Link {
-  type: LinkType;
-  url: string;
-}
 
-interface MyPageHeaderProps {
-  name: string;
-  email: string;
-  univ: string;
-  img_url: string;
-  stack: string[];
-  links: Link[];
-  is_me: boolean;
-}
+type MyPageHeaderProps = Pick<UserInfoResponse, 'name' | 'email' | 'univ' | 'img_url' | 'links' | 'is_me'>;
+
+const LINK_ICONS: Record<LinkType, IconType> = {
+  [LinkType.NOTION]: NotionIcon,
+  [LinkType.GITHUB]: GithubIcon,
+  [LinkType.LINKEDIN]: LinkedinIcon,
+  [LinkType.BLOG]: BlogIcon,
+  [LinkType.ETC]: LinkOutlineIcon,
+};
 
 const getLinkIcon = (type: LinkType) => {
-  switch (type) {
-    case LinkType.NOTION:
-      return NotionIcon;
-    case LinkType.GITHUB:
-      return GithubIcon;
-    case LinkType.LINKEDIN:
-      return LinkedinIcon;
-    case LinkType.BLOG:
-      return BlogIcon;
-    case LinkType.ETC:
-      return LinkOutlineIcon;
-  }
+  return LINK_ICONS[type];
 };
 
 export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPageHeaderProps) => {
@@ -94,7 +81,7 @@ export const MyPageHeader = ({ name, email, univ, img_url, links, is_me }: MyPag
           </div>
         </div>
         <div className={styles.headerRightBottom}>
-          {links.map((link) => (
+          {links?.map((link) => (
             <Button
               color="secondary"
               size="md"

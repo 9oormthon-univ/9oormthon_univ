@@ -1,12 +1,12 @@
 import { ChevronRightOutlineIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import styles from './styles.module.scss';
 import { Alert, Button, Form, Input, Spinner, Text } from '@goorm-dev/vapor-components';
-import FormDropdown from '../ideaForm/FormDropdown';
-import TextArea from '../../common/input/TextArea';
-import Editor from '../../common/input/Editor';
-import RadioGroup from '../../common/input/RadioGroup';
+import FormDropdown from '@/components/common/dropdown/FormDropdown';
+import TextArea from '@/components/common/input/TextArea';
+import Editor from '@/components/common/input/Editor';
+import RadioGroup from '@/components/common/input/RadioGroup';
 import { useEffect, useState } from 'react';
-import BackLinkNavigation from '../common/BackLinkNavigation';
+import BackLinkNavigation from '@/components/hackathon/common/BackLinkNavigation';
 import { useIdeaFormStore } from '@/store/useIdeaFormStore';
 import { PositionKey, PositionLowerKey } from '@/constants/position';
 import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';

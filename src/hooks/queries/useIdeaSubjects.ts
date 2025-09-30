@@ -1,5 +1,4 @@
 // src/hooks/queries/useIdeaSubjects.ts
-
 import { useQuery } from '@tanstack/react-query';
 import { fetchIdeaSubjects } from '@/api/idea';
 import { GENERATION } from '@/constants/common';

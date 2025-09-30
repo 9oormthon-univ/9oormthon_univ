@@ -4,7 +4,6 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  FormGroup,
   Input,
   Alert,
 } from '@goorm-dev/vapor-components';
@@ -12,27 +11,34 @@ import styles from './styles.module.scss';
 import { useState } from 'react';
 import { LinkType, linkTypeList } from '../../../constants/linkType';
 import { CloseOutlineIcon, PlusOutlineIcon, WarningIcon } from '@goorm-dev/vapor-icons';
-import FormLabel from './FormLabel';
 
 interface FormLinkInputProps {
-  links: { id: number; linkType: LinkType | null; url: string }[];
-  setLinks: (newLinks: { id: number; linkType: LinkType | null; url: string }[]) => void;
+  links: { tempId: number; type: LinkType | null; url: string }[];
+  setLinks: (newLinks: { tempId: number; type: LinkType | null; url: string }[]) => void;
   errorMessage: string;
   setErrorMessage: (message: string) => void;
 }
 
 export default function FormLinkInput({ links, setLinks, errorMessage, setErrorMessage }: FormLinkInputProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [errorFields, setErrorFields] = useState<{ id: number; linkType: boolean; url: boolean }[]>([]);
-
-  const toggle = () => setIsOpen(!isOpen);
+  const [open, setOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [errorFields, setErrorFields] = useState<{ tempId: number; type: boolean; url: boolean }[]>([]);
+  const toggleFor = (rowIndex: number) => () => {
+    if (open && openIndex === rowIndex) {
+      setOpen(false);
+      setOpenIndex(null);
+    } else {
+      setOpen(true);
+      setOpenIndex(rowIndex);
+    }
+  };
 
   // 필드 유효성 검사
-  const validateField = (link: { id: number; linkType: LinkType | null; url: string }) => {
-    const errors: { id: number; linkType?: string; url?: string } = { id: link.id };
+  const validateField = (link: { tempId: number; type: LinkType | null; url: string }) => {
+    const errors: { tempId: number; type?: string; url?: string } = { tempId: link.tempId };
 
-    if (!link.linkType) {
-      errors.linkType = '링크 종류를 선택해주세요.';
+    if (!link.type) {
+      errors.type = '링크 종류를 선택해주세요.';
       setErrorMessage('링크 종류를 선택해주세요.');
     }
     if (!link.url) {
@@ -59,10 +65,10 @@ export default function FormLinkInput({ links, setLinks, errorMessage, setErrorM
       const validation = validateField(lastLink);
 
       // 유효성 검사 실패 시 에러 표시하고 추가 방지
-      if (validation.linkType || validation.url) {
+      if (validation.type || validation.url) {
         setErrorFields((prev) => [
-          ...prev.filter((e) => e.id !== lastLink.id),
-          { id: lastLink.id, linkType: !!validation.linkType, url: !!validation.url },
+          ...prev.filter((e) => e.tempId !== lastLink.tempId),
+          { tempId: lastLink.tempId, type: !!validation.type, url: !!validation.url },
         ]);
         return;
       }
@@ -70,16 +76,16 @@ export default function FormLinkInput({ links, setLinks, errorMessage, setErrorM
 
     // 에러 메시지 초기화 후 새 링크 추가
     setErrorMessage('');
-    setLinks([...links, { id: Date.now(), linkType: null, url: '' }]);
+    setLinks([...links, { tempId: Date.now(), type: null, url: '' }]);
   };
 
   // 링크 삭제
-  const removeLink = (id: number) => {
-    const updatedLinks = links.filter((link) => link.id !== id);
+  const removeLink = (tempId: number) => {
+    const updatedLinks = links.filter((link) => link.tempId !== tempId);
     setLinks(updatedLinks);
 
     // 해당 링크의 에러 메시지도 제거
-    setErrorFields((prev) => prev.filter((error) => error.id !== id));
+    setErrorFields((prev) => prev.filter((error) => error.tempId !== tempId));
 
     // 링크 삭제 후 에러 메시지가 남아 있다면 초기화
     if (updatedLinks.length === 0) {
@@ -88,74 +94,75 @@ export default function FormLinkInput({ links, setLinks, errorMessage, setErrorM
   };
 
   // 입력 값 변경
-  const handleChange = (id: number, field: 'linkType' | 'url', value: string | LinkType) => {
-    setLinks(links.map((link) => (link.id === id ? { ...link, [field]: value } : link)));
-
+  const handleChange = (tempId: number, field: 'type' | 'url', value: string | LinkType) => {
+    setLinks(links.map((link) => (link.tempId === tempId ? { ...link, [field]: value } : link)));
     // 에러 해제
-    setErrorFields((prev) => prev.map((error) => (error.id === id ? { ...error, [field]: false } : error)));
+    setErrorFields((prev) => prev.map((error) => (error.tempId === tempId ? { ...error, [field]: false } : error)));
   };
 
   return (
-    <FormGroup>
-      <div className={styles.linkInputContainer}>
-        <FormLabel label="링크" nullable />
+    <div className={styles.linkInputContainer}>
+      {links.map((link, index) => {
+        const error = errorFields.find((e) => e.tempId === link.tempId);
 
-        {links.map((link, index) => {
-          const error = errorFields.find((e) => e.id === link.id);
-
-          return (
-            <div key={link.id} className={styles.linkInputItem}>
-              <div className={styles.linkInputItemLabel}>
-                <Dropdown isOpen={isOpen && index === links.length - 1} toggle={toggle}>
-                  <DropdownToggle
-                    caret
-                    size="lg"
-                    color="secondary"
-                    outline
-                    style={{
-                      width: '7.5rem',
-                      justifyContent: 'space-between',
-                      border: error?.linkType ? '1px solid var(--danger)' : '1px solid var(--gray-300)',
-                    }}>
-                    {link.linkType ? linkTypeList.find((item) => item.value === link.linkType)?.label : '선택'}
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {linkTypeList.map((item) => (
-                      <DropdownItem key={item.value} onClick={() => handleChange(link.id, 'linkType', item.value)}>
-                        {item.label}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </Dropdown>
-                <Input
-                  type="text"
-                  placeholder="링크 입력"
+        return (
+          <div key={link.tempId} className={styles.linkInputItem}>
+            <div className={styles.linkInputItemLabel}>
+              <Dropdown isOpen={open && openIndex === index} toggle={toggleFor(index)}>
+                <DropdownToggle
+                  caret
                   size="lg"
-                  value={link.url}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(link.id, 'url', e.target.value)}
+                  color="secondary"
+                  outline
                   style={{
-                    border: error?.url ? '1px solid var(--danger)' : '1px solid var(--gray-300)',
-                  }}
-                />
+                    width: '7.5rem',
+                    justifyContent: 'space-between',
+                    border: error?.type ? '1px solid var(--danger)' : '1px solid var(--gray-300)',
+                  }}>
+                  {link.type ? linkTypeList.find((item) => item.value === link.type)?.label : '선택'}
+                </DropdownToggle>
+                <DropdownMenu>
+                  {linkTypeList.map((item) => (
+                    <DropdownItem
+                      key={item.value}
+                      onClick={() => {
+                        handleChange(link.tempId, 'type', item.value);
+                        setOpen(false);
+                        setOpenIndex(null);
+                      }}>
+                      {item.label}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+              <Input
+                type="text"
+                placeholder="링크 입력"
+                size="lg"
+                value={link.url}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(link.tempId, 'url', e.target.value)}
+                style={{
+                  border: error?.url ? '1px solid var(--danger)' : '1px solid var(--gray-300)',
+                }}
+              />
 
-                <Button size="lg" color="secondary" icon={CloseOutlineIcon} onClick={() => removeLink(link.id)} />
-              </div>
+              <Button size="lg" color="secondary" icon={CloseOutlineIcon} onClick={() => removeLink(link.tempId)} />
             </div>
-          );
-        })}
+          </div>
+        );
+      })}
 
-        {links.length < 10 && (
-          <Button size="lg" color="secondary" icon={PlusOutlineIcon} onClick={addLink}>
-            링크 추가
-          </Button>
-        )}
+      {links.length < 10 && (
+        <Button size="lg" color="secondary" icon={PlusOutlineIcon} onClick={addLink}>
+          링크 추가
+        </Button>
+      )}
 
-        {errorMessage && (
-          <Alert color="danger" fade leftIcon={WarningIcon}>
-            {errorMessage}
-          </Alert>
-        )}
-      </div>
-    </FormGroup>
+      {errorMessage && (
+        <Alert color="danger" fade leftIcon={WarningIcon}>
+          {errorMessage}
+        </Alert>
+      )}
+    </div>
   );
 }

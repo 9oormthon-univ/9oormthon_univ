@@ -2,8 +2,8 @@
 import { Text } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
-import TextArea from '../../common/input/TextArea';
-import FormDropdown from './FormDropdown';
+import TextArea from '@/components/common/input/TextArea';
+import FormDropdown from '@/components/common/dropdown/FormDropdown';
 import { PositionLowerKey } from '../../../constants/position';
 import { useEffect } from 'react';
 import FormField from '@/components/common/formField/FormField';

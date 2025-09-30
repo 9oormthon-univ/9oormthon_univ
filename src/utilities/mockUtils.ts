@@ -257,25 +257,21 @@ export const getMockCurrentUser = () => {
 // ===== MyPage 관련 Mock Utils =====
 
 // Mock 내 정보 조회
-export const getMockMyInfo = (): Promise<{ data: typeof mockUserInfo }> => {
+export const getMockMyInfo = (): Promise<typeof mockUserInfo> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({
-        data: mockUserInfo,
-      });
+      resolve(mockUserInfo);
     }, 300);
   });
 };
 
 // Mock 다른 사용자 정보 조회
-export const getMockUserInfo = (userId: string): Promise<{ data: typeof mockUserInfo }> => {
+export const getMockUserInfo = (userId: string): Promise<typeof mockUserInfo> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const userInfo = mockOtherUsers[userId];
       if (userInfo) {
-        resolve({
-          data: userInfo,
-        });
+        resolve(userInfo);
       } else {
         reject(new Error(`사용자 ID ${userId}를 찾을 수 없습니다.`));
       }
