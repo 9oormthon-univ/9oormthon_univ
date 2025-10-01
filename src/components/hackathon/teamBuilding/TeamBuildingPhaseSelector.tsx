@@ -1,5 +1,5 @@
 import { ButtonToggleGroup } from '@goorm-dev/vapor-components';
-import usePeriodStore from '../../../store/usePeriodStore';
+import { usePeriod } from '@/hooks/queries/system/usePeriod';
 import styles from './styles.module.scss';
 
 interface TeamBuildingPhaseSelectorProps {
@@ -9,18 +9,18 @@ interface TeamBuildingPhaseSelectorProps {
 
 export default function TeamBuildingPhaseSelector({ onPhaseChange, activeIndex }: TeamBuildingPhaseSelectorProps) {
   // 기간 정보 불러오기
-  const { current_period, phase1_period, phase2_period, phase3_period } = usePeriodStore();
+  const { currentPhase, periodData } = usePeriod();
 
   // 각 단계 그룹화 (기간 포함)
   const phases = [
-    { label: '1차', periodText: phase1_period, keys: ['PHASE1_TEAM_BUILDING', 'PHASE1_CONFIRMATION'] },
-    { label: '2차', periodText: phase2_period, keys: ['PHASE2_TEAM_BUILDING', 'PHASE2_CONFIRMATION'] },
-    { label: '3차', periodText: phase3_period, keys: ['PHASE3_TEAM_BUILDING', 'PHASE3_CONFIRMATION'] },
+    { label: '1차', periodText: periodData?.phase1_period, number: 1 },
+    { label: '2차', periodText: periodData?.phase2_period, number: 2 },
+    { label: '3차', periodText: periodData?.phase3_period, number: 3 },
   ];
 
   // 현재 진행 중인 단계 찾기
-  const currentPhaseIndex = phases.findIndex((phase) => phase.keys.includes(current_period));
-  const isHackathon = current_period === 'HACKATHON';
+  const currentPhaseIndex = phases.findIndex((phase) => phase.number === currentPhase);
+  const isHackathon = currentPhase !== 1 && currentPhase !== 2 && currentPhase !== 3;
 
   return (
     <ButtonToggleGroup

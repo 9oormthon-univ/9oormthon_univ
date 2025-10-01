@@ -1,5 +1,5 @@
 import { Ideas } from '../types/user/idea';
-import { Applies, TeamInfo, ApplyStatus } from '../types/user/team';
+import { Applies, TeamInfo } from '../types/user/team';
 import { Sorting, SortType } from '../types/user/idea';
 import {
   mockTopics,
@@ -217,7 +217,7 @@ export const updateMockApplyStatus = (applyId: number, status: 'ACCEPTED' | 'REJ
     setTimeout(() => {
       const apply = mockApplies.find((a) => a.id === applyId);
       if (apply) {
-        apply.status = status === 'ACCEPTED' ? ApplyStatus.ACCEPTED : ApplyStatus.REJECTED;
+        apply.status = status === 'ACCEPTED' ? 'ACCEPTED' : 'REJECTED';
 
         // 수락된 경우 팀 정보에도 반영
         if (status === 'ACCEPTED') {
@@ -282,13 +282,11 @@ export const getMockUserInfo = (userId: string): Promise<typeof mockUserInfo> =>
 // ===== ApplicantPage 관련 Mock Utils =====
 
 // Mock 내 지원 현황 조회
-export const getMockMyApplySummary = (phase: number): Promise<{ data: typeof mockMyApplySummary }> => {
+export const getMockMyApplySummary = (phase: number): Promise<typeof mockMyApplySummary> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const applySummary = mockMyApplySummaryByPhase[phase] || { applies: [] };
-      resolve({
-        data: applySummary,
-      });
+      resolve(applySummary);
     }, 300);
   });
 };
@@ -306,7 +304,7 @@ export const deleteMockApply = (applyId: number): Promise<void> => {
         return;
       }
 
-      if (applyToDelete.apply_info.status !== ApplyStatus.WAITING) {
+      if (applyToDelete.apply_info.status !== 'WAITING') {
         reject(new Error('대기 중인 지원만 취소할 수 있습니다.'));
         return;
       }

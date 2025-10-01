@@ -1,6 +1,7 @@
 import instance from './instance';
 import { UserInfo } from '../types/user/users';
 import { Sorting, SortType } from '../types/user/idea';
+import { GENERATION } from '@/constants/common';
 
 // 내 정보 조회
 export const getMyInfo = async () => {
@@ -21,8 +22,8 @@ export const updateUserInfo = async (data: UserInfo) => {
 };
 
 // 3.10 내 지원정보 요약 리스트 조회
-export const getMyApplySummary = async (generation: number, phase: number) => {
-  const response = await instance.get(`/api/v1/users/applies/overviews?generation=${generation}&phase=${phase}`);
+export const getMyApplySummary = async (phase: number) => {
+  const response = await instance.get(`/api/v1/users/applies/overviews?generation=${GENERATION}&phase=${phase}`);
   return response.data;
 };
 

@@ -3,55 +3,23 @@ import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { deleteApply } from '../../../api/users';
 import { deleteMockApply } from '../../../utilities/mockUtils';
-import usePeriodStore from '../../../store/usePeriodStore';
+import { usePeriod } from '@/hooks/queries/system/usePeriod';
 import useAuthStore from '../../../store/useAuthStore';
 import { UserStatus } from '../../../constants/role';
-
-interface ApplyInfo {
-  id: number;
-  status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED';
-  ratio: string;
-  preference: number;
-  motivation: string;
-  role: 'PM' | 'PD' | 'BE' | 'FE';
-}
-
-interface IdeaInfo {
-  id: number;
-  title: string;
-}
-
-interface ApplySummary {
-  apply_info: ApplyInfo;
-  idea_info: IdeaInfo;
-}
-
+import { ApplySummary } from '@/types/user/users';
+import { getPositionName } from '@/constants/position';
+import { getApplyStatusColor, getApplyStatusName } from '@/types/user/team';
 interface IdeaApplyListItemProps {
   applySummary: ApplySummary;
   onDeleteSuccess: () => void;
   applyIndex: number;
 }
 
-const roleMap: Record<ApplyInfo['role'], string> = {
-  PM: '기획',
-  PD: '디자인',
-  BE: '백엔드',
-  FE: '프론트엔드',
-};
-
-const statusMap = {
-  WAITING: { text: '대기중', color: 'text-primary' },
-  ACCEPTED: { text: '수락됨', color: 'text-success' },
-  REJECTED: { text: '거절됨', color: 'text-danger' },
-  CONFIRMED: { text: '확정', color: 'text-success' },
-  ACCEPTED_NOT_JOINED: { text: '-', color: 'text-hint' },
-} as const;
-
 export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, applyIndex }: IdeaApplyListItemProps) {
   const { apply_info, idea_info } = applySummary;
   const navigate = useNavigate();
 
-  const { isTeamBuildingPeriod } = usePeriodStore();
+  const { isApplyAblePeriod } = usePeriod();
   const { status } = useAuthStore();
 
   const handleDeleteApply = async () => {
@@ -93,7 +61,7 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
             {idea_info.title}
           </Text>
           <Text typography="body3" color="text-hint">
-            {roleMap[apply_info.role]} 파트
+            {getPositionName(apply_info.role)} 파트
           </Text>
         </div>
         <Text typography="body2" color="text-alternative">
@@ -102,8 +70,8 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
       </div>
       <div className={styles.ideaApplyListItemRight}>
         <div className={styles.ideaApplyListItemRightContent}>
-          <Text as="h4" typography="heading4" color={statusMap[apply_info.status]?.color || 'text-primary'}>
-            {statusMap[apply_info.status].text}
+          <Text as="h4" typography="heading4" color={getApplyStatusColor(apply_info.status) || 'text-primary'}>
+            {getApplyStatusName(apply_info.status)}
           </Text>
           <Text typography="subtitle2" color="text-hint">
             경쟁률 {apply_info.ratio}
@@ -119,7 +87,7 @@ export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, apply
             size="sm"
             color="secondary"
             onClick={handleDeleteApply}
-            disabled={!isTeamBuildingPeriod() || apply_info.status !== 'WAITING' || status === UserStatus.MEMBER}>
+            disabled={!isApplyAblePeriod || apply_info.status !== 'WAITING' || status === UserStatus.MEMBER}>
             지원 취소
           </Button>
         )}

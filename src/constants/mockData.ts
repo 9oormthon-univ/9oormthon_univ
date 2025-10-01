@@ -1,5 +1,5 @@
 import { Ideas, IdeaInfoDetail, ProviderInfo, Requirements, Member } from '../types/user/idea';
-import { TeamInfo, Applies, ApplyStatus, TeamMember } from '../types/user/team';
+import { TeamInfo, Applies, TeamMember } from '../types/user/team';
 import { LinkType } from '../constants/linkType';
 
 // Mock 주제 데이터
@@ -964,7 +964,7 @@ export const mockApplies: Applies[] = [
     motivation:
       'React와 TypeScript를 활용한 프론트엔드 개발 경험이 풍부하며, AI 기반 학습 플랫폼 개발에 관심이 많습니다.',
     role: 'FE',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 101,
       name: '한지민',
@@ -976,7 +976,7 @@ export const mockApplies: Applies[] = [
     preference: 2,
     motivation: 'Vue.js와 Nuxt.js 경험이 있으며, 사용자 경험을 중시하는 프론트엔드 개발을 추구합니다.',
     role: 'FE',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 102,
       name: '정소영',
@@ -988,7 +988,7 @@ export const mockApplies: Applies[] = [
     preference: 1,
     motivation: 'Python과 FastAPI를 활용한 백엔드 개발 경험이 있으며, 머신러닝 모델 서빙 경험도 있습니다.',
     role: 'BE',
-    status: ApplyStatus.ACCEPTED,
+    status: 'ACCEPTED',
     user: {
       id: 103,
       name: '김태현',
@@ -1000,7 +1000,7 @@ export const mockApplies: Applies[] = [
     preference: 3,
     motivation: 'Node.js와 Express를 주로 사용하며, 데이터베이스 설계 및 API 개발에 자신 있습니다.',
     role: 'BE',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 104,
       name: '오민수',
@@ -1012,7 +1012,7 @@ export const mockApplies: Applies[] = [
     preference: 1,
     motivation: 'Adobe XD와 Figma를 활용한 UI/UX 디자인 경험이 있으며, 사용자 리서치에도 관심이 많습니다.',
     role: 'PD',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 105,
       name: '이유진',
@@ -1024,7 +1024,7 @@ export const mockApplies: Applies[] = [
     preference: 2,
     motivation: 'React Native 개발 경험이 있어 모바일 앱 개발도 가능하며, 반응형 웹 디자인에 능숙합니다.',
     role: 'FE',
-    status: ApplyStatus.REJECTED,
+    status: 'REJECTED',
     user: {
       id: 106,
       name: '박진우',
@@ -1036,7 +1036,7 @@ export const mockApplies: Applies[] = [
     preference: 1,
     motivation: 'Spring Boot와 JPA를 활용한 백엔드 개발 경험이 있으며, 마이크로서비스 아키텍처에 관심이 많습니다.',
     role: 'BE',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 107,
       name: '강민호',
@@ -1048,7 +1048,7 @@ export const mockApplies: Applies[] = [
     preference: 2,
     motivation: 'Sketch와 InVision을 활용한 프로토타이핑 경험이 있으며, 디자인 시스템 구축에 관심이 있습니다.',
     role: 'PD',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 108,
       name: '윤서현',
@@ -1070,7 +1070,7 @@ export const mockPeriodData = {
   phase3_team_building_period: '2025.04.01 ~ 2025.09.10',
   phase3_confirmation_period: '2025.09.11 ~ 2025.09.15',
   hackathon_period: '2025.09.16 ~ 2025.09.18',
-  current_period: 'PHASE1_TEAM_BUILDING' as const,
+  current_period: 'PHASE3_TEAM_BUILDING' as const,
 };
 
 // Mock 기간 정보 데이터
@@ -1316,7 +1316,7 @@ export const mockMyApplySummary = {
     {
       apply_info: {
         id: 1,
-        status: ApplyStatus.WAITING,
+        status: 'WAITING',
         ratio: '1:2',
         preference: 1,
         motivation:
@@ -1331,7 +1331,7 @@ export const mockMyApplySummary = {
     {
       apply_info: {
         id: 2,
-        status: ApplyStatus.ACCEPTED,
+        status: 'ACCEPTED',
         ratio: '1:1',
         preference: 2,
         motivation:
@@ -1346,7 +1346,7 @@ export const mockMyApplySummary = {
     {
       apply_info: {
         id: 3,
-        status: ApplyStatus.REJECTED,
+        status: 'REJECTED',
         ratio: '3:1',
         preference: 3,
         motivation:
@@ -1368,7 +1368,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 1,
-          status: ApplyStatus.WAITING,
+          status: 'WAITING',
           ratio: '1:2',
           preference: 1,
           motivation:
@@ -1383,7 +1383,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 2,
-          status: ApplyStatus.ACCEPTED,
+          status: 'ACCEPTED',
           ratio: '1:1',
           preference: 2,
           motivation:
@@ -1402,7 +1402,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 3,
-          status: ApplyStatus.REJECTED,
+          status: 'REJECTED',
           ratio: '3:1',
           preference: 1,
           motivation:
@@ -1417,7 +1417,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 4,
-          status: ApplyStatus.CONFIRMED,
+          status: 'CONFIRMED',
           ratio: '1:1',
           preference: 2,
           motivation:
@@ -1436,7 +1436,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 5,
-          status: ApplyStatus.WAITING,
+          status: 'WAITING',
           ratio: '2:1',
           preference: 1,
           motivation:
