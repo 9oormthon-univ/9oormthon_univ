@@ -33,7 +33,6 @@ export default function ApplicantPage() {
             <IdeaApplyListItem
               key={apply.apply_info.id}
               applySummary={apply}
-              onDeleteSuccess={() => {}}
               applyIndex={apply.apply_info.preference}
             />
           ))

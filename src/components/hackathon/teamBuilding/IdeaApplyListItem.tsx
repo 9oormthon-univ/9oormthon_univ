@@ -1,48 +1,28 @@
-import { Button, Text, toast } from '@goorm-dev/vapor-components';
+import { Button, Text } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { deleteApply } from '../../../api/users';
-import { deleteMockApply } from '../../../utilities/mockUtils';
 import { usePeriod } from '@/hooks/queries/system/usePeriod';
 import useAuthStore from '../../../store/useAuthStore';
 import { UserStatus } from '../../../constants/role';
 import { ApplySummary } from '@/types/user/users';
 import { getPositionName } from '@/constants/position';
 import { getApplyStatusColor, getApplyStatusName } from '@/types/user/team';
+import { useApplyMutation } from '@/hooks/mutations/useApplyMutation';
 interface IdeaApplyListItemProps {
   applySummary: ApplySummary;
-  onDeleteSuccess: () => void;
   applyIndex: number;
 }
 
-export default function IdeaApplyListItem({ applySummary, onDeleteSuccess, applyIndex }: IdeaApplyListItemProps) {
+export default function IdeaApplyListItem({ applySummary, applyIndex }: IdeaApplyListItemProps) {
   const { apply_info, idea_info } = applySummary;
   const navigate = useNavigate();
 
   const { isApplyAblePeriod } = usePeriod();
   const { status } = useAuthStore();
+  const { mutate: deleteApply } = useApplyMutation();
 
   const handleDeleteApply = async () => {
-    try {
-      if (import.meta.env.DEV) {
-        // 개발 환경에서는 목업 함수 사용
-        await deleteMockApply(apply_info.id);
-      } else {
-        // 프로덕션 환경에서는 실제 API 호출
-        await deleteApply(apply_info.id);
-      }
-      toast('지원 취소가 완료되었습니다.', {
-        type: 'primary',
-      });
-      onDeleteSuccess();
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      toast('지원 취소에 실패했습니다.', {
-        type: 'danger',
-      });
-    }
+    deleteApply(apply_info.id);
   };
 
   return (

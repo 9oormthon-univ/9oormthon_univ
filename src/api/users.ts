@@ -51,19 +51,19 @@ export const getIdeaApplyStatus = async (
   return response.data;
 };
 
-// 지원 결정 (수락)
+// 3.14 지원 수락
 export const acceptApply = async (applyId: number) => {
   const response = await instance.patch(`/api/v1/users/applies/${applyId}/accept`);
   return response.data;
 };
 
-// 지원 결정 (거절)
+// 3.15 지원 거절
 export const rejectApply = async (applyId: number) => {
   const response = await instance.patch(`/api/v1/users/applies/${applyId}/reject`);
   return response.data;
 };
 
-// 지원 삭제(지원 취소)
+// 3.17 지원 삭제(지원 취소)
 export const deleteApply = async (applyId: number) => {
   const response = await instance.delete(`/api/v1/users/applies/${applyId}`);
   return response.data;
