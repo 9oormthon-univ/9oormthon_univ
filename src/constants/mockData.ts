@@ -16,7 +16,7 @@ export const mockTopics = {
 // Mock 사용자 정보 데이터
 export const mockUserBriefData = {
   role: 'USER',
-  status: 'MEMBER',
+  status: 'PROVIDER',
   img_url:
     'https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630',
 };
@@ -1106,6 +1106,7 @@ export const mockMyRemainingRanks = {
 
 // 각 차수별 지원 현황 데이터
 export const mockAppliesByPhase: Record<number, Applies[]> = {
+  0: mockApplies.filter((apply) => [1, 2, 3, 4, 5, 6, 7, 8].includes(apply.id)), // 0차 지원자들
   1: mockApplies.filter((apply) => [1, 2, 3, 5].includes(apply.id)), // 1차 지원자들
   2: mockApplies.filter((apply) => [4, 6, 7].includes(apply.id)), // 2차 지원자들
   3: mockApplies.filter((apply) => [8].includes(apply.id)), // 3차 지원자들

@@ -1,173 +1,53 @@
 import styles from './styles.module.scss';
 import { Text, toast, Skeleton, Alert } from '@goorm-dev/vapor-components';
-import ApplyStatusTable from '../../../../components/hackathon/teamBuilding/applyStatusTable/ApplyStatusTable';
-import TeamBuildingPhaseSelector from '../../../../components/hackathon/teamBuilding/TeamBuildingPhaseSelector';
+import ApplyStatusTable from '@/components/hackathon/teamBuilding/applyStatusTable/ApplyStatusTable';
+import TeamBuildingPhaseSelector from '@/components/hackathon/teamBuilding/TeamBuildingPhaseSelector';
 import { useEffect, useState } from 'react';
-import usePeriodStore from '../../../../store/usePeriodStore';
-import { getIdeaApplyStatus } from '../../../../api/users';
-import { Applies, TeamInfo } from '../../../../types/user/team';
-import { GENERATION } from '../../../../constants/common';
-import InformationModal from '../../../../components/common/modal/InformationModal';
-import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
-import TeamBuildingTableSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamBuildingTableSkeleton';
-import AcceptableCountIndicator from '../../../../components/hackathon/teamBuilding/AcceptableCountIndicator';
-import { Sorting, SortType } from '../../../../types/user/idea';
-import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '../../../../constants/errorMessage';
-import {
-  getMockTeamInfo,
-  getMockIdeaApplyStatus,
-  confirmMockTeamBuilding,
-  getMockPeriod,
-} from '../../../../utilities/mockUtils';
+import InformationModal from '@/components/common/modal/InformationModal';
+import TeamBuildingTableSkeleton from '@/components/hackathon/teamBuilding/skeletonLoading/TeamBuildingTableSkeleton';
+import AcceptableCountIndicator from '@/components/hackathon/teamBuilding/AcceptableCountIndicator';
+import { Sorting, SortType } from '@/types/user/idea';
+import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '@/constants/errorMessage';
 import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
+import { usePeriod } from '@/hooks/queries/system/usePeriod';
+import { useApplyStatus } from '@/hooks/queries/useApplyStatus';
+import { useConfirmTeamMutation } from '@/hooks/mutations/useConfirmTeamMutation';
+import { useTeamInfo } from '@/hooks/queries/useTeamInfo';
 
 export default function ProviderPage() {
-  // 현재 팀빌딩 기간 조회
-  const {
-    current_phase,
-    isLoading,
-    isFetched,
-    fetchPeriodData,
-    current_period,
-    idea_submission_period,
-    phase1_team_building_period,
-    phase1_confirmation_period,
-    phase2_team_building_period,
-    phase2_confirmation_period,
-    phase3_team_building_period,
-    phase3_confirmation_period,
-    hackathon_period,
-  } = usePeriodStore();
-  const [buttonIndex, setButtonIndex] = useState<number>(0);
-  const [applyStatus, setApplyStatus] = useState<{ counts: number; applies: Applies[] }>({ counts: 0, applies: [] });
-  const [currentPhaseApplyStatus, setCurrentPhaseApplyStatus] = useState<{ counts: number; applies: Applies[] }>({
-    counts: 0,
-    applies: [],
-  });
-  const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
+  const { periodData, PHASE_INFO, currentPhase, isLoading: isPeriodLoading } = usePeriod();
+  const [buttonIndex, setButtonIndex] = useState<number>(currentPhase ? currentPhase - 1 : 0);
   const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
   const [sortType, setSortType] = useState<SortType | undefined>(undefined);
+  const { data: applyStatus, isLoading: isApplyStatusLoading } = useApplyStatus(buttonIndex + 1, sorting, sortType);
+  const { data: currentPhaseApplyStatus } = useApplyStatus(currentPhase, sorting, sortType);
+  const { mutate: confirmTeamBuilding } = useConfirmTeamMutation();
+  const { data: teamInfo, isLoading: isTeamInfoLoading } = useTeamInfo();
 
   // 팀 빌딩 확정 모달
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  // 로딩 상태
-  const [isApplyStatusLoading, setIsApplyStatusLoading] = useState(false);
-
-  // fetchApplyStatus를 컴포넌트 레벨로 올리고 재사용 가능하게 만듦
-  const fetchApplyStatus = async (sorting?: Sorting, sortType?: SortType) => {
-    try {
-      setIsApplyStatusLoading(true);
-      if (import.meta.env.DEV) {
-        const response = await getMockIdeaApplyStatus(buttonIndex + 1, sorting, sortType);
-        setApplyStatus(response.data);
-      } else {
-        const response = await getIdeaApplyStatus(GENERATION, buttonIndex + 1, sorting, sortType);
-        setApplyStatus(response.data);
-      }
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      setApplyStatus({ counts: 0, applies: [] });
-    } finally {
-      setIsApplyStatusLoading(false);
-    }
-  };
-
-  // 현재 차시 지원 현황 불러오기
-  const fetchCurrentPhaseApplyStatus = async () => {
-    try {
-      setIsApplyStatusLoading(true);
-      if (import.meta.env.DEV) {
-        const response = await getMockIdeaApplyStatus(current_phase, undefined, undefined);
-        setCurrentPhaseApplyStatus(response.data);
-      } else {
-        const response = await getIdeaApplyStatus(GENERATION, current_phase, undefined, undefined);
-        setCurrentPhaseApplyStatus(response.data);
-      }
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      setCurrentPhaseApplyStatus({ counts: 0, applies: [] });
-    } finally {
-      setIsApplyStatusLoading(false);
-    }
-  };
-
   // 팀 빌딩 확정
-  const handleConfirmTeamBuilding = async () => {
-    try {
-      if (import.meta.env.DEV) {
-        await confirmMockTeamBuilding();
-      } else {
-        await confirmTeamBuilding(GENERATION);
-      }
-      toast('팀 빌딩이 확정되었습니다.', {
-        type: 'primary',
-      });
-      toggle();
-      fetchTeamInfo();
-    } catch (error: any) {
-      const errorCode = error.response?.data?.error?.code;
-      if (errorCode) {
-        toast(TEAM_BUILDING_CONFIRM_ERROR_MESSAGES[errorCode] || '팀 빌딩 확정에 실패했습니다.', {
-          type: 'danger',
-        });
-      }
-    }
+  const handleConfirmTeamBuilding = () => {
+    confirmTeamBuilding({
+      onSuccess: () => {
+        toast('팀 빌딩이 확정되었습니다.', { type: 'primary' });
+        toggle();
+      },
+      onError: (error: any) => {
+        const errorCode = error.response?.data?.error?.code;
+        if (errorCode) {
+          toast(TEAM_BUILDING_CONFIRM_ERROR_MESSAGES[errorCode] || '팀 빌딩 확정에 실패했습니다.', { type: 'danger' });
+        }
+      },
+    });
   };
-
-  // 팀 정보 불러오기
-  const fetchTeamInfo = async () => {
-    try {
-      if (import.meta.env.DEV) {
-        const res = await getMockTeamInfo();
-        setTeamInfo(res.data);
-      } else {
-        const res = await getTeamInfo(GENERATION);
-        setTeamInfo(res.data);
-      }
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      toast('팀 정보 불러오기 실패', { type: 'danger' });
-    }
-  };
-
-  // 개발 환경에서 Period Store 초기화
-  useEffect(() => {
-    if (import.meta.env.DEV) {
-      getMockPeriod().then(() => {
-        fetchPeriodData();
-      });
-    } else {
-      fetchPeriodData();
-    }
-  }, []);
-
-  // 팀 정보 불러오기
-  useEffect(() => {
-    fetchTeamInfo();
-    fetchCurrentPhaseApplyStatus();
-  }, []);
 
   // current_phase 변경 시 buttonIndex 업데이트
   useEffect(() => {
-    if (isFetched && typeof current_phase === 'number') {
-      setButtonIndex(current_phase ? current_phase - 1 : 0);
-    }
-  }, [current_phase, isFetched]);
-
-  // 지원 현황 불러오기
-  useEffect(() => {
-    if (isFetched) {
-      fetchApplyStatus(sorting, sortType);
-    }
-  }, [buttonIndex, isFetched, sorting, sortType]);
+    setButtonIndex(currentPhase ? currentPhase - 1 : 0);
+  }, [currentPhase]);
 
   const handleSortChange = (newSorting: Sorting) => {
     if (sorting !== newSorting) {
@@ -178,23 +58,11 @@ export default function ProviderPage() {
     }
   };
 
-  const PHASE_INFO = {
-    IDEA_SUBMISSION: `지금은 아이디어 제출 기간입니다. (${idea_submission_period})`,
-    PHASE1_TEAM_BUILDING: `지금은 1차 팀빌딩 지원 기간입니다. (${phase1_team_building_period})`,
-    PHASE1_CONFIRMATION: `지금은 1차 팀빌딩 합불 결정 기간입니다. (${phase1_confirmation_period})`,
-    PHASE2_TEAM_BUILDING: `지금은 2차 팀빌딩 지원 기간입니다. (${phase2_team_building_period})`,
-    PHASE2_CONFIRMATION: `지금은 2차 팀빌딩 합불 결정 기간입니다. (${phase2_confirmation_period})`,
-    PHASE3_TEAM_BUILDING: `지금은 3차 팀빌딩 지원 기간입니다. (${phase3_team_building_period})`,
-    PHASE3_CONFIRMATION: `지금은 3차 팀빌딩 합불 결정 기간입니다. (${phase3_confirmation_period})`,
-    HACKATHON: `팀 빌딩 기간이 종료되었습니다. (${hackathon_period})`,
-    NONE: '해커톤 또는 팀 빌딩 기간이 아닙니다.',
-  };
-
   return (
     <div className={styles.container}>
-      {!isLoading && (
+      {!isPeriodLoading && (
         <Alert leftIcon={InfoCircleIcon} style={{ margin: 0 }}>
-          {PHASE_INFO[current_period as keyof typeof PHASE_INFO]}
+          {PHASE_INFO[periodData.current_period as keyof typeof PHASE_INFO]}
         </Alert>
       )}
       <div className={styles.applyStatus}>
@@ -207,26 +75,22 @@ export default function ProviderPage() {
           </Text>
         </div>
 
-        {teamInfo && <AcceptableCountIndicator teamInfo={teamInfo} applies={currentPhaseApplyStatus.applies} />}
+        {isTeamInfoLoading ? (
+          <Skeleton width="32rem" height="3rem" />
+        ) : (
+          teamInfo && <AcceptableCountIndicator teamInfo={teamInfo} applies={currentPhaseApplyStatus?.applies || []} />
+        )}
 
-        {isLoading ? (
+        {isApplyStatusLoading ? (
           <Skeleton width="23.4375rem" height="3rem" />
         ) : (
-          isFetched &&
-          typeof current_phase === 'number' && (
-            <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
-          )
+          <TeamBuildingPhaseSelector onPhaseChange={setButtonIndex} activeIndex={buttonIndex} />
         )}
 
         {isApplyStatusLoading ? (
           <TeamBuildingTableSkeleton />
         ) : applyStatus?.applies?.length > 0 ? (
-          <ApplyStatusTable
-            applicants={applyStatus.applies}
-            refetchApplyStatus={fetchApplyStatus}
-            refetchCurrentPhaseApplyStatus={fetchCurrentPhaseApplyStatus}
-            onSortChange={handleSortChange}
-          />
+          <ApplyStatusTable applicants={applyStatus.applies} onSortChange={handleSortChange} />
         ) : (
           <div className={styles.noApplyStatus}>
             <Text as="p" typography="body2" color="text-hint">

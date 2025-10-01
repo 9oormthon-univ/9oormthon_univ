@@ -24,15 +24,15 @@ interface Applicant {
 
 interface ApplyStatusTableProps {
   applicants: Applicant[];
-  refetchApplyStatus: () => Promise<void>;
-  refetchCurrentPhaseApplyStatus: () => Promise<void>;
+  // refetchApplyStatus: () => Promise<void>;
+  // refetchCurrentPhaseApplyStatus: () => Promise<void>;
   onSortChange: (sorting: Sorting) => void;
 }
 
 export default function ApplyStatusTable({
   applicants,
-  refetchApplyStatus,
-  refetchCurrentPhaseApplyStatus,
+  // refetchApplyStatus,
+  // refetchCurrentPhaseApplyStatus,
   onSortChange,
 }: ApplyStatusTableProps) {
   return (
@@ -76,8 +76,8 @@ export default function ApplyStatusTable({
             <ApplicantRow
               key={applicant.id}
               applicant={applicant}
-              refetchApplyStatus={refetchApplyStatus}
-              refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
+              // refetchApplyStatus={refetchApplyStatus}
+              // refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
             />
           ))}
         </tbody>

@@ -28,14 +28,8 @@ export const getMyApplySummary = async (phase: number) => {
 };
 
 // 3.12 아이디어에 대한 지원 현황 리스트 조회
-export const getIdeaApplyStatus = async (
-  generation: number,
-  phase: number,
-  sorting?: Sorting,
-  sort_type?: SortType,
-) => {
+export const getIdeaApplyStatus = async (phase: number, sorting?: Sorting, sort_type?: SortType) => {
   const queryParams = new URLSearchParams({
-    generation: generation.toString(),
     phase: phase.toString(),
   });
 
@@ -47,7 +41,7 @@ export const getIdeaApplyStatus = async (
     queryParams.append('sort-type', sort_type);
   }
 
-  const response = await instance.get(`/api/v1/users/teams/applies/overviews?${queryParams.toString()}`);
+  const response = await instance.get(`/api/v1/users/teams/applies/overviews/${GENERATION}?${queryParams.toString()}`);
   return response.data;
 };
 

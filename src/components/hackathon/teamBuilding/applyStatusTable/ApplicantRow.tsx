@@ -26,8 +26,8 @@ interface Applicant {
 
 interface ApplicantRowProps {
   applicant: Applicant;
-  refetchApplyStatus: () => Promise<void>;
-  refetchCurrentPhaseApplyStatus: () => Promise<void>;
+  // refetchApplyStatus: () => Promise<void>;
+  // refetchCurrentPhaseApplyStatus: () => Promise<void>;
 }
 
 const statusMap = {
@@ -39,9 +39,9 @@ const statusMap = {
 
 export default function ApplicantRow({
   applicant,
-  refetchApplyStatus,
-  refetchCurrentPhaseApplyStatus,
-}: ApplicantRowProps) {
+}: // refetchApplyStatus,
+// refetchCurrentPhaseApplyStatus,
+ApplicantRowProps) {
   const [isMotivationOpen, setIsMotivationOpen] = useState(false);
   const [isAcceptOpen, setIsAcceptOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -135,8 +135,8 @@ export default function ApplicantRow({
           toggle={() => setIsAcceptOpen(false)}
           name={applicant.user.name}
           decision="accept"
-          refetchApplyStatus={refetchApplyStatus}
-          refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
+          // refetchApplyStatus={refetchApplyStatus}
+          // refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
         />
       )}
       {isRejectOpen && (
@@ -146,7 +146,7 @@ export default function ApplicantRow({
           toggle={() => setIsRejectOpen(false)}
           name={applicant.user.name}
           decision="reject"
-          refetchApplyStatus={refetchApplyStatus}
+          // refetchApplyStatus={refetchApplyStatus}
         />
       )}
     </>

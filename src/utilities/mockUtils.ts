@@ -107,12 +107,10 @@ export const updateMockIdeaDetailBookmark = (ideaId: number): boolean => {
 // ===== 팀 빌딩 관련 Mock Utils =====
 
 // Mock 팀 정보 조회
-export const getMockTeamInfo = (): Promise<{ data: TeamInfo }> => {
+export const getMockTeamInfo = (): Promise<TeamInfo> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({
-        data: mockTeamInfo,
-      });
+      resolve(mockTeamInfo);
     }, 300); // 네트워크 지연 시뮬레이션
   });
 };
@@ -122,7 +120,7 @@ export const getMockIdeaApplyStatus = (
   phase: number,
   sorting?: Sorting,
   sortType?: SortType,
-): Promise<{ data: { counts: number; applies: Applies[] } }> => {
+): Promise<{ counts: number; applies: Applies[] }> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       let applies = mockAppliesByPhase[phase] || [];
@@ -133,10 +131,8 @@ export const getMockIdeaApplyStatus = (
       }
 
       resolve({
-        data: {
-          counts: applies.length,
-          applies: applies,
-        },
+        counts: applies.length,
+        applies: applies,
       });
     }, 300);
   });

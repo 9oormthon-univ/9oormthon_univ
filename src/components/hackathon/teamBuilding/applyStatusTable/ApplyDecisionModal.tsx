@@ -10,8 +10,8 @@ interface ApplyDecisionModalProps {
   toggle: () => void;
   name: string;
   decision: 'accept' | 'reject';
-  refetchApplyStatus: () => Promise<void>;
-  refetchCurrentPhaseApplyStatus?: () => Promise<void>;
+  // refetchApplyStatus: () => Promise<void>;
+  // refetchCurrentPhaseApplyStatus?: () => Promise<void>;
 }
 
 export default function ApplyDecisionModal({
@@ -20,17 +20,17 @@ export default function ApplyDecisionModal({
   toggle,
   name,
   decision,
-  refetchApplyStatus,
-  refetchCurrentPhaseApplyStatus = () => Promise.resolve(),
-}: ApplyDecisionModalProps) {
+}: // refetchApplyStatus,
+// refetchCurrentPhaseApplyStatus = () => Promise.resolve(),
+ApplyDecisionModalProps) {
   const handleDecision = async (decision: 'accept' | 'reject') => {
     if (decision === 'accept') {
       try {
         await acceptApply(id);
-        await refetchApplyStatus();
-        if (refetchCurrentPhaseApplyStatus) {
-          await refetchCurrentPhaseApplyStatus();
-        }
+        // await refetchApplyStatus();
+        // if (refetchCurrentPhaseApplyStatus) {
+        //   await refetchCurrentPhaseApplyStatus();
+        // }
         toggle();
         toast('지원을 수락했습니다.', { type: 'primary' });
       } catch (error: any) {
@@ -43,10 +43,10 @@ export default function ApplyDecisionModal({
     } else {
       try {
         await rejectApply(id);
-        await refetchApplyStatus();
-        if (refetchCurrentPhaseApplyStatus) {
-          await refetchCurrentPhaseApplyStatus();
-        }
+        // await refetchApplyStatus();
+        // if (refetchCurrentPhaseApplyStatus) {
+        //   await refetchCurrentPhaseApplyStatus();
+        // }
         toggle();
         toast('지원을 거절했습니다.', { type: 'primary' });
       } catch (error: any) {
