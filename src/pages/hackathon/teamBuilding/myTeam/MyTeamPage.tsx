@@ -1,7 +1,7 @@
 import TeamInformation from '../../../../components/hackathon/teamBuilding/TeamInformation';
 import styles from './styles.module.scss';
 import { Text, Button, toast, Badge } from '@goorm-dev/vapor-components';
-import useAuthStore from '../../../../store/useAuthStore';
+import { useUser } from '@/hooks/queries/useUser';
 import { UserStatus } from '../../../../constants/role';
 import InformationModal from '../../../../components/common/modal/InformationModal';
 import { useEffect, useState, useCallback } from 'react';
@@ -12,7 +12,8 @@ import { TeamInfo } from '../../../../types/user/team';
 import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '../../../../constants/errorMessage';
 
 export default function ApplicantTeamPage() {
-  const { status } = useAuthStore();
+  const { data: user } = useUser();
+  const status = user?.status ?? UserStatus.NONE;
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);

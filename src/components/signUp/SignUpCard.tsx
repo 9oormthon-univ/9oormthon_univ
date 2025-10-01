@@ -1,22 +1,22 @@
 import styles from './signUpCard.module.scss';
 import { WarningIcon } from '@goorm-dev/vapor-icons';
-import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
+import { Text, Input, Button, Alert, toast } from '@goorm-dev/vapor-components';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import Logo from '../../assets/images/goormthon_univ_BI-Bk.png';
+import Logo from '@/assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../store/useAuthStore';
-import usePeriodStore from '../../store/usePeriodStore';
-import { Role } from '../../constants/role';
+import { Role } from '@/constants/role';
+import { useUser } from '@/hooks/queries/useUser';
+import { useLogin } from '@/hooks/mutations/useAuthMutations';
 
 export default function SignUpCard() {
   const navigate = useNavigate();
 
-  const { login } = useAuthStore();
-  const { fetchPeriodData } = usePeriodStore();
-  const { fetchUserStatus } = useAuthStore();
+  const { data: user } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const { mutate: login, isPending } = useLogin();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -27,9 +27,10 @@ export default function SignUpCard() {
   };
 
   useEffect(() => {
-    if (useAuthStore.getState().role === Role.ADMIN) {
+    if (user?.role === Role.ADMIN) {
       navigate('/admin');
-    } else if (useAuthStore.getState().role === Role.USER) {
+    } else if (user?.role === Role.USER) {
+      toast('이미 로그인 되어있습니다.', { type: 'danger' });
       navigate('/');
     }
   }, [navigate]);
@@ -45,26 +46,24 @@ export default function SignUpCard() {
       return;
     }
 
-    try {
-      await login(email, password);
-      await fetchPeriodData();
-      await fetchUserStatus();
-      if (useAuthStore.getState().role === Role.ADMIN) {
-        navigate('/admin');
-      } else {
-        navigate('/');
-      }
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      if (error.response.data?.error?.code === 40100) {
-        setErrorMessage('아이디 또는 비밀번호가 일치하지 않습니다.');
-      } else {
-        setErrorMessage('로그인 중 문제가 발생했습니다.');
-      }
+    login(
+      { serial_id: email, password: password },
+      {
+        onError: (error: any) => {
+          if (error.response.data?.error?.code === 40100) {
+            setErrorMessage('아이디 또는 비밀번호가 일치하지 않습니다.');
+          } else {
+            setErrorMessage('로그인 중 문제가 발생했습니다.');
+          }
+        },
+      },
+    );
+    if (user?.role === Role.ADMIN) {
+      navigate('/admin');
+    } else {
+      navigate('/');
     }
-  }, [email, password, login, navigate, fetchPeriodData, fetchUserStatus]);
+  }, [email, password, login, navigate, user]);
 
   // 엔터 키 눌렀을 때 로그인
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -86,7 +85,7 @@ export default function SignUpCard() {
           onChange={handlePasswordChange}
           onKeyDown={handleKeyDown}
         />
-        <Button size="xl" onClick={handleLogin}>
+        <Button size="xl" onClick={handleLogin} disabled={isPending}>
           로그인
         </Button>
         {errorMessage && (

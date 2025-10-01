@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { EditIcon, InfoCircleIcon } from '@goorm-dev/vapor-icons';
 import { UserStatus, Role } from '@/constants/role';
-import useAuthStore from '@/store/useAuthStore';
 import { GENERATION } from '@/constants/common';
 import { useDebounce } from '@/hooks/useDebounce';
 import IdeaListSkeleton from '@/components/hackathon/ideaList/skeletonLoading/IdeaListSkeleton';
@@ -16,6 +15,7 @@ import { useIdeas } from '@/hooks/queries/useIdea';
 import { useBookmarkToggle } from '@/hooks/mutations/useBookmarkToggle';
 import { useIdeaSubjects } from '@/hooks/queries/useIdeaSubjects';
 import { usePeriod } from '@/hooks/queries/system/usePeriod';
+import { useUser } from '@/hooks/queries/useUser';
 
 // 상태별 메시지 매핑 객체 수정
 const STATUS_MESSAGES: Record<Exclude<UserStatus, 'NONE' | 'APPLICANT_REJECTED'> | 'ADMIN', string> = {
@@ -58,7 +58,9 @@ export default function IdeaList() {
   const { periodData, isAccessibility, PHASE_INFO, isLoading } = usePeriod();
 
   // 유저 정보
-  const { status, role } = useAuthStore();
+  const { data: user } = useUser();
+  const status = user?.status ?? UserStatus.NONE;
+  const role = user?.role ?? Role.GUEST;
 
   // 주제 가져오는 api (팀빌딩 기간일 때만)
   const { data: topics, isLoading: isTopicsLoading } = useIdeaSubjects(true, isAccessibility);
@@ -144,7 +146,7 @@ export default function IdeaList() {
 
     // NONE과 APPLICANT_REJECTED는 아이디어 등록 가능
     if (status && status !== UserStatus.NONE && status !== UserStatus.APPLICANT_REJECTED) {
-      toast(STATUS_MESSAGES[status], { type: 'danger' });
+      toast(STATUS_MESSAGES[status as keyof typeof STATUS_MESSAGES], { type: 'danger' });
       return;
     }
 

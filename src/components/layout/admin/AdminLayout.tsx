@@ -1,22 +1,18 @@
-import { SideNavigation } from '../../admin/sideNav/SideNavigation';
+import { SideNavigation } from '@/components/admin/sideNav/SideNavigation';
 import styles from './admin.module.scss';
-import useAuthStore from '../../../store/useAuthStore';
-import { Role } from '../../../constants/role';
+import { Role } from '@/constants/role';
 import { Outlet, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useUser } from '@/hooks/queries/useUser';
 
 export default function AdminLayout() {
-  const { role, fetchUserStatus, isFetched } = useAuthStore();
-
-  useEffect(() => {
-    fetchUserStatus();
-  }, [fetchUserStatus]);
+  const { data: user, isFetched } = useUser();
+  const isAdmin = user?.role === Role.ADMIN;
 
   if (!isFetched) {
     return null;
   }
 
-  if (role !== Role.ADMIN) {
+  if (!isAdmin) {
     return <Navigate to="/" />;
   }
 

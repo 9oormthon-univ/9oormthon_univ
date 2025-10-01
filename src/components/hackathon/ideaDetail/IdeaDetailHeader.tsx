@@ -13,11 +13,11 @@ import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon, OutOutlineIco
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useBreakPoint from '@/hooks/useBreakPoint';
-import useAuthStore from '@/store/useAuthStore';
 import { UserStatus } from '@/constants/role';
 import InformationModal from '@/components/common/modal/InformationModal';
 import { useDeleteIdeaMutation } from '@/hooks/mutations/useIdeaMutations';
 import { usePeriod } from '@/hooks/queries/system/usePeriod';
+import { useUser } from '@/hooks/queries/useUser';
 interface IdeaDetailHeaderProps {
   id: number;
   provider_id: number;
@@ -50,7 +50,8 @@ export default function IdeaDetailHeader({
   const navigate = useNavigate();
   const breakpoint = useBreakPoint();
   const { periodData, isApplyAblePeriod } = usePeriod();
-  const { status } = useAuthStore();
+  const { data: user } = useUser();
+  const status = user?.status ?? UserStatus.NONE;
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { mutate: deleteIdea } = useDeleteIdeaMutation();
 

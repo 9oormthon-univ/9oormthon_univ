@@ -3,7 +3,7 @@
 import { GENERATION } from '../constants/common';
 import instance, { authLessInstance } from './instance';
 
-// JWT 토큰 재발급
+// 1.4 JWT 토큰 재발급
 export const reissueAPI = async () => {
   const response = await instance.post('/api/v1/auth/reissue');
 

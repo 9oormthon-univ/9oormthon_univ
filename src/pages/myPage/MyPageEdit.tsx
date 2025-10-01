@@ -8,13 +8,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useS3Upload } from '@/hooks/useS3Upload';
 import { useNavigate } from 'react-router-dom';
 import { LinkType } from '@/constants/linkType';
-import useAuthStore from '@/store/useAuthStore';
 import MyPageSkeleton from '@/components/myPage/skeletonLoading/MyPageSkeleton';
 import { STACKS_WITH_NAMES } from '@/constants/Stacks';
 import FormField from '@/components/common/formField/FormField';
 import Editor from '@/components/common/input/Editor';
 import { useUserInfo } from '@/hooks/queries/useUserInfo';
 import { useUpdateUserInfoMutation } from '@/hooks/mutations/useUserMutations';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function MyPageEdit() {
   const { data: rawUserInfo, isLoading } = useUserInfo();
@@ -25,7 +25,7 @@ export default function MyPageEdit() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const { uploadToS3 } = useS3Upload();
   const navigate = useNavigate();
-  const { updateProfileImage } = useAuthStore();
+  const queryClient = useQueryClient();
   const { mutate: updateUserInfo } = useUpdateUserInfoMutation();
 
   const [editableUser, setEditableUser] = useState<{
@@ -117,7 +117,7 @@ export default function MyPageEdit() {
 
     updateUserInfo(updatedData, {
       onSuccess: () => {
-        updateProfileImage(uploadedImageUrl);
+        queryClient.invalidateQueries({ queryKey: ['user'] });
         navigate('/my-page');
         toast('프로필 수정이 완료되었습니다.', { type: 'primary' });
       },

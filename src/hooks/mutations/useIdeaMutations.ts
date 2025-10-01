@@ -6,8 +6,6 @@ import { toast } from '@goorm-dev/vapor-components';
 import { IdeaCreateEdit } from '@/types/user/idea';
 import { IDEA_ADD_ERROR_MESSAGES } from '@/constants/errorMessage';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '@/store/useAuthStore';
-import { UserBrief } from '@/types/user/users';
 
 // 아이디어 등록
 export const useCreateIdeaMutation = () => {
@@ -41,17 +39,11 @@ export const useUpdateIdeaMutation = () => {
 export const useDeleteIdeaMutation = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const updateUser = useAuthStore((state) => state.updateUserFromQuery);
 
   return useMutation<void, unknown, { id: number }>({
     mutationFn: ({ id }: { id: number }) => deleteIdea(id),
     onSuccess: async (_data, { id }) => {
       await queryClient.invalidateQueries({ queryKey: ['user'] });
-
-      const user = await queryClient.getQueryData(['user']);
-      if (user) {
-        updateUser(user as UserBrief);
-      }
 
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['ideas'] }),

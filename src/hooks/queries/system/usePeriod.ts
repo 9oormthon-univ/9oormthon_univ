@@ -10,7 +10,8 @@ export const usePeriod = () => {
   const { data, isLoading, isFetched } = useQuery({
     queryKey: ['period'],
     queryFn: mockIfDev(fetchPeriod, mockPeriodData),
-    staleTime: 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   const currentPhase = useMemo(() => {

@@ -2,12 +2,12 @@ import { Button, Text } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { usePeriod } from '@/hooks/queries/system/usePeriod';
-import useAuthStore from '../../../store/useAuthStore';
-import { UserStatus } from '../../../constants/role';
+import { UserStatus } from '@/constants/role';
 import { ApplySummary } from '@/types/user/users';
 import { getPositionName } from '@/constants/position';
 import { getApplyStatusColor, getApplyStatusName } from '@/types/user/team';
 import { useApplyMutation } from '@/hooks/mutations/useApplyMutation';
+import { useUser } from '@/hooks/queries/useUser';
 interface IdeaApplyListItemProps {
   applySummary: ApplySummary;
   applyIndex: number;
@@ -18,7 +18,8 @@ export default function IdeaApplyListItem({ applySummary, applyIndex }: IdeaAppl
   const navigate = useNavigate();
 
   const { isApplyAblePeriod } = usePeriod();
-  const { status } = useAuthStore();
+  const { data: user } = useUser();
+  const status = user?.status ?? UserStatus.NONE;
   const { mutate: deleteApply } = useApplyMutation();
 
   const handleDeleteApply = async () => {

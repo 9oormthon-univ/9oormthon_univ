@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { reissueAPI } from './auth';
-import useAuthStore from '../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@goorm-dev/vapor-components';
+import { useQueryClient } from '@tanstack/react-query';
+
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   withCredentials: true,
@@ -26,6 +27,7 @@ export const setAxiosNavigate = (nav: ReturnType<typeof useNavigate>) => {
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    const queryClient = useQueryClient();
     // 원래 요청 정보 저장
     const originalRequest = error.config;
     if (!originalRequest) {
@@ -59,8 +61,8 @@ instance.interceptors.response.use(
       } catch (error) {
         isRefreshing = false;
         refreshSubscribers = [];
-        useAuthStore.getState().resetToGuest(); // 로그인 풀리면 GUEST로 변경
         toast('로그아웃 되었습니다. 다시 로그인해주세요.', { type: 'danger' });
+        queryClient.clear();
         if (navigate) {
           navigate('/login');
         }
