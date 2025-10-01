@@ -3,14 +3,13 @@ import styles from './styles.module.scss';
 import { Badge, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Text } from '@goorm-dev/vapor-components';
 import MemberInfoItem from '../common/team/MemberInfoItem';
 import { useEffect, useRef, useState } from 'react';
-import { GENERATION } from '../../../constants/common';
-import { updateTeamInfo } from '../../../api/teams';
+import { useTeamNameMutation } from '@/hooks/mutations/useTeamMutation';
 import { TeamInfo, TeamMember, TeamRole } from '../../../types/user/team';
 import { POSITIONS } from '../../../constants/position';
 
 interface TeamInformationProps {
   viewer: boolean; // 보기 전용인지
-  teamInfo: TeamInfo | null;
+  teamInfo: TeamInfo;
 }
 
 export default function TeamInformation({ viewer, teamInfo }: TeamInformationProps) {
@@ -23,7 +22,7 @@ export default function TeamInformation({ viewer, teamInfo }: TeamInformationPro
   const [teamName, setTeamName] = useState(teamInfo?.name ?? '팀 이름');
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const { mutate: updateTeamNameMutation } = useTeamNameMutation();
   // name prop이 바뀔 때 teamName 상태 업데이트
   useEffect(() => {
     setTeamName(teamInfo?.name ?? '팀 이름');
@@ -36,23 +35,18 @@ export default function TeamInformation({ viewer, teamInfo }: TeamInformationPro
   };
 
   // 수정 완료 (Enter 또는 블러)
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!teamName.trim()) {
       setTeamName('팀 이름'); // 빈 값이면 기본값 유지
       setIsEditing(false);
       return;
     }
 
-    try {
-      setTeamName(teamName.trim());
-      await updateTeamInfo(GENERATION, teamName);
-      setIsEditing(false);
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      setTeamName(teamName);
-    }
+    updateTeamNameMutation(teamName, {
+      onSuccess: () => {
+        setIsEditing(false);
+      },
+    });
   };
 
   // Enter 키 이벤트 처리

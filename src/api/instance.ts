@@ -2,7 +2,7 @@ import axios from 'axios';
 import { reissueAPI } from './auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@goorm-dev/vapor-components';
-import { useQueryClient } from '@tanstack/react-query';
+import { queryClient } from '@/queryClient';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -27,7 +27,6 @@ export const setAxiosNavigate = (nav: ReturnType<typeof useNavigate>) => {
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const queryClient = useQueryClient();
     // 원래 요청 정보 저장
     const originalRequest = error.config;
     if (!originalRequest) {

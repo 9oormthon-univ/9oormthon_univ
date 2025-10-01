@@ -33,7 +33,7 @@ export default function SignUpCard() {
       toast('이미 로그인 되어있습니다.', { type: 'danger' });
       navigate('/');
     }
-  }, [navigate]);
+  }, [navigate, user?.role]);
 
   // 로그인
   const handleLogin = useCallback(async () => {

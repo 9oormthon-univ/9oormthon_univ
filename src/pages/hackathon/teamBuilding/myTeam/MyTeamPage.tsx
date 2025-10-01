@@ -1,15 +1,14 @@
-import TeamInformation from '../../../../components/hackathon/teamBuilding/TeamInformation';
+import TeamInformation from '@/components/hackathon/teamBuilding/TeamInformation';
 import styles from './styles.module.scss';
 import { Text, Button, toast, Badge } from '@goorm-dev/vapor-components';
 import { useUser } from '@/hooks/queries/useUser';
-import { UserStatus } from '../../../../constants/role';
-import InformationModal from '../../../../components/common/modal/InformationModal';
-import { useEffect, useState, useCallback } from 'react';
-import { confirmTeamBuilding, getTeamInfo } from '../../../../api/teams';
-import { GENERATION } from '../../../../constants/common';
-import TeamInformationSkeleton from '../../../../components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
-import { TeamInfo } from '../../../../types/user/team';
-import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '../../../../constants/errorMessage';
+import { UserStatus } from '@/constants/role';
+import InformationModal from '@/components/common/modal/InformationModal';
+import { useState } from 'react';
+import TeamInformationSkeleton from '@/components/hackathon/teamBuilding/skeletonLoading/TeamInformationSkeleton';
+import { TEAM_BUILDING_CONFIRM_ERROR_MESSAGES } from '@/constants/errorMessage';
+import { useTeamInfo } from '@/hooks/queries/useTeamInfo';
+import { useConfirmTeamMutation } from '@/hooks/mutations/useConfirmTeamMutation';
 
 export default function ApplicantTeamPage() {
   const { data: user } = useUser();
@@ -17,55 +16,28 @@ export default function ApplicantTeamPage() {
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const fetchTeamInfo = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const res = await getTeamInfo(GENERATION);
-      setTeamInfo(res.data);
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      toast('팀 정보 불러오기 실패', { type: 'danger' });
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchTeamInfo();
-  }, [fetchTeamInfo]);
-
+  const { data: teamInfo, isLoading } = useTeamInfo();
   let viewer = true;
 
   if (status === UserStatus.PROVIDER) {
     viewer = false;
   }
 
-  const handleConfirmTeamBuilding = async () => {
-    try {
-      await confirmTeamBuilding(GENERATION);
-      toast('팀 빌딩이 확정되었습니다.', {
-        type: 'primary',
-      });
-      toggle();
-      fetchTeamInfo();
-    } catch (error: any) {
-      if (import.meta.env.DEV) {
-        console.log(error);
-      }
-      const errorCode = error.response.data?.error?.code;
-      toast(
-        TEAM_BUILDING_CONFIRM_ERROR_MESSAGES[errorCode] ||
-          '팀 빌딩 확정에 실패했습니다. 팀 빌딩 조건을 다시 확인해주세요.',
-        {
-          type: 'danger',
-        },
-      );
-    }
+  const { mutate: confirmTeamBuildingMutation } = useConfirmTeamMutation();
+
+  const handleConfirmTeamBuilding = () => {
+    confirmTeamBuildingMutation({
+      onSuccess: () => {
+        toast('팀 빌딩이 확정되었습니다.', { type: 'primary' });
+        toggle();
+      },
+      onError: (error: any) => {
+        const errorCode = error.response?.data?.error?.code;
+        if (errorCode) {
+          toast(TEAM_BUILDING_CONFIRM_ERROR_MESSAGES[errorCode] || '팀 빌딩 확정에 실패했습니다.', { type: 'danger' });
+        }
+      },
+    });
   };
 
   return (
@@ -89,7 +61,11 @@ export default function ApplicantTeamPage() {
             </Button>
           )}
         </div>
-        {isLoading ? <TeamInformationSkeleton /> : <TeamInformation viewer={viewer} teamInfo={teamInfo} />}
+        {isLoading ? (
+          <TeamInformationSkeleton />
+        ) : (
+          <TeamInformation viewer={viewer} teamInfo={teamInfo ?? { team_building: 'RECRUITING', role: {} }} />
+        )}
       </div>
       <InformationModal
         isOpen={isOpen}
