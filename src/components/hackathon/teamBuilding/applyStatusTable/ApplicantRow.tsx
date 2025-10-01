@@ -5,43 +5,11 @@ import ApplyReasonModal from './ApplyReasonModal';
 import styles from './styles.module.scss';
 import ApplyDecisionModal from './ApplyDecisionModal';
 import { useNavigate } from 'react-router-dom';
-import usePeriodStore from '../../../../store/usePeriodStore';
-import { getPositionName, PositionKey } from '../../../../constants/position';
+import { getPositionName } from '@/constants/position';
+import { usePeriod } from '@/hooks/queries/system/usePeriod';
+import { Applies, ApplyStatus } from '@/types/user/team';
 
-interface User {
-  id: number;
-  name: string;
-  univ: string;
-}
-
-// 지원 신청 정보
-interface Applicant {
-  id: number;
-  preference: number; // 지망 순위
-  motivation: string; // 지원 동기
-  role: PositionKey; // 역할
-  status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED'; // 현재 상태
-  user: User; // 지원자의 유저 정보 포함
-}
-
-interface ApplicantRowProps {
-  applicant: Applicant;
-  // refetchApplyStatus: () => Promise<void>;
-  // refetchCurrentPhaseApplyStatus: () => Promise<void>;
-}
-
-const statusMap = {
-  ACCEPTED: { text: '수락 완료', color: 'text-success' },
-  REJECTED: { text: '거절 완료', color: 'text-danger' },
-  CONFIRMED: { text: '확정', color: 'text-success' },
-  ACCEPTED_NOT_JOINED: { text: '타 팀 합류', color: 'text-hint' },
-} as const;
-
-export default function ApplicantRow({
-  applicant,
-}: // refetchApplyStatus,
-// refetchCurrentPhaseApplyStatus,
-ApplicantRowProps) {
+export default function ApplicantRow({ applicant }: { applicant: Applies }) {
   const [isMotivationOpen, setIsMotivationOpen] = useState(false);
   const [isAcceptOpen, setIsAcceptOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -50,7 +18,7 @@ ApplicantRowProps) {
     navigate(`/user/${applicant.user.id}`);
   };
 
-  const { isTeamBuildingPeriod } = usePeriodStore();
+  const { isApplyAblePeriod } = usePeriod();
 
   return (
     <>
@@ -79,36 +47,36 @@ ApplicantRowProps) {
           {/* 대기 시 / 팀 빌딩 기간이면 수락 거절 불가 */}
           {applicant.status === 'WAITING' && (
             <>
-              <Button size="sm" color="danger" onClick={() => setIsRejectOpen(true)} disabled={isTeamBuildingPeriod()}>
+              <Button size="sm" color="danger" onClick={() => setIsRejectOpen(true)} disabled={isApplyAblePeriod}>
                 거절
               </Button>
-              <Button size="sm" color="success" onClick={() => setIsAcceptOpen(true)} disabled={isTeamBuildingPeriod()}>
+              <Button size="sm" color="success" onClick={() => setIsAcceptOpen(true)} disabled={isApplyAblePeriod}>
                 수락
               </Button>
             </>
           )}
           {/* 수락 시 */}
           {applicant.status === 'ACCEPTED' && (
-            <Text typography="subtitle1" color={statusMap[applicant.status].color}>
-              {statusMap[applicant.status].text}
+            <Text typography="subtitle1" color={ApplyStatus[applicant.status].color}>
+              {ApplyStatus[applicant.status].text}
             </Text>
           )}
           {/* 거절 시 */}
           {applicant.status === 'REJECTED' && (
-            <Text typography="subtitle1" color={statusMap[applicant.status].color}>
-              {statusMap[applicant.status].text}
+            <Text typography="subtitle1" color={ApplyStatus[applicant.status].color}>
+              {ApplyStatus[applicant.status].text}
             </Text>
           )}
           {/* 확정 시 */}
           {applicant.status === 'CONFIRMED' && (
-            <Text typography="subtitle1" color={statusMap[applicant.status].color}>
-              {statusMap[applicant.status].text}
+            <Text typography="subtitle1" color={ApplyStatus[applicant.status].color}>
+              {ApplyStatus[applicant.status].text}
             </Text>
           )}
           {/* 타 팀 합류 시 */}
           {applicant.status === 'ACCEPTED_NOT_JOINED' && (
-            <Text typography="subtitle1" color={statusMap[applicant.status].color}>
-              {statusMap[applicant.status].text}
+            <Text typography="subtitle1" color={ApplyStatus[applicant.status].color}>
+              {ApplyStatus[applicant.status].text}
             </Text>
           )}
         </td>
@@ -135,8 +103,6 @@ ApplicantRowProps) {
           toggle={() => setIsAcceptOpen(false)}
           name={applicant.user.name}
           decision="accept"
-          // refetchApplyStatus={refetchApplyStatus}
-          // refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
         />
       )}
       {isRejectOpen && (
@@ -146,7 +112,6 @@ ApplicantRowProps) {
           toggle={() => setIsRejectOpen(false)}
           name={applicant.user.name}
           decision="reject"
-          // refetchApplyStatus={refetchApplyStatus}
         />
       )}
     </>

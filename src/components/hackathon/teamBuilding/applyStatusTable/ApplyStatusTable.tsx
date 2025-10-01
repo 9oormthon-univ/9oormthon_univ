@@ -1,40 +1,16 @@
 import { Text } from '@goorm-dev/vapor-components';
 import ApplicantRow from './ApplicantRow';
 import styles from './styles.module.scss';
-import { PositionKey } from '../../../../constants/position';
-import { Sorting } from '../../../../types/user/idea';
+import { Sorting } from '@/types/user/idea';
 import { ControlCommonIcon } from '@goorm-dev/vapor-icons';
-
-// 지원자 개별 정보
-interface User {
-  id: number;
-  name: string;
-  univ: string;
-}
-
-// 지원 신청 정보
-interface Applicant {
-  id: number;
-  preference: number; // 지망 순위
-  motivation: string; // 지원 동기
-  role: PositionKey; // 역할
-  status: 'WAITING' | 'ACCEPTED' | 'REJECTED' | 'CONFIRMED' | 'ACCEPTED_NOT_JOINED'; // 현재 상태
-  user: User; // 지원자의 유저 정보 포함
-}
+import { Applies } from '@/types/user/team';
 
 interface ApplyStatusTableProps {
-  applicants: Applicant[];
-  // refetchApplyStatus: () => Promise<void>;
-  // refetchCurrentPhaseApplyStatus: () => Promise<void>;
+  applicants: Applies[];
   onSortChange: (sorting: Sorting) => void;
 }
 
-export default function ApplyStatusTable({
-  applicants,
-  // refetchApplyStatus,
-  // refetchCurrentPhaseApplyStatus,
-  onSortChange,
-}: ApplyStatusTableProps) {
+export default function ApplyStatusTable({ applicants, onSortChange }: ApplyStatusTableProps) {
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -73,12 +49,7 @@ export default function ApplyStatusTable({
         </thead>
         <tbody>
           {applicants.map((applicant) => (
-            <ApplicantRow
-              key={applicant.id}
-              applicant={applicant}
-              // refetchApplyStatus={refetchApplyStatus}
-              // refetchCurrentPhaseApplyStatus={refetchCurrentPhaseApplyStatus}
-            />
+            <ApplicantRow key={applicant.id} applicant={applicant} />
           ))}
         </tbody>
       </table>
