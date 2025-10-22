@@ -51,6 +51,11 @@ function CustomNavbar() {
     },
   ];
 
+  // 로그인 임의로 닫음
+  const handleClickLogin = () => {
+    alert('현재 테스트 중이므로, 추후 다시 로그인해주시기 바랍니다. ');
+  };
+
   // 팀 빌딩 기간 데이터 업데이트 필요
   const handleClickHackathon = async () => {
     const currentStatus = user?.status ?? UserStatus.NONE;
@@ -203,10 +208,10 @@ function CustomNavbar() {
             </Dropdown>
           ) : (
             <>
-              <Button className={styles.loginButton} size="lg" href="/login">
+              <Button className={styles.loginButton} size="lg" onClick={handleClickLogin}>
                 로그인
               </Button>
-              <NavLink className={styles.loginText} href="/login">
+              <NavLink className={styles.loginText} onClick={handleClickLogin}>
                 로그인하기
                 <ChevronRightOutlineIcon className="ml-1" />
               </NavLink>

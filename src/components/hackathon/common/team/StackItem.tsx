@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { Tooltip } from '@goorm-dev/vapor-components';
-import { getStackName } from '../../../../constants/Stacks';
+import { getStackName } from '@/constants/Stacks';
 
 interface StackItemProps {
   skill: string;

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import useBreakPoint from '../../../../hooks/useBreakPoint';
+import useBreakPoint from '@/hooks/useBreakPoint';
 import styles from './styles.module.scss';
 import { Badge, Text } from '@goorm-dev/vapor-components';
 

@@ -9,7 +9,7 @@ import {
 } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { useState } from 'react';
-import { LinkType, linkTypeList } from '../../../constants/linkType';
+import { LinkType, linkTypeList } from '@/constants/linkType';
 import { CloseOutlineIcon, PlusOutlineIcon, WarningIcon } from '@goorm-dev/vapor-icons';
 
 interface FormLinkInputProps {
