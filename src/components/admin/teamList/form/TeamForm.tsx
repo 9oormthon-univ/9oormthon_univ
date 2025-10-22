@@ -1,13 +1,12 @@
 import { Input, Radio } from '@goorm-dev/vapor-components';
-import FormField from '../../../common/formField/FormField';
+import FormField from '@/components/common/formField/FormField';
 import styles from './form.module.scss';
 import { MemberNumberDropdown } from '../dropdown/MemberNumberDropdown';
 import { useState, useEffect, useRef } from 'react';
-import SearchDropdown from '../../../common/dropdown/SearchDropdown';
-import { Team, TeamBuildingStatus, TeamUpdateForm } from '../../../../types/admin/team';
-import { User } from '../../../../types/admin/member';
-import { fetchUserListAPI } from '../../../../api/admin/users';
-import { GENERATION } from '../../../../constants/common';
+import SearchDropdown from '@/components/common/dropdown/SearchDropdown';
+import { Team, TeamBuildingStatus, TeamUpdateForm } from '@/types/admin/team';
+import { User } from '@/types/admin/member';
+import { fetchUserListAPI } from '@/api/admin/users';
 
 interface TeamFormProps {
   mode: 'create' | 'update';
@@ -96,7 +95,7 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
   const [userList, setUserList] = useState<User[]>([]);
   useEffect(() => {
     const fetchUserList = async () => {
-      const res = await fetchUserListAPI(GENERATION, undefined, undefined, teamId); // 팀장 선정을 위해 팀 아이디 추가
+      const res = await fetchUserListAPI(undefined, undefined, teamId); // 팀장 선정을 위해 팀 아이디 추가
       setUserList(res.data.users);
     };
     fetchUserList();
@@ -169,15 +168,15 @@ export default function TeamForm({ mode, onValidationChange, onFormChange, initi
             outPlaceholder="팀 대표를 선택해주세요"
             items={userList.map((user) => ({
               id: user.id,
-              description: user.description,
+              label: user.description,
             }))}
-            onSelect={(item) => {
-              setTeamLeaderId(item.id);
+            onChange={(item: string | number | null) => {
+              setTeamLeaderId(item as number);
             }}
-            selectedItem={userList.find((user) => user.id === teamLeaderId) ?? null}
+            selectedId={teamLeaderId}
             onSearch={async (term) => {
               if (term.length >= 2) {
-                const res = await fetchUserListAPI(GENERATION, undefined, term, teamId);
+                const res = await fetchUserListAPI(undefined, term, teamId);
                 setUserList(res.data.users);
               }
             }}

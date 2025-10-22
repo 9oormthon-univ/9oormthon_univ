@@ -76,11 +76,13 @@ export default function TeamMemberCreateModal({ isOpen, toggle, onUpdate }: Team
       <ModalBody className={styles.modalBody}>
         <FormField label="팀원 이름" required>
           <SearchDropdown
-            items={userList}
-            selectedItem={selectedUser}
-            onSelect={(user) => setSelectedUser(user)}
-            onSearch={(keyword) => {
-              setUserList(userList.filter((user) => user.description.includes(keyword)));
+            items={userList.map((user) => ({
+              id: user.id,
+              label: user.description,
+            }))}
+            selectedId={selectedUser?.id}
+            onChange={(item: string | number | null) => {
+              setSelectedUser(userList.find((user) => user.id === item) ?? null);
             }}
             inPlaceholder="미르미 검색"
             outPlaceholder="팀원을 검색해주세요"

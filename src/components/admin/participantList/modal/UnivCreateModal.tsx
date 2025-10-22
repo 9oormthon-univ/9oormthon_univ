@@ -15,6 +15,7 @@ export default function UnivCreateModal({ isOpen, toggle, onSuccess }: UnivCreat
   const [form, setForm] = useState<UnivFormPayload>({
     name: '',
     instagram_url: '',
+    
   });
 
   // API 연결 - 유니브 생성

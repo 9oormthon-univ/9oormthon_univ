@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { getTeamInfo } from '../api/teams';
-import { GENERATION } from '../constants/common';
 import { getMockTeamInfo } from '../utilities/mockUtils';
 
 interface QRUserInfo {
@@ -23,19 +22,19 @@ export const useQRUserInfo = (name: string, univ: string) => {
           const qrPayload: QRUserInfo = {
             name: encodeURIComponent(name),
             univ: encodeURIComponent(univ),
-            teamId: teamInfo.data.number?.toString() ?? '',
-            teamName: encodeURIComponent(teamInfo.data.name ?? ''),
+            teamId: teamInfo?.number?.toString() ?? '',
+            teamName: encodeURIComponent(teamInfo.name ?? ''),
           };
           const jsonData = JSON.stringify(qrPayload);
           setQrData(jsonData);
           setIsLoading(false);
         } else {
-          const teamInfo = await getTeamInfo(GENERATION);
+          const teamInfo = await getTeamInfo();
           const qrPayload: QRUserInfo = {
             name: encodeURIComponent(name),
             univ: encodeURIComponent(univ),
-            teamId: teamInfo?.data?.number?.toString() ?? 'N/A',
-            teamName: encodeURIComponent(teamInfo?.data?.name ?? '팀 정보 없음'),
+            teamId: teamInfo?.number?.toString() ?? 'N/A',
+            teamName: encodeURIComponent(teamInfo?.name ?? '팀 정보 없음'),
           };
 
           const jsonData = JSON.stringify(qrPayload);

@@ -4,7 +4,6 @@ import SearchDropdown from '../../../common/dropdown/SearchDropdown';
 import styles from './form.module.scss';
 import type { UnivFormPayload } from '../../../../types/admin/univ';
 import { fetchUserListAPI } from '../../../../api/admin/users';
-import { GENERATION } from '../../../../constants/common';
 import { User } from '../../../../types/admin/member';
 import { useEffect, useState } from 'react';
 
@@ -17,9 +16,7 @@ interface UnivFormProps {
 
 export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps) {
   const [representatives, setRepresentatives] = useState<User[]>([]);
-  const [localForm, setLocalForm] = useState<UnivFormPayload>(
-    form ?? { name: '', instagram_url: '', leader_id: undefined },
-  );
+  const [localForm, setLocalForm] = useState<UnivFormPayload>(form ?? { name: '', instagram_url: '', leader_id: 0 });
 
   useEffect(() => {
     if (form) {
@@ -30,7 +27,7 @@ export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps
   // 특정 유니브 미르미 조회
   const fetchUserList = async () => {
     if (!univId) return;
-    const res = await fetchUserListAPI(GENERATION, univId);
+    const res = await fetchUserListAPI(univId);
     setRepresentatives(res.data.users);
   };
 
@@ -47,13 +44,8 @@ export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps
 
     try {
       const trimmed = searchTerm.trim();
-      const res = await fetchUserListAPI(GENERATION, univId, trimmed === '' ? undefined : trimmed);
-      setRepresentatives(
-        res.data.users.map((user: User) => ({
-          id: user.id,
-          description: user.description,
-        })),
-      );
+      const res = await fetchUserListAPI(univId, trimmed === '' ? undefined : trimmed);
+      setRepresentatives(res.data.users);
     } catch (error) {
       if (import.meta.env.DEV) {
         console.log(error);
@@ -90,10 +82,14 @@ export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps
       {mode === 'update' && (
         <FormField label="유니브 대표" required={false}>
           <SearchDropdown
-            items={representatives}
-            selectedItem={representatives.find((representative) => representative.id === localForm.leader_id) ?? null}
-            onSelect={(item) => {
-              const updated = { ...localForm, leader_id: item.id };
+            multiple={false}
+            items={representatives.map((representative) => ({
+              id: representative.id,
+              label: representative.description,
+            }))}
+            selectedId={localForm.leader_id}
+            onChange={(item: string | number | null) => {
+              const updated = { ...localForm, leader_id: item as number };
               setLocalForm(updated);
               onChange?.('leader_id', updated.leader_id);
             }}

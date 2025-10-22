@@ -1,16 +1,15 @@
 import { Avatar, Button } from '@goorm-dev/vapor-components';
-import FormField from '../../../common/formField/FormField';
+import FormField from '@/components/common/formField/FormField';
 import { Input } from '@goorm-dev/vapor-components';
 
 import GenerationSelectDropdown from '../modal/dropdown/GenerationSelectDropdown';
 import styles from './form.module.scss';
 import { ImageIcon } from '@goorm-dev/vapor-icons';
 import { useEffect, useRef, useState } from 'react';
-import { Univ } from '../../../../types/admin/univ';
-import { fetchUnivListAPI } from '../../../../api/admin/univs';
-import { GENERATION } from '../../../../constants/common';
-import { UserForm } from '../../../../types/admin/member';
-import SearchDropdown from '../../../common/dropdown/SearchDropdown';
+import { Univ } from '@/types/admin/univ';
+import { fetchUnivListAPI } from '@/api/admin/univs';
+import { UserForm } from '@/types/admin/member';
+import SearchDropdown from '@/components/common/dropdown/SearchDropdown';
 
 interface MemberFormProps {
   showProfileEdit?: boolean;
@@ -26,7 +25,7 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
   // 학교 리스트 조회
   useEffect(() => {
     const fetchUnivList = async () => {
-      const res = await fetchUnivListAPI(GENERATION);
+      const res = await fetchUnivListAPI();
       setUnivList(res.data.univs);
     };
     fetchUnivList();
@@ -89,17 +88,10 @@ export default function MemberForm({ showProfileEdit, member, onChange }: Member
           <SearchDropdown
             items={univList.map((univ) => ({
               id: univ.id,
-              description: univ.name,
+              label: univ.name,
             }))}
-            selectedItem={
-              univList.find((univ) => univ.id === member?.univ_id)
-                ? {
-                    id: univList.find((univ) => univ.id === member?.univ_id)?.id || 0,
-                    description: univList.find((univ) => univ.id === member?.univ_id)?.name ?? '',
-                  }
-                : null
-            }
-            onSelect={(univ) => onChange?.('univ_id', univ.id)}
+            selectedId={univList.find((univ) => univ.id === member?.univ_id)?.id || 0}
+            onChange={(item: string | number | null) => onChange?.('univ_id', item as number)}
             inPlaceholder="학교를 검색해주세요"
             outPlaceholder="학교를 선택해주세요"
           />

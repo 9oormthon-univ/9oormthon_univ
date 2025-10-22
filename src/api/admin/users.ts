@@ -1,6 +1,7 @@
 import { UserForm } from '../../types/admin/member';
 import { Sorting, SortType } from '../../types/admin/user';
 import instance from '../instance';
+import { GENERATION } from '../../constants/common';
 
 // 2.1 어드민 유저 생성
 export const createUserAPI = async (userData: UserForm) => {
@@ -9,10 +10,8 @@ export const createUserAPI = async (userData: UserForm) => {
 };
 
 // 2.5 어드민 유저 간단 리스트 조회
-export const fetchUserListAPI = async (generation: number, univId?: number, search?: string, teamId?: number) => {
-  const queryParams = new URLSearchParams({
-    generation: generation.toString(),
-  });
+export const fetchUserListAPI = async (univId?: number, search?: string, teamId?: number) => {
+  const queryParams = new URLSearchParams();
 
   if (univId !== undefined) {
     queryParams.append('univ-id', univId.toString());
@@ -26,7 +25,7 @@ export const fetchUserListAPI = async (generation: number, univId?: number, sear
     queryParams.append('team-id', teamId.toString());
   }
 
-  const response = await instance.get(`/api/v1/admins/users/briefs?${queryParams.toString()}`);
+  const response = await instance.get(`/api/v1/admins/users/briefs?generation=${GENERATION}&${queryParams.toString()}`);
   return response.data;
 };
 
@@ -34,7 +33,6 @@ export const fetchUserListAPI = async (generation: number, univId?: number, sear
 export const fetchUserSummaryListAPI = async (
   page: number,
   size: number,
-  generation: number,
   univ_id?: number,
   search?: string,
   sorting?: Sorting,
@@ -43,7 +41,6 @@ export const fetchUserSummaryListAPI = async (
   const queryParams = new URLSearchParams({
     page: page.toString(),
     size: size.toString(),
-    generation: generation.toString(),
   });
 
   // undefined인 경우 쿼리 파라미터에 추가하지 않음
@@ -63,7 +60,7 @@ export const fetchUserSummaryListAPI = async (
     queryParams.append('search', search);
   }
 
-  const requestUrl = `/api/v1/admins/users/overviews?${queryParams.toString()}`;
+  const requestUrl = `/api/v1/admins/users/overviews?generation=${GENERATION}&${queryParams.toString()}`;
   const response = await instance.get(requestUrl);
   return response.data;
 };
