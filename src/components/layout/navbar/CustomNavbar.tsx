@@ -29,8 +29,9 @@ function CustomNavbar() {
   const navigate = useNavigate();
 
   // 유저 정보
-  const { data: user } = useUser();
-  const isLoggedIn = user?.role !== Role.GUEST;
+  const { data: user, isFetched } = useUser();
+  const isLoggedIn = isFetched && user?.role !== Role.GUEST;
+
   const profileImg = user?.img_url;
   const { mutate: logout } = useLogout();
 
@@ -58,24 +59,24 @@ function CustomNavbar() {
 
   // 팀 빌딩 기간 데이터 업데이트 필요
   const handleClickHackathon = async () => {
-    const currentStatus = user?.status ?? UserStatus.NONE;
+    const currentStatus = user?.status;
 
-    switch (currentStatus) {
-      case UserStatus.PROVIDER:
-        return navigate('/team/provider');
-      case UserStatus.MEMBER:
-      case UserStatus.APPLICANT:
-      case UserStatus.APPLICANT_REJECTED:
-        return navigate('/team/applicant');
-      case UserStatus.NONE:
-        return toast('아직 팀 빌딩을 진행하지 않았습니다.', { type: 'danger' });
-      default:
-        toast('알 수 없는 오류가 발생했습니다.', { type: 'danger' });
+    if (currentStatus === UserStatus.PROVIDER) {
+      return navigate('/team/provider');
+    } else if (
+      currentStatus === UserStatus.MEMBER ||
+      currentStatus === UserStatus.APPLICANT ||
+      currentStatus === UserStatus.APPLICANT_REJECTED
+    ) {
+      return navigate('/team/applicant');
+    } else {
+      return toast('아직 팀 빌딩을 진행하지 않았습니다.', { type: 'danger' });
     }
   };
 
+  // 나의 팀 이동
   const handleClickMyTeam = () => {
-    const currentStatus = user?.status ?? UserStatus.NONE;
+    const currentStatus = user?.status;
 
     if (currentStatus === UserStatus.PROVIDER || currentStatus === UserStatus.MEMBER) {
       return navigate('/team/my-team');
@@ -108,7 +109,7 @@ function CustomNavbar() {
             </NavItem>
           ))}
 
-          {isLoggedIn && (
+          {isFetched && isLoggedIn && (
             <Dropdown
               direction="down"
               nav={true}
@@ -166,7 +167,7 @@ function CustomNavbar() {
             나의 유니브 찾기
           </NavLink>
 
-          {isLoggedIn ? (
+          {isFetched && isLoggedIn ? (
             <Dropdown nav isOpen={isMyPageOpened} toggle={() => setIsMyPageOpened((prev) => !prev)}>
               <DropdownToggle nav className={styles.profileCircle}>
                 {profileImg ? (
