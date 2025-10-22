@@ -30,7 +30,7 @@ function CustomNavbar() {
 
   // 유저 정보
   const { data: user, isFetched } = useUser();
-  const isLoggedIn = isFetched && user?.role !== Role.GUEST;
+  const isLoggedIn = isFetched && !!user && user.role !== undefined && user.role !== Role.GUEST;
 
   const profileImg = user?.img_url;
   const { mutate: logout } = useLogout();
