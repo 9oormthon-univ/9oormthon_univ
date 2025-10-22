@@ -32,7 +32,13 @@ export const refreshAPI = async () => {
 
 // 1.5 인증 정보 간단 조회
 export const getUserBriefAPI = async () => {
-  const response = await instance.get(`/api/v1/auth/briefs?generation=${GENERATION}`);
+  const response = await instance.get(`/api/v1/auth/briefs?generation=${GENERATION}`, {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      Pragma: 'no-cache',
+      Expires: '0',
+    },
+  });
   return response.data;
 };
 
