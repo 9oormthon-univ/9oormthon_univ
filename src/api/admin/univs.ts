@@ -1,4 +1,5 @@
 import instance from '../instance';
+import { GENERATION } from '../../constants/common';
 
 // 어드민 유니브 생성
 export const createUnivAPI = async (name: string, instagram_url: string, generation: number) => {
@@ -11,8 +12,8 @@ export const createUnivAPI = async (name: string, instagram_url: string, generat
 };
 
 // 6.2 어드민 유니브 간단 리스트 조회
-export const fetchUnivListAPI = async (generation: number) => {
-  const response = await instance.get(`/api/v1/admins/univs/briefs?generation=${generation}`);
+export const fetchUnivListAPI = async () => {
+  const response = await instance.get(`/api/v1/admins/univs/briefs?generation=${GENERATION}`);
   return response.data;
 };
 

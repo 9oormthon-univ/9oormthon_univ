@@ -1,0 +1,12 @@
+// src/components/common/dropdown/FormDropdown/style.module.scss
+.dropdown {
+  width: 100%;
+  justify-content: space-between;
+  height: 100% !important;
+  min-height: var(--dimension-500) !important;
+  padding: var(--space-100) var(--space-200) !important;
+}
+
+.dropdownMenu {
+  width: 100%;
+}

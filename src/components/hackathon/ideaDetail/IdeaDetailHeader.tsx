@@ -12,12 +12,12 @@ import styles from './styles.module.scss';
 import { BookmarkIcon, BookmarkOutlineIcon, MoreCommonOutlineIcon, OutOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useBreakPoint from '../../../hooks/useBreakPoint';
-import usePeriodStore from '../../../store/usePeriodStore';
-import useAuthStore from '../../../store/useAuthStore';
-import { UserStatus } from '../../../constants/role';
-import { deleteIdea } from '../../../api/idea';
-import InformationModal from '../../common/modal/InformationModal';
+import useBreakPoint from '@/hooks/useBreakPoint';
+import { UserStatus } from '@/constants/role';
+import InformationModal from '@/components/common/modal/InformationModal';
+import { useDeleteIdeaMutation } from '@/hooks/mutations/useIdeaMutations';
+import { usePeriod } from '@/hooks/queries/system/usePeriod';
+import { useUser } from '@/hooks/queries/useUser';
 interface IdeaDetailHeaderProps {
   id: number;
   provider_id: number;
@@ -49,46 +49,46 @@ export default function IdeaDetailHeader({
   const toggle = () => setOpen((prev) => !prev);
   const navigate = useNavigate();
   const breakpoint = useBreakPoint();
-  const { current_period, isTeamBuildingPeriod } = usePeriodStore();
-  const { status, fetchUserStatus } = useAuthStore();
+  const { periodData, isApplyAblePeriod } = usePeriod();
+  const { data: user } = useUser();
+  const status = user?.status ?? UserStatus.NONE;
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const { mutate: deleteIdea } = useDeleteIdeaMutation();
 
   // 아이디어 지원 이동
   const handleApplyIdea = () => {
-    if (!isTeamBuildingPeriod() || current_period === 'HACKATHON') {
-      toast('팀 빌딩 지원 기간이 아닙니다.', {
+    if (!isApplyAblePeriod || periodData?.current_period === 'HACKATHON') {
+      return toast('팀 빌딩 지원 기간이 아닙니다.', {
         type: 'danger',
       });
-      return;
     }
-    // 제시자나 멤버가 아니면 지원 가능
+
     if (status !== UserStatus.PROVIDER && status !== UserStatus.MEMBER) {
-      navigate(`/hackathon/apply/${id}`);
-    } else if (status === UserStatus.PROVIDER) {
-      toast('이미 등록한 아이디어가 있어 지원할 수 없습니다.', {
-        type: 'danger',
-      });
-    } else if (status === UserStatus.MEMBER) {
-      toast('이미 다른 팀에 소속되어 있어 지원할 수 없습니다.', {
-        type: 'danger',
-      });
-    } else {
-      toast('지원 가능한 상태가 아닙니다.', {
+      return navigate(`/hackathon/apply/${id}`);
+    }
+
+    if (status === UserStatus.PROVIDER) {
+      return toast('이미 등록한 아이디어가 있어 지원할 수 없습니다.', {
         type: 'danger',
       });
     }
+
+    if (status === UserStatus.MEMBER) {
+      return toast('이미 다른 팀에 소속되어 있어 지원할 수 없습니다.', {
+        type: 'danger',
+      });
+    }
+
+    toast('지원 가능한 상태가 아닙니다.', {
+      type: 'danger',
+    });
   };
 
   // 아이디어 삭제
   const handleDeleteIdea = async () => {
-    if (current_period === 'IDEA_SUBMISSION') {
-      await deleteIdea(id);
-      await fetchUserStatus(); // 사용자 상태 갱신
+    if (periodData?.current_period === 'IDEA_SUBMISSION') {
+      deleteIdea({ id });
       setIsDeleteModalOpen(false);
-      navigate('/hackathon');
-      toast('아이디어를 삭제했습니다.', {
-        type: 'primary',
-      });
     } else {
       setIsDeleteModalOpen(false);
       toast('아이디어 삭제 기간이 아닙니다.', {
@@ -125,14 +125,14 @@ export default function IdeaDetailHeader({
               <DropdownMenu>
                 <DropdownItem
                   onClick={() => navigate(`/hackathon/edit/${id}/step1`)}
-                  disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
+                  disabled={periodData?.current_period === 'HACKATHON' || periodData?.current_period === 'NONE'}>
                   수정하기
                 </DropdownItem>
                 <DropdownItem
                   color="danger"
                   className={styles.deleteItem}
                   onClick={() => setIsDeleteModalOpen(true)}
-                  disabled={current_period !== 'IDEA_SUBMISSION'}>
+                  disabled={periodData?.current_period !== 'IDEA_SUBMISSION'}>
                   삭제하기
                 </DropdownItem>
               </DropdownMenu>
@@ -150,7 +150,7 @@ export default function IdeaDetailHeader({
                   color="primary"
                   size="lg"
                   onClick={handleApplyIdea}
-                  disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
+                  disabled={periodData?.current_period === 'HACKATHON' || periodData?.current_period === 'NONE'}>
                   지원하기
                 </Button>
               </div>
@@ -179,7 +179,7 @@ export default function IdeaDetailHeader({
               size="lg"
               block
               onClick={handleApplyIdea}
-              disabled={current_period === 'HACKATHON' || current_period === 'NONE'}>
+              disabled={periodData?.current_period === 'HACKATHON' || periodData?.current_period === 'NONE'}>
               지원하기
             </Button>
             <Button

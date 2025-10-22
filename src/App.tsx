@@ -2,10 +2,13 @@ import { Slide, ToastContainer } from '@goorm-dev/vapor-components';
 import Router from './Router';
 import 'react-toastify/dist/ReactToastify.min.css';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { queryClient } from './queryClient';
 
 function App() {
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
         <Router />
       </ErrorBoundary>
@@ -18,7 +21,8 @@ function App() {
         newestOnTop
         hideProgressBar
       />
-    </div>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

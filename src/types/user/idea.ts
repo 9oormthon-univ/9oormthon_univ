@@ -1,4 +1,9 @@
-import { PositionKey } from '../../constants/position';
+import { PositionKey } from '@/constants/position';
+
+export interface IdeaSubject {
+  id: number;
+  name: string;
+}
 
 // 아이디어 요약 조회
 export interface Ideas {
@@ -30,7 +35,7 @@ export interface ProviderInfo {
   is_provider: boolean;
 }
 
-export interface IdeaInfoData {
+export interface IdeaInfoDetail {
   id: number;
   subject: string;
   subject_id: number;
@@ -63,4 +68,22 @@ export interface Requirements {
   pd: RequirementDetail;
   fe: RequirementDetail;
   be: RequirementDetail;
+}
+
+// 아이디어 생성 및 수정
+export interface IdeaCreateEdit {
+  idea_info: {
+    idea_subject_id: number;
+    title: string;
+    summary: string;
+    content: string;
+    generation?: number;
+    provider_role: PositionKey | null;
+  };
+  requirements: {
+    pm?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
+    pd?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
+    fe?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
+    be?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
+  };
 }

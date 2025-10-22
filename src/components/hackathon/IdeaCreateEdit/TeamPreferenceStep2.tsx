@@ -1,13 +1,14 @@
 import styles from './styles.module.scss';
 import { Alert, Button, Text } from '@goorm-dev/vapor-components';
-import PositionForm from '../ideaForm/PositionForm';
-import BackLinkNavigation from '../common/BackLinkNavigation';
+import PositionForm from '@/components/hackathon/ideaForm/PositionForm';
+import BackLinkNavigation from '@/components/hackathon/common/BackLinkNavigation';
 import { InfoCircleIcon } from '@goorm-dev/vapor-icons';
-import { POSITIONS } from '../../../constants/position';
+import { POSITIONS } from '@/constants/position';
 import { useEffect } from 'react';
+import { IdeaCreateEdit } from '@/types/user/idea';
 
 interface TeamPreferenceStep2Props {
-  formData: any;
+  formData: IdeaCreateEdit;
   submitForm: () => void;
   errorMessage: string | null;
   setErrorMessage: (message: string | null) => void;
@@ -45,8 +46,8 @@ export default function TeamPreferenceStep2({
             key={position.key}
             position={position}
             isDisabled={
-              ['pm', 'pd'].includes(formData.idea_info?.provider_role.toLowerCase()) &&
-              position.key === formData.idea_info?.provider_role.toLowerCase()
+              ['pm', 'pd'].includes(formData.idea_info?.provider_role?.toLowerCase() || '') &&
+              position.key === formData.idea_info?.provider_role?.toLowerCase()
             }
           />
         ))}

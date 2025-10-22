@@ -4,7 +4,6 @@ import { UnivListSidebar } from '../../../components/admin/participantList/univL
 import { MemberTable } from '../../../components/admin/participantList/memberTable/MemberTable';
 import { useEffect, useRef, useState } from 'react';
 import { createUserExcelAPI, fetchUserSummaryListAPI } from '../../../api/admin/users';
-import { GENERATION } from '../../../constants/common';
 import { fetchUnivListAPI } from '../../../api/admin/univs';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { Univ } from '../../../types/admin/univ';
@@ -34,7 +33,7 @@ export default function ParticipantList() {
 
   // 유니브 리스트 간단 조회
   const fetchUnivList = async () => {
-    const res = await fetchUnivListAPI(GENERATION);
+    const res = await fetchUnivListAPI();
     setUnivList(res.data.univs);
     setUnivCount(res.data.count);
   };
@@ -52,15 +51,7 @@ export default function ParticipantList() {
     sortType?: SortType,
   ) => {
     const searchParam = search?.trim() === '' ? undefined : search;
-    const res = await fetchUserSummaryListAPI(
-      page,
-      10,
-      GENERATION,
-      univId || undefined,
-      searchParam,
-      sorting,
-      sortType,
-    );
+    const res = await fetchUserSummaryListAPI(page, 10, univId || undefined, searchParam, sorting, sortType);
     setMembers(res.data.users);
     setPageInfo(res.data.page_info);
   };

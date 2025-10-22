@@ -124,11 +124,10 @@
 .descriptionText {
   align-self: flex-start;
 
+  max-width: 100%;
   @include container-xl {
     white-space: pre-wrap;
   }
-
-  max-width: 100%;
 }
 
 .contentImg {

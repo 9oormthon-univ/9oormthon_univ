@@ -1,6 +1,7 @@
 import instance from './instance';
 import { UserInfo } from '../types/user/users';
 import { Sorting, SortType } from '../types/user/idea';
+import { GENERATION } from '@/constants/common';
 
 // 내 정보 조회
 export const getMyInfo = async () => {
@@ -21,20 +22,14 @@ export const updateUserInfo = async (data: UserInfo) => {
 };
 
 // 3.10 내 지원정보 요약 리스트 조회
-export const getMyApplySummary = async (generation: number, phase: number) => {
-  const response = await instance.get(`/api/v1/users/applies/overviews?generation=${generation}&phase=${phase}`);
+export const getMyApplySummary = async (phase: number) => {
+  const response = await instance.get(`/api/v1/users/applies/overviews?generation=${GENERATION}&phase=${phase}`);
   return response.data;
 };
 
 // 3.12 아이디어에 대한 지원 현황 리스트 조회
-export const getIdeaApplyStatus = async (
-  generation: number,
-  phase: number,
-  sorting?: Sorting,
-  sort_type?: SortType,
-) => {
+export const getIdeaApplyStatus = async (phase: number, sorting?: Sorting, sort_type?: SortType) => {
   const queryParams = new URLSearchParams({
-    generation: generation.toString(),
     phase: phase.toString(),
   });
 
@@ -46,23 +41,23 @@ export const getIdeaApplyStatus = async (
     queryParams.append('sort-type', sort_type);
   }
 
-  const response = await instance.get(`/api/v1/users/teams/applies/overviews?${queryParams.toString()}`);
+  const response = await instance.get(`/api/v1/users/teams/applies/overviews/${GENERATION}?${queryParams.toString()}`);
   return response.data;
 };
 
-// 지원 결정 (수락)
+// 3.14 지원 수락
 export const acceptApply = async (applyId: number) => {
   const response = await instance.patch(`/api/v1/users/applies/${applyId}/accept`);
   return response.data;
 };
 
-// 지원 결정 (거절)
+// 3.15 지원 거절
 export const rejectApply = async (applyId: number) => {
   const response = await instance.patch(`/api/v1/users/applies/${applyId}/reject`);
   return response.data;
 };
 
-// 지원 삭제(지원 취소)
+// 3.17 지원 삭제(지원 취소)
 export const deleteApply = async (applyId: number) => {
   const response = await instance.delete(`/api/v1/users/applies/${applyId}`);
   return response.data;

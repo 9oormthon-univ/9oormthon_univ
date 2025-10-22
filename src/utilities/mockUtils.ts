@@ -1,5 +1,5 @@
 import { Ideas } from '../types/user/idea';
-import { Applies, TeamInfo, ApplyStatus } from '../types/user/team';
+import { Applies, TeamInfo } from '../types/user/team';
 import { Sorting, SortType } from '../types/user/idea';
 import {
   mockTopics,
@@ -28,7 +28,7 @@ export const filterMockIdeas = (
 
   // 주제 필터링
   if (topicId !== 0) {
-    const selectedTopicName = mockTopics.find((topic) => topic.id === topicId)?.name;
+    const selectedTopicName = mockTopics.idea_subjects.find((topic) => topic.id === topicId)?.name;
     filteredIdeas = filteredIdeas.filter((idea) => idea.subject === selectedTopicName);
   }
 
@@ -86,16 +86,12 @@ export const getMockIdeaDetailById = (ideaId: string) => {
     throw new Error(`아이디어 ID ${ideaId}를 찾을 수 없습니다.`);
   }
 
-  return {
-    data: ideaDetail,
-  };
+  return ideaDetail;
 };
 
 // Mock 내 아이디어 상세 정보 가져오기 (임시로 첫 번째 아이디어 반환)
 export const getMockMyIdeaDetail = () => {
-  return {
-    data: mockIdeaDetails[1], // 첫 번째 아이디어를 내 아이디어로 가정
-  };
+  return mockIdeaDetails[1]; // 첫 번째 아이디어를 내 아이디어로 가정
 };
 
 // Mock 아이디어 상세 북마크 상태 업데이트
@@ -111,22 +107,20 @@ export const updateMockIdeaDetailBookmark = (ideaId: number): boolean => {
 // ===== 팀 빌딩 관련 Mock Utils =====
 
 // Mock 팀 정보 조회
-export const getMockTeamInfo = (): Promise<{ data: TeamInfo }> => {
+export const getMockTeamInfo = (): Promise<TeamInfo> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({
-        data: mockTeamInfo,
-      });
+      resolve(mockTeamInfo);
     }, 300); // 네트워크 지연 시뮬레이션
   });
 };
 
 // Mock 지원 현황 조회
-export const getMockIdeaApplyStatus = ( 
+export const getMockIdeaApplyStatus = (
   phase: number,
   sorting?: Sorting,
   sortType?: SortType,
-): Promise<{ data: { counts: number; applies: Applies[] } }> => {
+): Promise<{ counts: number; applies: Applies[] }> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       let applies = mockAppliesByPhase[phase] || [];
@@ -137,10 +131,8 @@ export const getMockIdeaApplyStatus = (
       }
 
       resolve({
-        data: {
-          counts: applies.length,
-          applies: applies,
-        },
+        counts: applies.length,
+        applies: applies,
       });
     }, 300);
   });
@@ -221,7 +213,7 @@ export const updateMockApplyStatus = (applyId: number, status: 'ACCEPTED' | 'REJ
     setTimeout(() => {
       const apply = mockApplies.find((a) => a.id === applyId);
       if (apply) {
-        apply.status = status === 'ACCEPTED' ? ApplyStatus.ACCEPTED : ApplyStatus.REJECTED;
+        apply.status = status === 'ACCEPTED' ? 'ACCEPTED' : 'REJECTED';
 
         // 수락된 경우 팀 정보에도 반영
         if (status === 'ACCEPTED') {
@@ -261,25 +253,21 @@ export const getMockCurrentUser = () => {
 // ===== MyPage 관련 Mock Utils =====
 
 // Mock 내 정보 조회
-export const getMockMyInfo = (): Promise<{ data: typeof mockUserInfo }> => {
+export const getMockMyInfo = (): Promise<typeof mockUserInfo> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({
-        data: mockUserInfo,
-      });
+      resolve(mockUserInfo);
     }, 300);
   });
 };
 
 // Mock 다른 사용자 정보 조회
-export const getMockUserInfo = (userId: string): Promise<{ data: typeof mockUserInfo }> => {
+export const getMockUserInfo = (userId: string): Promise<typeof mockUserInfo> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const userInfo = mockOtherUsers[userId];
       if (userInfo) {
-        resolve({
-          data: userInfo,
-        });
+        resolve(userInfo);
       } else {
         reject(new Error(`사용자 ID ${userId}를 찾을 수 없습니다.`));
       }
@@ -290,13 +278,11 @@ export const getMockUserInfo = (userId: string): Promise<{ data: typeof mockUser
 // ===== ApplicantPage 관련 Mock Utils =====
 
 // Mock 내 지원 현황 조회
-export const getMockMyApplySummary = (phase: number): Promise<{ data: typeof mockMyApplySummary }> => {
+export const getMockMyApplySummary = (phase: number): Promise<typeof mockMyApplySummary> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const applySummary = mockMyApplySummaryByPhase[phase] || { applies: [] };
-      resolve({
-        data: applySummary,
-      });
+      resolve(applySummary);
     }, 300);
   });
 };
@@ -314,7 +300,7 @@ export const deleteMockApply = (applyId: number): Promise<void> => {
         return;
       }
 
-      if (applyToDelete.apply_info.status !== ApplyStatus.WAITING) {
+      if (applyToDelete.apply_info.status !== 'WAITING') {
         reject(new Error('대기 중인 지원만 취소할 수 있습니다.'));
         return;
       }

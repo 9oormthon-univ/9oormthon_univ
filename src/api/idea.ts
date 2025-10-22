@@ -1,23 +1,10 @@
 import instance from './instance';
 import { PositionKey } from '../constants/position';
+import { IdeaCreateEdit } from '@/types/user/idea';
+import { GENERATION } from '@/constants/common';
 
 // 아이디어 생성 API
-export const createIdeaAPI = async (idea: {
-  idea_info: {
-    idea_subject_id: number;
-    title: string;
-    summary: string;
-    content: string;
-    generation: number;
-    provider_role: PositionKey | null;
-  };
-  requirements: {
-    pm?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-    pd?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-    fe?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-    be?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-  };
-}) => {
+export const createIdeaAPI = async (idea: IdeaCreateEdit) => {
   await instance.post('/api/v1/users/ideas', idea);
 };
 
@@ -34,25 +21,7 @@ export const fetchIdeaDetailById = async (idea_id: string) => {
 };
 
 // 3.13 아이디어 수정 API
-export const updateIdeaAPI = async (
-  idea: {
-    idea_info: {
-      idea_subject_id: number;
-      title: string;
-      summary: string;
-      content: string;
-      generation: number;
-      provider_role: PositionKey | null;
-    };
-    requirements: {
-      pm?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-      pd?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-      fe?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-      be?: { requirement: string; capacity: number; required_tech_stacks?: string[] };
-    };
-  },
-  idea_id: number,
-) => {
+export const updateIdeaAPI = async (idea: IdeaCreateEdit, idea_id: number) => {
   await instance.put(`/api/v1/users/ideas/${idea_id}`, idea);
 };
 
@@ -79,10 +48,10 @@ export const fetchIdeas = async (
   });
 
   // undefined인 경우 쿼리 파라미터에 추가하지 않음
-  if (subjectId !== undefined) queryParams.append('subject-id', subjectId.toString());
+  if (subjectId !== undefined) queryParams.append('subject-id', subjectId?.toString() || '');
   if (isActive !== undefined) queryParams.append('is-active', isActive.toString());
   if (isBookmarked !== undefined) queryParams.append('is-bookmarked', isBookmarked.toString());
-  if (search !== undefined) queryParams.append('search', search);
+  if (search) queryParams.append('search', search);
 
   const requestUrl = `/api/v1/users/ideas/overviews?${queryParams.toString()}`;
   const response = await instance.get(requestUrl);
@@ -96,14 +65,14 @@ export const addIdeaBookmark = async (idea_id: number) => {
 };
 
 // 3.11 내 잔여 지망 간단 리스트 조회 API
-export const fetchMyRemainingRanks = async (generation: number, phase: number) => {
-  const response = await instance.get(`/api/v1/users/applies/briefs?generation=${generation}&phase=${phase}`);
+export const fetchMyRemainingRanks = async (phase: number) => {
+  const response = await instance.get(`/api/v1/users/applies/briefs?generation=${GENERATION}&phase=${phase}`);
   return response.data;
 };
 
 // 아이디어 지원
 export const applyIdea = async (
-  idea_id: number,
+  idea_id: string,
   phase: number,
   preference: number,
   motivation: string,

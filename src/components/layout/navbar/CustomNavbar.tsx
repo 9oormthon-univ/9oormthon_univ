@@ -1,8 +1,8 @@
 import { GoormNavbar } from '@goorm-dev/gds-components';
 import { ChevronRightOutlineIcon, LockIcon, OutOutlineIcon, UserIcon } from '@goorm-dev/vapor-icons';
 import { useState } from 'react';
-import { GoormBlackBI, GoormWhiteBI } from '../../../assets';
-import { useIsAbout } from '../../../hooks/useIsAbout';
+import { GoormBlackBI, GoormWhiteBI } from '@/assets';
+import { useIsAbout } from '@/hooks/useIsAbout';
 import styles from './customNavbar.module.scss';
 import {
   Button,
@@ -16,10 +16,10 @@ import {
   toast,
 } from '@goorm-dev/vapor-components';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../../store/useAuthStore';
-import { Role, UserStatus } from '../../../constants/role';
-import usePeriodStore from '../../../store/usePeriodStore';
-import avatar from '../../../assets/images/avatar.png';
+import { Role, UserStatus } from '@/constants/role';
+import avatar from '@/assets/images/avatar.png';
+import { useUser } from '@/hooks/queries/useUser';
+import { useLogout } from '@/hooks/mutations/useAuthMutations';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
@@ -28,14 +28,17 @@ function CustomNavbar() {
   const isAbout = useIsAbout();
   const navigate = useNavigate();
 
-  // 개발 환경에서는 로그인 상태로 설정
-  const userRole = useAuthStore((state) => state.role);
-  const isLoggedIn = import.meta.env.DEV ? true : userRole !== Role.GUEST;
+  // 유저 정보
+  const { data: user } = useUser();
+  const isLoggedIn = user?.role !== Role.GUEST;
+  const profileImg = user?.img_url;
+  const { mutate: logout } = useLogout();
 
-  const profileImg = useAuthStore((state) => state.img_url);
-
-  const { fetchPeriodData } = usePeriodStore();
-  const { fetchUserStatus } = useAuthStore();
+  // 로그아웃
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const NAV_ITEMS = [
     {
@@ -48,53 +51,36 @@ function CustomNavbar() {
     },
   ];
 
-  const handleLogout = () => {
-    useAuthStore.getState().logout();
-    navigate('/');
-    useAuthStore.getState().resetToGuest();
-    window.location.reload();
+  // 로그인 임의로 닫음
+  const handleClickLogin = () => {
+    alert('현재 테스트 중이므로, 추후 다시 로그인해주시기 바랍니다. ');
   };
 
   // 팀 빌딩 기간 데이터 업데이트 필요
   const handleClickHackathon = async () => {
-    await fetchPeriodData();
-    // 현재 상태 업데이트
-    await fetchUserStatus();
-
-    const currentStatus = import.meta.env.DEV
-      ? UserStatus.APPLICANT
-      : useAuthStore.getState().status ?? UserStatus.NONE;
+    const currentStatus = user?.status ?? UserStatus.NONE;
 
     switch (currentStatus) {
       case UserStatus.PROVIDER:
-        navigate('/team/provider');
-        break;
+        return navigate('/team/provider');
       case UserStatus.MEMBER:
       case UserStatus.APPLICANT:
       case UserStatus.APPLICANT_REJECTED:
-        navigate('/team/applicant');
-        break;
+        return navigate('/team/applicant');
       case UserStatus.NONE:
-        toast('아직 팀 빌딩을 진행하지 않았습니다.', { type: 'danger' });
-        break;
+        return toast('아직 팀 빌딩을 진행하지 않았습니다.', { type: 'danger' });
       default:
-        if (import.meta.env.DEV) {
-          console.log('Unknown status:', currentStatus);
-        }
         toast('알 수 없는 오류가 발생했습니다.', { type: 'danger' });
     }
   };
 
-  const handleClickMyTeam = async () => {
-    await fetchPeriodData();
-    await fetchUserStatus();
-
-    const currentStatus = import.meta.env.DEV ? UserStatus.PROVIDER : useAuthStore.getState().status ?? UserStatus.NONE;
+  const handleClickMyTeam = () => {
+    const currentStatus = user?.status ?? UserStatus.NONE;
 
     if (currentStatus === UserStatus.PROVIDER || currentStatus === UserStatus.MEMBER) {
-      navigate('/team/my-team');
+      return navigate('/team/my-team');
     } else {
-      toast('아직 팀 빌딩을 진행하지 않았습니다.', { type: 'danger' });
+      return toast('아직 팀 빌딩을 진행하지 않았습니다.', { type: 'danger' });
     }
   };
 
@@ -194,7 +180,6 @@ function CustomNavbar() {
                   className={styles.dropdownItem}
                   onClick={() => {
                     navigate('/my-page');
-
                     setIsOpened(false);
                   }}>
                   <div className={styles.iconAddLink}>
@@ -223,10 +208,10 @@ function CustomNavbar() {
             </Dropdown>
           ) : (
             <>
-              <Button className={styles.loginButton} size="lg" href="/login">
+              <Button className={styles.loginButton} size="lg" onClick={handleClickLogin}>
                 로그인
               </Button>
-              <NavLink className={styles.loginText} href="/login">
+              <NavLink className={styles.loginText} onClick={handleClickLogin}>
                 로그인하기
                 <ChevronRightOutlineIcon className="ml-1" />
               </NavLink>

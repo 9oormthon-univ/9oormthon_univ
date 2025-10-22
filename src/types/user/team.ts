@@ -28,13 +28,48 @@ export interface TeamInfo {
 }
 
 // 지원 상태
-export enum ApplyStatus {
-  WAITING = 'WAITING',
-  ACCEPTED = 'ACCEPTED',
-  REJECTED = 'REJECTED',
-  CONFIRMED = 'CONFIRMED',
-  ACCEPTED_NOT_JOINED = 'ACCEPTED_NOT_JOINED',
-}
+export const ApplyStatus = {
+  WAITING: {
+    key: 'WAITING',
+    value: 'WAITING',
+    text: '대기중',
+    color: 'text-primary',
+  },
+  ACCEPTED: {
+    key: 'ACCEPTED',
+    value: 'ACCEPTED',
+    text: '수락됨',
+    color: 'text-success',
+  },
+  REJECTED: {
+    key: 'REJECTED',
+    value: 'REJECTED',
+    text: '거절됨',
+    color: 'text-danger',
+  },
+  CONFIRMED: {
+    key: 'CONFIRMED',
+    value: 'CONFIRMED',
+    text: '확정',
+    color: 'text-success',
+  },
+  ACCEPTED_NOT_JOINED: {
+    key: 'ACCEPTED_NOT_JOINED',
+    value: 'ACCEPTED_NOT_JOINED',
+    text: '타 팀 합류',
+    color: 'text-hint',
+  },
+} as const;
+
+export type ApplyStatusKey = keyof typeof ApplyStatus;
+
+export const getApplyStatusName = (status: ApplyStatusKey) => {
+  return ApplyStatus[status].text;
+};
+
+export const getApplyStatusColor = (status: ApplyStatusKey) => {
+  return ApplyStatus[status].color;
+};
 
 // 지원자 정보
 export interface ApplyUser {
@@ -49,6 +84,6 @@ export interface Applies {
   preference: number;
   motivation: string;
   role: PositionKey;
-  status: ApplyStatus;
+  status: ApplyStatusKey;
   user: ApplyUser;
 }

@@ -15,7 +15,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
   const [form, setForm] = useState<UnivFormPayload>({
     name: '',
     instagram_url: '',
-    leader_id: undefined,
+    leader_id: 0,
   });
 
   // 상세 조회
@@ -26,7 +26,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
       setForm({
         name: res.data.name,
         instagram_url: res.data.instagram_url,
-        leader_id: res.data.leader?.id || undefined,
+        leader_id: res.data.leader?.id || 0,
       });
     } catch (error: any) {
       const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
@@ -46,7 +46,7 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
   const handleUpdateUniv = async () => {
     try {
       if (!univId) return;
-      await updateUnivAPI(univId, form.name, form.instagram_url, form.leader_id || undefined);
+      await updateUnivAPI(univId, form.name, form.instagram_url, form.leader_id);
       onSuccess();
       toggle();
       toast('유니브 정보가 수정되었습니다.', {

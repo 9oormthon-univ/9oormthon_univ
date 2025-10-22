@@ -1,20 +1,21 @@
-import { Applies, ApplyStatus, TeamInfo } from '../../../types/user/team';
+import { Applies, ApplyStatus, TeamInfo } from '@/types/user/team';
 import { Text } from '@goorm-dev/vapor-components';
-import { getPositionName, PositionKey, POSITIONS } from '../../../constants/position';
+import { getPositionName, PositionKey, POSITIONS } from '@/constants/position';
 import styles from './styles.module.scss';
-import useBreakpoint from '../../../hooks/useBreakPoint';
+import useBreakpoint from '@/hooks/useBreakPoint';
 
 interface AcceptableCountIndicatorProps {
   teamInfo: TeamInfo;
   applies?: Applies[];
 }
+
 const getRemaining = (role: PositionKey, teamInfo: TeamInfo, applies?: Applies[]) => {
   const roleKey = role.toLowerCase() as keyof typeof teamInfo.role;
   const max = teamInfo.role[roleKey]?.max_count || 0;
   const current = teamInfo.role[roleKey]?.current_count || 0;
   if (!applies) return max - current;
   else {
-    const confirmedCount = applies?.filter((a) => a.role === role && a.status === ApplyStatus.ACCEPTED).length || 0;
+    const confirmedCount = applies?.filter((a) => a.role === role && a.status === ApplyStatus.ACCEPTED.key).length || 0;
 
     return Math.max(0, max - current - confirmedCount);
   }

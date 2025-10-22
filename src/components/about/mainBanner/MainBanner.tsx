@@ -124,15 +124,20 @@ export default function MainBanner() {
         <div className={styles.buttonWrapper}>
           {!onlyThumbnail && (
             <>
-              <Button onClick={handleClickPlay} size="xl" color="secondary" className={styles.button}>
+              <Button onClick={handleClickPlay} size="xl" color="secondary" className={styles.button} aria-label="play">
                 {playing ? <PauseIcon className={styles.icon} /> : <PlayIcon className={styles.icon} />}
               </Button>
-              <Button onClick={handleClickSoundsOn} size="xl" color="secondary" className={styles.button}>
+              <Button
+                onClick={handleClickSoundsOn}
+                size="xl"
+                color="secondary"
+                className={styles.button}
+                aria-label="sound">
                 {muted ? <SoundOffIcon className={styles.icon} /> : <SoundOnIcon className={styles.icon} />}
               </Button>
             </>
           )}
-          <Button onClick={MoveToYoutube} size="xl" color="secondary" className={styles.button}>
+          <Button onClick={MoveToYoutube} size="xl" color="secondary" className={styles.button} aria-label="youtube">
             <OutOutlineIcon className={styles.icon} />
           </Button>
         </div>

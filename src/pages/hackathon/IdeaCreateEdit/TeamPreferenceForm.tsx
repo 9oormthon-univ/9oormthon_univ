@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useIdeaFormStore } from '../../../store/useIdeaFormStore';
-import { createIdeaAPI, fetchMyIdeaDetail, updateIdeaAPI } from '../../../api/idea';
-import TeamPreferenceStep1 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep1';
-import TeamPreferenceStep2 from '../../../components/hackathon/IdeaCreateEdit/TeamPreferenceStep2';
-import { IDEA_ADD_ERROR_MESSAGES } from '../../../constants/errorMessage';
-import { PositionLowerKey } from '../../../constants/position';
+import { useIdeaFormStore } from '@/store/useIdeaFormStore';
+import TeamPreferenceStep1 from '@/components/hackathon/IdeaCreateEdit/TeamPreferenceStep1';
+import TeamPreferenceStep2 from '@/components/hackathon/IdeaCreateEdit/TeamPreferenceStep2';
+import { PositionLowerKey } from '@/constants/position';
 import { toast } from '@goorm-dev/vapor-components';
-import useAuthStore from '../../../store/useAuthStore';
+import { useIdeaDetail } from '@/hooks/queries/useIdeaDetail';
+import { useCreateIdeaMutation, useUpdateIdeaMutation } from '@/hooks/mutations/useIdeaMutations';
+import { useUser } from '@/hooks/queries/useUser';
 
 interface TeamPreferenceFormProps {
   isEditMode: boolean;
@@ -20,90 +20,64 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   // create모드일 때 전역 관리 사용 / edit일 경우 step1 -> step2 이동시 사용
   const { idea_info, requirements, updateIdeaInfo, updateRequirements, resetIdeaForm } = useIdeaFormStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { fetchUserStatus } = useAuthStore();
+
+  const { data: ideaDetail, isSuccess } = useIdeaDetail();
+  const { refetch: refetchUser } = useUser();
+  const createIdea = useCreateIdeaMutation();
+  const updateIdea = useUpdateIdeaMutation();
+
+  // 수정 모드
   useEffect(() => {
-    if (isEditMode && idea_id) {
-      const fetchData = async () => {
-        try {
-          const response = await fetchMyIdeaDetail();
-
-          const mappedIdeaInfo = {
-            ...response.data.idea_info,
-            provider_role: response.data.provider_info.role,
-            idea_subject_id: response.data.idea_info.subject_id,
-          };
-
-          // 현재 코드 매핑 필요
-          const mappedRequirements = {
-            pm: {
-              requirement: response.data.requirements.pm.requirement || '',
-              capacity: response.data.requirements.pm.max_count || 0,
-              required_tech_stacks: response.data.requirements.pm.required_tech_stacks || [],
-            },
-            pd: {
-              requirement: response.data.requirements.pd.requirement || '',
-              capacity: response.data.requirements.pd.max_count || 0,
-              required_tech_stacks: response.data.requirements.pd.required_tech_stacks || [],
-            },
-            fe: {
-              requirement: response.data.requirements.fe.requirement || '',
-              capacity: response.data.requirements.fe.max_count || 0,
-              required_tech_stacks: response.data.requirements.fe.required_tech_stacks || [],
-            },
-            be: {
-              requirement: response.data.requirements.be.requirement || '',
-              capacity: response.data.requirements.be.max_count || 0,
-              required_tech_stacks: response.data.requirements.be.required_tech_stacks || [],
-            },
-          };
-
-          // Edit모드도 전역 관리
-          Object.entries(mappedIdeaInfo).forEach(([key, value]) => {
-            updateIdeaInfo(key as keyof typeof idea_info, value);
-          });
-          Object.entries(mappedRequirements).forEach(([key, value]) => {
-            updateRequirements(key as PositionLowerKey, value);
-          });
-        } catch (error: any) {
-          if (import.meta.env.DEV) {
-            console.log(error);
-          }
-        }
+    if (isEditMode && ideaDetail) {
+      const mappedIdeaInfo = {
+        ...ideaDetail.idea_info,
+        provider_role: ideaDetail.provider_info.role,
+        idea_subject_id: ideaDetail.idea_info.subject_id,
       };
-      fetchData();
+
+      Object.entries(mappedIdeaInfo).forEach(([key, value]) => {
+        updateIdeaInfo(key as keyof typeof idea_info, value);
+      });
+
+      Object.entries(ideaDetail.requirements).forEach(([key, value]) => {
+        updateRequirements(key as PositionLowerKey, {
+          requirement: value.requirement || '',
+          capacity: value.max_count || 0,
+          required_tech_stacks: value.required_tech_stacks || [],
+        });
+      });
     }
-  }, [isEditMode, idea_id]);
+  }, [isEditMode, ideaDetail, isSuccess]);
 
   // Form 제출 (Create → POST, Edit → PUT)
   const submitForm = async () => {
-    try {
-      // 수정모드
-      if (isEditMode) {
-        await updateIdeaAPI({ idea_info, requirements }, Number(idea_id));
-        resetIdeaForm();
-        navigate('/hackathon');
-        toast('아이디어 수정이 완료되었습니다.', {
-          type: 'primary',
-        });
-      } else {
-        // 생성모드
-        await createIdeaAPI({ idea_info, requirements });
-        resetIdeaForm();
-        navigate('/hackathon');
-        toast('아이디어 제출이 완료되었습니다.', {
-          type: 'primary',
-        });
-        fetchUserStatus();
-      }
-    } catch (error: any) {
-      if (error.response) {
-        const serverMessage = error.response.data.error?.code;
-        setErrorMessage(IDEA_ADD_ERROR_MESSAGES[serverMessage] || '알 수 없는 오류가 발생하였습니다.');
-      } else {
-        if (import.meta.env.DEV) {
-          console.log(error);
-        }
-      }
+    const payload = { idea_info, requirements };
+
+    if (isEditMode) {
+      updateIdea.mutate(
+        { data: payload, id: Number(idea_id) },
+        {
+          onSuccess: () => {
+            resetIdeaForm();
+            navigate('/hackathon');
+            toast('아이디어 수정이 완료되었습니다.', {
+              type: 'primary',
+            });
+            refetchUser();
+          },
+        },
+      );
+    } else {
+      createIdea.mutate(payload, {
+        onSuccess: () => {
+          resetIdeaForm();
+          navigate('/hackathon');
+          toast('아이디어 생성이 완료되었습니다.', {
+            type: 'primary',
+          });
+          refetchUser();
+        },
+      });
     }
   };
 

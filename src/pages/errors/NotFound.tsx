@@ -1,4 +1,4 @@
-import NotFoundImg from '../../assets/images/img-404-danpung.png';
+import NotFoundImg from '@/assets/images/img-404-danpung.png';
 import { Text } from '@goorm-dev/vapor-components';
 import styles from './notFound.module.scss';
 

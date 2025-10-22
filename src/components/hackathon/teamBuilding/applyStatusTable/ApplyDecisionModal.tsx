@@ -1,8 +1,8 @@
 import { Modal, ModalBody, Text, Button, ModalFooter, toast } from '@goorm-dev/vapor-components';
 import styles from './styles.module.scss';
 import { WarningIcon, CheckCircleIcon } from '@goorm-dev/vapor-icons';
-import { acceptApply, rejectApply } from '../../../../api/users';
-import { TEAM_BUILDING_ACCEPT_ERROR_MESSAGES } from '../../../../constants/errorMessage';
+import { TEAM_BUILDING_ACCEPT_ERROR_MESSAGES } from '@/constants/errorMessage';
+import { useApplyDecisionMutation, useRejectApplyMutation } from '@/hooks/mutations/useApplyDecisionMutation';
 
 interface ApplyDecisionModalProps {
   id: number;
@@ -10,50 +10,40 @@ interface ApplyDecisionModalProps {
   toggle: () => void;
   name: string;
   decision: 'accept' | 'reject';
-  refetchApplyStatus: () => Promise<void>;
-  refetchCurrentPhaseApplyStatus?: () => Promise<void>;
 }
 
-export default function ApplyDecisionModal({
-  id,
-  isOpen,
-  toggle,
-  name,
-  decision,
-  refetchApplyStatus,
-  refetchCurrentPhaseApplyStatus = () => Promise.resolve(),
-}: ApplyDecisionModalProps) {
-  const handleDecision = async (decision: 'accept' | 'reject') => {
+export default function ApplyDecisionModal({ id, isOpen, toggle, name, decision }: ApplyDecisionModalProps) {
+  const { mutate: acceptApplyMutation } = useApplyDecisionMutation();
+  const { mutate: rejectApplyMutation } = useRejectApplyMutation();
+
+  const handleDecision = () => {
     if (decision === 'accept') {
-      try {
-        await acceptApply(id);
-        await refetchApplyStatus();
-        if (refetchCurrentPhaseApplyStatus) {
-          await refetchCurrentPhaseApplyStatus();
-        }
-        toggle();
-        toast('지원을 수락했습니다.', { type: 'primary' });
-      } catch (error: any) {
-        const errorCode = error.response.data.error?.code;
-        toggle();
-        toast(TEAM_BUILDING_ACCEPT_ERROR_MESSAGES[errorCode] || '지원 수락에 실패했습니다.', {
-          type: 'danger',
-        });
-      }
+      acceptApplyMutation(id, {
+        onSuccess: () => {
+          toggle();
+          toast('지원을 수락했습니다.', { type: 'primary' });
+        },
+        onError: (error: any) => {
+          toggle();
+          toast(TEAM_BUILDING_ACCEPT_ERROR_MESSAGES[error.response.data.error?.code] || '지원 수락에 실패했습니다.', {
+            type: 'danger',
+          });
+        },
+      });
     } else {
-      try {
-        await rejectApply(id);
-        await refetchApplyStatus();
-        if (refetchCurrentPhaseApplyStatus) {
-          await refetchCurrentPhaseApplyStatus();
-        }
-        toggle();
-        toast('지원을 거절했습니다.', { type: 'primary' });
-      } catch (error: any) {
-        if (import.meta.env.DEV) {
-          console.log(error);
-        }
-      }
+      rejectApplyMutation(id, {
+        onSuccess: () => {
+          toggle();
+          toast('지원을 거절했습니다.', { type: 'primary' });
+        },
+        onError: (error: any) => {
+          toggle();
+          const errorMessage = error.response.data.error?.message || '지원 거절에 실패했습니다.';
+          toast(errorMessage, {
+            type: 'danger',
+          });
+        },
+      });
     }
   };
 
@@ -80,7 +70,7 @@ export default function ApplyDecisionModal({
         <Button size="lg" color="secondary" onClick={toggle}>
           취소
         </Button>
-        <Button size="lg" color={decision === 'accept' ? 'success' : 'danger'} onClick={() => handleDecision(decision)}>
+        <Button size="lg" color={decision === 'accept' ? 'success' : 'danger'} onClick={handleDecision}>
           {decision === 'accept' ? '수락' : '거절'}
         </Button>
       </ModalFooter>

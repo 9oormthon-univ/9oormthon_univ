@@ -1,16 +1,25 @@
-import { Ideas, IdeaInfoData, ProviderInfo, Requirements, Member } from '../types/user/idea';
-import { TeamInfo, Applies, ApplyStatus, TeamMember } from '../types/user/team';
+import { Ideas, IdeaInfoDetail, ProviderInfo, Requirements, Member } from '../types/user/idea';
+import { TeamInfo, Applies, TeamMember } from '../types/user/team';
 import { LinkType } from '../constants/linkType';
 
 // Mock 주제 데이터
-export const mockTopics = [
-  { id: 0, name: '전체 주제' },
-  { id: 1, name: 'AI/머신러닝' },
-  { id: 2, name: '웹 개발' },
-  { id: 3, name: '모바일 개발' },
-  { id: 4, name: '게임' },
-  { id: 5, name: '데이터 분석' },
-];
+export const mockTopics = {
+  idea_subjects: [
+    { id: 1, name: 'AI/머신러닝' },
+    { id: 2, name: '웹 개발' },
+    { id: 3, name: '모바일 개발' },
+    { id: 4, name: '게임' },
+    { id: 5, name: '데이터 분석' },
+  ],
+};
+
+// Mock 사용자 정보 데이터
+export const mockUserBriefData = {
+  role: 'USER',
+  status: 'PROVIDER',
+  img_url:
+    'https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630',
+};
 
 // Mock 아이디어 데이터
 export const mockIdeas: Ideas[] = [
@@ -116,7 +125,7 @@ const mockMembers: Member[] = [
 export const mockIdeaDetails: Record<
   number,
   {
-    idea_info: IdeaInfoData;
+    idea_info: IdeaInfoDetail;
     provider_info: ProviderInfo;
     requirements: Requirements;
   }
@@ -173,7 +182,7 @@ AI 기반 개인 맞춤형 학습 플랫폼은 사용자의 학습 패턴, 선�
       name: '김다영',
       univ: '서울대학교',
       role: 'PM',
-      is_provider: true,
+      is_provider: false,
     },
     requirements: {
       pm: {
@@ -955,7 +964,7 @@ export const mockApplies: Applies[] = [
     motivation:
       'React와 TypeScript를 활용한 프론트엔드 개발 경험이 풍부하며, AI 기반 학습 플랫폼 개발에 관심이 많습니다.',
     role: 'FE',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 101,
       name: '한지민',
@@ -967,7 +976,7 @@ export const mockApplies: Applies[] = [
     preference: 2,
     motivation: 'Vue.js와 Nuxt.js 경험이 있으며, 사용자 경험을 중시하는 프론트엔드 개발을 추구합니다.',
     role: 'FE',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 102,
       name: '정소영',
@@ -979,7 +988,7 @@ export const mockApplies: Applies[] = [
     preference: 1,
     motivation: 'Python과 FastAPI를 활용한 백엔드 개발 경험이 있으며, 머신러닝 모델 서빙 경험도 있습니다.',
     role: 'BE',
-    status: ApplyStatus.ACCEPTED,
+    status: 'ACCEPTED',
     user: {
       id: 103,
       name: '김태현',
@@ -991,7 +1000,7 @@ export const mockApplies: Applies[] = [
     preference: 3,
     motivation: 'Node.js와 Express를 주로 사용하며, 데이터베이스 설계 및 API 개발에 자신 있습니다.',
     role: 'BE',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 104,
       name: '오민수',
@@ -1003,7 +1012,7 @@ export const mockApplies: Applies[] = [
     preference: 1,
     motivation: 'Adobe XD와 Figma를 활용한 UI/UX 디자인 경험이 있으며, 사용자 리서치에도 관심이 많습니다.',
     role: 'PD',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 105,
       name: '이유진',
@@ -1015,7 +1024,7 @@ export const mockApplies: Applies[] = [
     preference: 2,
     motivation: 'React Native 개발 경험이 있어 모바일 앱 개발도 가능하며, 반응형 웹 디자인에 능숙합니다.',
     role: 'FE',
-    status: ApplyStatus.REJECTED,
+    status: 'REJECTED',
     user: {
       id: 106,
       name: '박진우',
@@ -1027,7 +1036,7 @@ export const mockApplies: Applies[] = [
     preference: 1,
     motivation: 'Spring Boot와 JPA를 활용한 백엔드 개발 경험이 있으며, 마이크로서비스 아키텍처에 관심이 많습니다.',
     role: 'BE',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 107,
       name: '강민호',
@@ -1039,7 +1048,7 @@ export const mockApplies: Applies[] = [
     preference: 2,
     motivation: 'Sketch와 InVision을 활용한 프로토타이핑 경험이 있으며, 디자인 시스템 구축에 관심이 있습니다.',
     role: 'PD',
-    status: ApplyStatus.WAITING,
+    status: 'WAITING',
     user: {
       id: 108,
       name: '윤서현',
@@ -1048,30 +1057,56 @@ export const mockApplies: Applies[] = [
   },
 ];
 
+// 기간 불러올 때 데이터
+export const mockPeriodData = {
+  idea_submission_period: '2025.09.15 ~ 2025.09.16',
+  phase1_period: '2025.09.16 ~ 2025.09.17',
+  phase1_team_building_period: '2025.09.16 ~ 2025.09.17',
+  phase1_confirmation_period: '2025.09.18 ~ 2025.09.19',
+  phase2_period: '2025.03.16 ~ 2025.09.25',
+  phase2_team_building_period: '2025.09.26 ~ 2025.09.30',
+  phase2_confirmation_period: '2025.09.31 ~ 2025.10.04',
+  phase3_period: '2025.04.01 ~ 2025.09.10',
+  phase3_team_building_period: '2025.04.01 ~ 2025.09.10',
+  phase3_confirmation_period: '2025.09.11 ~ 2025.09.15',
+  hackathon_period: '2025.09.16 ~ 2025.09.18',
+  current_period: 'PHASE3_TEAM_BUILDING' as const,
+};
+
 // Mock 기간 정보 데이터
 export const mockPeriod = {
   current_period: 'PHASE1_TEAM_BUILDING' as const,
   current_phase: 1,
-  idea_submission_start: new Date('2024-02-15T00:00:00Z'),
-  idea_submission_end: new Date('2024-02-29T23:59:59Z'),
-  phase1_team_building_start: new Date('2024-03-01T00:00:00Z'),
-  phase1_team_building_end: new Date('2024-03-10T23:59:59Z'),
-  phase1_confirmation_start: new Date('2024-03-11T00:00:00Z'),
-  phase1_confirmation_end: new Date('2024-03-15T23:59:59Z'),
-  phase2_team_building_start: new Date('2024-03-16T00:00:00Z'),
-  phase2_team_building_end: new Date('2024-03-25T23:59:59Z'),
-  phase2_confirmation_start: new Date('2024-03-26T00:00:00Z'),
-  phase2_confirmation_end: new Date('2024-03-30T23:59:59Z'),
-  phase3_team_building_start: new Date('2024-04-01T00:00:00Z'),
-  phase3_team_building_end: new Date('2024-04-10T23:59:59Z'),
-  phase3_confirmation_start: new Date('2024-04-11T00:00:00Z'),
-  phase3_confirmation_end: new Date('2024-04-15T23:59:59Z'),
-  hackathon_start: new Date('2024-04-16T00:00:00Z'),
-  hackathon_end: new Date('2024-04-18T23:59:59Z'),
+  idea_submission_start: new Date('2025-09-15T00:00:00Z'),
+  idea_submission_end: new Date('2025-09-16T23:59:59Z'),
+  phase1_team_building_start: new Date('2025-09-16T00:00:00Z'),
+  phase1_team_building_end: new Date('2025-09-17T23:59:59Z'),
+  phase1_confirmation_start: new Date('2025-09-18T00:00:00Z'),
+  phase1_confirmation_end: new Date('2025-09-19T23:59:59Z'),
+  phase2_team_building_start: new Date('2025-03-16T00:00:00Z'),
+  phase2_team_building_end: new Date('2025-09-25T23:59:59Z'),
+  phase2_confirmation_start: new Date('2025-09-26T00:00:00Z'),
+  phase2_confirmation_end: new Date('2025-09-30T23:59:59Z'),
+  phase3_team_building_start: new Date('2025-04-01T00:00:00Z'),
+  phase3_team_building_end: new Date('2025-09-10T23:59:59Z'),
+  phase3_confirmation_start: new Date('2025-09-11T00:00:00Z'),
+  phase3_confirmation_end: new Date('2025-09-15T23:59:59Z'),
+  hackathon_start: new Date('2025-09-16T00:00:00Z'),
+  hackathon_end: new Date('2025-09-18T23:59:59Z'),
+};
+
+// 내 잔여 지망 데이터
+export const mockMyRemainingRanks = {
+  preferences: [
+    { number: 1, is_active: true },
+    { number: 2, is_active: true },
+    { number: 3, is_active: true },
+  ],
 };
 
 // 각 차수별 지원 현황 데이터
 export const mockAppliesByPhase: Record<number, Applies[]> = {
+  0: mockApplies.filter((apply) => [1, 2, 3, 4, 5, 6, 7, 8].includes(apply.id)), // 0차 지원자들
   1: mockApplies.filter((apply) => [1, 2, 3, 5].includes(apply.id)), // 1차 지원자들
   2: mockApplies.filter((apply) => [4, 6, 7].includes(apply.id)), // 2차 지원자들
   3: mockApplies.filter((apply) => [8].includes(apply.id)), // 3차 지원자들
@@ -1282,7 +1317,7 @@ export const mockMyApplySummary = {
     {
       apply_info: {
         id: 1,
-        status: ApplyStatus.WAITING,
+        status: 'WAITING',
         ratio: '1:2',
         preference: 1,
         motivation:
@@ -1297,7 +1332,7 @@ export const mockMyApplySummary = {
     {
       apply_info: {
         id: 2,
-        status: ApplyStatus.ACCEPTED,
+        status: 'ACCEPTED',
         ratio: '1:1',
         preference: 2,
         motivation:
@@ -1312,7 +1347,7 @@ export const mockMyApplySummary = {
     {
       apply_info: {
         id: 3,
-        status: ApplyStatus.REJECTED,
+        status: 'REJECTED',
         ratio: '3:1',
         preference: 3,
         motivation:
@@ -1334,7 +1369,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 1,
-          status: ApplyStatus.WAITING,
+          status: 'WAITING',
           ratio: '1:2',
           preference: 1,
           motivation:
@@ -1349,7 +1384,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 2,
-          status: ApplyStatus.ACCEPTED,
+          status: 'ACCEPTED',
           ratio: '1:1',
           preference: 2,
           motivation:
@@ -1368,7 +1403,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 3,
-          status: ApplyStatus.REJECTED,
+          status: 'REJECTED',
           ratio: '3:1',
           preference: 1,
           motivation:
@@ -1383,7 +1418,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 4,
-          status: ApplyStatus.CONFIRMED,
+          status: 'CONFIRMED',
           ratio: '1:1',
           preference: 2,
           motivation:
@@ -1402,7 +1437,7 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
       {
         apply_info: {
           id: 5,
-          status: ApplyStatus.WAITING,
+          status: 'WAITING',
           ratio: '2:1',
           preference: 1,
           motivation:
