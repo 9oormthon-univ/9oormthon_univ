@@ -1,6 +1,6 @@
 import styles from './signUpCard.module.scss';
 import { WarningIcon } from '@goorm-dev/vapor-icons';
-import { Text, Input, Button, Alert, toast } from '@goorm-dev/vapor-components';
+import { Text, Input, Button, Alert } from '@goorm-dev/vapor-components';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Logo from '@/assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,6 @@ export default function SignUpCard() {
     if (user?.role === Role.ADMIN) {
       navigate('/admin');
     } else if (user?.role === Role.USER) {
-      toast('이미 로그인 되어있습니다.', { type: 'danger' });
       navigate('/');
     }
   }, [navigate, user?.role]);

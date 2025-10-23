@@ -41,7 +41,9 @@ export const getIdeaApplyStatus = async (phase: number, sorting?: Sorting, sort_
     queryParams.append('sort-type', sort_type);
   }
 
-  const response = await instance.get(`/api/v1/users/teams/applies/overviews/${GENERATION}?${queryParams.toString()}`);
+  const response = await instance.get(
+    `/api/v1/users/teams/applies/overviews?generation=${GENERATION}&${queryParams.toString()}`,
+  );
   return response.data.data;
 };
 

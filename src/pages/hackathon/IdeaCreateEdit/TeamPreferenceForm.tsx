@@ -8,6 +8,7 @@ import { toast } from '@goorm-dev/vapor-components';
 import { useIdeaDetail } from '@/hooks/queries/useIdeaDetail';
 import { useCreateIdeaMutation, useUpdateIdeaMutation } from '@/hooks/mutations/useIdeaMutations';
 import { useUser } from '@/hooks/queries/useUser';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface TeamPreferenceFormProps {
   isEditMode: boolean;
@@ -20,12 +21,11 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   // create모드일 때 전역 관리 사용 / edit일 경우 step1 -> step2 이동시 사용
   const { idea_info, requirements, updateIdeaInfo, updateRequirements, resetIdeaForm } = useIdeaFormStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const { data: ideaDetail, isSuccess } = useIdeaDetail();
+  const { data: ideaDetail, isSuccess } = useIdeaDetail(idea_id || '', isEditMode);
   const { refetch: refetchUser } = useUser();
   const createIdea = useCreateIdeaMutation();
   const updateIdea = useUpdateIdeaMutation();
-
+  const queryClient = useQueryClient();
   // 수정 모드
   useEffect(() => {
     if (isEditMode && ideaDetail) {
@@ -47,7 +47,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
         });
       });
     }
-  }, [isEditMode, ideaDetail, isSuccess]);
+  }, [isEditMode, ideaDetail, isSuccess, updateIdeaInfo, updateRequirements]);
 
   // Form 제출 (Create → POST, Edit → PUT)
   const submitForm = async () => {
@@ -57,13 +57,14 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
       updateIdea.mutate(
         { data: payload, id: Number(idea_id) },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
             resetIdeaForm();
             navigate('/hackathon');
             toast('아이디어 수정이 완료되었습니다.', {
               type: 'primary',
             });
             refetchUser();
+            await queryClient.refetchQueries({ queryKey: ['ideas'] });
           },
         },
       );
