@@ -39,7 +39,7 @@ export const getUserBriefAPI = async () => {
       Expires: '0',
     },
   });
-  return response.data;
+  return response.data.data;
 };
 
 // 1.6 비밀번호 재설정
