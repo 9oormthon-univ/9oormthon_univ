@@ -7,14 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import { Role } from '@/constants/role';
 import { useLogin } from '@/hooks/mutations/useAuthMutations';
 import { useAuthStore } from '@/store/useAuthStore';
+import { getUserBriefAPI } from '@/api/auth';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function SignUpCard() {
   const navigate = useNavigate();
-  const { setUser } = useAuthStore();
-  const { user: cachedUser } = useAuthStore();
+  const { user } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const { mutate: login, isPending } = useLogin();
 
@@ -27,13 +29,13 @@ export default function SignUpCard() {
   };
 
   useEffect(() => {
-    if (cachedUser?.role === Role.ADMIN) {
+    if (user?.role === Role.ADMIN) {
       navigate('/admin');
-    } else if (cachedUser?.role === Role.USER) {
+    } else if (user?.role === Role.USER) {
       toast('이미 로그인 되어있습니다.', { type: 'danger' });
       navigate('/');
     }
-  }, [navigate, cachedUser?.role]);
+  }, [navigate, user?.role]);
 
   // 로그인
   const handleLogin = useCallback(async () => {
@@ -49,9 +51,11 @@ export default function SignUpCard() {
     login(
       { serial_id: email, password: password },
       {
-        onSuccess: (data) => {
-          setUser(data);
-          if (data.role === Role.ADMIN) {
+        onSuccess: async () => {
+          await queryClient.refetchQueries({ queryKey: ['user'] });
+
+          const user = await getUserBriefAPI();
+          if (user.role === Role.ADMIN) {
             navigate('/admin');
           } else {
             navigate('/');
@@ -64,7 +68,7 @@ export default function SignUpCard() {
         },
       },
     );
-  }, [email, password, login, navigate, setUser]);
+  }, [email, password, login, navigate, queryClient]);
 
   // 엔터 키 눌렀을 때 로그인
   const handleKeyDown = (e: KeyboardEvent) => {

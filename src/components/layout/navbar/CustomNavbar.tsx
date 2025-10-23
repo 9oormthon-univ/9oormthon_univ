@@ -20,6 +20,7 @@ import { Role, UserStatus } from '@/constants/role';
 import avatar from '@/assets/images/avatar.png';
 import { useUser } from '@/hooks/queries/useUser';
 import { useLogout } from '@/hooks/mutations/useAuthMutations';
+import { useAuthStore } from '@/store/useAuthStore';
 
 function CustomNavbar() {
   const [isOpened, setIsOpened] = useState(false);
@@ -29,10 +30,11 @@ function CustomNavbar() {
   const navigate = useNavigate();
 
   // 유저 정보
-  const { data: user, isFetched } = useUser();
-  const isLoggedIn = isFetched && !!user && user.role !== undefined && user.role !== Role.GUEST;
+  const { isFetched } = useUser();
+  const { user: cachedUser } = useAuthStore();
+  const isLoggedIn = isFetched && !!cachedUser && cachedUser.role !== undefined && cachedUser.role !== Role.GUEST;
 
-  const profileImg = user?.img_url;
+  const profileImg = cachedUser?.img_url;
   const { mutate: logout } = useLogout();
 
   // 로그아웃
@@ -59,7 +61,7 @@ function CustomNavbar() {
 
   // 팀 빌딩 기간 데이터 업데이트 필요
   const handleClickHackathon = async () => {
-    const currentStatus = user?.status;
+    const currentStatus = cachedUser?.status;
 
     if (currentStatus === UserStatus.PROVIDER) {
       return navigate('/team/provider');
@@ -76,7 +78,7 @@ function CustomNavbar() {
 
   // 나의 팀 이동
   const handleClickMyTeam = () => {
-    const currentStatus = user?.status;
+    const currentStatus = cachedUser?.status;
 
     if (currentStatus === UserStatus.PROVIDER || currentStatus === UserStatus.MEMBER) {
       return navigate('/team/my-team');
