@@ -9,5 +9,5 @@ export const fetchPeriod = async () => {
       Expires: '0',
     },
   });
-  return response.data;
+  return response.data.data;
 };

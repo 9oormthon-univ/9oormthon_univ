@@ -4,7 +4,7 @@ import { GENERATION } from '@/constants/common';
 // 4.6 팀 정보 조회
 export const getTeamInfo = async () => {
   const response = await instance.get(`/api/v1/users/teams/details?generation=${GENERATION}`);
-  return response.data;
+  return response.data.data;
 };
 
 // 4.9 팀 정보 수정
