@@ -8,6 +8,7 @@ import { toast } from '@goorm-dev/vapor-components';
 import { useIdeaDetail } from '@/hooks/queries/useIdeaDetail';
 import { useCreateIdeaMutation, useUpdateIdeaMutation } from '@/hooks/mutations/useIdeaMutations';
 import { useUser } from '@/hooks/queries/useUser';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface TeamPreferenceFormProps {
   isEditMode: boolean;
@@ -25,7 +26,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   const { refetch: refetchUser } = useUser();
   const createIdea = useCreateIdeaMutation();
   const updateIdea = useUpdateIdeaMutation();
-
+  const queryClient = useQueryClient();
   // 수정 모드
   useEffect(() => {
     if (isEditMode && ideaDetail) {
@@ -47,7 +48,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
         });
       });
     }
-  }, [isEditMode, ideaDetail, isSuccess]);
+  }, [isEditMode, ideaDetail, isSuccess, updateIdeaInfo, updateRequirements]);
 
   // Form 제출 (Create → POST, Edit → PUT)
   const submitForm = async () => {
@@ -57,13 +58,14 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
       updateIdea.mutate(
         { data: payload, id: Number(idea_id) },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
             resetIdeaForm();
             navigate('/hackathon');
             toast('아이디어 수정이 완료되었습니다.', {
               type: 'primary',
             });
             refetchUser();
+            await queryClient.refetchQueries({ queryKey: ['ideas'] });
           },
         },
       );
