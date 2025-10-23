@@ -10,12 +10,24 @@ export default function ProtectedRoute({ allowedRoles }: { allowedRoles: string[
 
   const user = freshUser || cachedUser;
 
+  console.log('ProtectedRoute Debug:', {
+    cachedUser,
+    freshUser,
+    user,
+  });
+
   // 캐시된 데이터도 없고 로딩 중일 때만 대기
   if (!cachedUser && isLoading) {
     return null;
   }
 
   if (isError || !user || !allowedRoles.includes(user.role as Role)) {
+    console.log('ProtectedRoute Debug:', {
+      user,
+      allowedRoles,
+      isError,
+      isLoading,
+    });
     toast('로그인이 필요합니다.', {
       type: 'danger',
     });

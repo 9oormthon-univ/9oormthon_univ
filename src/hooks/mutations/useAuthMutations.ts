@@ -7,9 +7,9 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: (data: { serial_id: string; password: string }) => loginAPI(data.serial_id, data.password),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
-      queryClient.invalidateQueries({ queryKey: ['period'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
+      await queryClient.invalidateQueries({ queryKey: ['period'] });
     },
   });
 };
