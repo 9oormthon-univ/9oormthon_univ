@@ -2,25 +2,24 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useUser } from '@/hooks/queries/useUser';
 import { Role } from '@/constants/role';
 import { toast } from '@goorm-dev/vapor-components';
+import { useAuthStore } from '@/store/useAuthStore';
 
-// 유저 상태에 따라 접근가능
 export default function ProtectedRoute({ allowedRoles }: { allowedRoles: string[] }) {
-  const { data, isFetched } = useUser();
+  const { user: cachedUser } = useAuthStore();
+  const { data: freshUser, isLoading, isError } = useUser();
 
-  if (!isFetched) {
-    return null; // 로딩 중일 때는 아무것도 렌더링하지 않음
+  const user = freshUser || cachedUser;
+
+  // 캐시된 데이터도 없고 로딩 중일 때만 대기
+  if (!cachedUser && isLoading) {
+    return null;
   }
 
-  console.log(isFetched);
-
-  const userRole = data?.role;
-
-  // role이 없거나 allowedRoles에 포함되지 않는 경우 리다이렉트
-  if (!userRole || !allowedRoles.includes(userRole as Role)) {
-    toast('로그인 후 이용해주세요.', {
+  if (isError || !user || !allowedRoles.includes(user.role as Role)) {
+    toast('로그인이 필요합니다.', {
       type: 'danger',
     });
-    return <Navigate to="/notFound" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

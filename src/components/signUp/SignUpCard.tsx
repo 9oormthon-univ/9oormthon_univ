@@ -5,13 +5,13 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Logo from '@/assets/images/goormthon_univ_BI-Bk.png';
 import { useNavigate } from 'react-router-dom';
 import { Role } from '@/constants/role';
-import { useUser } from '@/hooks/queries/useUser';
 import { useLogin } from '@/hooks/mutations/useAuthMutations';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function SignUpCard() {
   const navigate = useNavigate();
-
-  const { data: user } = useUser();
+  const { setUser } = useAuthStore();
+  const { user: cachedUser } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -27,13 +27,13 @@ export default function SignUpCard() {
   };
 
   useEffect(() => {
-    if (user?.role === Role.ADMIN) {
+    if (cachedUser?.role === Role.ADMIN) {
       navigate('/admin');
-    } else if (user?.role === Role.USER) {
+    } else if (cachedUser?.role === Role.USER) {
       toast('이미 로그인 되어있습니다.', { type: 'danger' });
       navigate('/');
     }
-  }, [navigate, user?.role]);
+  }, [navigate, cachedUser?.role]);
 
   // 로그인
   const handleLogin = useCallback(async () => {
@@ -49,21 +49,22 @@ export default function SignUpCard() {
     login(
       { serial_id: email, password: password },
       {
+        onSuccess: (data) => {
+          setUser(data);
+          if (data.role === Role.ADMIN) {
+            navigate('/admin');
+          } else {
+            navigate('/');
+          }
+        },
         onError: (error: any) => {
           if (error.response.data?.error?.code === 40100) {
             setErrorMessage('아이디 또는 비밀번호가 일치하지 않습니다.');
-          } else {
-            setErrorMessage('로그인 중 문제가 발생했습니다.');
           }
         },
       },
     );
-    if (user?.role === Role.ADMIN) {
-      navigate('/admin');
-    } else {
-      navigate('/');
-    }
-  }, [email, password, login, navigate, user]);
+  }, [email, password, login, navigate, setUser]);
 
   // 엔터 키 눌렀을 때 로그인
   const handleKeyDown = (e: KeyboardEvent) => {
