@@ -1,6 +1,7 @@
 import { Ideas, IdeaInfoDetail, ProviderInfo, Requirements, Member } from '../types/user/idea';
 import { TeamInfo, Applies, TeamMember } from '../types/user/team';
 import { LinkType } from '../constants/linkType';
+import { UserBrief } from '@/types/user/users';
 
 // Mock 주제 데이터
 export const mockTopics = {
@@ -14,7 +15,7 @@ export const mockTopics = {
 };
 
 // Mock 사용자 정보 데이터
-export const mockUserBriefData = {
+export const mockUserBriefData: UserBrief = {
   role: 'USER',
   status: 'PROVIDER',
   img_url:
