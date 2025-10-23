@@ -5,30 +5,32 @@ import { GENERATION } from '@/constants/common';
 
 // 아이디어 생성 API
 export const createIdeaAPI = async (idea: IdeaCreateEdit) => {
-  await instance.post('/api/v1/users/ideas', idea);
+  const response = await instance.post('/api/v1/users/ideas', idea);
+  return response.data.data;
 };
 
 // 3.7 내 아이디어 상세 조회 API
 export const fetchMyIdeaDetail = async () => {
   const response = await instance.get('/api/v1/users/ideas/details');
-  return response.data;
+  return response.data.data;
 };
 
 // 3.8 아이디어 상세 조회 API
 export const fetchIdeaDetailById = async (idea_id: string) => {
   const response = await instance.get(`/api/v1/users/ideas/${idea_id}/details`);
-  return response.data;
+  return response.data.data;
 };
 
 // 3.13 아이디어 수정 API
 export const updateIdeaAPI = async (idea: IdeaCreateEdit, idea_id: number) => {
-  await instance.put(`/api/v1/users/ideas/${idea_id}`, idea);
+  const response = await instance.put(`/api/v1/users/ideas/${idea_id}`, idea);
+  return response.data.data;
 };
 
 // 3.9 아이디어 주제 간단 리스트 조회
 export const fetchIdeaSubjects = async (generation: number) => {
   const response = await instance.get(`/api/v1/users/idea-subjects/briefs?generation=${generation}`);
-  return response.data;
+  return response.data.data;
 };
 
 // 3.6 아이디어 요약 리스트 조회 API
@@ -55,19 +57,19 @@ export const fetchIdeas = async (
 
   const requestUrl = `/api/v1/users/ideas/overviews?${queryParams.toString()}`;
   const response = await instance.get(requestUrl);
-  return response.data;
+  return response.data.data;
 };
 
 // 아이디어 북마크 추가 API
 export const addIdeaBookmark = async (idea_id: number) => {
   const response = await instance.post(`/api/v1/users/ideas/${idea_id}/bookmarks`);
-  return response.data;
+  return response.data.data;
 };
 
 // 3.11 내 잔여 지망 간단 리스트 조회 API
 export const fetchMyRemainingRanks = async (phase: number) => {
   const response = await instance.get(`/api/v1/users/applies/briefs?generation=${GENERATION}&phase=${phase}`);
-  return response.data;
+  return response.data.data;
 };
 
 // 아이디어 지원
@@ -84,11 +86,11 @@ export const applyIdea = async (
     motivation,
     role,
   });
-  return response.data;
+  return response.data.data;
 };
 
 // 3.16 아이디어 삭제
 export const deleteIdea = async (idea_id: number) => {
   const response = await instance.delete(`/api/v1/users/ideas/${idea_id}`);
-  return response.data;
+  return response.data.data;
 };
