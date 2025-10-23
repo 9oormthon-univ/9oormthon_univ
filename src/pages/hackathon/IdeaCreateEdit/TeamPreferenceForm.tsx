@@ -21,8 +21,7 @@ export default function TeamPreferenceForm({ isEditMode, step }: TeamPreferenceF
   // create모드일 때 전역 관리 사용 / edit일 경우 step1 -> step2 이동시 사용
   const { idea_info, requirements, updateIdeaInfo, updateRequirements, resetIdeaForm } = useIdeaFormStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const { data: ideaDetail, isSuccess } = useIdeaDetail();
+  const { data: ideaDetail, isSuccess } = useIdeaDetail(idea_id || '', isEditMode);
   const { refetch: refetchUser } = useUser();
   const createIdea = useCreateIdeaMutation();
   const updateIdea = useUpdateIdeaMutation();

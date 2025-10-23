@@ -12,7 +12,7 @@ interface IdeaDetail {
 }
 
 // 아이디어 상세 조회
-export const useIdeaDetail = (ideaId?: string) => {
+export const useIdeaDetail = (ideaId?: string, enabled: boolean = true) => {
   const query = useQuery<IdeaDetail, Error>({
     queryKey: ['IdeaDetail', ideaId ?? 'my'],
     queryFn: async () => {
@@ -24,6 +24,7 @@ export const useIdeaDetail = (ideaId?: string) => {
     },
     select: (data: IdeaDetail) => data,
     staleTime: 60 * 1000,
+    enabled: enabled && !!ideaId,
   });
 
   return query;
