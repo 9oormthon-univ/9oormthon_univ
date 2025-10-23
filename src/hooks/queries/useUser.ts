@@ -11,10 +11,11 @@ import { useAuthStore } from '@/store/useAuthStore';
 export const useUser = () => {
   const { setUser } = useAuthStore();
 
-  const query = useQuery<UserBrief, Error, UserBrief>({
+  const query = useQuery<UserBrief, Error>({
     queryKey: ['user'],
     queryFn: mockIfDev(getUserBriefAPI, mockUserBriefData),
     staleTime: 1000 * 60 * 3,
+    select: (data: UserBrief) => data,
   });
 
   // 데이터가 성공적으로 로드되면 Zustand 스토어에 동기화
