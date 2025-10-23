@@ -12,6 +12,7 @@ import FormField from '@/components/common/formField/FormField';
 import { usePreferences } from '@/hooks/queries/usePreferences';
 import { usePeriod } from '@/hooks/queries/system/usePeriod';
 import { useApplyIdeaMutation } from '@/hooks/mutations/useApplyIdeaMutation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function IdeaApply() {
   const { idea_id } = useParams();
@@ -24,7 +25,7 @@ export default function IdeaApply() {
   const [errorMessage, setErrorMessage] = useState('');
   const isFormValid = selectedRank !== null && reason.trim() !== '' && role !== '';
   const { mutate: applyIdea } = useApplyIdeaMutation();
-
+  const queryClient = useQueryClient();
   // 본인 파트 선택
   const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRole(e.target.id);
@@ -42,7 +43,13 @@ export default function IdeaApply() {
           role: role.toUpperCase() as PositionKey,
         },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
+            // 서버 데이터 새로고침 (Zustand 스토어는 useUser 훅에서 자동 동기화됨)
+            await Promise.all([
+              queryClient.refetchQueries({ queryKey: ['ideas'] }),
+              queryClient.refetchQueries({ queryKey: ['user'] }),
+            ]);
+
             navigate(`/hackathon`);
             toast('아이디어 지원이 완료되었습니다.', { type: 'primary' });
           },
