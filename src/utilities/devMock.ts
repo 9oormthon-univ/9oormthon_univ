@@ -7,8 +7,6 @@ export const mockIfDev = <T>(
 ) => {
   if (import.meta.env.DEV) {
     return async (...args: any[]): Promise<T> => {
-      console.log('[Mocked Query] Returning mock data');
-
       const result = typeof mockData === 'function' ? (mockData as (...args: any[]) => T)(...args) : mockData;
 
       return new Promise<T>((resolve) => {
