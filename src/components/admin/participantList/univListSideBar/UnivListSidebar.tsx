@@ -15,18 +15,17 @@ import { MoreCommonOutlineIcon, PlusOutlineIcon } from '@goorm-dev/vapor-icons';
 import { useEffect, useRef, useState } from 'react';
 import UnivUpdateModal from '../modal/UnivUpdateModal';
 import UnivCreateModal from '../modal/UnivCreateModal';
-import InformationModal from '../../../common/modal/InformationModal';
-import { deleteUnivAPI } from '../../../../api/admin/univs';
-import { Univ } from '../../../../types/admin/univ';
+import InformationModal from '@/components/common/modal/InformationModal';
+import { Univ } from '@/types/admin/univ';
+import { useDeleteUnivMutation } from '@/hooks/mutations/admin/useUnivMutations';
 
 interface UnivListSidebarProps {
   univList: Univ[];
   univCount: number;
   onSelectUniv: (univId: number | null) => void;
-  onRefreshUnivList: () => void;
 }
 
-export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUnivList }: UnivListSidebarProps) => {
+export const UnivListSidebar = ({ onSelectUniv, univList, univCount }: UnivListSidebarProps) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -36,6 +35,7 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
   const [selectedUnivId, setSelectedUnivId] = useState<number | null>(null);
 
   const [filteredUnivList, setFilteredUnivList] = useState<Univ[]>(univList);
+  const { mutate: deleteUniv } = useDeleteUnivMutation();
 
   // 유니브별 드롭다운 구분
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
@@ -59,27 +59,30 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
 
   // 유니브 삭제
   const handleDeleteUniv = async (univ_id: number) => {
-    try {
-      await deleteUnivAPI(univ_id);
-      onRefreshUnivList(); // 삭제 후 리스트 새로고침
-      onSelectUniv(null); // 삭제 후 유니브 선택 초기화
-      setIsUnivDeleteModalOpen(false);
-
-      toast('유니브 삭제가 완료되었습니다', {
-        type: 'primary',
-      });
-    } catch (error: any) {
-      const errorCode = error.response.data?.error?.code;
-      if (errorCode === 40904) {
-        toast('해당 유니브에 미르미가 있어 삭제할 수 없습니다.', {
-          type: 'danger',
-        });
-      } else {
-        toast('유니브 삭제에 실패했습니다', {
-          type: 'danger',
-        });
-      }
-    }
+    deleteUniv(
+      { univ_id },
+      {
+        onSuccess: () => {
+          onSelectUniv(null); // 삭제 후 유니브 선택 초기화
+          setIsUnivDeleteModalOpen(false);
+          toast('유니브 삭제가 완료되었습니다', {
+            type: 'primary',
+          });
+        },
+        onError: (error: any) => {
+          const errorCode = error.response.data?.error?.code;
+          if (errorCode === 40904) {
+            toast('해당 유니브에 미르미가 있어 삭제할 수 없습니다.', {
+              type: 'danger',
+            });
+          } else {
+            toast('유니브 삭제에 실패했습니다', {
+              type: 'danger',
+            });
+          }
+        },
+      },
+    );
   };
 
   // 유니브 정보 수정 모달 열기
@@ -198,7 +201,6 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
         isOpen={isUnivUpdateModalOpen}
         toggle={() => setIsUnivUpdateModalOpen((prev) => !prev)}
         univId={selectedUnivId}
-        onSuccess={onRefreshUnivList}
       />
       <InformationModal
         isOpen={isUnivDeleteModalOpen}
@@ -217,13 +219,7 @@ export const UnivListSidebar = ({ onSelectUniv, univList, univCount, onRefreshUn
         confirmLabel="삭제"
         onConfirm={() => selectedUnivId && handleDeleteUniv(selectedUnivId)}
       />
-      <UnivCreateModal
-        isOpen={isUnivCreateModalOpen}
-        toggle={() => setIsUnivCreateModalOpen((prev) => !prev)}
-        onSuccess={() => {
-          onRefreshUnivList();
-        }}
-      />
+      <UnivCreateModal isOpen={isUnivCreateModalOpen} toggle={() => setIsUnivCreateModalOpen((prev) => !prev)} />
     </div>
   );
 };

@@ -2,11 +2,11 @@ import instance from '../instance';
 import { GENERATION } from '../../constants/common';
 
 // 어드민 유니브 생성
-export const createUnivAPI = async (name: string, instagram_url: string, generation: number) => {
+export const createUnivAPI = async ({ name, instagram_url }: { name: string; instagram_url: string }) => {
   const response = await instance.post('/api/v1/admins/univs', {
     name,
     instagram_url,
-    generation,
+    generation: GENERATION,
   });
   return response.data;
 };
@@ -14,13 +14,13 @@ export const createUnivAPI = async (name: string, instagram_url: string, generat
 // 6.2 어드민 유니브 간단 리스트 조회
 export const fetchUnivListAPI = async () => {
   const response = await instance.get(`/api/v1/admins/univs/briefs?generation=${GENERATION}`);
-  return response.data;
+  return response.data.data;
 };
 
 // 6.3 어드민 유니브 상세 조회
 export const fetchUnivDetailAPI = async (univ_id: number) => {
   const response = await instance.get(`/api/v1/admins/univs/${univ_id}/details`);
-  return response.data;
+  return response.data.data;
 };
 
 // 6.4 어드민 유니브 수정
@@ -33,7 +33,7 @@ export const updateUnivAPI = async (univ_id: number, name: string, instagram_url
   return response.data;
 };
 
-// 어드민 유니브 삭제
+// 6.5 어드민 유니브 삭제
 export const deleteUnivAPI = async (univ_id: number) => {
   const response = await instance.delete(`/api/v1/admins/univs/${univ_id}`);
   return response.data;

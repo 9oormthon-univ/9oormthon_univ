@@ -4,12 +4,12 @@ import { UnivListSidebar } from '../../../components/admin/participantList/univL
 import { MemberTable } from '../../../components/admin/participantList/memberTable/MemberTable';
 import { useEffect, useRef, useState } from 'react';
 import { createUserExcelAPI, fetchUserSummaryListAPI } from '../../../api/admin/users';
-import { fetchUnivListAPI } from '../../../api/admin/univs';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { Univ } from '../../../types/admin/univ';
 import { PageInfo, Sorting, SortType, UserOverview } from '../../../types/admin/user';
 import { AttachFileOutlineIcon } from '@goorm-dev/vapor-icons';
 import { USER_EXCEL_UPLOAD_ERROR_MESSAGES } from '../../../constants/errorMessage';
+import { useUnivList } from '@/hooks/queries/admin/useUnivList';
 
 export default function ParticipantList() {
   const [selectedUnivId, setSelectedUnivId] = useState<number | null>(null);
@@ -22,25 +22,14 @@ export default function ParticipantList() {
     total_items: 0,
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [univList, setUnivList] = useState<Univ[]>([]);
-  const [univCount, setUnivCount] = useState(0);
-  const [selectedUniv, setSelectedUniv] = useState<Univ | null>(null);
+
+  const { data: univList, isLoading: isUnivListLoading } = useUnivList();
+  const [selectedUniv, setSelectedUniv] = useState<Univ | undefined>(undefined);
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [sorting, setSorting] = useState<Sorting | undefined>(undefined);
   const [sortType, setSortType] = useState<SortType | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // 유니브 리스트 간단 조회
-  const fetchUnivList = async () => {
-    const res = await fetchUnivListAPI();
-    setUnivList(res.data.univs);
-    setUnivCount(res.data.count);
-  };
-
-  useEffect(() => {
-    fetchUnivList();
-  }, []);
 
   // 유저 목록 조회
   const getUserList = async (
@@ -64,7 +53,7 @@ export default function ParticipantList() {
   const handleSelectUniv = (univId: number | null) => {
     setSelectedUnivId(univId);
     setCurrentPage(1);
-    setSelectedUniv(univList.find((univ) => univ.id === univId) || null);
+    setSelectedUniv(univList.univs.find((univ: Univ) => univ.id === univId) || null);
   };
 
   // 정렬 콜백
@@ -128,12 +117,13 @@ export default function ParticipantList() {
         </div>
 
         <div className={styles.listContent}>
-          <UnivListSidebar
-            onSelectUniv={handleSelectUniv}
-            univList={univList}
-            univCount={univCount}
-            onRefreshUnivList={fetchUnivList}
-          />
+          {univList && !isUnivListLoading && (
+            <UnivListSidebar
+              onSelectUniv={handleSelectUniv}
+              univList={univList.univs || []}
+              univCount={univList.count || 0}
+            />
+          )}
           <MemberTable
             selectedUniv={selectedUniv || null}
             members={members}

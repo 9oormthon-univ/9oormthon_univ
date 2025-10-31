@@ -18,6 +18,7 @@ export default function UnivForm({ mode, form, onChange, univId }: UnivFormProps
   const [representatives, setRepresentatives] = useState<User[]>([]);
   const [localForm, setLocalForm] = useState<UnivFormPayload>(form ?? { name: '', instagram_url: '', leader_id: 0 });
 
+  
   useEffect(() => {
     if (form) {
       setLocalForm(form);

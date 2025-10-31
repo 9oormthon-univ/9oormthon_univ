@@ -1453,3 +1453,25 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
     ],
   },
 };
+
+// Mock 유니브 리스트 데이터
+export const mockUnivList = {
+  univs: [
+    { id: 1, name: '서울대학교' },
+    { id: 2, name: '서울대학교' },
+    { id: 3, name: '서울대학교' },
+    { id: 4, name: '서울대학교' },
+    { id: 5, name: '서울대학교' },
+    { id: 6, name: '서울대학교' },
+  ],
+  count: 6,
+};
+
+export const mockUnivDetail = {
+  name: '서울대학교',
+  instagram_url: 'https://www.instagram.com/seoul_university',
+  leader: {
+    id: 1,
+    description: '김철수/서울대학교/010-1234-1234',
+  },
+};

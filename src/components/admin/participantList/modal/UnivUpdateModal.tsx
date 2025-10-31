@@ -1,17 +1,17 @@
 import { ModalBody, ModalHeader, Text, ModalFooter, Button, Modal, toast } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
-import { fetchUnivDetailAPI, updateUnivAPI } from '../../../../api/admin/univs';
 import UnivForm from '../form/UnivForm';
-import type { UnivFormPayload } from '../../../../types/admin/univ';
+import type { UnivFormPayload } from '@/types/admin/univ';
+import { useUnivDetail } from '@/hooks/queries/admin/useUnivList';
+import { useUpdateUnivMutation } from '@/hooks/mutations/admin/useUnivMutations';
 
 interface UnivUpdateModalProps {
   isOpen: boolean;
   toggle: () => void;
   univId: number | null;
-  onSuccess: () => void;
 }
 
-export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: UnivUpdateModalProps) {
+export default function UnivUpdateModal({ isOpen, toggle, univId }: UnivUpdateModalProps) {
   const [form, setForm] = useState<UnivFormPayload>({
     name: '',
     instagram_url: '',
@@ -19,45 +19,42 @@ export default function UnivUpdateModal({ isOpen, toggle, univId, onSuccess }: U
   });
 
   // 상세 조회
-  const fetchUnivInfo = async () => {
-    if (!univId) return;
-    try {
-      const res = await fetchUnivDetailAPI(univId);
-      setForm({
-        name: res.data.name,
-        instagram_url: res.data.instagram_url,
-        leader_id: res.data.leader?.id || 0,
-      });
-    } catch (error: any) {
-      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
-      toast(message, {
-        type: 'danger',
-      });
-    }
-  };
-
+  const { data: univDetail } = useUnivDetail(univId as number);
+  const { mutate: updateUnivMutation } = useUpdateUnivMutation();
   useEffect(() => {
-    if (univId && isOpen) {
-      fetchUnivInfo();
+    if (univDetail) {
+      setForm({
+        name: univDetail.name,
+        instagram_url: univDetail.instagram_url,
+        leader_id: univDetail.leader?.id || 0,
+      });
     }
-  }, [isOpen, univId]);
+  }, [univDetail]);
 
   // 유니브 정보 수정
   const handleUpdateUniv = async () => {
-    try {
-      if (!univId) return;
-      await updateUnivAPI(univId, form.name, form.instagram_url, form.leader_id);
-      onSuccess();
-      toggle();
-      toast('유니브 정보가 수정되었습니다.', {
-        type: 'primary',
-      });
-    } catch (error: any) {
-      const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
-      toast(message, {
-        type: 'danger',
-      });
-    }
+    updateUnivMutation(
+      {
+        univ_id: univId as number,
+        name: form.name,
+        instagram_url: form.instagram_url,
+        leader_id: form.leader_id as number,
+      },
+      {
+        onSuccess: () => {
+          toast('유니브 정보가 수정되었습니다.', {
+            type: 'primary',
+          });
+          toggle();
+        },
+        onError: (error: any) => {
+          const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
+          toast(message, {
+            type: 'danger',
+          });
+        },
+      },
+    );
   };
 
   // 유니브 정보 수정 시 폼 상태 업데이트
