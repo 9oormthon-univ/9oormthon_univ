@@ -1,16 +1,16 @@
 import { Modal, ModalHeader, ModalBody, Text, Button, ModalFooter, toast } from '@goorm-dev/vapor-components';
 
 import MemberForm from '../form/MemberForm';
-import { createUserAPI } from '../../../../api/admin/users';
 import { UserForm } from '../../../../types/admin/member';
 import { useState } from 'react';
+import { useCreateUser } from '@/hooks/queries/admin/useParticipant';
+
 interface MemberCreateModalProps {
   isOpen: boolean;
   toggle: () => void;
-  onUpdate: () => void;
 }
 
-export const MemberCreateModal = ({ isOpen, toggle, onUpdate }: MemberCreateModalProps) => {
+export const MemberCreateModal = ({ isOpen, toggle }: MemberCreateModalProps) => {
   const [formData, setFormData] = useState<UserForm>({
     name: '',
     univ_id: 0,
@@ -19,11 +19,12 @@ export const MemberCreateModal = ({ isOpen, toggle, onUpdate }: MemberCreateModa
     generations: [],
   });
 
+  const createUserMutation = useCreateUser();
+
   // 인원 추가
   const handleCreateMember = async () => {
     try {
-      await createUserAPI(formData);
-      onUpdate();
+      await createUserMutation.mutateAsync(formData);
       toggle();
       toast('인원이 추가되었습니다.', {
         type: 'primary',
