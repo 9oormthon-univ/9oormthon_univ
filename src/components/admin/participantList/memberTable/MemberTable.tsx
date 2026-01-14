@@ -14,7 +14,6 @@ interface MemberTableProps {
   onPageChange: (page: number) => void;
   selectedUniv: Univ | null;
   onSearchChange: (query: string) => void;
-  onUpdate: () => void;
   onSortChange: (sorting: Sorting) => void;
 }
 
@@ -24,7 +23,6 @@ export const MemberTable = ({
   onPageChange,
   selectedUniv,
   onSearchChange,
-  onUpdate,
   onSortChange,
 }: MemberTableProps) => {
   const [isMemberCreateModalOpen, setIsMemberCreateModalOpen] = useState(false);
@@ -87,7 +85,7 @@ export const MemberTable = ({
           </thead>
           <tbody>
             {members.map((member) => (
-              <MemberRow key={member.id} member={member} onUpdate={onUpdate} />
+              <MemberRow key={member.id} member={member} />
             ))}
           </tbody>
         </table>
@@ -100,11 +98,7 @@ export const MemberTable = ({
           onPageChangeHandler={(page: number) => onPageChange(page)}
         />
       </div>
-      <MemberCreateModal
-        isOpen={isMemberCreateModalOpen}
-        toggle={() => setIsMemberCreateModalOpen(false)}
-        onUpdate={onUpdate}
-      />
+      <MemberCreateModal isOpen={isMemberCreateModalOpen} toggle={() => setIsMemberCreateModalOpen(false)} />
     </div>
   );
 };
