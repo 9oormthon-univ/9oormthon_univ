@@ -1453,3 +1453,58 @@ export const mockMyApplySummaryByPhase: Record<number, typeof mockMyApplySummary
     ],
   },
 };
+
+// Mock 유니브 리스트 데이터
+export const mockUnivList = {
+  univs: [
+    { id: 1, name: '서울대학교' },
+    { id: 2, name: '서울대학교' },
+    { id: 3, name: '서울대학교' },
+    { id: 4, name: '서울대학교' },
+    { id: 5, name: '서울대학교' },
+    { id: 6, name: '서울대학교' },
+  ],
+  count: 6,
+};
+
+export const mockUnivDetail = {
+  name: '서울대학교',
+  instagram_url: 'https://www.instagram.com/seoul_university',
+  leader: {
+    id: 1,
+    description: '김철수/서울대학교/010-1234-1234',
+  },
+};
+
+export const mockParticipantList = {
+  users: [
+    {
+      id: 1,
+      role: 'USER',
+      name: '김철수',
+      email: 'kim@example.com',
+      team_building: true,
+      generations: [4],
+      img_url: 'https://via.placeholder.com/150',
+    },
+    {
+      id: 2,
+      role: 'USER',
+      name: '이영희',
+      email: 'lee@example.com',
+      team_building: false,
+      generations: [3],
+      img_url: 'https://via.placeholder.com/150',
+    },
+    {
+      id: 3,
+      role: 'USER',
+      name: '박철수',
+      email: 'park@example.com',
+      team_building: true,
+      generations: [4],
+      img_url: 'https://via.placeholder.com/150',
+    },
+  ],
+  page_info: { current_page: 1, page_size: 10, total_pages: 1, total_items: 3 },
+};

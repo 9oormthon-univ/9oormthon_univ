@@ -1,6 +1,5 @@
-import { Button, Text } from '@goorm-dev/vapor-components';
+import { Text } from '@goorm-dev/vapor-components';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styles from './RecruitHeader.module.scss';
 
 // 유니브 대표 모집 시작
@@ -17,7 +16,6 @@ const REP_START_ONE_WEEK_BEFORE = new Date(REP_START_DATE.getTime() - 7 * 24 * 6
 function RecruitHeader() {
   const [currentStatus, setCurrentStatus] = useState('');
   const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const navigate = useNavigate();
 
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -71,19 +69,19 @@ function RecruitHeader() {
     }
   }, []);
 
-  const handleButtonClick = () => {
-    if (currentStatus === 'afterTeamRecruiting') {
-      navigate('/search-univ');
-    } else if (currentStatus === 'teamRecruiting') {
-      navigate('/search-univ');
-    } else {
-      navigate('/search-univ');
-      // window.open(
-      //   'https://docs.google.com/forms/d/e/1FAIpQLSeg4pfokyfK0YXfOYI8GGk_ACsSdu_tcztfH_t-ODJ2cY0Sow/viewform?usp=sharing',
-      //   '_blank',
-      // );
-    }
-  };
+  // const handleButtonClick = () => {
+  //   if (currentStatus === 'afterTeamRecruiting') {
+  //     navigate('/search-univ');
+  //   } else if (currentStatus === 'teamRecruiting') {
+  //     navigate('/search-univ');
+  //   } else {
+  //     navigate('/search-univ');
+  //     // window.open(
+  //     //   'https://docs.google.com/forms/d/e/1FAIpQLSeg4pfokyfK0YXfOYI8GGk_ACsSdu_tcztfH_t-ODJ2cY0Sow/viewform?usp=sharing',
+  //     //   '_blank',
+  //     // );
+  //   }
+  // };
 
   const renderContent = () => {
     const textMapping: {
@@ -129,16 +127,17 @@ function RecruitHeader() {
         rightSubtitle: '유니브 별로 일정 상이',
       },
       afterTeamRecruiting: {
-        title: '4기 모집이 완료되었어요!',
-        subTitle: '우리 학교가 유니브에 소속되어있는지 궁금하신가요?',
+        title: '구름톤 유니브 점검 중',
+        subTitle:
+          '현재 운영 체계 및 프로그램 방향성을 점검 중입니다.\n구름톤 유니브 5기는 더 좋은 프로그램으로 찾아뵙기 위해\n현재 운영 체계 및 방향성을 점검하고 있습니다.\n모집 일정은 확정되는 대로 공식 채널을 통해 가장 먼저 안내해 드릴 예정입니다.',
         button: '우리 학교 찾아보기',
-        rightTitle: '5기 모집 시작',
-        dDayText: '26년 1월',
+        rightTitle: '구름톤 유니브 5기',
+        dDayText: '',
         rightSubtitle: 'Coming soon!',
       },
     };
 
-    const { title, subTitle, button, rightTitle, dDayText, rightSubtitle } = textMapping[currentStatus] || {};
+    const { title, subTitle, rightTitle, dDayText, rightSubtitle } = textMapping[currentStatus] || {};
 
     return (
       <div className={styles.container}>
@@ -181,9 +180,9 @@ function RecruitHeader() {
               {rightSubtitle}
             </Text>
           </div>
-          <Button className={styles.goormBtn} onClick={handleButtonClick}>
+          {/* <Button className={styles.goormBtn} onClick={handleButtonClick}>
             {button}
-          </Button>
+          </Button> */}
         </div>
 
         <div className={styles.rightSection}>

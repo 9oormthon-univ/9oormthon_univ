@@ -4,16 +4,15 @@ import { MoreCommonOutlineIcon, ChevronRightOutlineIcon } from '@goorm-dev/vapor
 import { useState } from 'react';
 import InformationModal from '../../../common/modal/InformationModal';
 import { MemberUpdateModal } from '../modal/MemberUpdateModal';
-import { deleteUserAPI, resetPasswordAPI } from '../../../../api/admin/users';
-import { UserOverview } from '../../../../types/admin/user';
+import { UserSummary } from '../../../../types/admin/user';
 import { PasswordResetModal } from '../modal/PasswordResetModal';
+import { useDeleteUser, useResetPassword } from '@/hooks/queries/admin/useParticipant';
 
 interface MemberRowProps {
-  member: UserOverview;
-  onUpdate: () => void;
+  member: UserSummary;
 }
 
-export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
+export const MemberRow = ({ member }: MemberRowProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isInformationModalOpen, setIsInformationModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -21,27 +20,44 @@ export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
   const [isResetPasswordConfirmModalOpen, setIsResetPasswordConfirmModalOpen] = useState(false);
   const [password, setPassword] = useState('');
 
+  const deleteUserMutation = useDeleteUser();
+  const resetPasswordMutation = useResetPassword();
+
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
   const toggleInformationModal = () => setIsInformationModalOpen((prev) => !prev);
   const toggleUpdateModal = () => setIsUpdateModalOpen((prev) => !prev);
   const toggleResetPasswordModal = () => setIsResetPasswordModalOpen((prev) => !prev);
   const toggleResetPasswordConfirmModal = () => setIsResetPasswordConfirmModalOpen((prev) => !prev);
+
   // 미르미 삭제
   const handleDeleteMember = async () => {
-    await deleteUserAPI(member.id);
-    onUpdate();
-    toast('미르미를 삭제했습니다.', {
-      type: 'primary',
-    });
+    try {
+      await deleteUserMutation.mutateAsync(member.id);
+      toast('미르미를 삭제했습니다.', {
+        type: 'primary',
+      });
+      toggleInformationModal();
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '삭제에 실패했습니다.';
+      toast(message, {
+        type: 'danger',
+      });
+    }
   };
 
   // 비밀번호 초기화
   const handleResetPassword = async () => {
-    const response = await resetPasswordAPI(member.id);
-    setPassword(response.data.new_password);
-    toggleResetPasswordModal(); // 기존 모달 닫고
-    toggleResetPasswordConfirmModal(); // 새로운 모달 열기
-    onUpdate();
+    try {
+      const response = await resetPasswordMutation.mutateAsync(member.id);
+      setPassword(response.data.new_password);
+      toggleResetPasswordModal(); // 기존 모달 닫고
+      toggleResetPasswordConfirmModal(); // 새로운 모달 열기
+    } catch (error: any) {
+      const message = error?.response?.data?.error?.message || '비밀번호 초기화에 실패했습니다.';
+      toast(message, {
+        type: 'danger',
+      });
+    }
   };
 
   return (
@@ -134,12 +150,7 @@ export const MemberRow = ({ member, onUpdate }: MemberRowProps) => {
         password={password}
       />
 
-      <MemberUpdateModal
-        user_id={member.id}
-        isOpen={isUpdateModalOpen}
-        toggle={toggleUpdateModal}
-        onUpdate={onUpdate}
-      />
+      <MemberUpdateModal user_id={member.id} isOpen={isUpdateModalOpen} toggle={toggleUpdateModal} />
     </>
   );
 };

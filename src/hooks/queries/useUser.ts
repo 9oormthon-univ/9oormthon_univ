@@ -22,10 +22,6 @@ export const useUser = () => {
   useEffect(() => {
     if (query.data) {
       setUser(query.data);
-      console.log('useUser Debug:', {
-        data: query.data,
-        user: useAuthStore.getState().user,
-      });
     }
   }, [query.data, setUser]);
 

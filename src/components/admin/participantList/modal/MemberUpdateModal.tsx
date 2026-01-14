@@ -3,17 +3,18 @@ import MemberForm from '../form/MemberForm';
 import { useEffect, useState } from 'react';
 import MemberInfoView from '../form/MemberInfoView';
 import { GENERATION } from '../../../../constants/common';
-import { fetchUserDetailAPI, updateUserAPI } from '../../../../api/admin/users';
+import { fetchUserDetailAPI } from '../../../../api/admin/users';
 import { Member, UserForm } from '../../../../types/admin/member';
+import { useUpdateUser } from '@/hooks/queries/admin/useParticipant';
 
 interface MemberUpdateModalProps {
   user_id: number;
   isOpen: boolean;
   toggle: () => void;
-  onUpdate: () => void;
 }
 
-export const MemberUpdateModal = ({ user_id, isOpen, toggle, onUpdate }: MemberUpdateModalProps) => {
+export const MemberUpdateModal = ({ user_id, isOpen, toggle }: MemberUpdateModalProps) => {
+  const updateUserMutation = useUpdateUser();
   const [isEditMode, setIsEditMode] = useState(false);
   const handleToggleEdit = () => setIsEditMode((prev) => !prev);
   const handleClose = () => {
@@ -60,20 +61,19 @@ export const MemberUpdateModal = ({ user_id, isOpen, toggle, onUpdate }: MemberU
   // 미르미 정보 수정
   const handleUpdateMember = async () => {
     try {
-      await updateUserAPI(
+      await updateUserMutation.mutateAsync({
         user_id,
-        formData.univ_id,
-        formData.name,
-        formData.email,
-        formData.phone_number,
-        formData.generations,
-        formData.img_url,
-      );
+        univ_id: formData.univ_id,
+        name: formData.name,
+        email: formData.email,
+        phone_number: formData.phone_number,
+        generations: formData.generations,
+        img_url: formData.img_url,
+      });
       handleClose();
       toast('미르미 정보가 수정되었습니다.', {
         type: 'primary',
       });
-      onUpdate();
     } catch (error: any) {
       const message = error?.response?.data?.error?.message || '알 수 없는 오류가 발생했습니다.';
       toast(message, {

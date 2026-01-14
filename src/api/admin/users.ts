@@ -26,7 +26,7 @@ export const fetchUserListAPI = async (univId?: number, search?: string, teamId?
   }
 
   const response = await instance.get(`/api/v1/admins/users/briefs?generation=${GENERATION}&${queryParams.toString()}`);
-  return response.data;
+  return response.data.data;
 };
 
 // 2.6 어드민 유저 요약 리스트 조회
@@ -62,13 +62,13 @@ export const fetchUserSummaryListAPI = async (
 
   const requestUrl = `/api/v1/admins/users/overviews?generation=${GENERATION}&${queryParams.toString()}`;
   const response = await instance.get(requestUrl);
-  return response.data;
+  return response.data.data;
 };
 
 // 2.7 어드민 유저 상세조회
 export const fetchUserDetailAPI = async (user_id: number, generation: number) => {
   const response = await instance.get(`/api/v1/admins/users/${user_id}/details?generation=${generation}`);
-  return response.data;
+  return response.data.data;
 };
 
 // 어드민 유저 정보 수정

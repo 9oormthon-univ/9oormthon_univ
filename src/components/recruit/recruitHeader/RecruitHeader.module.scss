@@ -5,9 +5,16 @@
 }
 
 .titleTextSmall {
-  text-align: left;
   margin-top: var(--space-100);
   white-space: pre-line;
+
+  @include container-xs {
+    text-align: center;
+  }
+
+  @include container-md {
+    text-align: left;
+  }
 }
 
 .container {
