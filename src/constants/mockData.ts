@@ -1475,3 +1475,36 @@ export const mockUnivDetail = {
     description: '김철수/서울대학교/010-1234-1234',
   },
 };
+
+export const mockParticipantList = {
+  users: [
+    {
+      id: 1,
+      role: 'USER',
+      name: '김철수',
+      email: 'kim@example.com',
+      team_building: true,
+      generations: [4],
+      img_url: 'https://via.placeholder.com/150',
+    },
+    {
+      id: 2,
+      role: 'USER',
+      name: '이영희',
+      email: 'lee@example.com',
+      team_building: false,
+      generations: [3],
+      img_url: 'https://via.placeholder.com/150',
+    },
+    {
+      id: 3,
+      role: 'USER',
+      name: '박철수',
+      email: 'park@example.com',
+      team_building: true,
+      generations: [4],
+      img_url: 'https://via.placeholder.com/150',
+    },
+  ],
+  page_info: { current_page: 1, page_size: 10, total_pages: 1, total_items: 3 },
+};
